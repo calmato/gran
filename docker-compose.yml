@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  client:
+    container_name: gran_client
+    build: ./container/client
+    working_dir: /client
+    volumes:
+      - ./client:/client
+    ports:
+      - 3000:3000
+    restart: always
+    tty: true
+    stdin_open: true
+    command: yarn dev -H 0.0.0.0 -p 3000
