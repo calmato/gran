@@ -1,12 +1,25 @@
 version: '3.7'
 
 services:
+  storybook:
+    container_name: gran_storybook
+    build: ./container/storybook
+    working_dir: /client
+    volumes:
+      - ./client:/client:cached
+    ports:
+      - 6006:6006
+    restart: always
+    tty: true
+    stdin_open: true
+    command: yarn storybook
+
   client:
     container_name: gran_client
     build: ./container/client
     working_dir: /client
     volumes:
-      - ./client:/client
+      - ./client:/client:cached
     ports:
       - 3000:3000
     restart: always
