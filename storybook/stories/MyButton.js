@@ -10,9 +10,9 @@ export default {
         cursor: 'pointer',
         fontSize: 15,
         padding: '3px 10px',
-        margin: 10,
-      },
-    };
+        margin: 10
+      }
+    }
   },
 
   template: `
@@ -23,7 +23,7 @@ export default {
 
   methods: {
     onClick() {
-      this.$emit('click');
-    },
-  },
-};
+      this.$emit('click')
+    }
+  }
+}
