@@ -1,7 +1,9 @@
 {
   "name": "storybook",
   "version": "1.0.0",
-  "license": "MIT",
+  "description": "UI Design for Gran App",
+  "author": "16francs",
+  "private": true,
   "scripts": {
     "storybook": "start-storybook --ci -p 6006",
     "build-storybook": "build-storybook"
@@ -9,12 +11,19 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.7.7",
+    "@nuxt/types": "^0.5.9",
+    "@nuxtjs/vuetify": "^1.9.1",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-links": "^5.2.8",
     "@storybook/addons": "^5.2.8",
     "@storybook/vue": "^5.2.8",
+    "@types/node": "^13.1.1",
     "babel-loader": "^8.0.6",
     "babel-preset-vue": "^2.0.2",
+    "fork-ts-checker-webpack-plugin": "^4.0.0-beta.4",
+    "path": "^0.12.7",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4",
     "vue": "^2.6.11",
     "vue-loader": "^15.8.3",
     "vue-template-compiler": "^2.6.11"
