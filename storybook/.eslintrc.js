@@ -4,6 +4,9 @@ module.exports = {
     browser: true,
     node: true
   },
+  parserOptions: {
+    parser: '@typescript-eslint/parser'
+  },
   extends: [
     'prettier',
     'prettier/vue',

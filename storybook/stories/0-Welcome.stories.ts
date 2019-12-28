@@ -1,6 +1,6 @@
 import { linkTo } from '@storybook/addon-links'
 
-import Welcome from './Welcome'
+import Welcome from './Welcome.vue'
 
 export default {
   title: 'Welcome'

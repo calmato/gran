@@ -1,7 +1,6 @@
 import { action } from '@storybook/addon-actions'
-import { linkTo } from '@storybook/addon-links'
 
-import MyButton from './MyButton'
+import MyButton from './MyButton.vue'
 
 export default {
   title: 'Button'
