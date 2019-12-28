@@ -4,14 +4,17 @@ services:
   storybook:
     container_name: gran_storybook
     build: ./container/storybook
-    working_dir: /client
+    working_dir: /storybook
     volumes:
+      - ./storybook:/storybook:cached
       - ./client:/client:cached
     ports:
       - 6006:6006
     restart: always
     tty: true
     stdin_open: true
+    environment:
+      - CLIENT_PATH=${CLIENT_PATH}
     command: yarn storybook
 
   client:
