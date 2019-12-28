@@ -1,19 +1,33 @@
 const path = require('path')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
+const clientPath = process.env.CLIENT_PATH || './../client'
+const rootPath = path.resolve(__dirname, './../', clientPath)
+
 module.exports = {
   module: {
-    rules: [{
-      test: /\.ts$/,
-      exclude: /node_modules/,
-      use: [{
-        loader: 'ts-loader',
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
-          transpileOnly: true
-        },
-      }]
-    }]
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        loaders: [
+          {
+            loader: 'ts-loader',
+            options: {
+              appendTsSuffixTo: [/\.vue$/],
+              transpileOnly: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.s?css$/,
+        loaders: [
+          'style-loader',
+          'css-loader'
+        ]
+      }
+    ]
   },
 
   plugins: [
@@ -23,12 +37,12 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js', '.vue', '.json'],
     alias: {
-      'static': path.resolve(__dirname, './../../app/static'),
-      'assets': path.resolve(__dirname, './../../app/assets'),
-      '~': path.resolve(__dirname, './../../client/app'),
-      '@': path.resolve(__dirname, './../../client/app'),
-      '~~': path.resolve(__dirname, './../../client'),
-      '@@': path.resolve(__dirname, './../../client')
+      'static': path.resolve(rootPath, './app/static'),
+      'assets': path.resolve(rootPath, './app/assets'),
+      '~': path.resolve(rootPath, './app'),
+      '@': path.resolve(rootPath, './app'),
+      '~~': path.resolve(rootPath, './'),
+      '@@': path.resolve(rootPath, './')
     }
   }
 }
