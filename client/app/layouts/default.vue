@@ -68,8 +68,8 @@ export default Vue.extend({
       },
       {
         icon: 'mdi-chart-bubble',
-        title: 'Inspire',
-        to: '/inspire'
+        title: 'Sample',
+        to: '/sample'
       }
     ],
     miniVariant: false,
