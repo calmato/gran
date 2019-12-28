@@ -1,15 +1,21 @@
 import { linkTo } from '@storybook/addon-links'
 
-import Welcome from './Welcome'
+import Welcome from './Welcome.vue'
 
 export default {
   title: 'Welcome'
 }
 
 export const toStorybook = () => ({
-  components: { Welcome },
+  components: {
+    Welcome
+  },
+
   template: '<welcome :showApp="action" />',
-  methods: { action: linkTo('Button') }
+
+  methods: {
+    action: linkTo('Button')
+  }
 })
 
 toStorybook.story = {

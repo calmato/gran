@@ -12,11 +12,20 @@ export const text = () => ({
   },
 
   template: '<my-button @click="action">Hello Button</my-button>',
-  methods: { action: action('clicked') }
+
+  methods: {
+    action: action('clicked')
+  }
 })
 
 export const emoji = () => ({
-  components: { MyButton },
+  components: {
+    MyButton
+  },
+
   template: '<my-button @click="action">😀 😎 👍 💯</my-button>',
-  methods: { action: action('clicked') }
+
+  methods: {
+    action: action('clicked')
+  }
 })
