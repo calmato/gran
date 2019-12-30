@@ -14,6 +14,8 @@ update_configs:
       - match:
           update_type: all # 全てのライブラリの更新を許可
     version_requirement_updates: auto # package.jsonの更新は自動
+    commit_message:
+      prefix: chore
 
   # Storybook
   - package_manager: javascript
@@ -28,3 +30,5 @@ update_configs:
       - match:
           update_type: all
     version_requirement_updates: auto
+    commit_message:
+      prefix: chore
