@@ -1,6 +1,10 @@
 package config
 
-import "github.com/kelseyhightower/envconfig"
+import (
+	"golang.org/x/xerrors"
+
+	"github.com/kelseyhightower/envconfig"
+)
 
 // Environment - 環境変数の構造体
 type Environment struct {
@@ -11,7 +15,7 @@ type Environment struct {
 func LoadEnvironment() (Environment, error) {
 	env := Environment{}
 	if err := envconfig.Process("", &env); err != nil {
-		return env, err
+		return env, xerrors.Errorf("Failed to LoadEnvironment: %w", err)
 	}
 
 	return env, nil

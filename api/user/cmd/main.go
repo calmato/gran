@@ -14,12 +14,12 @@ func main() {
 	// 環境変数
 	e, err := config.LoadEnvironment()
 	if err != nil {
-		log.Fatalf("alert: %s", err)
+		log.Fatalf("alert: %+v", err)
 	}
 
 	// サーバ起動
 	r := config.Router()
 	if err = http.ListenAndServe(":"+e.Port, r); err != nil {
-		log.Fatalf("alert: %v", err)
+		panic(err)
 	}
 }
