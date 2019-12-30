@@ -1,17 +1,19 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/16francs/gran/api/user/config"
 )
 
 func main() {
-	r := gin.Default()
+	// TODO: 設定の読み込み
 
-	r.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello, World")
-	})
-
-	r.Run()
+	// サーバ起動
+	// TODO: ポート番号は環境変数から読み込みする
+	r := config.Router()
+	if err := http.ListenAndServe(":8080", r); err != nil {
+		log.Fatalf("alert: %v", err)
+	}
 }
