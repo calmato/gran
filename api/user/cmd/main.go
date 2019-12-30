@@ -8,12 +8,18 @@ import (
 )
 
 func main() {
-	// TODO: 設定の読み込み
+	// ログ出力設定
+	config.Logger()
+
+	// 環境変数
+	e, err := config.LoadEnvironment()
+	if err != nil {
+		log.Fatalf("alert: %s", err)
+	}
 
 	// サーバ起動
-	// TODO: ポート番号は環境変数から読み込みする
 	r := config.Router()
-	if err := http.ListenAndServe(":8080", r); err != nil {
+	if err = http.ListenAndServe(":"+e.Port, r); err != nil {
 		log.Fatalf("alert: %v", err)
 	}
 }
