@@ -1,0 +1,20 @@
+name: Client(Nuxt.js) Lint and Test
+on:
+  push:
+    paths:
+    - 'client/'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: setup node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: insatll
+      run: make client.setup
+    - name: lint
+      run: make client.lint
