@@ -16,7 +16,7 @@
     "@storybook/addon-links": "^5.2.8",
     "@storybook/addons": "^5.2.8",
     "@storybook/vue": "^5.2.8",
-    "@typescript-eslint/parser": "^2.13.0",
+    "@typescript-eslint/parser": "^2.14.0",
     "babel-loader": "^8.0.6",
     "babel-preset-vue": "^2.0.2",
     "css-loader": "^3.4.0",
