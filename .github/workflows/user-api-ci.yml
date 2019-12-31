@@ -1,0 +1,35 @@
+name: User API(Golang) Build and Test
+on:
+  push:
+    paths:
+      - './api/user/**'
+
+jobs:
+  build_and_test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Golang 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+
+      - name: Build
+        working-directory: ./api/user
+        run: make build
+
+      - name: Fmt
+        working-directory: ./api/user
+        run: make fmt
+
+      - name: Lint
+        working-directory: ./api/user
+        run: make lint
+
+      - name: Test
+        working-directory: ./api/user
+        run: make test
