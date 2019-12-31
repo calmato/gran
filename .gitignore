@@ -10,6 +10,7 @@ pids
 
 # dotenv environment variables file
 .env
+!.env.sample
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
