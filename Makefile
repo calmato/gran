@@ -8,3 +8,15 @@ setup:
 .PHONY: start
 start:
 	docker-compose up
+
+.PHONY: client-setup
+client-setup:
+	@docker-compose run client yarn
+
+.PHONY: client-lint
+client-lint:
+	@docker-compose run client yarn lint
+
+.PHONY: client-build
+client-build:
+	@docker-compose run client yarn build
