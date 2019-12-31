@@ -1,0 +1,49 @@
+version: 1
+
+update_configs:
+  # Client
+  - package_manager: javascript
+    directory: /client
+    update_schedule: live # npmライブラリに更新がかかったタイミングでプルリク
+    target_branch: master
+    default_labels:
+      - client
+      - javascript
+      - dependabot
+    allowed_updates:
+      - match:
+          update_type: all # 全てのライブラリの更新を許可
+    version_requirement_updates: auto # package.jsonの更新は自動
+    commit_message:
+      prefix: chore
+
+  # Storybook
+  - package_manager: javascript
+    directory: /storybook
+    update_schedule: live
+    target_branch: master
+    default_labels:
+      - storybook
+      - javascript
+      - dependabot
+    allowed_updates:
+      - match:
+          update_type: all
+    version_requirement_updates: auto
+    commit_message:
+      prefix: chore
+
+  # API (User Service)
+  - package_manager: go:modules
+    directory: /api/user
+    update_schedule: daily
+    target_branch: master
+    default_labels:
+      - "api: User"
+      - golang
+      - dependabot
+    allowed_updates:
+      - match:
+          update_type: all
+    commit_message:
+      prefix: chore

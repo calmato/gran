@@ -1,15 +1,41 @@
 version: '3.7'
 
 services:
+  storybook:
+    container_name: gran_storybook
+    build: ./container/storybook
+    working_dir: /storybook
+    volumes:
+      - ./storybook:/storybook:cached
+      - ./client:/client:cached
+    ports:
+      - 6006:6006
+    tty: true
+    stdin_open: true
+    environment:
+      - CLIENT_PATH=${CLIENT_PATH}
+    command: yarn storybook
+
   client:
     container_name: gran_client
     build: ./container/client
     working_dir: /client
     volumes:
-      - ./client:/client
+      - ./client:/client:cached
     ports:
       - 3000:3000
-    restart: always
     tty: true
     stdin_open: true
     command: yarn dev -H 0.0.0.0 -p 3000
+
+  user_api:
+    container_name: gran_user_api
+    build: ./container/api/user
+    working_dir: /go/src/github.com/16francs/gran/api/user
+    volumes:
+      - ./api/user:/go/src/github.com/16francs/gran/api/user:cached
+    ports:
+      - 8080:${USER_API_PORT}
+    environment:
+      - PORT=${USER_API_PORT}
+    command: realize start
