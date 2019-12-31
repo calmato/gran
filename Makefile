@@ -1,3 +1,5 @@
+ENV ?= dev
+
 .PHONY: setup
 setup:
 	cp ./.env.sample ./.env
