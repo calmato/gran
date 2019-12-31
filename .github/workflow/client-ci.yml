@@ -14,7 +14,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12
-    - name: insatll
-      run: make client.setup
+    - name: install
+      run: make client-setup
     - name: lint
-      run: make client.lint
+      run: make client-lint
+      env:
+        ENV: ci
