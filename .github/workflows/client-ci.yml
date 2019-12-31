@@ -2,7 +2,7 @@ name: Client(Nuxt.js) Lint and Test
 on:
   push:
     paths:
-    - 'client/'
+    - 'client/**'
 
 jobs:
   lint:
