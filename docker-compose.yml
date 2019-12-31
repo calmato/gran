@@ -27,3 +27,15 @@ services:
     tty: true
     stdin_open: true
     command: yarn dev -H 0.0.0.0 -p 3000
+
+  user_api:
+    container_name: gran_user_api
+    build: ./container/api/user
+    working_dir: /go/src/github.com/16francs/gran/api/user
+    volumes:
+      - ./api/user:/go/src/github.com/16francs/gran/api/user:cached
+    ports:
+      - 8080:${USER_API_PORT}
+    environment:
+      - PORT=${USER_API_PORT}
+    command: realize start

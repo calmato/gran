@@ -1,0 +1,6 @@
+# direnv environment variables file
+.envrc
+!.envrc.sample
+
+# build output
+app
