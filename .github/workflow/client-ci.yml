@@ -15,8 +15,8 @@ jobs:
       with:
         node-version: 12
     - name: install
-      run: make client-setup
+      run: yarn
+      working-directory: ./client
     - name: lint
-      run: make client-lint
-      env:
-        ENV: ci
+      run: yarn lint
+      working-directory: ./client
