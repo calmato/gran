@@ -1,0 +1,16 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+
+schema:
+  - name: user-api
+    path: ./cmd
+    commands:
+      run:
+        status: true
+    watcher:
+      extensions:
+        - go
+      paths:
+        - /
