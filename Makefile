@@ -61,9 +61,11 @@ storybook-start:
 	cd ${STORYBOOK_DIR}; yarn storybook
 
 .PHONY: storybook-lint
+sotybook-lint:
 	cd ${STORYBOOK_DIR}; yarn lint
 
 .PHONY: storybook-test
+storybook-test:
 	cd ${STORYBOOK_DIR}; yarn test
 
 ##################################################
@@ -78,8 +80,10 @@ user-api-start:
 	cd ${USER_API_DIR}; make run
 
 .PHONY: user-api-lint
+user-api-lint:
 	cd ${USER_API_DIR}; make fmt
 	cd ${USER_API_DIR}; make lint
 
 .PHONY: user-api-test
+user-api-test:
 	cd ${USER_API_DIR}; make test
