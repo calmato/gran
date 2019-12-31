@@ -35,5 +35,7 @@ services:
     volumes:
       - ./api/user:/go/src/github.com/16francs/gran/api/user:cached
     ports:
-      - 8080:8080 # TODO: 別のマイクロサービス作り始めたら変更
+      - 8080:${USER_API_PORT}
+    environment:
+      - PORT=${USER_API_PORT}
     command: realize start
