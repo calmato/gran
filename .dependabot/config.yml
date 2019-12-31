@@ -32,3 +32,18 @@ update_configs:
     version_requirement_updates: auto
     commit_message:
       prefix: chore
+
+  # API (User Service)
+  - package_manager: go:modules
+    directory: /api/user
+    update_schedule: daily
+    target_branch: master
+    default_labels:
+      - "api: User"
+      - golang
+      - dependabot
+    allowed_updates:
+      - match:
+          update_type: all
+    commit_message:
+      prefix: chore
