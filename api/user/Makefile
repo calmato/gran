@@ -2,6 +2,10 @@
 run:
 	go run ./cmd/main.go
 
+.PHONY: build
+build:
+	go build -o app ./cmd
+
 .PHONY: fmt
 fmt:
 	go fmt ./...
