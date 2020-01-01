@@ -8,7 +8,7 @@ build:
 
 .PHONY: fmt
 fmt:
-	go fmt ./...
+	! gofmt -d -s . | grep '^'
 
 .PHONY: vet
 vet:
