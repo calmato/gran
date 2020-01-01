@@ -2,7 +2,7 @@ name: User API(Golang) Build and Test
 on:
   push:
     paths:
-      - './api/user/**'
+      - 'api/user/**'
 
 jobs:
   build_and_test:
