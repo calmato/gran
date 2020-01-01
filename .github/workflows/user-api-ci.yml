@@ -28,6 +28,7 @@ jobs:
 
       - name: Download modules
         if: steps.cache.outputs.cache-hit != 'true'
+        working-directory: ./api/user
         run: go mod download
 
       - name: Build
