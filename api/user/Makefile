@@ -2,13 +2,21 @@
 run:
 	go run ./cmd/main.go
 
+.PHONY: build
+build:
+	go build -o app ./cmd
+
 .PHONY: fmt
 fmt:
-	go fmt ./...
+	! gofmt -d -s . | grep '^'
+
+.PHONY: vet
+vet:
+	go vet ./...
 
 .PHONY: lint
 lint:
-	golint ./...
+	./bin/golangci-lint run --enable-all ./...
 
 .PHONY: test
 test:
