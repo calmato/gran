@@ -75,6 +75,7 @@ storybook-test:
 .PHONY: user-api-setup
 user-api-setup:
 	cp ${USER_API_DIR}/.envrc.sample ${USER_API_DIR}/.envrc
+	cd ${USER_API_DIR}; make setup
 
 .PHONY: user-api-start
 user-api-start:
