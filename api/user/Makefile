@@ -12,7 +12,7 @@ fmt:
 
 .PHONY: lint
 lint:
-	golint ./...
+	./bin/golangci-lint run --enable-all ./...
 
 .PHONY: test
 test:
