@@ -1,3 +1,9 @@
+GOLANGCI_VERSION := 1.22.2
+
+.PHONY: setup
+setup:
+	wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v${GOLANGCI_VERSION}
+
 .PHONY: run
 run:
 	go run ./cmd/main.go

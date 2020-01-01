@@ -31,6 +31,10 @@ jobs:
         working-directory: ./api/user
         run: go mod download
 
+      - name: Setup
+        working-directory: ./api/user
+        run: make setup
+
       - name: Build
         working-directory: ./api/user
         run: make build

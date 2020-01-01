@@ -15,6 +15,7 @@ setup:
 install:
 	docker-compose run client yarn
 	docker-compose run storybook yarn
+	docker-compose run user_api make setup
 
 .PHONY: start
 start:
@@ -74,6 +75,7 @@ storybook-test:
 .PHONY: user-api-setup
 user-api-setup:
 	cp ${USER_API_DIR}/.envrc.sample ${USER_API_DIR}/.envrc
+	cd ${USER_API_DIR}; make setup
 
 .PHONY: user-api-start
 user-api-start:
