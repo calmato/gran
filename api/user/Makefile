@@ -10,6 +10,10 @@ build:
 fmt:
 	go fmt ./...
 
+.PHONY: vet
+vet:
+	go vet ./...
+
 .PHONY: lint
 lint:
 	./bin/golangci-lint run --enable-all ./...
