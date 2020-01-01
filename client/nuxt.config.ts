@@ -19,6 +19,7 @@ const configuration: Configuration = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   loading: { color: '#fff' },
+  plugins: [{ src: '~/plugins/vee-validate.ts' }],
   buildModules: [
     '@nuxt/typescript-build',
     '@nuxtjs/eslint-module',
