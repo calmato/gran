@@ -15,6 +15,7 @@ setup:
 install:
 	docker-compose run client yarn
 	docker-compose run storybook yarn
+	docker-compose run user_api make setup
 
 .PHONY: start
 start:
