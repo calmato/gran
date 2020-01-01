@@ -32,7 +32,7 @@ services:
     container_name: gran_proxy
     build: ./container/proxy
     volumes:
-      - ./container/proxy/envoy_dev.yaml:/etc/envoy/envoy.yaml:cached
+      - ./container/proxy/envoy.yaml:/etc/envoy/envoy.yaml:cached
     ports:
       - 8080:8080
     command: envoy -c /etc/envoy/envoy.yaml
