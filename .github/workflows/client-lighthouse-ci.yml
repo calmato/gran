@@ -30,6 +30,6 @@ jobs:
         working-directory: ./client
         run: |
           npm install -g @lhci/cli
-          lhci autorun --config=./lighthouserc.json
+          lhci autorun --config=./lighthouserc.json || echo "LHCI failed!"
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
