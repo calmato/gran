@@ -11,7 +11,7 @@ import (
 
 // Firestore - Firestoreの構造体
 type Firestore struct {
-	client *firestore.Client
+	Client *firestore.Client
 }
 
 // NewClient - Firestoreに接続
@@ -26,5 +26,5 @@ func NewClient(ctx context.Context, app *firebase.App) (*Firestore, error) {
 
 // Close - Firestoreとの接続を終了
 func (f *Firestore) Close() error {
-	return f.client.Close()
+	return f.Client.Close()
 }

@@ -9,12 +9,17 @@ import (
 	"google.golang.org/api/option"
 )
 
+// Firebase - Firebaseの構造体
+type Firebase struct {
+	App *firebase.App
+}
+
 // InitializeApp - Cloud Firebase SDKの初期化
-func InitializeApp(ctx context.Context, config *firebase.Config, opts ...option.ClientOption) (*firebase.App, error) {
+func InitializeApp(ctx context.Context, config *firebase.Config, opts ...option.ClientOption) (*Firebase, error) {
 	app, err := firebase.NewApp(ctx, config, opts...)
 	if err != nil {
 		return nil, xerrors.Errorf("Failed to InitializeApp: %w", err)
 	}
 
-	return app, nil
+	return &Firebase{app}, nil
 }

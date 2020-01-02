@@ -33,7 +33,7 @@ func main() {
 	}
 
 	// Firestore
-	fs, err := firestore.NewClient(ctx, fb)
+	fs, err := firestore.NewClient(ctx, fb.App)
 	if err != nil {
 		panic(err)
 	}
