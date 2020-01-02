@@ -78,14 +78,21 @@ func (f *Firestore) Add(ctx context.Context, collection string, data interface{}
 
 // Set - 単一のドキュメントを作成または上書き
 func (f *Firestore) Set(ctx context.Context, collection string, document string, data interface{}) error {
-	if _, err := f.Client.Collection(collection).Doc(document).Set(ctx, data, firestore.MergeAll); err != nil {
+	if _, err := f.Client.Collection(collection).Doc(document).Set(ctx, data); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-// TODO: Update
+// Update - 単一のドキュメントを作成または上書き (既存ドキュメントがある場合、マージする)
+func (f *Firestore) Update(ctx context.Context, collection string, document string, data interface{}) error {
+	if _, err := f.Client.Collection(collection).Doc(document).Set(ctx, data, firestore.MergeAll); err != nil {
+		return err
+	}
+
+	return nil
+}
 
 // DeleteDoc - ドキュメントを削除
 func (f *Firestore) DeleteDoc(ctx context.Context, collection string, document string) error {
