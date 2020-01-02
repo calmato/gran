@@ -78,7 +78,7 @@ func (f *Firestore) Add(ctx context.Context, collection string, data interface{}
 
 // Set - 単一のドキュメントを作成または上書き
 func (f *Firestore) Set(ctx context.Context, collection string, document string, data interface{}) error {
-	if _, err := f.Client.Collection(collection).Doc(document).Set(ctx, data); err != nil {
+	if _, err := f.Client.Collection(collection).Doc(document).Set(ctx, data, firestore.MergeAll); err != nil {
 		return err
 	}
 
