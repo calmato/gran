@@ -3,7 +3,7 @@ STORYBOOK_DIR := ./story
 USER_API_DIR := ./api/user
 
 ##################################################
-# Container Commands
+# Container Commands - All
 ##################################################
 .PHONY: setup
 setup:
@@ -20,6 +20,22 @@ install:
 .PHONY: start
 start:
 	docker-compose up
+
+##################################################
+# Container Commands - Only API
+##################################################
+.PHONY: api-setup
+api-setup:
+	docker-compose -f docker-compose.api.yml build
+	$(MAKE) api-install
+
+.PHONY: api-install
+api-install:
+	docker-compose -f docker-compose.api.yml run user_api make setup
+
+.PHONY: api-start
+api-start:
+	docker-compose -f docker-compose.api.yml up
 
 ##################################################
 # Local Commands - Client
