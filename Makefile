@@ -45,6 +45,10 @@ client-lint:
 client-test:
 	cd ${CLIENT_DIR}; yarn test
 
+.PHONY: client-build
+client-build:
+	cd ${CLIENT_DIR}; yarn build
+
 ##################################################
 # Local Commands - Storybook
 ##################################################
