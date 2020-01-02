@@ -45,6 +45,10 @@ client-lint:
 client-test:
 	cd ${CLIENT_DIR}; yarn test
 
+.PHONY: client-build
+client-build:
+	cd ${CLIENT_DIR}; yarn build
+
 ##################################################
 # Local Commands - Storybook
 ##################################################
@@ -69,6 +73,10 @@ sotybook-lint:
 storybook-test:
 	cd ${STORYBOOK_DIR}; yarn test
 
+.PHONY: storybook-build
+storybook-build:
+	cd ${STORYBOOK_DIR}; yarn build-storybook
+
 ##################################################
 # Local Commands - API (User Service)
 ##################################################
@@ -89,3 +97,8 @@ user-api-lint:
 .PHONY: user-api-test
 user-api-test:
 	cd ${USER_API_DIR}; make test
+
+.PHONY: user-api-build
+user-api-build:
+	cd ${USER_API_DIR}; make build
+

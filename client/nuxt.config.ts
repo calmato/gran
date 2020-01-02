@@ -26,7 +26,7 @@ const configuration: Configuration = {
     '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify'
   ],
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa'],
+  modules: ['@nuxtjs/axios'],
   typescript: {
     typeCheck: {
       eslint: true
