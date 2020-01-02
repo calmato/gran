@@ -9,14 +9,22 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: check out code
+      uses: actions/checkout@v1
+
     - name: setup node.js
       uses: actions/setup-node@v1
       with:
         node-version: 12
+
     - name: install
+      working-directory: ./client
       run: yarn
-      working-directory: ./client
+
     - name: lint
-      run: yarn lint
       working-directory: ./client
+      run: yarn lint
+
+    - name: build
+      working-directory: ./client
+      run: yarn build

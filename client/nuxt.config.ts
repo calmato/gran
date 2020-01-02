@@ -26,7 +26,7 @@ const configuration: Configuration = {
     '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify'
   ],
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa'],
+  modules: ['@nuxtjs/axios'],
   typescript: {
     typeCheck: {
       eslint: true
@@ -35,7 +35,7 @@ const configuration: Configuration = {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
