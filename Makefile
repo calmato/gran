@@ -93,3 +93,8 @@ user-api-lint:
 .PHONY: user-api-test
 user-api-test:
 	cd ${USER_API_DIR}; make test
+
+.PHONY: user-api-build
+user-api-build:
+	cd ${USER_API_DIR}; make build
+
