@@ -39,7 +39,7 @@ func main() {
 	}
 	defer fs.Close()
 
-	reg := registry.NewRegistry()
+	reg := registry.NewRegistry(fb, fs)
 
 	// サーバ起動
 	r := config.Router(reg)
