@@ -8,7 +8,8 @@ import (
 
 // Environment - 環境変数の構造体
 type Environment struct {
-	Port string `envconfig:"PORT" default:"8080"`
+	Port                         string `envconfig:"PORT" default:"8080"`
+	GoogleApplicationCredentials string `envconfig:"GOOGLE_APPLICATION_CREDENTIALS" required:"true"`
 }
 
 // LoadEnvironment - 環境変数を読み込み

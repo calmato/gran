@@ -12,6 +12,9 @@ pids
 .env
 !.env.sample
 
+# secret files
+secret
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 

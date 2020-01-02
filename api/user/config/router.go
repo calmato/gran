@@ -7,16 +7,14 @@ import (
 )
 
 // Router - ルーティングの定義
-func Router() *gin.Engine {
-	registry := registry.NewRegistry()
-
+func Router(reg *registry.Registry) *gin.Engine {
 	// ルーティング
 	r := gin.Default()
 
 	// api v1 routes
 	apiV1 := r.Group("/v1")
 	{
-		apiV1.GET("/", registry.APIV1HealthHandler.HealthCheck)
+		apiV1.GET("/", reg.APIV1HealthHandler.HealthCheck)
 	}
 
 	return r
