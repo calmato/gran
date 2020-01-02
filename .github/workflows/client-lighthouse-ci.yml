@@ -6,29 +6,30 @@ on:
 
 jobs:
   lighthouse:
-  runs-on: ubuntu-latest
+    name: Lighthouse
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Check out code
-      uses: actions/checkout@v1
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
 
-    - name: setup node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12
+      - name: setup node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
-    - name: install
-      working-directory: ./client
-      run: |
-      yarn global add @lhci/cli
-      yarn install
+      - name: install
+        working-directory: ./client
+        run: |
+          yarn global add @lhci/cli
+          yarn install
 
-    - name: build
-      working-directory: ./client
-      run: yarn build
+      - name: build
+        working-directory: ./client
+        run: yarn build
 
-    - name: lhci
-      working-directory: ./client
-      run: lhci autorun --config=./lighthouserc.json
-      env:
-        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+      - name: lhci
+        working-directory: ./client
+        run: lhci autorun --config=./lighthouserc.json
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
