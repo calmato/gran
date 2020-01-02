@@ -43,6 +43,8 @@ services:
     working_dir: /go/src/github.com/16francs/gran/api/user
     volumes:
       - ./api/user:/go/src/github.com/16francs/gran/api/user:cached
+      - ./secret:/secret:cached
     environment:
       - PORT=8080
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
     command: realize start
