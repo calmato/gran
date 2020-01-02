@@ -73,6 +73,10 @@ sotybook-lint:
 storybook-test:
 	cd ${STORYBOOK_DIR}; yarn test
 
+.PHONY: storybook-build
+storybook-build:
+	cd ${STORYBOOK_DIR}; yarn build-storybook
+
 ##################################################
 # Local Commands - API (User Service)
 ##################################################
