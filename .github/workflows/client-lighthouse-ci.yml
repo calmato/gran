@@ -20,9 +20,7 @@ jobs:
 
       - name: install
         working-directory: ./client
-        run: |
-          yarn global add @lhci/cli
-          yarn install
+        run: yarn install
 
       - name: build
         working-directory: ./client
@@ -30,6 +28,8 @@ jobs:
 
       - name: lhci
         working-directory: ./client
-        run: lhci autorun --config=./lighthouserc.json
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun --config=./lighthouserc.json
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
