@@ -7,6 +7,7 @@ import (
 	"github.com/16francs/gran/api/user/config"
 	"github.com/16francs/gran/api/user/lib/firebase"
 	"github.com/16francs/gran/api/user/lib/firebase/firestore"
+	"github.com/16francs/gran/api/user/registry"
 	"google.golang.org/api/option"
 )
 
@@ -38,8 +39,10 @@ func main() {
 	}
 	defer fs.Close()
 
+	reg := registry.NewRegistry()
+
 	// サーバ起動
-	r := config.Router()
+	r := config.Router(reg)
 	if err = http.ListenAndServe(":"+e.Port, r); err != nil {
 		panic(err)
 	}
