@@ -22,7 +22,7 @@ vet:
 
 .PHONY: lint
 lint:
-	./bin/golangci-lint run --enable-all ./...
+	./bin/golangci-lint run -c .golangci.yml ./...
 
 .PHONY: test
 test:
