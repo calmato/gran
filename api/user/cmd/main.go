@@ -25,7 +25,7 @@ func main() {
 	}
 
 	// Firebaseの初期化
-	opt := option.WithCredentialsFile(e.GoogleApplicationCredentialsPath)
+	opt := option.WithCredentialsFile(e.GoogleApplicationCredentials)
 
 	fb, err := firebase.InitializeApp(ctx, nil, opt)
 	if err != nil {
