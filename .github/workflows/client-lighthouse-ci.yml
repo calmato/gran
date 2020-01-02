@@ -1,4 +1,4 @@
-name: Lighthouse
+name: Client(Nuxt.js) Lighthouse
 on:
   pull_request:
     paths:
