@@ -16,9 +16,11 @@
 ### .envファイルの作成
 
 * 以下を参考に `.env` ファイルを編集
+  * `./../../secret/xxx-firebase-adminsdk-xxx.json` は正しいファイル名に置き換え
 
 ```env
 CLIENT_PATH=./../client
+GOOGLE_APPLICATION_CREDENTIALS=./../../secret/xxx-firebase-adminsdk-xxx.json
 ```
 
 ### コンテナの起動

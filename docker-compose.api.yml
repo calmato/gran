@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  proxy:
+    container_name: gran_proxy
+    build: ./container/proxy
+    volumes:
+      - ./container/proxy/envoy.yaml:/etc/envoy/envoy.yaml:cached
+    ports:
+      - 8080:8080
+    command: envoy -c /etc/envoy/envoy.yaml
+
+  user_api:
+    container_name: gran_user_api
+    build: ./container/api/user
+    working_dir: /go/src/github.com/16francs/gran/api/user
+    volumes:
+      - ./api/user:/go/src/github.com/16francs/gran/api/user:cached
+      - ./secret:/secret:cached
+    environment:
+      - PORT=8080
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+    command: realize start
