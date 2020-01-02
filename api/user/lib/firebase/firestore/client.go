@@ -84,3 +84,16 @@ func (f *Firestore) Set(ctx context.Context, collection string, document string,
 
 	return nil
 }
+
+// TODO: Update
+
+// DeleteDoc - ドキュメントを削除
+func (f *Firestore) DeleteDoc(ctx context.Context, collection string, document string) error {
+	if _, err := f.Client.Collection(collection).Doc(document).Delete(ctx); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// TODO: DeleteField
