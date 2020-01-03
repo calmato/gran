@@ -1,7 +1,7 @@
 <template>
   <form>
-    <gran-text-field prepend-icon="mdi-email" label="Email..." />
-    <gran-text-field prepend-icon="mdi-lock" label="Password..." />
+    <gran-text-field prepend-icon="email" label="Email..." />
+    <gran-text-field prepend-icon="lock" label="Password..." />
     <gran-button color="light-blue darken-1" block dark @click="click">ログイン</gran-button>
   </form>
 </template>
