@@ -20,6 +20,6 @@ func NewRegistry(fb *firebase.Firebase, fs *firestore.Firestore) *Registry {
 	return &Registry{
 		Firebase:           *fb,
 		Firestore:          *fs,
-		APIV1HealthHandler: *apiV1HealthHandler,
+		APIV1HealthHandler: apiV1HealthHandler,
 	}
 }
