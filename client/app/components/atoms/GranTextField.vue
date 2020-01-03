@@ -5,8 +5,8 @@
       :label="label"
       :name="name"
       :type="type"
-      :prepend-icon="prependIcon"
-      :append-icon="appendIcon"
+      :prepend-icon="prependIconName"
+      :append-icon="appendIconName"
       :error-messages="errors"
       :success="valid"
     />
@@ -56,6 +56,12 @@ export default Vue.extend({
       set(value: String) {
         this.$emit('input', value)
       }
+    },
+    prependIconName() {
+      return 'mdi-' + this.prependIcon
+    },
+    appendIconName() {
+      return 'mdi-' + this.appendIcon
     }
   }
 })
