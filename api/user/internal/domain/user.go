@@ -2,7 +2,7 @@ package domain
 
 import "time"
 
-// User - ユーザーエンティティ
+// User - Userエンティティ
 type User struct {
 	ID           string    `firestore:"id"`
 	Email        string    `firestore:"email"`
