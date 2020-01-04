@@ -1,23 +1,44 @@
 package usecase
 
+import (
+	"context"
+	"time"
+
+	"github.com/16francs/gran/api/user/internal/application/request"
+	"github.com/16francs/gran/api/user/internal/domain"
+	"github.com/16francs/gran/api/user/internal/domain/repository"
+)
+
 // UserUsecase - UserUsecaseインターフェース
 type UserUsecase interface {
-	Create() error
+	Create(ctx context.Context, req *request.CreateUser) error
 }
 
-type userUsecase struct{}
+type userUsecase struct {
+	userRepository repository.UserRepository
+}
 
 // NewUserUsecase - UserUsecaseの生成
-func NewUserUsecase() UserUsecase {
-	return &userUsecase{}
+func NewUserUsecase(ur repository.UserRepository) UserUsecase {
+	return &userUsecase{
+		userRepository: ur,
+	}
 }
 
-func (u *userUsecase) Create() error {
+func (uu *userUsecase) Create(ctx context.Context, req *request.CreateUser) error {
 	// TODO: validation check
 
-	// TODO: create user entity
+	current := time.Now()
+	u := &domain.User{
+		Email:     req.Email,
+		Password:  req.Password,
+		CreatedAt: current,
+		UpdatedAt: current,
+	}
 
-	// TODO: insert to user in firebase and firestore
+	if err := uu.userRepository.Create(ctx, u); err != nil {
+		return err
+	}
 
 	return nil
 }
