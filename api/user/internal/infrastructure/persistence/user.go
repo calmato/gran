@@ -8,19 +8,19 @@ import (
 	"github.com/16francs/gran/api/user/lib/firebase/firestore"
 )
 
-type userRepository struct {
+type userPersistence struct {
 	*firestore.Firestore
 }
 
 // UserCollection - UserCollection名
 const UserCollection = "users"
 
-// NewUserRepository - UserRepositoryの生成
-func NewUserRepository() repository.UserRepository {
-	return &userRepository{}
+// NewUserPersistence - UserRepositoryの生成
+func NewUserPersistence() repository.UserRepository {
+	return &userPersistence{}
 }
 
-func (r *userRepository) Create(ctx context.Context, u *domain.User) error {
+func (r *userPersistence) Create(ctx context.Context, u *domain.User) error {
 	// TODO: addInFirebaseの実装
 
 	if err := addInFirestore(ctx, r.Firestore, u); err != nil {
