@@ -6,6 +6,7 @@
 import Vue from 'vue'
 import GranLogin from '~/components/templates/GranLogin.vue'
 import { ILoginForm } from '~/types/form'
+import firebase from '~/plugins/firebase'
 
 export default Vue.extend({
   components: {
@@ -13,9 +14,16 @@ export default Vue.extend({
   },
   layout: 'auth',
   methods: {
-    login(loginForm: ILoginForm) {
-      // ここでvuexと通信する
-      console.log(loginForm)
+    async login(loginForm: ILoginForm) {
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(loginForm.email, loginForm.password)
+        .then((user) => {
+          console.log(user)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 })
