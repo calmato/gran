@@ -21,14 +21,14 @@
     }
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^0.3.2",
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxt/typescript-runtime": "^0.3.6",
+    "@nuxtjs/axios": "^5.9.2",
     "nuxt": "^2.0.0",
     "vee-validate": "^3.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
-    "@nuxt/typescript-build": "^0.5.1",
+    "@nuxt/typescript-build": "^0.5.5",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
