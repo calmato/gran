@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"golang.org/x/xerrors"
+
 	"github.com/16francs/gran/api/user/internal/application/request"
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
@@ -37,7 +39,7 @@ func (uu *userUsecase) Create(ctx context.Context, req request.CreateUser) error
 	}
 
 	if err := uu.userRepository.Create(ctx, u); err != nil {
-		return err
+		return xerrors.Errorf("Failed to UserUsecase/Create: %w", err)
 	}
 
 	return nil
