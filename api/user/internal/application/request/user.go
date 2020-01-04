@@ -1,4 +1,4 @@
-package input
+package request
 
 // CreateUser - ユーザー登録APIのリクエスト
 type CreateUser struct {
