@@ -11,7 +11,7 @@ import (
 
 // UserUsecase - UserUsecaseインターフェース
 type UserUsecase interface {
-	Create(ctx context.Context, req *request.CreateUser) error
+	Create(ctx context.Context, req request.CreateUser) error
 }
 
 type userUsecase struct {
@@ -25,7 +25,7 @@ func NewUserUsecase(ur repository.UserRepository) UserUsecase {
 	}
 }
 
-func (uu *userUsecase) Create(ctx context.Context, req *request.CreateUser) error {
+func (uu *userUsecase) Create(ctx context.Context, req request.CreateUser) error {
 	// TODO: validation check
 
 	current := time.Now()
