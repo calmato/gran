@@ -15,11 +15,17 @@ type Registry struct {
 
 // NewRegistry - internalディレクトリのファイルを読み込み
 func NewRegistry(fb *firebase.Firebase, fs *firestore.Firestore) *Registry {
-	apiV1HealthHandler := v1.NewAPIV1HealthHandler()
+	apiV1HealthHandler := v1HealthInjection()
 
 	return &Registry{
 		Firebase:           *fb,
 		Firestore:          *fs,
-		APIV1HealthHandler: *apiV1HealthHandler,
+		APIV1HealthHandler: apiV1HealthHandler,
 	}
+}
+
+func v1HealthInjection() v1.APIV1HealthHandler {
+	apiV1HealthHandler := v1.NewAPIV1HealthHandler()
+
+	return apiV1HealthHandler
 }
