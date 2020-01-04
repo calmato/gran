@@ -8,5 +8,5 @@ import (
 
 // UserRepository - UserRepositoryインターフェース
 type UserRepository interface {
-	AddInFirestore(ctx context.Context, u *domain.User) error
+	Create(ctx context.Context, u *domain.User) error
 }
