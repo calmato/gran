@@ -10,29 +10,25 @@ import (
 
 // Registry - DIコンテナ
 type Registry struct {
-	firebase.Firebase
-	firestore.Firestore
-	v1.APIV1HealthHandler
-	v1.APIV1UserHandler
+	V1Health v1.APIV1HealthHandler
+	V1User   v1.APIV1UserHandler
 }
 
 // NewRegistry - internalディレクトリのファイルを読み込み
 func NewRegistry(fb *firebase.Firebase, fs *firestore.Firestore) *Registry {
-	apiV1HealthHandler := v1HealthInjection()
-	apiV1UserHandler := v1UserInjection(*fs)
+	v1Health := v1HealthInjection()
+	v1User := v1UserInjection(*fs)
 
 	return &Registry{
-		Firebase:           *fb,
-		Firestore:          *fs,
-		APIV1HealthHandler: apiV1HealthHandler,
-		APIV1UserHandler:   apiV1UserHandler,
+		V1User:   v1User,
+		V1Health: v1Health,
 	}
 }
 
 func v1HealthInjection() v1.APIV1HealthHandler {
-	apiV1HealthHandler := v1.NewAPIV1HealthHandler()
+	hh := v1.NewAPIV1HealthHandler()
 
-	return apiV1HealthHandler
+	return hh
 }
 
 func v1UserInjection(fs firestore.Firestore) v1.APIV1UserHandler {

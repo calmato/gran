@@ -14,9 +14,9 @@ func Router(reg *registry.Registry) *gin.Engine {
 	// api v1 routes
 	apiV1 := r.Group("/v1")
 	{
-		apiV1.GET("/", reg.APIV1HealthHandler.HealthCheck)
+		apiV1.GET("/", reg.V1Health.HealthCheck)
 
-		apiV1.POST("/users", reg.APIV1UserHandler.Create)
+		apiV1.POST("/users", reg.V1User.Create)
 	}
 
 	return r
