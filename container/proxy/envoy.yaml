@@ -51,10 +51,14 @@ static_resources:
 
                       routes:
                         - match:
-                            prefix: "/users/"
+                            prefix: "/users/health"
                           route:
                             cluster: user_service
-                            prefix_rewrite: "/"
+                            prefix_rewrite: "/v1/"
+                        - match:
+                            prefix: "/v1/users/"
+                          route:
+                            cluster: user_service
 
                 http_filters:
                   - name: envoy.cors
