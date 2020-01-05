@@ -1,5 +1,12 @@
 <template>
-  <v-btn :color="color" :block="block" :dark="dark" :outlined="outlined" @click="click">
+  <v-btn
+    :color="color"
+    :block="block"
+    :dark="dark"
+    :outlined="outlined"
+    :icon="icon"
+    @click="click"
+  >
     <slot />
   </v-btn>
 </template>
@@ -22,6 +29,10 @@ export default Vue.extend({
       default: false
     },
     outlined: {
+      type: Boolean,
+      default: false
+    },
+    icon: {
       type: Boolean,
       default: false
     }
