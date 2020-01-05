@@ -12,7 +12,7 @@ export const mutations = {
 }
 
 export const actions = {
-  loginWithEmailAndPassword({ commit }, form: ILoginForm): Promise<any> {
+  loginWithEmailAndPassword({ commit }, form: ILoginForm): Promise<void> {
     return this.$firebase
       .auth()
       .signInWithEmailAndPassword(form.email, form.password)
@@ -24,9 +24,10 @@ export const actions = {
           lastSignInTime: auth.user.metadata.lastSignInTime
         }
         commit('setUser', user)
+        return Promise.resolve()
       })
       .catch((error: any) => {
-        throw Promise.reject(error)
+        return Promise.reject(error)
       })
   }
 }
