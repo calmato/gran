@@ -16,5 +16,4 @@ if (!firebase.apps.length) {
 
 export default ({ _app }, inject) => {
   inject('firebase', firebase)
-  inject('auth', firebase.auth())
 }
