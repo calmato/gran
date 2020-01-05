@@ -1,5 +1,4 @@
 import { Configuration } from '@nuxt/types'
-import colors from 'vuetify/es5/util/colors'
 
 const configuration: Configuration = {
   mode: 'spa',
@@ -19,7 +18,7 @@ const configuration: Configuration = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   loading: { color: '#fff' },
-  plugins: [{ src: '~/plugins/vee-validate.ts' }, '~/plugins/firebase'],
+  plugins: ['~/plugins/firebase', '~/plugins/vee-validate.ts', '~/plugins/vuetify.ts'],
   buildModules: [
     '@nuxt/typescript-build',
     '@nuxtjs/eslint-module',
@@ -30,23 +29,6 @@ const configuration: Configuration = {
   typescript: {
     typeCheck: {
       eslint: true
-    }
-  },
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: false,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
     }
   },
   env: {
