@@ -1,4 +1,4 @@
-package usecase
+package application
 
 import (
 	"context"
@@ -10,26 +10,26 @@ import (
 	"github.com/16francs/gran/api/user/internal/domain/repository"
 )
 
-// UserUsecase - UserUsecaseインターフェース
-type UserUsecase interface {
+// UserApplication - UserApplicationインターフェース
+type UserApplication interface {
 	Create(ctx context.Context, req request.CreateUser) error
 }
 
-type userUsecase struct {
+type userApplication struct {
 	userValidation validation.UserValidation
 	userRepository repository.UserRepository
 }
 
-// NewUserUsecase - UserUsecaseの生成
-func NewUserUsecase(uv validation.UserValidation, ur repository.UserRepository) UserUsecase {
-	return &userUsecase{
+// NewUserApplication - UserApplicationの生成
+func NewUserApplication(uv validation.UserValidation, ur repository.UserRepository) UserApplication {
+	return &userApplication{
 		userValidation: uv,
 		userRepository: ur,
 	}
 }
 
-func (uu *userUsecase) Create(ctx context.Context, req request.CreateUser) error {
-	if err := uu.userValidation.CreateUser(req); err != nil {
+func (ua *userApplication) Create(ctx context.Context, req request.CreateUser) error {
+	if err := ua.userValidation.CreateUser(req); err != nil {
 		return err // TODO: エラーメッセージをレスポンスに
 	}
 
@@ -43,7 +43,7 @@ func (uu *userUsecase) Create(ctx context.Context, req request.CreateUser) error
 
 	// TODO: ユニークチェック
 
-	if err := uu.userRepository.Create(ctx, u); err != nil {
+	if err := ua.userRepository.Create(ctx, u); err != nil {
 		return err
 	}
 

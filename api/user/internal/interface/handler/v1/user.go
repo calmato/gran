@@ -3,22 +3,24 @@ package v1
 import (
 	"net/http"
 
+	"github.com/16francs/gran/api/user/internal/application"
 	"github.com/16francs/gran/api/user/internal/application/request"
-	"github.com/16francs/gran/api/user/internal/application/usecase"
 	"github.com/gin-gonic/gin"
 )
 
+// APIV1UserHandler - Userハンドラのインターフェース
 type APIV1UserHandler interface {
 	Create(ctx *gin.Context)
 }
 
 type apiV1UserHandler struct {
-	usecase usecase.UserUsecase
+	userApplication application.UserApplication
 }
 
-func NewAPIV1UserHandler(uu usecase.UserUsecase) APIV1UserHandler {
+// NewAPIV1UserHandler - APIV1UserHandlerの生成
+func NewAPIV1UserHandler(ua application.UserApplication) APIV1UserHandler {
 	return &apiV1UserHandler{
-		usecase: uu,
+		userApplication: ua,
 	}
 }
 
@@ -29,7 +31,7 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	if err := uh.usecase.Create(ctx, req); err != nil {
+	if err := uh.userApplication.Create(ctx, req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{}) // TODO: エラーハンドラ作成
 		return
 	}

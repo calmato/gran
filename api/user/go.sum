@@ -22,6 +22,7 @@ firebase.google.com/go v3.11.1+incompatible h1:Eakw25N2BmDw5j93iR4DWpozEY9VwbNgY
 firebase.google.com/go v3.11.1+incompatible/go.mod h1:xlah6XbEyW6tbfSklcfe5FHJIwjt8toICdV5Wh9ptHs=
 github.com/16francs/gran v0.0.0-20200105062905-82787565c2ea h1:i1pBKSY3N987RkQDgzlTi5fnJCKX6D5Kd4+Vpq+HepI=
 github.com/16francs/gran v0.0.0-20200105121543-eb21ed5b5ff7 h1:tqgU+LsKCTY5XcfCzfmjLS8Oy2Xp8Rr7J4iOwQHVbOI=
+github.com/16francs/gran v0.0.0-20200105155915-6387e60bb961 h1:aqiIl3bFOfM/MUvqfdo2wDaZOPC8U/KKo4ZjJIF9juk=
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
