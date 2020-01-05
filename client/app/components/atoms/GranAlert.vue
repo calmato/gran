@@ -22,12 +22,16 @@ export default Vue.extend({
   props: {
     type: {
       type: String,
-      in: ['success', 'info', 'warning', 'error'],
+      validator(val) {
+        return ['success', 'info', 'warning', 'error'].includes(val)
+      },
       default: undefined
     },
     border: {
       type: String,
-      in: ['top', 'right', 'bottom', 'left'],
+      validator(val) {
+        return ['top', 'right', 'bottom', 'left'].includes(val)
+      },
       default: undefined
     },
     coloredBorder: {
