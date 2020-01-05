@@ -1,3 +1,4 @@
+import { ILoginForm } from '../types/form/auth/login'
 import { IUserStore, IUser } from '~/types/store/auth'
 
 export const state = (): IUserStore => ({
@@ -11,7 +12,21 @@ export const mutations = {
 }
 
 export const actions = {
-  setUser({ commit }, user: IUser) {
-    commit('setUser', user)
+  loginWithEmailAndPassword({ commit }, form: ILoginForm): Promise<any> {
+    return this.$firebase
+      .auth()
+      .signInWithEmailAndPassword(form.email, form.password)
+      .then((auth: any) => {
+        const user: IUser = {
+          uid: auth.user.uid,
+          email: auth.user.email,
+          creationTime: auth.user.metadata.creationTime,
+          lastSignInTime: auth.user.metadata.lastSignInTime
+        }
+        commit('setUser', user)
+      })
+      .catch((error: any) => {
+        throw Promise.reject(error)
+      })
   }
 }
