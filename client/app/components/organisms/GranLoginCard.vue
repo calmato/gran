@@ -11,13 +11,14 @@
   </gran-card>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import GranCard from '~/components/atoms/GranCard.vue'
 import GranCardText from '~/components/atoms/GranCardText.vue'
 import GranLoginForm from '~/components/molecules/GranLoginForm.vue'
 import GranSocialButton from '~/components/molecules/GranSocialButton.vue'
 import GranLinkList from '~/components/organisms/GranLinkList.vue'
+import { ILoginForm } from '~/types/form'
 
 export default Vue.extend({
   components: {
@@ -28,8 +29,8 @@ export default Vue.extend({
     GranLinkList
   },
   methods: {
-    login() {
-      this.$emit('login')
+    login(loginForm: ILoginForm) {
+      this.$emit('login', loginForm)
     },
     loginWithGoogle() {
       this.$emit('loginWithGoogle')

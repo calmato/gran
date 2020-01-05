@@ -19,7 +19,7 @@ const configuration: Configuration = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   loading: { color: '#fff' },
-  plugins: [{ src: '~/plugins/vee-validate.ts' }],
+  plugins: [{ src: '~/plugins/vee-validate.ts' }, '~/plugins/firebase'],
   buildModules: [
     '@nuxt/typescript-build',
     '@nuxtjs/eslint-module',
@@ -48,6 +48,14 @@ const configuration: Configuration = {
         }
       }
     }
+  },
+  env: {
+    API_KEY: process.env.API_KEY!,
+    AUTH_DOMAIN: process.env.AUTH_DOMAIN!,
+    DATABASE_URL: process.env.DATABASE_URL!,
+    PROJECT_ID: process.env.PROJECT_ID!,
+    STORAGE_BUCKET: process.env.STORAGE_BUCKET!,
+    MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID!
   }
 }
 
