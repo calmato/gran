@@ -4,26 +4,26 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// FormValidator - リクエストフォームバリデーションインターフェース
-type FormValidator interface {
+// RequestValidator - リクエストバリデーションインターフェース
+type RequestValidator interface {
 	Run(i interface{}) error
 }
 
-// formValidator - バリデーション用の構造体
-type formValidator struct {
+// requestValidator - バリデーション用の構造体
+type requestValidator struct {
 	validate *validator.Validate
 }
 
-// NewFormValidator - Validatorの生成
-func NewFormValidator() FormValidator {
+// NewRequestValidator - Validatorの生成
+func NewRequestValidator() RequestValidator {
 	validate := validator.New()
 
-	return &formValidator{
+	return &requestValidator{
 		validate: validate,
 	}
 }
 
 // Run - バリデーションの実行
-func (fv *formValidator) Run(i interface{}) error {
-	return fv.validate.Struct(i)
+func (rv *requestValidator) Run(i interface{}) error {
+	return rv.validate.Struct(i)
 }

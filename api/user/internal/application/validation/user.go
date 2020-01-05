@@ -1,25 +1,23 @@
 package validation
 
-import (
-	"github.com/16francs/gran/api/user/internal/application/request"
-)
+import "github.com/16francs/gran/api/user/internal/application/request"
 
-// UserValidation - ユーザー関連のバリデーション
-type UserValidation interface {
+// UserRequestValidation - ユーザー関連のバリデーション
+type UserRequestValidation interface {
 	CreateUser(cu request.CreateUser) error
 }
 
-type userValidation struct {
-	validator CustomValidator
+type userRequestValidation struct {
+	validator RequestValidator
 }
 
-// NewUserValidation - UserValidationの生成
-func NewUserValidation() UserValidation {
-	v := NewCustomValidator()
+// NewUserRequestValidation - UserRequestValidationの生成
+func NewUserRequestValidation() UserRequestValidation {
+	v := NewRequestValidator()
 
-	return &userValidation{v}
+	return &userRequestValidation{v}
 }
 
-func (uv *userValidation) CreateUser(cu request.CreateUser) error {
+func (uv *userRequestValidation) CreateUser(cu request.CreateUser) error {
 	return uv.validator.Run(cu)
 }
