@@ -33,7 +33,9 @@ func (r *userPersistence) Create(ctx context.Context, u *domain.User) error {
 		return xerrors.Errorf("Failed to UserPersistence/Create: %w", err)
 	}
 
-	if err = addInFirestore(ctx, r.firestore, u); err != nil {
+	u.ID = uid
+
+	if err = setInFirestore(ctx, r.firestore, u); err != nil {
 		return xerrors.Errorf("Failed to UserPersistence/Create: %w", err)
 	}
 
@@ -44,6 +46,6 @@ func createUserInAuth(ctx context.Context, fa authentication.Auth, u *domain.Use
 	return fa.CreateUser(ctx, u.Email, u.Password)
 }
 
-func addInFirestore(ctx context.Context, fs firestore.Firestore, u *domain.User) error {
-	return fs.Add(ctx, UserCollection, u)
+func setInFirestore(ctx context.Context, fs firestore.Firestore, u *domain.User) error {
+	return fs.Set(ctx, UserCollection, u.ID, u)
 }
