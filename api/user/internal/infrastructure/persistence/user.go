@@ -3,6 +3,8 @@ package persistence
 import (
 	"context"
 
+	"golang.org/x/xerrors"
+
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
 	"github.com/16francs/gran/api/user/lib/firebase/firestore"
@@ -26,7 +28,7 @@ func (r *userPersistence) Create(ctx context.Context, u *domain.User) error {
 	// TODO: addInFirebaseの実装
 
 	if err := addInFirestore(ctx, r.firestore, u); err != nil {
-		return err
+		return xerrors.Errorf("Failed to UserPersistence/Create: %w", err)
 	}
 
 	return nil
