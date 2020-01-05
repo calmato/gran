@@ -16,20 +16,20 @@ type UserApplication interface {
 }
 
 type userApplication struct {
-	userValidation validation.UserValidation
-	userRepository repository.UserRepository
+	userRequestValidation validation.UserRequestValidation
+	userRepository        repository.UserRepository
 }
 
 // NewUserApplication - UserApplicationの生成
-func NewUserApplication(uv validation.UserValidation, ur repository.UserRepository) UserApplication {
+func NewUserApplication(urv validation.UserRequestValidation, ur repository.UserRepository) UserApplication {
 	return &userApplication{
-		userValidation: uv,
-		userRepository: ur,
+		userRequestValidation: urv,
+		userRepository:        ur,
 	}
 }
 
 func (ua *userApplication) Create(ctx context.Context, req request.CreateUser) error {
-	if err := ua.userValidation.CreateUser(req); err != nil {
+	if err := ua.userRequestValidation.CreateUser(req); err != nil {
 		return err // TODO: エラーメッセージをレスポンスに
 	}
 

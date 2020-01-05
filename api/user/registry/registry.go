@@ -33,9 +33,9 @@ func v1HealthInjection() v1.APIV1HealthHandler {
 }
 
 func v1UserInjection(fa authentication.Auth, fs firestore.Firestore) v1.APIV1UserHandler {
-	uv := validation.NewUserValidation()
+	urv := validation.NewUserRequestValidation()
 	up := persistence.NewUserPersistence(fa, fs)
-	uu := application.NewUserApplication(uv, up)
+	uu := application.NewUserApplication(urv, up)
 	uh := v1.NewAPIV1UserHandler(uu)
 
 	return uh

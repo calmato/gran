@@ -18,6 +18,6 @@ func NewUserRequestValidation() UserRequestValidation {
 	return &userRequestValidation{v}
 }
 
-func (uv *userRequestValidation) CreateUser(cu request.CreateUser) error {
-	return uv.validator.Run(cu)
+func (urv *userRequestValidation) CreateUser(cu request.CreateUser) error {
+	return urv.validator.Run(cu)
 }
