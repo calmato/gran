@@ -10,14 +10,14 @@ type UserValidation interface {
 }
 
 type userValidation struct {
-	validator customValidator
+	validator CustomValidator
 }
 
 // NewUserValidation - UserValidationの生成
 func NewUserValidation() UserValidation {
 	v := NewCustomValidator()
 
-	return &userValidation{*v}
+	return &userValidation{v}
 }
 
 func (uv *userValidation) CreateUser(cu request.CreateUser) error {
