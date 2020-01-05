@@ -1,5 +1,5 @@
 <template>
-  <gran-login @login="login" />
+  <gran-login :is-error="isError" @login="login" @close="close" />
 </template>
 
 <script lang="ts">
@@ -15,6 +15,9 @@ export default Vue.extend({
     GranLogin
   },
   layout: 'auth',
+  data: () => ({
+    isError: false
+  }),
   methods: {
     ...mapActions({
       setUser: 'auth/setUser'
@@ -32,9 +35,13 @@ export default Vue.extend({
           }
           this.setUser(user)
         })
-        .catch((error) => {
-          console.log(error)
+        .catch(() => {
+          // firebaseとの接続エラーだとまずいな
+          this.isError = true
         })
+    },
+    close() {
+      this.isError = false
     }
   }
 })
