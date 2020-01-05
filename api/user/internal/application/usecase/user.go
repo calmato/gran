@@ -4,9 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/go-playground/validator/v10"
-
 	"github.com/16francs/gran/api/user/internal/application/request"
+	"github.com/16francs/gran/api/user/internal/application/validation"
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
 )
@@ -17,19 +16,21 @@ type UserUsecase interface {
 }
 
 type userUsecase struct {
+	userValidation validation.UserValidation
 	userRepository repository.UserRepository
 }
 
 // NewUserUsecase - UserUsecaseの生成
-func NewUserUsecase(ur repository.UserRepository) UserUsecase {
+func NewUserUsecase(uv validation.UserValidation, ur repository.UserRepository) UserUsecase {
 	return &userUsecase{
+		userValidation: uv,
 		userRepository: ur,
 	}
 }
 
 func (uu *userUsecase) Create(ctx context.Context, req request.CreateUser) error {
-	if err := validator.New().Struct(req); err != nil {
-		return err
+	if err := uu.userValidation.CreateUser(req); err != nil {
+		return err // TODO: エラーメッセージをレスポンスに
 	}
 
 	current := time.Now()

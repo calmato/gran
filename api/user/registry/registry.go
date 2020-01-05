@@ -2,6 +2,7 @@ package registry
 
 import (
 	"github.com/16francs/gran/api/user/internal/application/usecase"
+	"github.com/16francs/gran/api/user/internal/application/validation"
 	"github.com/16francs/gran/api/user/internal/infrastructure/persistence"
 	v1 "github.com/16francs/gran/api/user/internal/interface/handler/v1"
 	"github.com/16francs/gran/api/user/lib/firebase/authentication"
@@ -32,8 +33,9 @@ func v1HealthInjection() v1.APIV1HealthHandler {
 }
 
 func v1UserInjection(fa authentication.Auth, fs firestore.Firestore) v1.APIV1UserHandler {
+	uv := validation.NewUserValidation()
 	up := persistence.NewUserPersistence(fa, fs)
-	uu := usecase.NewUserUsecase(up)
+	uu := usecase.NewUserUsecase(uv, up)
 	uh := v1.NewAPIV1UserHandler(uu)
 
 	return uh

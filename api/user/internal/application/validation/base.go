@@ -14,20 +14,25 @@ var (
 	passwordRegex = regexp.MustCompile(passwordString)
 )
 
-// Validator - バリデーション用の構造体
-type Validator struct {
+// customValidator - バリデーション用の構造体
+type customValidator struct {
 	validate *validator.Validate
 }
 
-// NewValidator - Validatorの生成
-func NewValidator() *Validator {
+// NewCustomValidator - Validatorの生成
+func NewCustomValidator() *customValidator {
 	validate := validator.New()
 
 	validate.RegisterValidation("password", func(fl validator.FieldLevel) bool {
 		return passwordRegex.MatchString(fl.Field().String())
 	})
 
-	return &Validator{
+	return &customValidator{
 		validate: validate,
 	}
+}
+
+// Run - バリデーションの実行
+func (v *customValidator) Run(i interface{}) error {
+	return v.validate.Struct(i)
 }
