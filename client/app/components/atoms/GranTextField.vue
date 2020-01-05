@@ -35,8 +35,8 @@ export default Vue.extend({
       default: ''
     },
     rules: {
-      type: String,
-      default: ''
+      type: Object,
+      default: () => {}
     },
     type: {
       type: String,
