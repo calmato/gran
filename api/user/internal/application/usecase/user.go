@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/go-playground/validator/v10"
+
 	"github.com/16francs/gran/api/user/internal/application/request"
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
@@ -26,7 +28,9 @@ func NewUserUsecase(ur repository.UserRepository) UserUsecase {
 }
 
 func (uu *userUsecase) Create(ctx context.Context, req request.CreateUser) error {
-	// TODO: validation check
+	if err := validator.New().Struct(req); err != nil {
+		return err
+	}
 
 	current := time.Now()
 	u := &domain.User{
@@ -35,6 +39,8 @@ func (uu *userUsecase) Create(ctx context.Context, req request.CreateUser) error
 		CreatedAt: current,
 		UpdatedAt: current,
 	}
+
+	// TODO: ユニークチェック
 
 	if err := uu.userRepository.Create(ctx, u); err != nil {
 		return err
