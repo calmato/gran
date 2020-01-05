@@ -6,6 +6,7 @@ import (
 
 	"github.com/16francs/gran/api/user/config"
 	"github.com/16francs/gran/api/user/lib/firebase"
+	"github.com/16francs/gran/api/user/lib/firebase/authentication"
 	"github.com/16francs/gran/api/user/lib/firebase/firestore"
 	"github.com/16francs/gran/api/user/registry"
 	"google.golang.org/api/option"
@@ -32,6 +33,12 @@ func main() {
 		panic(err)
 	}
 
+	// Firebase Authentication
+	fa, err := authentication.NewClient(ctx, fb.App)
+	if err != nil {
+		panic(err)
+	}
+
 	// Firestore
 	fs, err := firestore.NewClient(ctx, fb.App)
 	if err != nil {
@@ -39,7 +46,7 @@ func main() {
 	}
 	defer fs.Close()
 
-	reg := registry.NewRegistry(fb, fs)
+	reg := registry.NewRegistry(fa, fs)
 
 	// サーバ起動
 	r := config.Router(reg)
