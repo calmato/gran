@@ -9,7 +9,7 @@
 import Vue from 'vue'
 import GranLoginCard from '~/components/organisms/GranLoginCard.vue'
 import GranLoginAlert from '~/components/molecules/GranLoginAlert.vue'
-import { ILoginForm } from '~/types/form/'
+import { ILoginForm } from '~/types/form'
 
 export default Vue.extend({
   components: {
