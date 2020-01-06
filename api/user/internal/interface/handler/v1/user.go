@@ -31,7 +31,7 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	if err := uh.userApplication.Create(ctx, req); err != nil {
+	if err := uh.userApplication.Create(ctx, &req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{}) // TODO: エラーハンドラ作成
 		return
 	}

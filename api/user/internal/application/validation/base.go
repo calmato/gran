@@ -9,9 +9,8 @@ type RequestValidator interface {
 	Run(i interface{}) error
 }
 
-// requestValidator - バリデーション用の構造体
 type requestValidator struct {
-	validate *validator.Validate
+	validate validator.Validate
 }
 
 // NewRequestValidator - Validatorの生成
@@ -19,7 +18,7 @@ func NewRequestValidator() RequestValidator {
 	validate := validator.New()
 
 	return &requestValidator{
-		validate: validate,
+		validate: *validate,
 	}
 }
 

@@ -13,7 +13,9 @@ type userDomainValidation struct {
 func NewUserDomainValidation() dv.UserDomainValidation {
 	v := NewDomainValidator()
 
-	return &userDomainValidation{v}
+	return &userDomainValidation{
+		validator: v,
+	}
 }
 
 func (udv *userDomainValidation) User(u *domain.User) error {

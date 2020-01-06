@@ -12,7 +12,7 @@ import (
 
 // UserApplication - UserApplicationインターフェース
 type UserApplication interface {
-	Create(ctx context.Context, req request.CreateUser) error
+	Create(ctx context.Context, req *request.CreateUser) error
 }
 
 type userApplication struct {
@@ -28,7 +28,7 @@ func NewUserApplication(urv validation.UserRequestValidation, us service.UserSer
 	}
 }
 
-func (ua *userApplication) Create(ctx context.Context, req request.CreateUser) error {
+func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) error {
 	if err := ua.userRequestValidation.CreateUser(req); err != nil {
 		return err // TODO: エラーメッセージをレスポンスに
 	}
@@ -41,7 +41,7 @@ func (ua *userApplication) Create(ctx context.Context, req request.CreateUser) e
 		UpdatedAt: current,
 	}
 
-	if err := ua.userService.Create(ctx, *u); err != nil {
+	if err := ua.userService.Create(ctx, u); err != nil {
 		return err
 	}
 

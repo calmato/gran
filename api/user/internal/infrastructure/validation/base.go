@@ -19,9 +19,8 @@ type DomainValidator interface {
 	Run(i interface{}) error
 }
 
-// domainValidator - バリデーション用の構造体
 type domainValidator struct {
-	validate *validator.Validate
+	validate validator.Validate
 }
 
 // NewDomainValidator - Validatorの生成
@@ -33,7 +32,7 @@ func NewDomainValidator() DomainValidator {
 	}
 
 	return &domainValidator{
-		validate: validate,
+		validate: *validate,
 	}
 }
 
