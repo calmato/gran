@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"golang.org/x/xerrors"
+
 	"github.com/16francs/gran/api/user/internal/application/request"
 	"github.com/16francs/gran/api/user/internal/application/validation"
 	"github.com/16francs/gran/api/user/internal/domain"
@@ -30,7 +32,7 @@ func NewUserApplication(urv validation.UserRequestValidation, us service.UserSer
 
 func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) error {
 	if err := ua.userRequestValidation.CreateUser(req); err != nil {
-		return err // TODO: エラーメッセージをレスポンスに
+		return xerrors.Errorf("Failed to Application/RequestValidation: %w", err)
 	}
 
 	current := time.Now()
@@ -42,7 +44,7 @@ func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) 
 	}
 
 	if err := ua.userService.Create(ctx, u); err != nil {
-		return err
+		return xerrors.Errorf("Failed to Application/Service: %w", err)
 	}
 
 	return nil
