@@ -3,8 +3,6 @@ package persistence
 import (
 	"context"
 
-	"golang.org/x/xerrors"
-
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
 	"github.com/16francs/gran/api/user/lib/firebase/authentication"
@@ -30,13 +28,13 @@ func NewUserPersistence(fa *authentication.Auth, fs *firestore.Firestore) reposi
 func (r *userPersistence) Create(ctx context.Context, u *domain.User) error {
 	uid, err := createUserInAuth(ctx, r.auth, u)
 	if err != nil {
-		return xerrors.Errorf("Failed to UserPersistence/Create: %w", err)
+		return err
 	}
 
 	u.ID = uid
 
 	if err = setInFirestore(ctx, r.firestore, u); err != nil {
-		return xerrors.Errorf("Failed to UserPersistence/Create: %w", err)
+		return err
 	}
 
 	return nil
