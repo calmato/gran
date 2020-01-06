@@ -41,7 +41,7 @@ func (r *userPersistence) Create(ctx context.Context, u *domain.User) error {
 }
 
 func (r *userPersistence) GetUIDByEmail(ctx context.Context, email string) (string, error) {
-	uid, err := r.auth.GetUIDByEmail(ctx, email)
+	uid, err := getUIDByEmailInAuth(ctx, r.auth, email)
 	if err != nil {
 		return "", err
 	}

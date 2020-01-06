@@ -3,6 +3,8 @@ package validation
 import (
 	"context"
 
+	"golang.org/x/xerrors"
+
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
 	dv "github.com/16francs/gran/api/user/internal/domain/validation"
@@ -38,8 +40,9 @@ func (udv *userDomainValidation) User(ctx context.Context, u *domain.User) error
 }
 
 func uniqueCheckEmail(ctx context.Context, ur repository.UserRepository, email string) error {
-	if _, err := ur.GetUIDByEmail(ctx, email); err != nil {
-		return err
+	uid, _ := ur.GetUIDByEmail(ctx, email)
+	if uid != "" {
+		return xerrors.New("Email is not unique.")
 	}
 
 	return nil
