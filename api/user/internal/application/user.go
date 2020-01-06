@@ -7,7 +7,7 @@ import (
 	"github.com/16francs/gran/api/user/internal/application/request"
 	"github.com/16francs/gran/api/user/internal/application/validation"
 	"github.com/16francs/gran/api/user/internal/domain"
-	"github.com/16francs/gran/api/user/internal/domain/repository"
+	"github.com/16francs/gran/api/user/internal/domain/service"
 )
 
 // UserApplication - UserApplicationインターフェース
@@ -17,14 +17,14 @@ type UserApplication interface {
 
 type userApplication struct {
 	userRequestValidation validation.UserRequestValidation
-	userRepository        repository.UserRepository
+	userService           service.UserService
 }
 
 // NewUserApplication - UserApplicationの生成
-func NewUserApplication(urv validation.UserRequestValidation, ur repository.UserRepository) UserApplication {
+func NewUserApplication(urv validation.UserRequestValidation, us service.UserService) UserApplication {
 	return &userApplication{
 		userRequestValidation: urv,
-		userRepository:        ur,
+		userService:           us,
 	}
 }
 
@@ -41,9 +41,7 @@ func (ua *userApplication) Create(ctx context.Context, req request.CreateUser) e
 		UpdatedAt: current,
 	}
 
-	// TODO: ユニークチェック
-
-	if err := ua.userRepository.Create(ctx, u); err != nil {
+	if err := ua.userService.Create(ctx, *u); err != nil {
 		return err
 	}
 
