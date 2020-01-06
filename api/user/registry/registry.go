@@ -20,7 +20,7 @@ type Registry struct {
 // NewRegistry - internalディレクトリのファイルを読み込み
 func NewRegistry(fa *authentication.Auth, fs *firestore.Firestore) *Registry {
 	v1Health := v1HealthInjection()
-	v1User := v1UserInjection(*fa, *fs)
+	v1User := v1UserInjection(fa, fs)
 
 	return &Registry{
 		V1User:   v1User,
@@ -34,9 +34,9 @@ func v1HealthInjection() v1.APIV1HealthHandler {
 	return hh
 }
 
-func v1UserInjection(fa authentication.Auth, fs firestore.Firestore) v1.APIV1UserHandler {
-	udv := dv.NewUserDomainValidation()
+func v1UserInjection(fa *authentication.Auth, fs *firestore.Firestore) v1.APIV1UserHandler {
 	up := persistence.NewUserPersistence(fa, fs)
+	udv := dv.NewUserDomainValidation(up)
 	us := service.NewUserService(udv, up)
 	urv := rv.NewUserRequestValidation()
 	uu := application.NewUserApplication(urv, us)

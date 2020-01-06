@@ -12,15 +12,15 @@ import (
 )
 
 type userPersistence struct {
-	auth      authentication.Auth
-	firestore firestore.Firestore
+	auth      *authentication.Auth
+	firestore *firestore.Firestore
 }
 
 // UserCollection - UserCollection名
 const UserCollection = "users"
 
 // NewUserPersistence - UserRepositoryの生成
-func NewUserPersistence(fa authentication.Auth, fs firestore.Firestore) repository.UserRepository {
+func NewUserPersistence(fa *authentication.Auth, fs *firestore.Firestore) repository.UserRepository {
 	return &userPersistence{
 		auth:      fa,
 		firestore: fs,
@@ -51,14 +51,14 @@ func (r *userPersistence) GetUIDByEmail(ctx context.Context, email string) (stri
 	return uid, nil
 }
 
-func getUIDByEmailInAuth(ctx context.Context, fa authentication.Auth, email string) (string, error) {
+func getUIDByEmailInAuth(ctx context.Context, fa *authentication.Auth, email string) (string, error) {
 	return fa.GetUIDByEmail(ctx, email)
 }
 
-func createUserInAuth(ctx context.Context, fa authentication.Auth, u *domain.User) (string, error) {
+func createUserInAuth(ctx context.Context, fa *authentication.Auth, u *domain.User) (string, error) {
 	return fa.CreateUser(ctx, u.Email, u.Password)
 }
 
-func setInFirestore(ctx context.Context, fs firestore.Firestore, u *domain.User) error {
+func setInFirestore(ctx context.Context, fs *firestore.Firestore, u *domain.User) error {
 	return fs.Set(ctx, UserCollection, u.ID, u)
 }
