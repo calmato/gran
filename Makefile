@@ -13,9 +13,9 @@ setup:
 
 .PHONY: install
 install:
-	docker-compose run client yarn
-	docker-compose run storybook yarn
-	docker-compose run user_api make setup
+	docker-compose run --rm client yarn
+	docker-compose run --rm storybook yarn
+	docker-compose run --rm user_api make setup
 
 .PHONY: start
 start:
@@ -117,4 +117,3 @@ user-api-test:
 .PHONY: user-api-build
 user-api-build:
 	cd ${USER_API_DIR}; make build
-
