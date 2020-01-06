@@ -30,7 +30,7 @@ func NewUserService(udv validation.UserDomainValidation, ur repository.UserRepos
 }
 
 func (us *userService) Create(ctx context.Context, u *domain.User) error {
-	if err := us.userDomainValidation.User(u); err != nil {
+	if err := us.userDomainValidation.User(ctx, u); err != nil {
 		return xerrors.Errorf("Failed to UserService/Create: %w", err)
 	}
 
