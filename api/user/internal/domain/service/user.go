@@ -31,11 +31,13 @@ func NewUserService(udv validation.UserDomainValidation, ur repository.UserRepos
 
 func (us *userService) Create(ctx context.Context, u *domain.User) error {
 	if err := us.userDomainValidation.User(ctx, u); err != nil {
-		return xerrors.Errorf("Failed to Domain/DomainValidation: %w", err)
+		err = xerrors.Errorf("Failed to Domain/DomainValidation: %w", err)
+		return domain.InvalidDomainValidation.New(err)
 	}
 
 	if err := us.userRepository.Create(ctx, u); err != nil {
-		return xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.Unknown.New(err)
 	}
 
 	return nil

@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/16francs/gran/api/user/internal/application"
@@ -32,7 +33,8 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 	}
 
 	if err := uh.userApplication.Create(ctx, &req); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{}) // TODO: エラーハンドラ作成
+		log.Printf("error: test %v", err)
+		ctx.JSON(http.StatusBadRequest, err) // TODO: エラーハンドラ作成
 		return
 	}
 

@@ -32,7 +32,8 @@ func NewUserApplication(urv validation.UserRequestValidation, us service.UserSer
 
 func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) error {
 	if err := ua.userRequestValidation.CreateUser(req); err != nil {
-		return xerrors.Errorf("Failed to Application/RequestValidation: %w", err)
+		err = xerrors.Errorf("Failed to Application/RequestValidation: %w", err)
+		return domain.InvalidRequestValidation.New(err)
 	}
 
 	current := time.Now()
@@ -44,7 +45,7 @@ func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) 
 	}
 
 	if err := ua.userService.Create(ctx, u); err != nil {
-		return xerrors.Errorf("Failed to Application/Service: %w", err)
+		return err
 	}
 
 	return nil
