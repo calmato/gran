@@ -4,6 +4,7 @@ import (
 	"github.com/16francs/gran/api/user/internal/application"
 	"github.com/16francs/gran/api/user/internal/application/validation"
 	"github.com/16francs/gran/api/user/internal/infrastructure/persistence"
+	"github.com/16francs/gran/api/user/internal/interface/handler"
 	v1 "github.com/16francs/gran/api/user/internal/interface/handler/v1"
 	"github.com/16francs/gran/api/user/lib/firebase/authentication"
 	"github.com/16francs/gran/api/user/lib/firebase/firestore"
@@ -11,7 +12,7 @@ import (
 
 // Registry - DIコンテナ
 type Registry struct {
-	V1Health v1.APIV1HealthHandler
+	V1Health handler.APIV1HealthHandler
 	V1User   v1.APIV1UserHandler
 }
 
@@ -26,8 +27,8 @@ func NewRegistry(fa *authentication.Auth, fs *firestore.Firestore) *Registry {
 	}
 }
 
-func v1HealthInjection() v1.APIV1HealthHandler {
-	hh := v1.NewAPIV1HealthHandler()
+func v1HealthInjection() handler.APIV1HealthHandler {
+	hh := handler.NewAPIV1HealthHandler()
 
 	return hh
 }
