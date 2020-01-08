@@ -1,42 +1,44 @@
 package v1
 
 import (
-	"net/http"
-
-	"github.com/16francs/gran/api/user/internal/application/response"
+	"log"
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/16francs/gran/api/user/internal/application/response"
 	"github.com/16francs/gran/api/user/internal/domain"
 )
 
 // ErrorHandling - エラーレスポンスを返す
 func ErrorHandling(ctx *gin.Context, err error) {
-	res := &response.ErrorResponse{
-		StatusCode:  statusCode(err),
-		ErrorCode:   errorCode(err),
-		Message:     "",
-		Description: "",
-	}
+	res := errorResponse(err)
 
 	ctx.JSON(res.StatusCode, res)
 	ctx.Abort()
 }
 
-// statusCode - HTTPのステータスコードを取得
-func statusCode(err error) int {
+// errorResponse - エラー用のレスポンスを返す
+func errorResponse(err error) *response.ErrorResponse {
+	res := &response.ErrorResponse{}
+
 	switch errorCode(err) {
 	case domain.InvalidDomainValidation:
-		return http.StatusBadRequest // 400
+		res = response.BadRequest
+		res.Description = "" // TODO: バリデーションエラーの結果入れる
 	case domain.InvalidRequestValidation:
-		return http.StatusBadRequest // 400
+		res = response.BadRequest
+		res.Description = "" // TODO: バリデーションエラーの結果入れる
 	case domain.Unauthorized:
-		return http.StatusUnauthorized // 401
+		res = response.Unauthorized
 	case domain.Forbidden:
-		return http.StatusForbidden // 403
+		res = response.Forbidden
 	default:
-		return http.StatusInternalServerError // 500
+		log.Printf("error Internal Server Error: %v", err.Error())
+		res = response.InternalServerError
 	}
+
+	res.ErrorCode = errorCode(err)
+	return res
 }
 
 // errorCode - ErrorCodeを持つ場合はそれを返し、無ければUnknownを返す
