@@ -21,6 +21,6 @@ func NewAPIV1HealthHandler() APIV1HealthHandler {
 }
 
 // HealthCheck - ヘルスチェック
-func (h *apiV1HealthHandler) HealthCheck(ctx *gin.Context) {
+func (hh *apiV1HealthHandler) HealthCheck(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"status": "ok"})
 }

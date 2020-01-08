@@ -15,7 +15,6 @@ linters:
     - gofmt
     - goimports
     - golint
-    - gosec
     - gosimple
     - govet
     - ineffassign
@@ -38,6 +37,7 @@ linters:
   # - gochecknoglobals
   # - gocognit
   # - godox
+  # - gosec
   # - maligned
   # - prealloc
 
