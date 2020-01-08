@@ -13,6 +13,7 @@ import (
 
 	"github.com/16francs/gran/api/sample/internal/application"
 	"github.com/16francs/gran/api/sample/internal/application/request"
+	"github.com/16francs/gran/api/sample/internal/interface/handler"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,12 +36,12 @@ func NewAPIV1SampleHandler(ua application.SampleApplication) APIV1SampleHandler 
 func (sh *apiV1SampleHandler) Create(ctx *gin.Context) {
 	req := request.CreateSample{}
 	if err := ctx.BindJSON(&req); err != nil {
-		ErrorHandling(ctx, err)
+		hanlder.ErrorHandling(ctx, err)
 		return
 	}
 
 	if err := uh.sampleApplication.Create(ctx, &req); err != nil {
-		ErrorHandling(ctx, err)
+		hanlder.ErrorHandling(ctx, err)
 		return
 	}
 
