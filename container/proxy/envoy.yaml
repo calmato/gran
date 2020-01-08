@@ -77,4 +77,4 @@ static_resources:
           unhealthy_threshold: 3
           healthy_threshold: 3
           http_health_check:
-            path: "/v1/"
+            path: "/health"
