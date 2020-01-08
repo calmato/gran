@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/16francs/gran/api/user/internal/application"
@@ -28,13 +27,12 @@ func NewAPIV1UserHandler(ua application.UserApplication) APIV1UserHandler {
 func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 	req := request.CreateUser{}
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{}) // TODO: エラーハンドラ作成
+		ErrorHandling(ctx, err)
 		return
 	}
 
 	if err := uh.userApplication.Create(ctx, &req); err != nil {
-		log.Printf("error: test %v", err)
-		ctx.JSON(http.StatusBadRequest, err) // TODO: エラーハンドラ作成
+		ErrorHandling(ctx, err)
 		return
 	}
 

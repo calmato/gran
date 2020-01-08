@@ -3,21 +3,28 @@ package v1
 import (
 	"net/http"
 
+	"github.com/16francs/gran/api/user/internal/application/response"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/16francs/gran/api/user/internal/domain"
 )
 
-func ErrorHandling(ctx *gin.Çontext, err error) {
-	ctx.JSON(http.StatusForbidden, gin.H{
-		"status":      http.StatusText(http.StatusForbidden),
-		"description": "認証エラーです．",
-	})
+// ErrorHandling - エラーレスポンスを返す
+func ErrorHandling(ctx *gin.Context, err error) {
+	res := &response.ErrorResponse{
+		StatusCode:  statusCode(err),
+		ErrorCode:   errorCode(err),
+		Message:     "",
+		Description: "",
+	}
 
+	ctx.JSON(res.StatusCode, res)
 	ctx.Abort()
 }
 
-func statusCode(err error) uint {
+// statusCode - HTTPのステータスコードを取得
+func statusCode(err error) int {
 	switch errorCode(err) {
 	case domain.InvalidDomainValidation:
 		return http.StatusBadRequest // 400

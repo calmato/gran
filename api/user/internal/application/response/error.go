@@ -6,7 +6,7 @@ import (
 
 // ErrorResponse - エラーのレスポンス
 type ErrorResponse struct {
-	StatusCode  uint             `json:"statusCode"`
+	StatusCode  int              `json:"statusCode"`
 	ErrorCode   domain.ErrorCode `json:"errorCode"`
 	Message     string           `json:"message"`
 	Description interface{}      `json:"description"`
