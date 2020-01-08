@@ -19,7 +19,7 @@ func ErrorHandling(ctx *gin.Context, err error) {
 
 // errorResponse - エラー用のレスポンスを返す
 func errorResponse(err error) *response.ErrorResponse {
-	res := &response.ErrorResponse{}
+	var res *response.ErrorResponse
 
 	switch errorCode(err) {
 	case domain.InvalidDomainValidation:
