@@ -3,7 +3,7 @@ module github.com/16francs/gran/api/user
 go 1.13
 
 require (
-	cloud.google.com/go/firestore v1.1.0
+	cloud.google.com/go/firestore v1.1.1
 	cloud.google.com/go/storage v1.4.0 // indirect
 	firebase.google.com/go v3.11.1+incompatible
 	github.com/comail/colog v0.0.0-20160416085026-fba8e7b1f46c
