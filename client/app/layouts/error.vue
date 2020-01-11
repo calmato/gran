@@ -1,14 +1,15 @@
 <template>
-  <v-app dark>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
-    <h1 v-else>
-      {{ otherError }}
-    </h1>
-    <NuxtLink to="/">
-      Home page
-    </NuxtLink>
+  <v-app>
+    <v-content>
+      <v-container>
+        <v-layout column align-center>
+          <h1>Internal Server Error</h1>
+          <v-img src="/error-500.png" />
+
+          <v-btn @click="handleClick">ホームへ戻る</v-btn>
+        </v-layout>
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
@@ -18,29 +19,10 @@ import Vue from 'vue'
 export default Vue.extend({
   layout: 'empty',
 
-  props: {
-    error: {
-      type: Object,
-      default: null
-    }
-  },
-
-  data: () => ({
-    pageNotFound: '404 Not Found',
-    otherError: 'An error occurred'
-  }),
-
-  head() {
-    const title = this.error.statusCode === 404 ? this.pageNotFound : this.otherError
-    return {
-      title
+  methods: {
+    handleClick() {
+      this.$router.push('/')
     }
   }
 })
 </script>
-
-<style scoped>
-h1 {
-  font-size: 20px;
-}
-</style>
