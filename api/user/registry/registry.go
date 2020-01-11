@@ -7,7 +7,7 @@ import (
 	"github.com/16francs/gran/api/user/internal/infrastructure/persistence"
 	dv "github.com/16francs/gran/api/user/internal/infrastructure/validation"
 	"github.com/16francs/gran/api/user/internal/interface/handler"
-	"github.com/16francs/gran/api/user/internal/interface/handler/v1"
+	v1 "github.com/16francs/gran/api/user/internal/interface/handler/v1"
 	"github.com/16francs/gran/api/user/lib/firebase/authentication"
 	"github.com/16francs/gran/api/user/lib/firebase/firestore"
 )
