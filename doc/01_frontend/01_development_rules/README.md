@@ -1,4 +1,4 @@
-# Backend
+# Frontend
 
 ## 採用技術
 
