@@ -1,21 +1,6 @@
 version: '3.7'
 
 services:
-  storybook:
-    container_name: gran_storybook
-    build: ./container/storybook
-    working_dir: /storybook
-    volumes:
-      - ./storybook:/storybook:cached
-      - ./client:/client:cached
-    ports:
-      - 6006:6006
-    tty: true
-    stdin_open: true
-    environment:
-      - CLIENT_PATH=${CLIENT_PATH}
-    command: yarn storybook
-
   client:
     container_name: gran_client
     build: ./container/client
@@ -52,3 +37,26 @@ services:
       - PORT=8080
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
     command: realize start
+
+  storybook:
+    container_name: gran_storybook
+    build: ./container/storybook
+    working_dir: /storybook
+    volumes:
+      - ./storybook:/storybook:cached
+      - ./client:/client:cached
+    ports:
+      - 6006:6006
+    tty: true
+    stdin_open: true
+    environment:
+      - CLIENT_PATH=${CLIENT_PATH}
+    command: yarn storybook
+
+  swagger:
+    container_name: gran_swagger
+    build: ./container/swagger
+    ports:
+      - 8000:8080
+    tty: true
+    stdin_open: true
