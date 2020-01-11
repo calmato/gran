@@ -1,0 +1,93 @@
+openapi: '3.0.0'
+
+info:
+  title: gran
+  description: User Servie API設計
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:8080/v1/users
+    description: 開発環境
+
+paths:
+  /:
+    post:
+      summary: ユーザ登録
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUser'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+components:
+  schemas:
+    Error:
+      title: エラーレスポンス
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          description: HTTPステータスコード
+        errorCode:
+          type: integer
+          description: エラー管理用ステータスコード
+        message:
+          type: string
+          description: エラーメッセージ
+        description:
+          type: object
+          description: エラー詳細
+
+  requestBodies:
+    CreateUser:
+      description: ユーザ登録フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+                description: Eメール
+              password:
+                type: string
+                description: パスワード
+              passwordConfirmation:
+                type: string
+                description: パスワード(確認用)
+            required:
+              - email
+              - password
+              - passwordConfirmation
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unkown:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
