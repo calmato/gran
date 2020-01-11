@@ -23,10 +23,11 @@
 
 ## その他
 
-* マイクロサービス化の粒度
-  * [User Service](https://github.com/16francs/gran/tree/master/doc/02_backend/02_user_api)
+### マイクロサービス化の粒度
 
-* ディレクトリ構成
+* [User Service](https://github.com/16francs/gran/tree/master/doc/02_backend/02_user_api)
+
+### ディレクトリ構成
 
 ```sh
 sample_service
