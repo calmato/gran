@@ -1,15 +1,14 @@
 <template>
-  <gran-sign-up />
+  <gran-sign-up-card />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import GranSignUp from '~/components/templates/GranSignUp.vue'
+import GranSignUpCard from '~/components/organisms/GranSignUpCard.vue'
 
 export default Vue.extend({
-  layout: 'auth',
   components: {
-    GranSignUp
+    GranSignUpCard
   }
 })
 </script>
