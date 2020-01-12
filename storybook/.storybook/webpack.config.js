@@ -19,6 +19,10 @@ module.exports = {
               appendTsSuffixTo: [/\.vue$/],
               transpileOnly: true
             }
+          },
+          {
+            loader: require.resolve('@storybook/source-loader'),
+            options: { parser: 'typescript' },
           }
         ]
       },
@@ -46,7 +50,7 @@ module.exports = {
             },
           },
         ],
-      },
+      }
     ]
   },
 
