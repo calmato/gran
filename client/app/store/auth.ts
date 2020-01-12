@@ -28,6 +28,28 @@ export const mutations = {
 }
 
 export const actions = {
+  authentication({ commit, dispatch }): Promise<void> {
+    return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
+      this.$firebase.auth().onAuthStateChanged(async (res: any) => {
+        if (res) {
+          const user: IUser = {
+            uid: res.uid,
+            email: res.email,
+            creationTime: res.metadata.creationTime,
+            lastSignInTime: res.metadata.lastSignInTime
+          }
+
+          await dispatch('setIdToken')
+          commit('setUser', user)
+          commit('setEmailVerified', res.emailVerified)
+          resolve()
+        } else {
+          reject(new Error())
+        }
+      })
+    })
+  },
+
   async setIdToken({ commit }) {
     await this.$firebase
       .auth()
@@ -40,20 +62,12 @@ export const actions = {
       })
   },
 
-  loginWithEmailAndPassword({ commit, dispatch }, form: ILoginForm): Promise<void> {
+  loginWithEmailAndPassword({ dispatch }, form: ILoginForm): Promise<void> {
     return this.$firebase
       .auth()
       .signInWithEmailAndPassword(form.email, form.password)
-      .then(async (auth: any) => {
-        const user: IUser = {
-          uid: auth.user.uid,
-          email: auth.user.email,
-          creationTime: auth.user.metadata.creationTime,
-          lastSignInTime: auth.user.metadata.lastSignInTime
-        }
-        await dispatch('setIdToken')
-        commit('setUser', user)
-        commit('setEmailVerified', auth.user.emailVerified)
+      .then(() => {
+        dispatch('authentication')
         return Promise.resolve()
       })
       .catch((error: any) => {

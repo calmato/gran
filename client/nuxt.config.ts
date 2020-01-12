@@ -18,6 +18,9 @@ const configuration: Configuration = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   loading: { color: '#fff' },
+  router: {
+    middleware: ['authentication']
+  },
   plugins: [
     '~/plugins/firebase',
     '~/plugins/persisted-state',
