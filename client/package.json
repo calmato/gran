@@ -22,13 +22,13 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.3.6",
-    "@nuxtjs/axios": "^5.9.2",
+    "@nuxtjs/axios": "^5.9.3",
     "firebase": "^7.6.2",
     "nuxt": "^2.0.0",
     "vee-validate": "^3.2.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-0",
+    "@babel/core": "^7.8.0",
     "@nuxt/typescript-build": "^0.5.5",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
@@ -44,7 +44,7 @@
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-nuxt": ">=0.4.2",
     "eslint-plugin-prettier": "^3.0.1",
-    "husky": "^4.0.6",
+    "husky": "^4.0.7",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.16.4",
