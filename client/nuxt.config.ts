@@ -4,6 +4,9 @@ const configuration: Configuration = {
   mode: 'spa',
   srcDir: 'app',
   head: {
+    htmlAttrs: {
+      lang: 'ja'
+    },
     titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
     meta: [
