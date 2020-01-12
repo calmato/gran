@@ -51,6 +51,10 @@ static_resources:
 
                       routes:
                         - match:
+                          prefix: "/v1/users"
+                          route:
+                            cluster: user_service
+                        - match:
                             prefix: "/v1/users/"
                           route:
                             cluster: user_service
