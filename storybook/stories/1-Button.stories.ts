@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions'
-import { boolean } from '@storybook/addon-knobs'
+import { text, boolean } from '@storybook/addon-knobs'
 
 import { VBtn } from 'vuetify/lib'
 
@@ -16,21 +16,41 @@ export const granButton = () => ({
   },
 
   props: {
+    color: {
+      default: text('Color', 'primary')
+    },
     block: {
       default: boolean('Block', false)
     },
+    dark: {
+      default: boolean('Dark', false)
+    },
+    outlined: {
+      default: boolean('Outlined', false)
+    }
   },
 
   template: `
-    <div>
-      <gran-button color="primary" :block="block" @click="action">Primary</gran-button>
-      <gran-button color="secondary" :block="block" @@click="action">Secondary</gran-button>
-      <gran-button color="accent" :block="block" @click="action">Accent</gran-button>
-      <gran-button color="error" :block="block" @click="action">Error</gran-button>
-      <gran-button color="info" :block="block" @click="action">Info</gran-button>
-      <gran-button color="success" :block="block" @click="action">Success</gran-button>
-      <gran-button color="warning" :block="block" @click="action">Warning</gran-button>
-    </div>
+<div>
+  <gran-button
+    :color="color"
+    :block="block"
+    :dark="dark"
+    :outlined="outlined"
+    @click="action"
+  >
+    デフォルト
+  </gran-button>
+  <div>
+    <gran-button color="primary">Primary</gran-button>
+    <gran-button color="secondary">Secondary</gran-button>
+    <gran-button color="accent">Accent</gran-button>
+    <gran-button color="error">Error</gran-button>
+    <gran-button color="info">Info</gran-button>
+    <gran-button color="success">Success</gran-button>
+    <gran-button color="warning">Warning</gran-button>
+  </div>
+</div>
   `,
 
   methods: {
