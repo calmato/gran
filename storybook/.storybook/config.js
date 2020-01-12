@@ -1,9 +1,5 @@
 import { configure, addDecorator } from '@storybook/vue'
 import { withKnobs } from '@storybook/addon-knobs'
-
-// automatically import all files ending in *.stories.js, *.stories.ts
-configure(require.context('./../stories', true, /\.stories\.(js|ts)$/), module)
-
 import Vue from 'vue'
 import Vuetify, { VApp, VContent } from 'vuetify/lib'
 import colors from 'vuetify/lib/util/colors'
@@ -39,3 +35,5 @@ addDecorator(() => ({
 
   template: '<v-app><v-content><story/></v-content></v-app>'
 }))
+
+configure(require.context('./../stories', true, /\.stories\.(js|ts)$/), module)
