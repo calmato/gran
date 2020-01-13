@@ -25,6 +25,7 @@ const configuration: Configuration = {
     middleware: ['authentication']
   },
   plugins: [
+    '~/plugins/axios',
     '~/plugins/firebase',
     '~/plugins/persisted-state',
     '~/plugins/vee-validate',
