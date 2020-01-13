@@ -14,6 +14,7 @@ import (
 // UserService - UserServiceインターフェース
 type UserService interface {
 	Create(ctx context.Context, u *domain.User) error
+	CreateGroup(ctx context.Context, u *domain.Group) error
 }
 
 type userService struct {
@@ -40,5 +41,9 @@ func (us *userService) Create(ctx context.Context, u *domain.User) error {
 		return domain.Unknown.New(err)
 	}
 
+	return nil
+}
+
+func (us *userService) CreateGroup(ctx context.Context, g *domain.Group) error {
 	return nil
 }
