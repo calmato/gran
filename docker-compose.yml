@@ -12,6 +12,7 @@ services:
     tty: true
     stdin_open: true
     environment:
+      - API_URL=${API_URL}
       - FIREBASE_API_KEY=${FIREBASE_API_KEY}
       - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
       - FIREBASE_MESSAGING_SENDER_ID=${FIREBASE_MESSAGING_SENDER_ID}
