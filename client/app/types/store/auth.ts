@@ -1,4 +1,6 @@
 export interface IUserStore {
+  emailVerified: boolean
+  token: string
   user: IUser
 }
 

@@ -4,6 +4,9 @@ const configuration: Configuration = {
   mode: 'spa',
   srcDir: 'app',
   head: {
+    htmlAttrs: {
+      lang: 'ja'
+    },
     titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
     meta: [
@@ -18,7 +21,15 @@ const configuration: Configuration = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   loading: { color: '#fff' },
-  plugins: ['~/plugins/firebase', '~/plugins/vee-validate.ts', '~/plugins/vuetify.ts'],
+  router: {
+    middleware: ['authentication']
+  },
+  plugins: [
+    '~/plugins/firebase',
+    '~/plugins/persisted-state',
+    '~/plugins/vee-validate',
+    '~/plugins/vuetify'
+  ],
   buildModules: [
     '@nuxt/typescript-build',
     '@nuxtjs/eslint-module',

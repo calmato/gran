@@ -3,8 +3,6 @@ package firebase
 import (
 	"context"
 
-	"golang.org/x/xerrors"
-
 	firebase "firebase.google.com/go"
 	"google.golang.org/api/option"
 )
@@ -18,7 +16,7 @@ type Firebase struct {
 func InitializeApp(ctx context.Context, config *firebase.Config, opts ...option.ClientOption) (*Firebase, error) {
 	app, err := firebase.NewApp(ctx, config, opts...)
 	if err != nil {
-		return nil, xerrors.Errorf("Failed to InitializeApp: %w", err)
+		return nil, err
 	}
 
 	return &Firebase{app}, nil

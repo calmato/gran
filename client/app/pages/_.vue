@@ -3,8 +3,8 @@
     <v-content>
       <v-container>
         <v-layout column align-center>
-          <h1>Internal Server Error</h1>
-          <v-img src="/error-500.png" />
+          <h1>404 Not Found</h1>
+          <v-img src="/error-404.png" />
 
           <v-btn @click="handleClick">ホームへ戻る</v-btn>
         </v-layout>

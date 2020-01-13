@@ -3,8 +3,6 @@ package firestore
 import (
 	"context"
 
-	"golang.org/x/xerrors"
-
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 )
@@ -25,7 +23,7 @@ type Query struct {
 func NewClient(ctx context.Context, app *firebase.App) (*Firestore, error) {
 	client, err := app.Firestore(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("Failed to NewFirestore: %w", err)
+		return nil, err
 	}
 
 	return &Firestore{client}, nil

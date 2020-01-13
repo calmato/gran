@@ -11,9 +11,7 @@ type APIV1HealthHandler interface {
 	HealthCheck(ctx *gin.Context)
 }
 
-// apiV1HealthHandler - APIV1HealthCheckハンドラ
-type apiV1HealthHandler struct {
-}
+type apiV1HealthHandler struct{}
 
 // NewAPIV1HealthHandler - apiV1HealthHandlerの生成
 func NewAPIV1HealthHandler() APIV1HealthHandler {
