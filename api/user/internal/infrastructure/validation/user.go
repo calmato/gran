@@ -39,6 +39,10 @@ func (udv *userDomainValidation) User(ctx context.Context, u *domain.User) error
 	return nil
 }
 
+func (udv *userDomainValidation) Group(ctx context.Context, g *domain.Group) error {
+	return udv.validator.Run(g)
+}
+
 func uniqueCheckEmail(ctx context.Context, ur repository.UserRepository, email string) error {
 	uid, _ := ur.GetUIDByEmail(ctx, email)
 	if uid != "" {

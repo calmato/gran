@@ -7,6 +7,7 @@ import (
 	"github.com/16francs/gran/api/user/internal/application/request"
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/interface/handler"
+	"github.com/16francs/gran/api/user/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -49,7 +50,8 @@ func (uh *apiV1UserHandler) CreateGroup(ctx *gin.Context) {
 		return
 	}
 
-	if err := uh.userApplication.CreateGroup(ctx, &req); err != nil {
+	c := middleware.GinContextToContext(ctx)
+	if err := uh.userApplication.CreateGroup(c, &req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}

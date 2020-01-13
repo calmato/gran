@@ -24,16 +24,20 @@ func errorResponse(err error) *response.ErrorResponse {
 	switch errorCode(err) {
 	case domain.InvalidDomainValidation:
 		res = response.BadRequest
+		log.Printf("info: BadRequest: %v", err.Error())
 		res.Description = "" // TODO: バリデーションエラーの結果入れる
 	case domain.InvalidRequestValidation:
 		res = response.BadRequest
+		log.Printf("info: BadRequest: %v", err.Error())
 		res.Description = "" // TODO: バリデーションエラーの結果入れる
 	case domain.Unauthorized:
+		log.Printf("info: Unauthorized: %v", err.Error())
 		res = response.Unauthorized
 	case domain.Forbidden:
+		log.Printf("info: Forbidden: %v", err.Error())
 		res = response.Forbidden
 	default:
-		log.Printf("error Internal Server Error: %v", err.Error())
+		log.Printf("error: Internal Server Error: %v", err.Error())
 		res = response.InternalServerError
 	}
 
