@@ -1,1 +1,1 @@
-export * from './gran-sign-up-card'
+export * from './GranLinkList'
