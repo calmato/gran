@@ -1,4 +1,4 @@
-const noRequiredAuthorizationPath: Array<string> = ['/signin']
+const noRequiredAuthorizationPath: Array<string> = ['/signin', '/signup', '/forget']
 
 export default ({ route, store, redirect }) => {
   // 認証が不要の path の場合
