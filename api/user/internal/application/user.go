@@ -15,6 +15,7 @@ import (
 // UserApplication - UserApplicationインターフェース
 type UserApplication interface {
 	Create(ctx context.Context, req *request.CreateUser) error
+	CreateGroup(ctx context.Context, req *request.CreateGroup) error
 }
 
 type userApplication struct {
@@ -48,5 +49,9 @@ func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) 
 		return err
 	}
 
+	return nil
+}
+
+func (ua *userApplication) CreateGroup(ctx context.Context, req *request.CreateGroup) error {
 	return nil
 }

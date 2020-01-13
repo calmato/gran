@@ -12,6 +12,7 @@ import (
 // APIV1UserHandler - Userハンドラのインターフェース
 type APIV1UserHandler interface {
 	Create(ctx *gin.Context)
+	CreateGroup(ctx *gin.Context)
 }
 
 type apiV1UserHandler struct {
@@ -33,6 +34,24 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 	}
 
 	if err := uh.userApplication.Create(ctx, &req); err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{})
+}
+
+func (uh *apiV1UserHandler) CreateGroup(ctx *gin.Context) {
+	// TODO: 認証情報の取得
+
+	req := request.CreateGroup{}
+	if err := ctx.BindJSON(&req); err != nil {
+		// TODO: エラー処理
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+
+	if err := uh.userApplication.CreateGroup(ctx, &req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
