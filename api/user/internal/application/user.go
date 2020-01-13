@@ -53,8 +53,10 @@ func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) 
 }
 
 func (ua *userApplication) CreateGroup(ctx context.Context, req *request.CreateGroup) error {
-	// TODO: 認証処理
-	u := &domain.User{}
+	u, err := ua.userService.Authentication(ctx)
+	if err != nil {
+		return err
+	}
 
 	if err := ua.userRequestValidation.CreateGroup(req); err != nil {
 		err = xerrors.Errorf("Failed to Application/RequestValidation: %w", err)
