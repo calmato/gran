@@ -24,6 +24,8 @@ const opts = {
   }
 }
 
+configure(require.context('./../stories', true, /\.stories\.(js|ts)$/), module)
+
 addDecorator(withKnobs)
 addDecorator(() => ({
   vuetify: new Vuetify(opts),
@@ -35,5 +37,3 @@ addDecorator(() => ({
 
   template: '<v-app><v-content><story/></v-content></v-app>'
 }))
-
-configure(require.context('./../stories', true, /\.stories\.(js|ts)$/), module)
