@@ -13,9 +13,7 @@ export default Vue.extend({
     GranSignUp
   },
   methods: {
-    signUp(signUpForm: ISignUpForm) {
-      console.log(signUpForm)
-    }
+    signUp(_: ISignUpForm) {}
   }
 })
 </script>
