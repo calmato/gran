@@ -13,3 +13,11 @@ type User struct {
 	UpdatedAt    time.Time `firestore:"updated_at"`
 	Groups       []Group   `firestore:"groups"`
 }
+
+// Group - Groupエンティティ
+type Group struct {
+	Name        string    `firestore:"name"`
+	Description string    `firestore:"description"`
+	CreatedAt   time.Time `firestore:"created_at"`
+	UpdatedAt   time.Time `firestore:"updated_at"`
+}
