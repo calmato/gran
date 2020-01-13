@@ -2,7 +2,7 @@
   <gran-card>
     <gran-card-text>
       <gran-sign-up-form @login="login" />
-      <gran-link-list />
+      <gran-link-list :link-list="linkList" />
     </gran-card-text>
   </gran-card>
 </template>
@@ -14,6 +14,7 @@ import GranCardText from '~/components/atoms/GranCardText.vue'
 import GranSignUpForm from '~/components/molecules/GranSignUpForm.vue'
 import GranLinkList from '~/components/organisms/GranLinkList.vue'
 import { ISignUpForm } from '~/types/form'
+import { ILink } from '~/types/props'
 
 export default Vue.extend({
   components: {
@@ -22,6 +23,14 @@ export default Vue.extend({
     GranLinkList,
     GranSignUpForm
   },
+  data: () => ({
+    linkList: [
+      {
+        href: '/signin',
+        title: 'ログインへ'
+      }
+    ] as Array<ILink>
+  }),
   methods: {
     login(loginForm: ISignUpForm) {
       this.$emit('login', loginForm)
