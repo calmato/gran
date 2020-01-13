@@ -15,7 +15,7 @@ import (
 // UserApplication - UserApplicationインターフェース
 type UserApplication interface {
 	Create(ctx context.Context, req *request.CreateUser) error
-	CreateGroup(ctx context.Context, req *request.CreateGroup) error
+	CreateGroup(ctx context.Context, u *domain.User, req *request.CreateGroup) error
 }
 
 type userApplication struct {
@@ -52,6 +52,23 @@ func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) 
 	return nil
 }
 
-func (ua *userApplication) CreateGroup(ctx context.Context, req *request.CreateGroup) error {
+func (ua *userApplication) CreateGroup(ctx context.Context, u *domain.User, req *request.CreateGroup) error {
+	if err := ua.userRequestValidation.CreateGroup(req); err != nil {
+		err = xerrors.Errorf("Failed to Application/RequestValidation: %w", err)
+		return domain.InvalidRequestValidation.New(err)
+	}
+
+	current := time.Now()
+	g := &domain.Group{
+		Name:        req.Name,
+		Description: req.Description,
+		CreatedAt:   current,
+		UpdatedAt:   current,
+	}
+
+	if err := ua.userService.CreateGroup(ctx, u, g); err != nil {
+		return err
+	}
+
 	return nil
 }

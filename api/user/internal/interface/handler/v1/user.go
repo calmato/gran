@@ -5,6 +5,7 @@ import (
 
 	"github.com/16francs/gran/api/user/internal/application"
 	"github.com/16francs/gran/api/user/internal/application/request"
+	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/interface/handler"
 	"github.com/gin-gonic/gin"
 )
@@ -43,6 +44,7 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 
 func (uh *apiV1UserHandler) CreateGroup(ctx *gin.Context) {
 	// TODO: 認証情報の取得
+	u := &domain.User{}
 
 	req := request.CreateGroup{}
 	if err := ctx.BindJSON(&req); err != nil {
@@ -51,7 +53,7 @@ func (uh *apiV1UserHandler) CreateGroup(ctx *gin.Context) {
 		return
 	}
 
-	if err := uh.userApplication.CreateGroup(ctx, &req); err != nil {
+	if err := uh.userApplication.CreateGroup(ctx, u, &req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}

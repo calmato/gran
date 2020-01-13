@@ -14,7 +14,7 @@ import (
 // UserService - UserServiceインターフェース
 type UserService interface {
 	Create(ctx context.Context, u *domain.User) error
-	CreateGroup(ctx context.Context, u *domain.Group) error
+	CreateGroup(ctx context.Context, u *domain.User, g *domain.Group) error
 }
 
 type userService struct {
@@ -44,6 +44,18 @@ func (us *userService) Create(ctx context.Context, u *domain.User) error {
 	return nil
 }
 
-func (us *userService) CreateGroup(ctx context.Context, g *domain.Group) error {
+func (us *userService) CreateGroup(ctx context.Context, u *domain.User, g *domain.Group) error {
+	if err := us.userDomainValidation.Group(ctx, g); err != nil {
+		err = xerrors.Errorf("Failed to Domain/DomainValidation: %w", err)
+		return domain.InvalidDomainValidation.New(err)
+	}
+
+	u.Groups = append(u.Groups, *g)
+
+	if err := us.userRepository.CreateGroup(ctx, u); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.Unknown.New(err)
+	}
+
 	return nil
 }
