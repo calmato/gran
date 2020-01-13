@@ -43,17 +43,13 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 }
 
 func (uh *apiV1UserHandler) CreateGroup(ctx *gin.Context) {
-	// TODO: 認証情報の取得
-	u := &domain.User{}
-
 	req := request.CreateGroup{}
 	if err := ctx.BindJSON(&req); err != nil {
-		// TODO: エラー処理
-		handler.ErrorHandling(ctx, err)
+		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
 		return
 	}
 
-	if err := uh.userApplication.CreateGroup(ctx, u, &req); err != nil {
+	if err := uh.userApplication.CreateGroup(ctx, &req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
