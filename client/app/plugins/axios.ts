@@ -16,7 +16,7 @@ export default function({ $axios, store, redirect }) {
     if (err.response.status === 401) {
       // TODO: ログアウト
 
-      redirect('/signup')
+      redirect('/signin')
     }
   })
 }
