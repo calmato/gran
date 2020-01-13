@@ -21,3 +21,11 @@ services:
       - PORT=8080
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
     command: realize start
+
+  swagger:
+    container_name: gran_swagger
+    build: ./container/swagger
+    ports:
+      - 8000:8080
+    tty: true
+    stdin_open: true
