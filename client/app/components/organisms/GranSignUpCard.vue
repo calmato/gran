@@ -1,7 +1,7 @@
 <template>
   <gran-card>
     <gran-card-text>
-      <gran-sign-up-form @login="login" />
+      <gran-sign-up-form @signUp="signUp" />
       <gran-link-list :link-list="linkList" />
     </gran-card-text>
   </gran-card>
@@ -32,11 +32,8 @@ export default Vue.extend({
     ] as Array<ILink>
   }),
   methods: {
-    login(loginForm: ISignUpForm) {
-      this.$emit('login', loginForm)
-    },
-    loginWithGoogle() {
-      this.$emit('loginWithGoogle')
+    signUp(signUpForm: ISignUpForm) {
+      this.$emit('signUp', signUpForm)
     }
   }
 })
