@@ -12,7 +12,7 @@ export default Vue.extend({
   components: {
     GranLogin
   },
-  layout: 'auth',
+  layout: 'header',
   data: () => ({
     isError: false
   }),
@@ -21,7 +21,7 @@ export default Vue.extend({
     async login(loginForm: ILoginForm) {
       await this.loginWithEmailAndPassword(loginForm)
         .then(() => {
-          this.$router.push('/inspire') // 仮のルーティング
+          this.$router.push('/') // 仮のルーティング
         })
         .catch(() => {
           this.isError = true
