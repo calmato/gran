@@ -12,7 +12,7 @@ export default Vue.extend({
   components: {
     GranLogin
   },
-  layout: 'header',
+  layout: 'auth',
   data: () => ({
     isError: false
   }),
