@@ -30,6 +30,7 @@
         <v-toolbar-title>Gran</v-toolbar-title>
       </div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <nuxt />
     </v-app-bar>
   </v-app>
 </template>
