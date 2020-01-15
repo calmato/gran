@@ -21,7 +21,7 @@ export default Vue.extend({
     async login(loginForm: ILoginForm) {
       await this.loginWithEmailAndPassword(loginForm)
         .then(() => {
-          this.$router.push('/inspire') // 仮のルーティング
+          this.$router.push('/') // 仮のルーティング
         })
         .catch(() => {
           this.isError = true
