@@ -1,5 +1,5 @@
 <template>
-  <gran-sign-up @signUp="signUpA" />
+  <gran-sign-up :is-error="isError" :message="message" @signUp="doSignUp" @close="close" />
 </template>
 
 <script lang="ts">
@@ -14,12 +14,24 @@ export default Vue.extend({
   components: {
     GranSignUp
   },
+  data: () => ({
+    isError: false,
+    message: ''
+  }),
   methods: {
     ...mapActions('auth', ['signUp']),
     async doSignUp(signUpForm: ISignUpForm): Promise<void> {
       await this.signUp(signUpForm)
-        .then(() => {})
-        .catch(() => {})
+        .then(() => {
+          this.$router.push('/') // 仮のルーティング
+        })
+        .catch((error) => {
+          this.isError = true
+          this.message = error.message
+        })
+    },
+    close() {
+      this.isError = false
     }
   }
 })
