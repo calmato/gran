@@ -8,8 +8,16 @@
   * ボード
   * parent - group
   * collection - lists
+* board_lists
+  * ボードリスト
+  * parent - boards
+  * reference - tasks
 * check_lists
   * チェックリスト
+  * parent - task
+  * reference - user_ref
+* comments
+  * タスクのコメント
   * parent - task
   * reference - user_ref
 * groups
@@ -17,13 +25,10 @@
   * root
   * collection - boards
   * reference - user_refs
-* lists
-  * ボードリスト
-  * parent - boards
 * tasks
   * タスク
   * root
-  * collection - check_lists
+  * collection - check_lists, comments
   * reference - list_ref, user_ref
 * users
   * ユーザ

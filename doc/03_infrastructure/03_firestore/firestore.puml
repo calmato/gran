@@ -40,7 +40,7 @@ entity "Board" {
   Lists: []List (SubCollection)
 }
 
-entity "List" {
+entity "BoardList" {
   Firestore Listエンティティ
   ==
   + ID (Firebase 上の UID): string [Key]
@@ -58,6 +58,7 @@ entity "Task" {
   Description: string
   Deadline: Time
   Tags: []string
+  BoardListRef: BoardList (Reference)
   UserRefs: []User (Reference)
   CheckLists: []CheckList (SubCollection)
   Comments: []Comment (SubCollecition)
@@ -84,11 +85,11 @@ entity "Comment" {
 
 ' --- Relation --- '
 "Firebase Authentication" ||--|| User
-Board ||--|{ List
+Board ||--|{ BoardList
+BoardList ||--|{ Task
 Group ||--|{ Board
 Group }|--|{ User
 Task ||--|{ CheckList
-List ||--|{ Task
 Task }|--|{ User
 Task ||--|{ Comment
 User ||--|{ CheckList
