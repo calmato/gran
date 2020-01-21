@@ -20,7 +20,7 @@ func Router(reg *registry.Registry) *gin.Engine {
 	apiV1 := r.Group("/v1/users")
 	{
 		apiV1.POST("", reg.V1User.Create)
-		apiV1.POST("/group", reg.V1User.CreateGroup)
+		apiV1.POST("/group", reg.V1Group.Create)
 	}
 
 	return r

@@ -24,7 +24,7 @@ type groupApplication struct {
 }
 
 // NewGroupApplication - GroupApplicationの生成
-func NewGroupApplication(grv validation.GroupRequestValidation, gs service.GroupService) GroupApplication {
+func NewGroupApplication(grv validation.GroupRequestValidation, gs service.GroupService, us service.UserService) GroupApplication {
 	return &groupApplication{
 		groupRequestValidation: grv,
 		groupService:           gs,
