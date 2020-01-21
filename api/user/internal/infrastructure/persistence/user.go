@@ -19,13 +19,6 @@ type userPersistence struct {
 	firestore *firestore.Firestore
 }
 
-const (
-	// UserCollection - UserCollection名
-	UserCollection = "users"
-	// GroupCollection - GroupCollection名
-	GroupCollection = "group"
-)
-
 // NewUserPersistence - UserRepositoryの生成
 func NewUserPersistence(fa *authentication.Auth, fs *firestore.Firestore) repository.UserRepository {
 	return &userPersistence{
@@ -85,10 +78,6 @@ func (r *userPersistence) GetUIDByEmail(ctx context.Context, email string) (stri
 	return uid, nil
 }
 
-func (r *userPersistence) CreateGroup(ctx context.Context, u *domain.User) error {
-	return nil
-}
-
 func getToken(ctx context.Context) (string, error) {
 	gc, err := middleware.GinContextFromContext(ctx)
 	if err != nil {
@@ -104,7 +93,6 @@ func getToken(ctx context.Context) (string, error) {
 	return t, nil
 }
 
-// TODO: リファクタ
 func getUIDByEmailInAuth(ctx context.Context, fa *authentication.Auth, email string) (string, error) {
 	return fa.GetUIDByEmail(ctx, email)
 }
