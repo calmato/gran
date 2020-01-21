@@ -1,4 +1,4 @@
-import { ILoginForm } from '../types/form/auth/login'
+import { ILoginForm } from '~/types/form/auth/login'
 import { IUserStore, IUser } from '~/types/store/auth'
 import { ISignUpForm } from '~/types/form'
 
@@ -83,7 +83,9 @@ export const actions = {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       this.$axios
         .post('/v1/users', {
-          params: form
+          email: form.email.value,
+          password: form.password.value,
+          passwordConfirmation: form.passwordConfirmation.value
         })
         .then(() => {
           resolve()
