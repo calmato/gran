@@ -1,6 +1,5 @@
-import { ILoginForm } from '~/types/form/auth/login'
+import { ILoginForm, ISignUpForm } from '~/types/form'
 import { IUserStore, IUser } from '~/types/store/auth'
-import { ISignUpForm } from '~/types/form'
 
 export const state = (): IUserStore => ({
   emailVerified: false,
