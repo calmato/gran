@@ -5,16 +5,13 @@ import (
 
 	"github.com/16francs/gran/api/user/internal/application"
 	"github.com/16francs/gran/api/user/internal/application/request"
-	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/interface/handler"
-	"github.com/16francs/gran/api/user/middleware"
 	"github.com/gin-gonic/gin"
 )
 
 // APIV1UserHandler - Userハンドラのインターフェース
 type APIV1UserHandler interface {
 	Create(ctx *gin.Context)
-	CreateGroup(ctx *gin.Context)
 }
 
 type apiV1UserHandler struct {
@@ -36,22 +33,6 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 	}
 
 	if err := uh.userApplication.Create(ctx, &req); err != nil {
-		handler.ErrorHandling(ctx, err)
-		return
-	}
-
-	ctx.JSON(http.StatusOK, gin.H{})
-}
-
-func (uh *apiV1UserHandler) CreateGroup(ctx *gin.Context) {
-	req := request.CreateGroup{}
-	if err := ctx.BindJSON(&req); err != nil {
-		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
-		return
-	}
-
-	c := middleware.GinContextToContext(ctx)
-	if err := uh.userApplication.CreateGroup(c, &req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
