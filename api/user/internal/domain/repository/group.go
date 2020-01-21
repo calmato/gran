@@ -8,5 +8,5 @@ import (
 
 // GroupRepository - GroupRepositoryインターフェース
 type GroupRepository interface {
-	CreateGroup(ctx context.Context, u *domain.User, g *domain.Group) error
+	Create(ctx context.Context, u *domain.User, g *domain.Group) error
 }
