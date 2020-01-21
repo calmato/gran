@@ -25,6 +25,7 @@ const configuration: Configuration = {
     middleware: ['authentication']
   },
   plugins: [
+    '~/plugins/axios',
     '~/plugins/firebase',
     '~/plugins/persisted-state',
     '~/plugins/vee-validate',
@@ -43,6 +44,7 @@ const configuration: Configuration = {
     }
   },
   env: {
+    apiURL: process.env.API_URL!,
     firebaseApiKey: process.env.FIREBASE_API_KEY!,
     firebaseProjectId: process.env.FIREBASE_PROJECT_ID!,
     firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID!

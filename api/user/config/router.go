@@ -11,6 +11,9 @@ func Router(reg *registry.Registry) *gin.Engine {
 	// ルーティング
 	r := gin.Default()
 
+	// Corsの設定
+	r.Use(SetCors())
+
 	r.GET("/health", reg.V1Health.HealthCheck)
 
 	// api v1 routes
