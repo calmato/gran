@@ -1,4 +1,4 @@
-import { ILoginForm } from '../types/form/auth/login'
+import { ILoginForm, ISignUpForm } from '~/types/form'
 import { IUserStore, IUser } from '~/types/store/auth'
 
 export const state = (): IUserStore => ({
@@ -76,5 +76,22 @@ export const actions = {
       .catch((error: any) => {
         return Promise.reject(error)
       })
+  },
+
+  signUp({ _ }, form: ISignUpForm): Promise<void> {
+    return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
+      this.$axios
+        .post('/v1/users', {
+          email: form.email.value,
+          password: form.password.value,
+          passwordConfirmation: form.passwordConfirmation.value
+        })
+        .then(() => {
+          resolve()
+        })
+        .catch((err: any) => {
+          reject(new Error(err))
+        })
+    })
   }
 }
