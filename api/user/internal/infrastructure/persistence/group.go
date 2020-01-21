@@ -17,12 +17,7 @@ type groupPersistence struct {
 func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
 	g.UserRefs = append(g.UserRefs, getUserCollection(u.ID))
 
-	_, err := gp.fs.Add(ctx, GroupCollection, g)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return gp.firestore.Add(ctx, GroupCollection, g)
 }
 
 func getUserCollection(userID string) string {
