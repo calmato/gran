@@ -1,7 +1,9 @@
+import { IStringForm } from '../utils/form'
+
 export interface ISignUpForm {
-  email: any
-  password: any
-  passwordConfirmation: any
+  email: IStringForm
+  password: IStringForm
+  passwordConfirmation: IStringForm
 }
 
 interface ISignUpFormValidate {
