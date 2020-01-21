@@ -14,7 +14,7 @@
     "@babel/core": "^7.8.3",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-links": "^5.2.8",
-    "@storybook/addons": "^5.3.3",
+    "@storybook/addons": "^5.3.8",
     "@storybook/vue": "^5.2.8",
     "@typescript-eslint/parser": "^2.15.0",
     "babel-loader": "^8.0.6",
