@@ -1540,16 +1540,16 @@
     consola "^2.11.0"
     stylelint-webpack-plugin "^1.1.1"
 
-"@nuxtjs/vuetify@^1.0.0":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/vuetify/-/vuetify-1.9.1.tgz#8c802ebac8c5fd576e110d9e7760e860db2811c0"
-  integrity sha512-CzzPKh53XThrcIGGzN1Jh3sailNyDnkJHYCNxJrP8ZIMapScbyUw6sQ4TzcN7aOrG6+4wg/34vUDkS/HUkbdnA==
+"@nuxtjs/vuetify@^1.10.2":
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/vuetify/-/vuetify-1.10.2.tgz#79d1f35ad76aa412985c4e83593e5d33a11b65ad"
+  integrity sha512-C8bCvk5UBAZVRlF+L2XhZPO790VZiXJcqZcbwf2Pa2QAgfE6H01tAQe9AnFEThpQADoAEGT8QoIaPciz0cFhFA==
   dependencies:
     deepmerge "^4.2.2"
     fibers "^4.0.2"
-    sass "^1.23.7"
-    sass-loader "^8.0.0"
-    vuetify "^2.1.13"
+    sass "^1.24.5"
+    sass-loader "^8.0.2"
+    vuetify "^2.2.4"
     vuetify-loader "^1.4.3"
 
 "@nuxtjs/youch@^4.2.3":
@@ -10272,7 +10272,7 @@ sane@^4.0.3:
     minimist "^1.1.1"
     walker "~1.0.5"
 
-sass-loader@^8.0.0:
+sass-loader@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-8.0.2.tgz#debecd8c3ce243c76454f2e8290482150380090d"
   integrity sha512-7o4dbSK8/Ol2KflEmSco4jTjQoV988bM82P9CZdmo9hR3RLnvNc0ufMNdMrB0caq38JQ/FgF4/7RcbcfKzxoFQ==
@@ -10283,10 +10283,10 @@ sass-loader@^8.0.0:
     schema-utils "^2.6.1"
     semver "^6.3.0"
 
-sass@^1.23.7:
-  version "1.24.4"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.24.4.tgz#aa50575a9ed2b9e9645b5599156fd149bdad9eaa"
-  integrity sha512-SqizkIEEcVPzmK1tYdlNRl/RSXMEwGcifL9GD+S2p9rEPdj6ycRbk4PWZs0jwlajNSyBPo/SXRB81i22SG0jmw==
+sass@^1.24.5:
+  version "1.24.5"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.24.5.tgz#7fecab3c4db486c584fecb1a79fbc156e52c6c44"
+  integrity sha512-vVtXAVGAcR2ZSwxi8poB1+sj8yQo6GfB1gNHeBRJtxpT7JqN8uXWpJorC1yGQN8ScBbcccGENwyfEwIBGudV3w==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
@@ -11880,10 +11880,10 @@ vuetify-loader@^1.4.3:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^2.1.13:
-  version "2.1.18"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.1.18.tgz#da8ac88dfd641f0b9e0766e9a46338dd7b546689"
-  integrity sha512-hpBwY3Lb/GcHCNYFuLmPYSwX+naBpr3RatLSXLGCXvAoJTwtvs+Ru7gpwZMn+O6gLASi7a0yFbhX6OH4tmbrXA==
+vuetify@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.4.tgz#3f82cb1694a306aac7c88bda815ad812df555bf9"
+  integrity sha512-jhSdCeatWgHrY4Bb2FTi1sFfGDrVHLmkvI7pkG9FEF9TmZ+Qq7Ts85XAft9ucwU8ybB5nDmN6s+oeHJgvL+4tA==
 
 vuex-persistedstate@^2.7.0:
   version "2.7.0"
