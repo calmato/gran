@@ -28,6 +28,7 @@ func NewGroupApplication(grv validation.GroupRequestValidation, gs service.Group
 	return &groupApplication{
 		groupRequestValidation: grv,
 		groupService:           gs,
+		userService:            us,
 	}
 }
 
