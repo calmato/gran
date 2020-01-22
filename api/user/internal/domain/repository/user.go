@@ -9,4 +9,5 @@ import (
 // UserRepository - UserRepositoryインターフェース
 type UserRepository interface {
 	Create(ctx context.Context, u *domain.User) error
+	GetUIDByEmail(ctx context.Context, email string) (string, error)
 }

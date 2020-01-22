@@ -21,7 +21,16 @@ const configuration: Configuration = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   loading: { color: '#fff' },
-  plugins: ['~/plugins/firebase', '~/plugins/vee-validate.ts', '~/plugins/vuetify.ts'],
+  router: {
+    middleware: ['authentication']
+  },
+  plugins: [
+    '~/plugins/axios',
+    '~/plugins/firebase',
+    '~/plugins/persisted-state',
+    '~/plugins/vee-validate',
+    '~/plugins/vuetify'
+  ],
   buildModules: [
     '@nuxt/typescript-build',
     '@nuxtjs/eslint-module',
@@ -35,6 +44,7 @@ const configuration: Configuration = {
     }
   },
   env: {
+    apiURL: process.env.API_URL!,
     firebaseApiKey: process.env.FIREBASE_API_KEY!,
     firebaseProjectId: process.env.FIREBASE_PROJECT_ID!,
     firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID!

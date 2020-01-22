@@ -4,33 +4,36 @@ import (
 	"context"
 	"time"
 
+	"golang.org/x/xerrors"
+
 	"github.com/16francs/gran/api/user/internal/application/request"
 	"github.com/16francs/gran/api/user/internal/application/validation"
 	"github.com/16francs/gran/api/user/internal/domain"
-	"github.com/16francs/gran/api/user/internal/domain/repository"
+	"github.com/16francs/gran/api/user/internal/domain/service"
 )
 
 // UserApplication - UserApplicationインターフェース
 type UserApplication interface {
-	Create(ctx context.Context, req request.CreateUser) error
+	Create(ctx context.Context, req *request.CreateUser) error
 }
 
 type userApplication struct {
-	userValidation validation.UserValidation
-	userRepository repository.UserRepository
+	userRequestValidation validation.UserRequestValidation
+	userService           service.UserService
 }
 
 // NewUserApplication - UserApplicationの生成
-func NewUserApplication(uv validation.UserValidation, ur repository.UserRepository) UserApplication {
+func NewUserApplication(urv validation.UserRequestValidation, us service.UserService) UserApplication {
 	return &userApplication{
-		userValidation: uv,
-		userRepository: ur,
+		userRequestValidation: urv,
+		userService:           us,
 	}
 }
 
-func (ua *userApplication) Create(ctx context.Context, req request.CreateUser) error {
-	if err := ua.userValidation.CreateUser(req); err != nil {
-		return err // TODO: エラーメッセージをレスポンスに
+func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) error {
+	if err := ua.userRequestValidation.CreateUser(req); err != nil {
+		err = xerrors.Errorf("Failed to Application/RequestValidation: %w", err)
+		return domain.InvalidRequestValidation.New(err)
 	}
 
 	current := time.Now()
@@ -41,9 +44,7 @@ func (ua *userApplication) Create(ctx context.Context, req request.CreateUser) e
 		UpdatedAt: current,
 	}
 
-	// TODO: ユニークチェック
-
-	if err := ua.userRepository.Create(ctx, u); err != nil {
+	if err := ua.userService.Create(ctx, u); err != nil {
 		return err
 	}
 

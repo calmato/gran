@@ -3,8 +3,6 @@ package authentication
 import (
 	"context"
 
-	"golang.org/x/xerrors"
-
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 )
@@ -18,7 +16,7 @@ type Auth struct {
 func NewClient(ctx context.Context, app *firebase.App) (*Auth, error) {
 	client, err := app.Auth(ctx)
 	if err != nil {
-		return nil, xerrors.Errorf("Failed to NewAuthentication: %w", err)
+		return nil, err
 	}
 
 	return &Auth{client}, nil
