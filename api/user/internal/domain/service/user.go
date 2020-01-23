@@ -13,6 +13,7 @@ import (
 
 // UserService - UserServiceインターフェース
 type UserService interface {
+	Authentication(ctx context.Context) (*domain.User, error)
 	Create(ctx context.Context, u *domain.User) error
 }
 
@@ -27,6 +28,16 @@ func NewUserService(udv validation.UserDomainValidation, ur repository.UserRepos
 		userDomainValidation: udv,
 		userRepository:       ur,
 	}
+}
+
+func (us *userService) Authentication(ctx context.Context) (*domain.User, error) {
+	u, err := us.userRepository.Authentication(ctx)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.Unauthorized.New(err)
+	}
+
+	return u, nil
 }
 
 func (us *userService) Create(ctx context.Context, u *domain.User) error {

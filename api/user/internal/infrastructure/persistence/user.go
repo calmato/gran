@@ -2,6 +2,11 @@ package persistence
 
 import (
 	"context"
+	"strings"
+
+	"github.com/16francs/gran/api/user/middleware"
+
+	"golang.org/x/xerrors"
 
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
@@ -14,15 +19,39 @@ type userPersistence struct {
 	firestore *firestore.Firestore
 }
 
-// UserCollection - UserCollection名
-const UserCollection = "users"
-
 // NewUserPersistence - UserRepositoryの生成
 func NewUserPersistence(fa *authentication.Auth, fs *firestore.Firestore) repository.UserRepository {
 	return &userPersistence{
 		auth:      fa,
 		firestore: fs,
 	}
+}
+
+func (r *userPersistence) Authentication(ctx context.Context) (*domain.User, error) {
+	t, err := getToken(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	uid, err := r.auth.VerifyIDToken(ctx, t)
+	if err != nil {
+		return nil, err
+	}
+
+	doc, err := r.firestore.Client.Collection(UserCollection).Doc(uid).Get(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	u := &domain.User{}
+
+	// TODO: メソッド化
+	err = doc.DataTo(u)
+	if err != nil {
+		return nil, err
+	}
+
+	return u, nil
 }
 
 func (r *userPersistence) Create(ctx context.Context, u *domain.User) error {
@@ -47,6 +76,21 @@ func (r *userPersistence) GetUIDByEmail(ctx context.Context, email string) (stri
 	}
 
 	return uid, nil
+}
+
+func getToken(ctx context.Context) (string, error) {
+	gc, err := middleware.GinContextFromContext(ctx)
+	if err != nil {
+		return "", xerrors.New("Cannot convert to gin.Context")
+	}
+
+	a := gc.GetHeader("Authorization")
+	if a == "" {
+		return "", xerrors.New("Authorization Header is not contain.")
+	}
+
+	t := strings.Replace(a, "Bearer ", "", 1)
+	return t, nil
 }
 
 func getUIDByEmailInAuth(ctx context.Context, fa *authentication.Auth, email string) (string, error) {
