@@ -36,10 +36,6 @@ update_configs:
     version_requirement_updates: auto
     automerged_updates:
       - match:
-          dependency_type: all
-          update_type: semver:patch
-    automerged_updates:
-      - match:
           dependency_type: development
           update_type: semver:patch
       - match:
