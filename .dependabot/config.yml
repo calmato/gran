@@ -38,6 +38,13 @@ update_configs:
       - match:
           dependency_type: all
           update_type: semver:patch
+    automerged_updates:
+      - match:
+          dependency_type: development
+          update_type: semver:patch
+      - match:
+          dependency_type: production
+          update_type: semver:patch
     commit_message:
       prefix: chore
 
