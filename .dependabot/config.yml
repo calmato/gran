@@ -5,7 +5,7 @@ update_configs:
   - package_manager: javascript
     directory: /client
     update_schedule: live # npmライブラリに更新がかかったタイミングでプルリク
-    target_branch: master
+    target_branch: master # 開発中はとりあえずmaster
     default_labels:
       - client
       - javascript
@@ -14,6 +14,10 @@ update_configs:
       - match:
           update_type: all # 全てのライブラリの更新を許可
     version_requirement_updates: auto # package.jsonの更新は自動
+    automerged_updates:
+      - match:
+          dependency_type: all
+          update_type: semver:patch
     commit_message:
       prefix: chore
 
@@ -30,6 +34,10 @@ update_configs:
       - match:
           update_type: all
     version_requirement_updates: auto
+    automerged_updates:
+      - match:
+          dependency_type: all
+          update_type: semver:patch
     commit_message:
       prefix: chore
 
@@ -45,5 +53,9 @@ update_configs:
     allowed_updates:
       - match:
           update_type: all
+    automerged_updates:
+      - match:
+          dependency_type: all
+          update_type: semver:patch
     commit_message:
       prefix: chore
