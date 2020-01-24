@@ -1,8 +1,8 @@
-name: Client(Nuxt.js) Build and Test
+name: Storybook(TypeScript) Build and Test
 on:
   push:
     paths:
-      - 'client/**'
+      - 'storybook/**'
 
 jobs:
   build_and_test:
@@ -19,17 +19,13 @@ jobs:
           node-version: 12
 
       - name: Install
-        working-directory: ./client
+        working-directory: ./storybook
         run: yarn
 
       - name: Build
-        working-directory: ./client
-        run: yarn build
+        working-directory: ./storybook
+        run: yarn build-storybook
 
       - name: Lint
-        working-directory: ./client
+        working-directory: ./storybook
         run: yarn lint
-
-      - name: Test
-        working-directory: ./client
-        run: yarn test
