@@ -2,7 +2,10 @@ name: Client(Nuxt.js) Lighthouse
 on:
   pull_request:
     paths:
-    - 'client/**'
+      - 'client/**'
+    branches-ignore:
+      - 'dependabot/**'
+
 
 jobs:
   lighthouse:
