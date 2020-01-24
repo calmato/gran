@@ -2,11 +2,7 @@
   "ci": {
     "collect": {
       "numberOfRuns": 3,
-      "startServerCommand": "yarn start",
-      "url": [
-        "http://localhost:3000/",
-        "http://localhost:3000/signin"
-      ]
+      "startServerCommand": "yarn start"
     },
     "assert": {
       "preset": "lighthouse:recommended",
