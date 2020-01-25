@@ -21,4 +21,4 @@ jobs:
         uses: geertvdc/setup-hub@v1.0.0
 
       - name: Create Pull Request
-        run: hub pull-request -b master -m "feature: [Scheduled] Develop to Master"
+        run: hub pull-request -b master -m '[Scheduled] Develop to Master'
