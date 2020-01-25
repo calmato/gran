@@ -22,9 +22,10 @@ jobs:
         working-directory: ./storybook
         run: yarn
 
-      - name: Build
-        working-directory: ./storybook
-        run: yarn build-storybook
+      # TODO: buildのテスト
+      # - name: Build
+      #   working-directory: ./storybook
+      #   run: yarn build-storybook
 
       - name: Lint
         working-directory: ./storybook
