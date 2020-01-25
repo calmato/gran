@@ -5,7 +5,7 @@ update_configs:
   - package_manager: javascript
     directory: /client
     update_schedule: live # npmライブラリに更新がかかったタイミングでプルリク
-    target_branch: master # 開発中はとりあえずmaster
+    target_branch: develop
     default_labels:
       - client
       - javascript
@@ -25,7 +25,7 @@ update_configs:
   - package_manager: javascript
     directory: /storybook
     update_schedule: live
-    target_branch: master
+    target_branch: develop
     default_labels:
       - storybook
       - javascript
@@ -45,7 +45,7 @@ update_configs:
   - package_manager: go:modules
     directory: /api/user
     update_schedule: daily
-    target_branch: master
+    target_branch: develop
     default_labels:
       - "api: User"
       - golang
