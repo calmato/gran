@@ -1,5 +1,10 @@
 # Gran
 
+![](https://github.com/16francs/gran/workflows/Client(Nuxt.js)%20Build%20and%20Test/badge.svg)
+![](https://github.com/16francs/gran/workflows/Client(Nuxt.js)%20Lighthouse/badge.svg)  
+![](https://github.com/16francs/gran/workflows/Storybook(TypeScript)%20Build%20and%20Test/badge.svg)  
+![](https://github.com/16francs/gran/workflows/User%20API(Golang)%20Build%20and%20Test/badge.svg)
+
 ## タスク管理アプリ
 
 ## 初期設定
