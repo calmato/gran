@@ -5,6 +5,7 @@ import (
 
 	"github.com/16francs/gran/api/user/internal/application"
 	"github.com/16francs/gran/api/user/internal/application/request"
+	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/interface/handler"
 	"github.com/gin-gonic/gin"
 )
@@ -28,7 +29,7 @@ func NewAPIV1UserHandler(ua application.UserApplication) APIV1UserHandler {
 func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 	req := request.CreateUser{}
 	if err := ctx.BindJSON(&req); err != nil {
-		handler.ErrorHandling(ctx, err)
+		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
 		return
 	}
 
