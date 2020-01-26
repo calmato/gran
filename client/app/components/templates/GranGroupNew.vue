@@ -1,22 +1,31 @@
 <template>
   <div>
-    <gran-group-tab />
-    <gran-group-input-name />
-    <gran-group-field-name />
+    <gran-group-tab class="gran-group-tab" />
+    <gran-group-new-form @apply="apply" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import GranGroupTab from '~/components/templates/GranGroupTab.vue'
-import GranGroupInputName from '~/components/templates/GranGroupInputName.vue'
-import GranGroupFieldName from '~/components/templates/GranGroupFieldName.vue'
+import GranGroupNewForm from '~/components/molecules/GranGroupNewForm.vue'
 
 export default Vue.extend({
   components: {
     GranGroupTab,
-    GranGroupInputName,
-    GranGroupFieldName
+    GranGroupNewForm
+  },
+
+  methods: {
+    apply(groupNewForm) {
+      this.$emit('apply', groupNewForm)
+    }
   }
 })
 </script>
+
+<style scoped>
+.gran-group-tab {
+  margin-bottom: 32px;
+}
+</style>

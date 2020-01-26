@@ -1,5 +1,5 @@
 <template>
-  <gran-group-new />
+  <gran-group-new @apply="apply" />
 </template>
 
 <script lang="ts">
@@ -11,6 +11,12 @@ export default Vue.extend({
 
   components: {
     GranGroupNew
+  },
+
+  methods: {
+    apply(groupNewForm) {
+      console.log(groupNewForm)
+    }
   }
 })
 </script>
