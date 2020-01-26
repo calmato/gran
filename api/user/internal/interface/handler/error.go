@@ -24,31 +24,41 @@ func errorResponse(err error) *response.ErrorResponse {
 	switch errorCode(err) {
 	case domain.InvalidDomainValidation:
 		res = response.BadRequest
-		log.Printf("info: BadRequest: %v", err.Error())
 		res.Description = errorDetail(err)
+		logging("info", "BadRequest", err)
 	case domain.InvalidRequestValidation:
 		res = response.BadRequest
-		log.Printf("info: BadRequest: %v", err.Error())
 		res.Description = errorDetail(err)
+		logging("info", "BadRequest", err)
 	case domain.Unauthorized:
-		log.Printf("info: Unauthorized: %v", err.Error())
 		res = response.Unauthorized
+		logging("info", "Unauthorized", err)
 	case domain.Forbidden:
-		log.Printf("info: Forbidden: %v", err.Error())
 		res = response.Forbidden
+		logging("info", "Forbidden", err)
 	case domain.ErrorInDatastore:
-		log.Printf("error: Error in Datastore: %v", err.Error())
 		res = response.InternalServerError
+		logging("error", "Internal Server Error", err)
 	default:
-		log.Printf("error: Internal Server Error: %v", err.Error())
 		res = response.InternalServerError
+		logging("error", "Internal Server Error", err)
 	}
 
 	res.ErrorCode = errorCode(err)
 	return res
 }
 
-// errorCode - ErrorCodeを持つ場合はそれを返し、無ければUnknownを返す
+func logging(level string, message string, err error) {
+	log.Printf("%s: %s: %v", level, message, err.Error())
+
+	// バリデーションエラーの時、エラーレスポンスも出力
+	if ves := errorDetail(err); len(ves) > 0 {
+		for _, v := range ves {
+			log.Printf("debug: - %s ->%s", v.Field, v.Description)
+		}
+	}
+}
+
 func errorCode(err error) domain.ErrorCode {
 	if e, ok := err.(domain.ErrorCodeGetter); ok {
 		return e.Type()
@@ -57,10 +67,10 @@ func errorCode(err error) domain.ErrorCode {
 	return domain.Unknown
 }
 
-func errorDetail(err error) interface{} {
+func errorDetail(err error) []*domain.ValidationError {
 	if e, ok := err.(domain.ValidationErrorGetter); ok {
 		return e.Show()
 	}
 
-	return domain.Unknown
+	return make([]*domain.ValidationError, 0)
 }
