@@ -1,0 +1,98 @@
+@startuml firestore
+' --- Entity --- '
+entity "Firebase Authentication" {
+  Firebase Authenticationのデータ
+  ==
+  + ID（Firebase 上の UID): string [Key]
+  ==
+  Email: string [Unique]
+  Password: string
+}
+
+entity "User" {
+  Firestore Userエンティティ
+  ==
+  + ID (Firebase 上の UID): string [Key]
+  ==
+  Name: string
+  Email: string [Unique]
+  ThumbnailURL: string
+  Groups: []Group (Reference)
+}
+
+entity "Group" {
+  Firestore Groupエンティティ
+  ==
+  + ID (Firebase 上の UID): string [Key]
+  ==
+  Name: string
+  Description: string
+  UserRefs: []User (Reference)
+  Boards: []Board (SubCollection)
+}
+
+entity "Board" {
+  Firestore Boardエンティティ
+  ==
+  + ID (Firebase 上の UID): string [Key]
+  ==
+  Name: string
+  Lists: []List (SubCollection)
+}
+
+entity "BoardList" {
+  Firestore Listエンティティ
+  ==
+  + ID (Firebase 上の UID): string [Key]
+  ==
+  Name: string
+  TaskRefs: []Task (Reference)
+}
+
+entity "Task" {
+  Firestore Taskエンティティ
+  ==
+  + ID (Firebase 上の UID): string [Key]
+  ==
+  Name: string
+  Description: string
+  Deadline: Time
+  Tags: []string
+  BoardListRef: BoardList (Reference)
+  UserRefs: []User (Reference)
+  CheckLists: []CheckList (SubCollection)
+  Comments: []Comment (SubCollecition)
+}
+
+entity "CheckList" {
+  Firestore CheckListエンティティ
+  ==
+  + ID (Firebase 上の UID): string [Key]
+  ==
+  Name: string
+  Deadline: Time
+  UserRefs: []User (Reference)
+}
+
+entity "Comment" {
+  Firestore Commentエンティティ
+  ==
+  + ID (Firebase 上の UID): string [Key]
+  ==
+  Content: string
+  UserRef: User (Reference)
+}
+
+' --- Relation --- '
+"Firebase Authentication" ||--|| User
+Board ||--|{ BoardList
+BoardList ||--|{ Task
+Group ||--|{ Board
+Group }|--|{ User
+Task ||--|{ CheckList
+Task }|--|{ User
+Task ||--|{ Comment
+User ||--|{ CheckList
+User ||--|{ Comment
+
+@enduml

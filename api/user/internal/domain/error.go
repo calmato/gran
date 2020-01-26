@@ -25,6 +25,8 @@ const (
 	InvalidDomainValidation
 	// InvalidRequestValidation - リクエストのバリデーションエラー
 	InvalidRequestValidation
+	// UnableParseJSON - JSON型から構造体への変換エラー
+	UnableParseJSON
 )
 
 // New - 指定したErrorCodeを持つCustomErrorを返す

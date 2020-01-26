@@ -2,19 +2,17 @@
   "ci": {
     "collect": {
       "numberOfRuns": 3,
-      "startServerCommand": "yarn start",
-      "url": [
-        "http://localhost:3000/",
-        "http://localhost:3000/signin"
-      ]
+      "startServerCommand": "yarn start"
     },
     "assert": {
-      "preset": "lighthouse:recommended",
       "assertions": {
         "offscreen-images": "off",
         "uses-webp-images": "off",
         "categories:performance": ["warn", {"minScore": 0.8}],
-        "categories:accessibility": ["error", {"minScore": 0.8}]
+        "categories:accessibility": ["warn", {"minScore": 0.8}],
+        "categories:best-practices": ["warn", {"minScore": 0.8}],
+        "categories:seo": ["warn", {"minScore": 0.8}],
+        "categories:pwa": ["off"]
       }
     },
     "upload": {

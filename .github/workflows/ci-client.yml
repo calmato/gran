@@ -1,0 +1,35 @@
+name: Client(Nuxt.js) Build and Test
+on:
+  push:
+    paths:
+      - 'client/**'
+
+jobs:
+  build_and_test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install
+        working-directory: ./client
+        run: yarn
+
+      - name: Build
+        working-directory: ./client
+        run: yarn build
+
+      - name: Lint
+        working-directory: ./client
+        run: yarn lint
+
+      - name: Test
+        working-directory: ./client
+        run: yarn test

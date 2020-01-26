@@ -1,0 +1,24 @@
+name: Create Pull Request from Develop to Master
+on:
+  schedule:
+    - cron: '0 15 * * 5' # 毎週土曜日 0:00 -> UTC: 15:00(Fri)
+
+jobs:
+  create_pull_request:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_USER: ${{ secrets.GITHUB_USER }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Check out develop branch
+        uses: actions/checkout@v1
+        with:
+          ref: develop
+
+      - name: Install Hub
+        uses: geertvdc/setup-hub@v1.0.0
+
+      - name: Create Pull Request
+        run: hub pull-request -b master -m '[Scheduled] Develop to Master'

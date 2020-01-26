@@ -1,0 +1,32 @@
+name: Storybook(TypeScript) Build and Test
+on:
+  push:
+    paths:
+      - 'storybook/**'
+
+jobs:
+  build_and_test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install
+        working-directory: ./storybook
+        run: yarn
+
+      # TODO: buildのテスト
+      # - name: Build
+      #   working-directory: ./storybook
+      #   run: yarn build-storybook
+
+      - name: Lint
+        working-directory: ./storybook
+        run: yarn lint

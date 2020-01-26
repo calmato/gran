@@ -23,7 +23,29 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
+  /groups:
+    post:
+      summary: グループ作成
+      security:
+        - BearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateGroup'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
   schemas:
     Error:
       title: エラーレスポンス
@@ -66,6 +88,23 @@ components:
               - password
               - passwordConfirmation
 
+    CreateGroup:
+      description: グループ作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: 説明
+            required:
+              - name
+
   responses:
     BadRequest:
       description: Bad Request
@@ -91,3 +130,4 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+

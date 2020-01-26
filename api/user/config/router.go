@@ -11,12 +11,16 @@ func Router(reg *registry.Registry) *gin.Engine {
 	// ルーティング
 	r := gin.Default()
 
+	// Corsの設定
+	r.Use(SetCors())
+
 	r.GET("/health", reg.V1Health.HealthCheck)
 
 	// api v1 routes
-	apiV1 := r.Group("/v1")
+	apiV1 := r.Group("/v1/users")
 	{
-		apiV1.POST("/users", reg.V1User.Create)
+		apiV1.POST("", reg.V1User.Create)
+		apiV1.POST("/groups", reg.V1Group.Create)
 	}
 
 	return r
