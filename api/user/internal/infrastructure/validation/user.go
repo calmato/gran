@@ -25,18 +25,20 @@ func NewUserDomainValidation(ur repository.UserRepository) dv.UserDomainValidati
 	}
 }
 
-func (udv *userDomainValidation) User(ctx context.Context, u *domain.User) error {
-	err := udv.validator.Run(u)
+func (udv *userDomainValidation) User(ctx context.Context, u *domain.User) []*domain.ValidationError {
+	validationErrors := udv.validator.Run(u)
+
+	err := uniqueCheckEmail(ctx, udv.userRepository, u.Email)
 	if err != nil {
-		return err
+		validationError := &domain.ValidationError{
+			Field:       "email",
+			Description: dv.CustomUniqueDescription,
+		}
+
+		validationErrors = append(validationErrors, validationError)
 	}
 
-	err = uniqueCheckEmail(ctx, udv.userRepository, u.Email)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return validationErrors
 }
 
 func uniqueCheckEmail(ctx context.Context, ur repository.UserRepository, email string) error {

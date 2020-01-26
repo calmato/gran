@@ -1,9 +1,16 @@
 package domain
 
+// ValidationError - バリデーションエラー用構造体
+type ValidationError struct {
+	Field       string
+	Description string
+}
+
 // CustomError - エラーコードを含めた構造体
 type CustomError struct {
 	ErrorCode ErrorCode
 	Value     error
+	Detail    interface{}
 }
 
 // ErrorCodeGetter - ErrorCodeを返すインターフェース
@@ -32,10 +39,11 @@ const (
 )
 
 // New - 指定したErrorCodeを持つCustomErrorを返す
-func (ec ErrorCode) New(err error) error {
+func (ec ErrorCode) New(err error, detail ...interface{}) error {
 	return CustomError{
 		ErrorCode: ec,
 		Value:     err,
+		Detail:    detail,
 	}
 }
 
