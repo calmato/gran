@@ -7,22 +7,18 @@
           type="text"
           class="group-name"
           placeholder="新しいグループ名を入力"
-          style="boder:none"
+          style="border: none;"
         />
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {}
-</script>
-
 <style scoped>
 .container {
   background-color: white;
   height: 5vh;
-  width: 100%;
+  width: 100vw;
 }
 
 .group-name {

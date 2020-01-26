@@ -1,18 +1,14 @@
 <template>
   <div>
     <br />
-    <label for="group-name-detail">グループの説明</label>
+    <label for="group-name-description">グループの説明</label>
     <div class="row">
       <div class="row no-gutters">
-        <textarea class="group-name-detail" style="boder:none" />
+        <textarea class="group-name-detail" style="border: none;" />
       </div>
     </div>
   </div>
 </template>
-
-<script>
-export default {}
-</script>
 
 <style scoped>
 .group-name-detail {

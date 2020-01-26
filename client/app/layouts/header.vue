@@ -44,7 +44,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+body {
+  background-color: #f7f7f7;
+}
+
 .title {
   position: absolute;
   left: 50%;
