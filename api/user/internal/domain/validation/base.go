@@ -1,10 +1,5 @@
 package validation
 
-// バリデーションの表記言語
-const (
-	JaNameTag = "janame"
-)
-
 // バリデーションタグ
 const (
 	MinTag      = "min"
