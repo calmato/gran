@@ -36,7 +36,7 @@ func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Gr
 
 	if err := gs.GroupRepository.Create(ctx, u, g); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
-		return domain.Unknown.New(err)
+		return domain.ErrorInDatastore.New(err)
 	}
 
 	return nil

@@ -36,6 +36,9 @@ func errorResponse(err error) *response.ErrorResponse {
 	case domain.Forbidden:
 		log.Printf("info: Forbidden: %v", err.Error())
 		res = response.Forbidden
+	case domain.ErrorInDatastore:
+		log.Printf("error: Error in Datastore: %v", err.Error())
+		res = response.InternalServerError
 	default:
 		log.Printf("error: Internal Server Error: %v", err.Error())
 		res = response.InternalServerError

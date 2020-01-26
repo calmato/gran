@@ -27,6 +27,8 @@ const (
 	InvalidRequestValidation
 	// UnableParseJSON - JSON型から構造体への変換エラー
 	UnableParseJSON
+	// ErrorInDatastore - データストアでのエラー
+	ErrorInDatastore
 )
 
 // New - 指定したErrorCodeを持つCustomErrorを返す
