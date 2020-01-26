@@ -13,11 +13,6 @@ type CustomError struct {
 	Detail    interface{}
 }
 
-// ErrorCodeGetter - ErrorCodeを返すインターフェース
-type ErrorCodeGetter interface {
-	Type() ErrorCode
-}
-
 // ErrorCode - エラーの種類
 type ErrorCode uint
 
@@ -38,6 +33,16 @@ const (
 	ErrorInDatastore
 )
 
+// ErrorCodeGetter - ErrorCodeを返すインターフェース
+type ErrorCodeGetter interface {
+	Type() ErrorCode
+}
+
+// ErrorDetailGetter - Detailを返すインターフェース
+type ErrorDetailGetter interface {
+	Show() interface{}
+}
+
 // New - 指定したErrorCodeを持つCustomErrorを返す
 func (ec ErrorCode) New(err error, detail ...interface{}) error {
 	return CustomError{
@@ -47,12 +52,17 @@ func (ec ErrorCode) New(err error, detail ...interface{}) error {
 	}
 }
 
-// Error - errorインターフェースを実装する
+// Error - Errorを返すインターフェース
 func (e CustomError) Error() string {
 	return e.Value.Error()
 }
 
-// Type - ErrorCodeGetterインターフェースを実装する
+// Type - ErrorCodeを返すインターフェース
 func (e CustomError) Type() ErrorCode {
 	return e.ErrorCode
+}
+
+// Show - エラー詳細を返すインターフェース
+func (e CustomError) Show() interface{} {
+	return e.Detail
 }

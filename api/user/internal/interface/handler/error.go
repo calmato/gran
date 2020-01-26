@@ -25,11 +25,11 @@ func errorResponse(err error) *response.ErrorResponse {
 	case domain.InvalidDomainValidation:
 		res = response.BadRequest
 		log.Printf("info: BadRequest: %v", err.Error())
-		res.Description = "" // TODO: バリデーションエラーの結果入れる
+		res.Description = errorDetail(err)
 	case domain.InvalidRequestValidation:
 		res = response.BadRequest
 		log.Printf("info: BadRequest: %v", err.Error())
-		res.Description = "" // TODO: バリデーションエラーの結果入れる
+		res.Description = errorDetail(err)
 	case domain.Unauthorized:
 		log.Printf("info: Unauthorized: %v", err.Error())
 		res = response.Unauthorized
@@ -52,6 +52,14 @@ func errorResponse(err error) *response.ErrorResponse {
 func errorCode(err error) domain.ErrorCode {
 	if e, ok := err.(domain.ErrorCodeGetter); ok {
 		return e.Type()
+	}
+
+	return domain.Unknown
+}
+
+func errorDetail(err error) interface{} {
+	if e, ok := err.(domain.ErrorDetailGetter); ok {
+		return e.Show()
 	}
 
 	return domain.Unknown
