@@ -58,7 +58,7 @@ func errorCode(err error) domain.ErrorCode {
 }
 
 func errorDetail(err error) interface{} {
-	if e, ok := err.(domain.ErrorDetailGetter); ok {
+	if e, ok := err.(domain.ValidationErrorGetter); ok {
 		return e.Show()
 	}
 

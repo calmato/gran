@@ -51,7 +51,6 @@ func (dv *domainValidator) Run(i interface{}) []*domain.ValidationError {
 	validationErrors := make([]*domain.ValidationError, len(errors))
 
 	for i, v := range errors {
-
 		validationErrors[i] = &domain.ValidationError{
 			Field:       v.Field(),
 			Description: validationDescription(v.Tag(), v.Param()),

@@ -31,7 +31,7 @@ func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRe
 func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
 	if ves := gs.GroupDomainValidation.Group(ctx, g); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
-		return domain.InvalidDomainValidation.New(err, ves)
+		return domain.InvalidDomainValidation.New(err, ves...)
 	}
 
 	if err := gs.GroupRepository.Create(ctx, u, g); err != nil {

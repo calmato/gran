@@ -8,9 +8,9 @@ type ValidationError struct {
 
 // CustomError - エラーコードを含めた構造体
 type CustomError struct {
-	ErrorCode ErrorCode
-	Value     error
-	Detail    interface{}
+	ErrorCode        ErrorCode
+	Value            error
+	ValidationErrors []*ValidationError
 }
 
 // ErrorCode - エラーの種類
@@ -38,17 +38,17 @@ type ErrorCodeGetter interface {
 	Type() ErrorCode
 }
 
-// ErrorDetailGetter - Detailを返すインターフェース
-type ErrorDetailGetter interface {
-	Show() interface{}
+// ValidationErrorGetter - バリデーションメッセージを返すインターフェース
+type ValidationErrorGetter interface {
+	Show() []*ValidationError
 }
 
 // New - 指定したErrorCodeを持つCustomErrorを返す
-func (ec ErrorCode) New(err error, detail ...interface{}) error {
+func (ec ErrorCode) New(err error, ves ...*ValidationError) error {
 	return CustomError{
-		ErrorCode: ec,
-		Value:     err,
-		Detail:    detail,
+		ErrorCode:        ec,
+		Value:            err,
+		ValidationErrors: ves,
 	}
 }
 
@@ -62,7 +62,7 @@ func (e CustomError) Type() ErrorCode {
 	return e.ErrorCode
 }
 
-// Show - エラー詳細を返すインターフェース
-func (e CustomError) Show() interface{} {
-	return e.Detail
+// Show - バリデーションエラー詳細を返すインターフェース
+func (e CustomError) Show() []*ValidationError {
+	return e.ValidationErrors
 }

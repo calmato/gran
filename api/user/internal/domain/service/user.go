@@ -43,7 +43,7 @@ func (us *userService) Authentication(ctx context.Context) (*domain.User, error)
 func (us *userService) Create(ctx context.Context, u *domain.User) error {
 	if ves := us.userDomainValidation.User(ctx, u); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
-		return domain.InvalidDomainValidation.New(err, ves)
+		return domain.InvalidDomainValidation.New(err, ves...)
 	}
 
 	if err := us.userRepository.Create(ctx, u); err != nil {
