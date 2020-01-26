@@ -34,7 +34,7 @@ func requestLogging(reader io.Reader) {
 
 	// json を データ型に変換する
 	params := make(map[string]interface{})
-	if err := json.Unmarshal([]byte(data), &params); err != nil {
+	if err := json.Unmarshal(data, &params); err != nil {
 		log.Printf("error: JSONの整形に失敗しました")
 		return
 	}
