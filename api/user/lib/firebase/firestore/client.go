@@ -66,12 +66,13 @@ func (f *Firestore) GetByQueries(ctx context.Context, collection string, queries
 }
 
 // Add - ドキュメントをコレクションに追加
-func (f *Firestore) Add(ctx context.Context, collection string, data interface{}) error {
-	if _, _, err := f.Client.Collection(collection).Add(ctx, data); err != nil {
-		return err
+func (f *Firestore) Add(ctx context.Context, collection string, data interface{}) (*firestore.DocumentRef, error) {
+	doc, _, err := f.Client.Collection(collection).Add(ctx, data)
+	if err != nil {
+		return nil, err
 	}
 
-	return nil
+	return doc, nil
 }
 
 // Set - 単一のドキュメントを作成または上書き
