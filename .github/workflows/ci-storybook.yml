@@ -27,6 +27,7 @@ jobs:
       #   working-directory: ./storybook
       #   run: yarn build-storybook
 
+      # TODO: lintのテスト
       # - name: Lint
       #   working-directory: ./storybook
       #   run: yarn lint
