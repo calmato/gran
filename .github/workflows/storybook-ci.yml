@@ -27,6 +27,6 @@ jobs:
       #   working-directory: ./storybook
       #   run: yarn build-storybook
 
-      - name: Lint
-        working-directory: ./storybook
-        run: yarn lint
+      # - name: Lint
+      #   working-directory: ./storybook
+      #   run: yarn lint
