@@ -44,7 +44,7 @@
     "babel-jest": "^25.1.0",
     "core-js": "^2.5.1",
     "eslint": "^6.7.2",
-    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-nuxt": ">=0.4.2",
     "eslint-plugin-prettier": "^3.0.1",
     "husky": "^4.2.1",
