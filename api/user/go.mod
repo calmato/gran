@@ -9,6 +9,7 @@ require (
 	github.com/comail/colog v0.0.0-20160416085026-fba8e7b1f46c
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-playground/validator/v10 v10.1.0
+	github.com/google/uuid v1.1.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/cors v1.7.0
 	golang.org/x/oauth2 v0.0.0-20191202225959-858c2ad4c8b6 // indirect
