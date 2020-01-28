@@ -3,6 +3,7 @@ package persistence
 import (
 	"context"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -30,9 +31,12 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 		return err
 	}
 
-	u.GroupRefs = append(u.GroupRefs, g.ID)
+	current := time.Now()
 
-	if err := gp.firestore.Update(ctx, UserCollection, u.ID, u); err != nil {
+	u.GroupRefs = append(u.GroupRefs, g.ID)
+	u.UpdatedAt = current
+
+	if err := gp.firestore.Set(ctx, UserCollection, u.ID, u); err != nil {
 		return err
 	}
 
