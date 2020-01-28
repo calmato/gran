@@ -30,6 +30,12 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 		return err
 	}
 
+	u.GroupRefs = append(u.GroupRefs, g.ID)
+
+	if err := gp.firestore.Update(ctx, UserCollection, u.ID, u); err != nil {
+		return err
+	}
+
 	return nil
 }
 
