@@ -4,14 +4,13 @@ import (
 	"context"
 	"strings"
 
-	"github.com/16francs/gran/api/user/middleware"
-
 	"golang.org/x/xerrors"
 
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
 	"github.com/16francs/gran/api/user/lib/firebase/authentication"
 	"github.com/16francs/gran/api/user/lib/firebase/firestore"
+	"github.com/16francs/gran/api/user/middleware"
 )
 
 type userPersistence struct {
@@ -27,18 +26,18 @@ func NewUserPersistence(fa *authentication.Auth, fs *firestore.Firestore) reposi
 	}
 }
 
-func (r *userPersistence) Authentication(ctx context.Context) (*domain.User, error) {
+func (up *userPersistence) Authentication(ctx context.Context) (*domain.User, error) {
 	t, err := getToken(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	uid, err := r.auth.VerifyIDToken(ctx, t)
+	uid, err := up.auth.VerifyIDToken(ctx, t)
 	if err != nil {
 		return nil, err
 	}
 
-	doc, err := r.firestore.Client.Collection(UserCollection).Doc(uid).Get(ctx)
+	doc, err := up.firestore.Client.Collection(UserCollection).Doc(uid).Get(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54,23 +53,23 @@ func (r *userPersistence) Authentication(ctx context.Context) (*domain.User, err
 	return u, nil
 }
 
-func (r *userPersistence) Create(ctx context.Context, u *domain.User) error {
-	uid, err := createUserInAuth(ctx, r.auth, u)
+func (up *userPersistence) Create(ctx context.Context, u *domain.User) error {
+	uid, err := up.auth.CreateUser(ctx, u.Email, u.Password)
 	if err != nil {
 		return err
 	}
 
 	u.ID = uid
 
-	if err = setInFirestore(ctx, r.firestore, u); err != nil {
+	if err = up.firestore.Set(ctx, UserCollection, u.ID, u); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (r *userPersistence) GetUIDByEmail(ctx context.Context, email string) (string, error) {
-	uid, err := getUIDByEmailInAuth(ctx, r.auth, email)
+func (up *userPersistence) GetUIDByEmail(ctx context.Context, email string) (string, error) {
+	uid, err := up.auth.GetUIDByEmail(ctx, email)
 	if err != nil {
 		return "", err
 	}
@@ -91,16 +90,4 @@ func getToken(ctx context.Context) (string, error) {
 
 	t := strings.Replace(a, "Bearer ", "", 1)
 	return t, nil
-}
-
-func getUIDByEmailInAuth(ctx context.Context, fa *authentication.Auth, email string) (string, error) {
-	return fa.GetUIDByEmail(ctx, email)
-}
-
-func createUserInAuth(ctx context.Context, fa *authentication.Auth, u *domain.User) (string, error) {
-	return fa.CreateUser(ctx, u.Email, u.Password)
-}
-
-func setInFirestore(ctx context.Context, fs *firestore.Firestore, u *domain.User) error {
-	return fs.Set(ctx, UserCollection, u.ID, u)
 }
