@@ -19,10 +19,10 @@ export default Vue.extend({
       console.log(groupNewForm)
       this.create(groupNewForm)
         .then(() => {
-          console.log('ok')
+          // OKの時の処理 
         })
         .catch(() => {
-          console.log('ng')
+          // NGの時の処理
         })
     },
     ...mapActions('group', ['create'])
