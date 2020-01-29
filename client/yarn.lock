@@ -12043,9 +12043,9 @@ webpack-dev-middleware@^3.7.2:
     webpack-log "^2.0.0"
 
 webpack-external-import@^1.1.0-beta.3:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/webpack-external-import/-/webpack-external-import-1.1.2.tgz#a1e80718503eaaba7ad670a10b046d50f9f4f03e"
-  integrity sha512-5x1RnAmmOr1DXy+n5B1lvfsbsG73hiycwj3kOr4xyXVltgUtK5SntP8sdjyzOfDTMJIctR/BvUtu/hoXLbwCaw==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/webpack-external-import/-/webpack-external-import-1.1.3.tgz#9782c1df397f5847c02be6507eadbf16be9991b6"
+  integrity sha512-vK2h9WZEukZzPT4T2GYTkaH4Ow7ZpJkH4279lHKyrMc1BhS98LHezahX8qansDOvkNwyaSVmLF+ltX1G1Y5t1Q==
   dependencies:
     assert "^2.0.0"
     dimport "^1.0.0"
