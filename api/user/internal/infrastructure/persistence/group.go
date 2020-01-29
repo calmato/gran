@@ -3,6 +3,9 @@ package persistence
 import (
 	"context"
 	"strings"
+	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/repository"
@@ -21,9 +24,23 @@ func NewGroupPersistence(fs *firestore.Firestore) repository.GroupRepository {
 }
 
 func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
+	g.ID = uuid.New().String()
 	g.UserRefs = append(g.UserRefs, getUserReference(u.ID))
 
-	return gp.firestore.Add(ctx, GroupCollection, g)
+	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
+		return err
+	}
+
+	current := time.Now()
+
+	u.GroupRefs = append(u.GroupRefs, g.ID)
+	u.UpdatedAt = current
+
+	if err := gp.firestore.Set(ctx, UserCollection, u.ID, u); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func getUserReference(userID string) string {

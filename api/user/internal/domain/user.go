@@ -9,6 +9,7 @@ type User struct {
 	Password     string    `firestore:"-" validate:"password,min=6,max=32"`
 	Name         string    `firestore:"name" validate:"max=32"`
 	ThumbnailURL string    `firestore:"thumbnail_url"`
+	GroupRefs    []string  `firestore:"group_refs"`
 	CreatedAt    time.Time `firestore:"created_at"`
 	UpdatedAt    time.Time `firestore:"updated_at"`
 	Groups       []Group   `firestore:"-"`

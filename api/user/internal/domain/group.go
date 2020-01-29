@@ -4,7 +4,7 @@ import "time"
 
 // Group - Groupエンティティ
 type Group struct {
-	ID          string    `firestore:"-"`
+	ID          string    `firestore:"id"`
 	Name        string    `firestore:"name"`
 	Description string    `firestore:"description"`
 	UserRefs    []string  `firestore:"user_refs"`
