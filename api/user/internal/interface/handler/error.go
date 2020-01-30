@@ -21,14 +21,14 @@ func ErrorHandling(ctx *gin.Context, err error) {
 func errorResponse(err error) *response.ErrorResponse {
 	var res *response.ErrorResponse
 
-	switch errorCode(err) {
+	switch getErrorCode(err) {
 	case domain.InvalidDomainValidation:
 		res = response.BadRequest
-		res.Description = errorDetail(err)
+		res.Description = getValidationErrors(err)
 		logging("info", "BadRequest", err)
 	case domain.InvalidRequestValidation:
 		res = response.BadRequest
-		res.Description = errorDetail(err)
+		res.Description = getValidationErrors(err)
 		logging("info", "BadRequest", err)
 	case domain.Unauthorized:
 		res = response.Unauthorized
@@ -44,7 +44,7 @@ func errorResponse(err error) *response.ErrorResponse {
 		logging("error", "Internal Server Error", err)
 	}
 
-	res.ErrorCode = errorCode(err)
+	res.ErrorCode = getErrorCode(err)
 	return res
 }
 
@@ -52,24 +52,24 @@ func logging(level string, message string, err error) {
 	log.Printf("%s: %s: %v", level, message, err.Error())
 
 	// バリデーションエラーの時、エラーレスポンスも出力
-	if ves := errorDetail(err); len(ves) > 0 {
+	if ves := getValidationErrors(err); len(ves) > 0 {
 		for _, v := range ves {
 			log.Printf("debug: - %s ->%s", v.Field, v.Description)
 		}
 	}
 }
 
-func errorCode(err error) domain.ErrorCode {
-	if e, ok := err.(domain.ErrorCodeGetter); ok {
-		return e.Type()
+func getErrorCode(err error) domain.ErrorCode {
+	if e, ok := err.(domain.ShowError); ok {
+		return e.Code()
 	}
 
 	return domain.Unknown
 }
 
-func errorDetail(err error) []*domain.ValidationError {
-	if e, ok := err.(domain.ValidationErrorGetter); ok {
-		return e.Show()
+func getValidationErrors(err error) []*domain.ValidationError {
+	if e, ok := err.(domain.ShowError); ok {
+		return e.Validation()
 	}
 
 	return make([]*domain.ValidationError, 0)

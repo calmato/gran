@@ -1,5 +1,12 @@
 package domain
 
+// ShowError - エラー内容を返すインターフェース
+type ShowError interface {
+	Code() ErrorCode
+	Error() string
+	Validation() []*ValidationError
+}
+
 // ValidationError - バリデーションエラー用構造体
 type ValidationError struct {
 	Field       string
@@ -33,16 +40,6 @@ const (
 	ErrorInDatastore
 )
 
-// ErrorCodeGetter - ErrorCodeを返すインターフェース
-type ErrorCodeGetter interface {
-	Type() ErrorCode
-}
-
-// ValidationErrorGetter - バリデーションメッセージを返すインターフェース
-type ValidationErrorGetter interface {
-	Show() []*ValidationError
-}
-
 // New - 指定したErrorCodeを持つCustomErrorを返す
 func (ec ErrorCode) New(err error, ves ...*ValidationError) error {
 	return CustomError{
@@ -52,17 +49,17 @@ func (ec ErrorCode) New(err error, ves ...*ValidationError) error {
 	}
 }
 
-// Error - Errorを返すインターフェース
-func (e CustomError) Error() string {
-	return e.Value.Error()
+// Code - エラーコードを返す
+func (ce CustomError) Code() ErrorCode {
+	return ce.ErrorCode
 }
 
-// Type - ErrorCodeを返すインターフェース
-func (e CustomError) Type() ErrorCode {
-	return e.ErrorCode
+// Error - エラー内容を返す
+func (ce CustomError) Error() string {
+	return ce.Value.Error()
 }
 
-// Show - バリデーションエラー詳細を返すインターフェース
-func (e CustomError) Show() []*ValidationError {
-	return e.ValidationErrors
+// Validation - エラー詳細を返す
+func (ce CustomError) Validation() []*ValidationError {
+	return ce.ValidationErrors
 }
