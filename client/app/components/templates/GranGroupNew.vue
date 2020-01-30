@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import GranGroupTab from '~/components/templates/GranGroupTab.vue'
+import GranGroupTab from '~/components/organisms/GranGroupTab.vue'
 import GranGroupNewForm from '~/components/molecules/GranGroupNewForm.vue'
 
 export default Vue.extend({

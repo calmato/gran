@@ -16,13 +16,12 @@ export default Vue.extend({
 
   methods: {
     apply(groupNewForm) {
-      console.log(groupNewForm)
       this.create(groupNewForm)
         .then(() => {
-          // OKの時の処理 
+          // TODO: 成功した時の処理
         })
         .catch(() => {
-          // NGの時の処理
+          // TODO: 失敗した時の処理
         })
     },
     ...mapActions('group', ['create'])
