@@ -31,8 +31,11 @@
       </div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
     </v-app-bar>
-
-    <nuxt />
+    <v-content>
+      <v-container>
+        <nuxt />
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
@@ -44,7 +47,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+body {
+  background-color: #f7f7f7;
+}
+
 .title {
   position: absolute;
   left: 50%;
