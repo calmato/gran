@@ -1,25 +1,5 @@
 package domain
 
-// ShowError - エラー内容を返すインターフェース
-type ShowError interface {
-	Code() ErrorCode
-	Error() string
-	Validation() []*ValidationError
-}
-
-// ValidationError - バリデーションエラー用構造体
-type ValidationError struct {
-	Field       string
-	Description string
-}
-
-// CustomError - エラーコードを含めた構造体
-type CustomError struct {
-	ErrorCode        ErrorCode
-	Value            error
-	ValidationErrors []*ValidationError
-}
-
 // ErrorCode - エラーの種類
 type ErrorCode uint
 
@@ -39,6 +19,26 @@ const (
 	// ErrorInDatastore - データストアでのエラー
 	ErrorInDatastore
 )
+
+// ShowError - エラー内容を返すインターフェース
+type ShowError interface {
+	Code() ErrorCode
+	Error() string
+	Validation() []*ValidationError
+}
+
+// ValidationError - バリデーションエラー用構造体
+type ValidationError struct {
+	Field       string
+	Description string
+}
+
+// CustomError - エラーコードを含めた構造体
+type CustomError struct {
+	ErrorCode        ErrorCode
+	Value            error
+	ValidationErrors []*ValidationError
+}
 
 // New - 指定したErrorCodeを持つCustomErrorを返す
 func (ec ErrorCode) New(err error, ves ...*ValidationError) error {
