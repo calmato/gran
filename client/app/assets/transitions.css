@@ -1,0 +1,10 @@
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s ease-in-out;
+}
+.page-enter, .page-leave-active {
+  opacity: 0.1;
+}
+.page-leave-to {
+  transform: translateY(10px);
+  opacity: 0.1;
+}
