@@ -69,15 +69,14 @@ func getErrorCode(err error) domain.ErrorCode {
 
 func setValidationErrors(er *response.ErrorResponse, err error) {
 	if e, ok := err.(domain.ShowError); ok {
-		er.ValidationErrors = make([]*response.ValidationError, 0)
+		ves := e.Validation()
+		er.ValidationErrors = make([]*response.ValidationError, len(ves))
 
-		for _, v := range e.Validation() {
-			ve := &response.ValidationError{
-				Field:   v.Field,
-				Message: v.Message,
+		for i, ve := range ves {
+			er.ValidationErrors[i] = &response.ValidationError{
+				Field:   ve.Field,
+				Message: ve.Message,
 			}
-
-			er.ValidationErrors = append(er.ValidationErrors, ve)
 		}
 	}
 }
