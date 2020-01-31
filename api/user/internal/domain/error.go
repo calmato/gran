@@ -29,8 +29,8 @@ type ShowError interface {
 
 // ValidationError - バリデーションエラー用構造体
 type ValidationError struct {
-	Field       string
-	Description string
+	Field   string
+	Message string
 }
 
 // CustomError - エラーコードを含めた構造体

@@ -31,8 +31,8 @@ func (udv *userDomainValidation) User(ctx context.Context, u *domain.User) []*do
 	err := uniqueCheckEmail(ctx, udv.userRepository, u.Email)
 	if err != nil {
 		validationError := &domain.ValidationError{
-			Field:       "email",
-			Description: dv.CustomUniqueDescription,
+			Field:   "email",
+			Message: dv.CustomUniqueMessage,
 		}
 
 		validationErrors = append(validationErrors, validationError)

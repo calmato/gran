@@ -12,15 +12,15 @@ const (
 
 // バリデーションメッセージ
 const (
-	RequiredDescription = "入力必須です"
-	EqFieldDescription  = "%sと入力が一致しません"
-	MinDescription      = "%s文字以上で入力してください"
-	MaxDescription      = "%s文字以下で入力してください"
-	EmailDescription    = "メールアドレスの形式で入力してください"
-	PasswordDescription = "パスワードの形式で入力してください"
+	RequiredMessage = "入力必須です"
+	EqFieldMessage  = "%sと入力が一致しません"
+	MinMessage      = "%s文字以上で入力してください"
+	MaxMessage      = "%s文字以下で入力してください"
+	EmailMessage    = "メールアドレスの形式で入力してください"
+	PasswordMessage = "パスワードの形式で入力してください"
 )
 
 // カスタムバリデーションメッセージ
 const (
-	CustomUniqueDescription = "すでに存在します"
+	CustomUniqueMessage = "すでに存在します"
 )

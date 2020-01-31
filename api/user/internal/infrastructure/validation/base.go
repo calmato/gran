@@ -52,8 +52,8 @@ func (dv *domainValidator) Run(i interface{}) []*domain.ValidationError {
 
 	for i, v := range errors {
 		validationErrors[i] = &domain.ValidationError{
-			Field:       v.Field(),
-			Description: validationDescription(v.Tag(), v.Param()),
+			Field:   v.Field(),
+			Message: validationMessage(v.Tag(), v.Param()),
 		}
 	}
 
@@ -64,16 +64,16 @@ func passwordCheck(fl validator.FieldLevel) bool {
 	return passwordRegex.MatchString(fl.Field().String())
 }
 
-func validationDescription(tag string, param string) string {
+func validationMessage(tag string, param string) string {
 	switch tag {
 	case validation.MinTag:
-		return fmt.Sprintf(validation.MinDescription, param)
+		return fmt.Sprintf(validation.MinMessage, param)
 	case validation.MaxTag:
-		return fmt.Sprintf(validation.MaxDescription, param)
+		return fmt.Sprintf(validation.MaxMessage, param)
 	case validation.EmailTag:
-		return validation.EmailDescription
+		return validation.EmailMessage
 	case validation.PasswordTag:
-		return validation.PasswordDescription
+		return validation.PasswordMessage
 	default:
 		return ""
 	}

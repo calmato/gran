@@ -39,20 +39,20 @@ func (rv *requestValidator) Run(i interface{}) []*domain.ValidationError {
 
 	for i, v := range errors {
 		validationErrors[i] = &domain.ValidationError{
-			Field:       v.Field(),
-			Description: validationDescription(v.Tag(), v.Param()),
+			Field:   v.Field(),
+			Message: validationMessage(v.Tag(), v.Param()),
 		}
 	}
 
 	return validationErrors
 }
 
-func validationDescription(tag string, param string) string {
+func validationMessage(tag string, param string) string {
 	switch tag {
 	case validation.RequiredTag:
-		return validation.RequiredDescription
+		return validation.RequiredMessage
 	case validation.EqFieldTag:
-		return fmt.Sprintf(validation.EqFieldDescription, param)
+		return fmt.Sprintf(validation.EqFieldMessage, param)
 	default:
 		return ""
 	}

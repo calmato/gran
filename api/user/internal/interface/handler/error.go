@@ -74,7 +74,7 @@ func setValidationErrors(er *response.ErrorResponse, err error) {
 		for _, v := range e.Validation() {
 			ve := &response.ValidationError{
 				Field:   v.Field,
-				Message: v.Description,
+				Message: v.Message,
 			}
 
 			er.ValidationErrors = append(er.ValidationErrors, ve)
