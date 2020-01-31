@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -24,12 +25,12 @@ func errorResponse(err error) *response.ErrorResponse {
 	switch getErrorCode(err) {
 	case domain.InvalidDomainValidation:
 		res = response.BadRequest
-		res.Description = getValidationErrors(err)
-		logging("info", "BadRequest", err)
+		setValidationErrors(res, err)
+		logging("info", "BadRequest", err, res.ValidationErrors...)
 	case domain.InvalidRequestValidation:
 		res = response.BadRequest
-		res.Description = getValidationErrors(err)
-		logging("info", "BadRequest", err)
+		setValidationErrors(res, err)
+		logging("info", "BadRequest", err, res.ValidationErrors...)
 	case domain.Unauthorized:
 		res = response.Unauthorized
 		logging("info", "Unauthorized", err)
@@ -48,14 +49,13 @@ func errorResponse(err error) *response.ErrorResponse {
 	return res
 }
 
-func logging(level string, message string, err error) {
+func logging(level string, message string, err error, ves ...*response.ValidationError) {
 	log.Printf("%s: %s: %v", level, message, err.Error())
 
-	// バリデーションエラーの時、エラーレスポンスも出力
-	if ves := getValidationErrors(err); len(ves) > 0 {
-		for _, v := range ves {
-			log.Printf("debug: - %s ->%s", v.Field, v.Description)
-		}
+	if len(ves) > 0 {
+		j, _ := json.Marshal(ves)
+
+		log.Printf("%s: %s", level, j)
 	}
 }
 
@@ -67,10 +67,17 @@ func getErrorCode(err error) domain.ErrorCode {
 	return domain.Unknown
 }
 
-func getValidationErrors(err error) []*domain.ValidationError {
+func setValidationErrors(er *response.ErrorResponse, err error) {
 	if e, ok := err.(domain.ShowError); ok {
-		return e.Validation()
-	}
+		er.ValidationErrors = make([]*response.ValidationError, 0)
 
-	return make([]*domain.ValidationError, 0)
+		for _, v := range e.Validation() {
+			ve := &response.ValidationError{
+				Field:   v.Field,
+				Message: v.Description,
+			}
+
+			er.ValidationErrors = append(er.ValidationErrors, ve)
+		}
+	}
 }
