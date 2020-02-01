@@ -24,7 +24,25 @@ func NewGroupPersistence(fs *firestore.Firestore) repository.GroupRepository {
 }
 
 func (gp *groupPersistence) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
-	return nil, nil
+	gs := make([]*domain.Group, len(u.GroupRefs))
+
+	for i, v := range u.GroupRefs {
+		doc, err := gp.firestore.Get(ctx, GroupCollection, v)
+		if err != nil {
+			return nil, err
+		}
+
+		g := &domain.Group{}
+
+		err = doc.DataTo(g)
+		if err != nil {
+			return nil, err
+		}
+
+		gs[i] = g
+	}
+
+	return gs, nil
 }
 
 func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
