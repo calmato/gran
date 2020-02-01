@@ -11,6 +11,20 @@ servers:
 
 paths:
   /:
+    get:
+      summary: グループ一覧取得
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Groups'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
     post:
       summary: グループ作成
       security:
@@ -94,3 +108,36 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+
+    Groups:
+      description: グループ一覧レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              groups:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                      description: グループID
+                    name:
+                      type: string
+                      description: グループ名
+                    description:
+                      type: string
+                      description: グループ説明
+                    created_at:
+                      type: string
+                      format: date-time
+                      description: グループ作成日時
+                    user_refs:
+                      type: array
+                      description: ユーザーReference一覧
+                      items:
+                        type: string
+                    updated_at:
+                      type: string
+                      format: date-time
+                      description: グループ更新日時
