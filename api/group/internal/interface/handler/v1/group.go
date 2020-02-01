@@ -3,6 +3,8 @@ package v1
 import (
 	"net/http"
 
+	"github.com/16francs/gran/api/group/internal/application/response"
+
 	"github.com/16francs/gran/api/group/internal/application"
 	"github.com/16francs/gran/api/group/internal/application/request"
 	"github.com/16francs/gran/api/group/internal/domain"
@@ -13,6 +15,7 @@ import (
 
 // APIV1GroupHandler - Groupハンドラのインターフェース
 type APIV1GroupHandler interface {
+	Index(ctx *gin.Context)
 	Create(ctx *gin.Context)
 }
 
@@ -25,6 +28,36 @@ func NewAPIV1GroupHandler(ga application.GroupApplication) APIV1GroupHandler {
 	return &apiV1GroupHandler{
 		groupApplication: ga,
 	}
+}
+
+func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
+	c := middleware.GinContextToContext(ctx)
+
+	gs, err := gh.groupApplication.Index(c)
+	if err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+
+	gsr := make([]*response.Group, len(gs))
+	for i, v := range gs {
+		gr := &response.Group{
+			ID:          v.ID,
+			Name:        v.Name,
+			Description: v.Description,
+			UserRefs:    v.UserRefs,
+			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+		}
+
+		gsr[i] = gr
+	}
+
+	res := &response.Groups{
+		Groups: gsr,
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (gh *apiV1GroupHandler) Create(ctx *gin.Context) {
