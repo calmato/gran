@@ -1,5 +1,5 @@
 <template>
-  <gran-flash v-if="isError" type="error" dense prominent>
+  <gran-flash v-if="isError" type="error" transition="fade-transition" dense prominent>
     <v-row align="center">
       <v-col class="grow">{{ message }}</v-col>
       <v-col class="shrink">
