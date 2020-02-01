@@ -21,7 +21,7 @@ const configuration: Configuration = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   css: ['~/assets/transitions.css'],
-  loading: { color: '#fff' },
+  loading: '~/components/organisms/GranLoading.vue',
   router: {
     middleware: ['authentication']
   },

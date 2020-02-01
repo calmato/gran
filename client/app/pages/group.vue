@@ -16,6 +16,8 @@ export default Vue.extend({
 
   methods: {
     apply(groupNewForm) {
+      this.$nuxt.$loading.start()
+
       this.create(groupNewForm)
         .then(() => {
           // TODO: 成功した時の処理
@@ -23,6 +25,7 @@ export default Vue.extend({
         .catch(() => {
           // TODO: 失敗した時の処理
         })
+        .finally(() => this.$nuxt.$loading.finish())
     },
     ...mapActions('group', ['create'])
   }
