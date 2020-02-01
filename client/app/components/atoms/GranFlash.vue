@@ -10,6 +10,7 @@
     :dark="dark"
     :outlined="outlined"
     :prominent="prominent"
+    :transition="transition"
   >
     <slot />
   </v-alert>
@@ -65,6 +66,10 @@ export default Vue.extend({
     prominent: {
       type: Boolean,
       default: false
+    },
+    transition: {
+      type: String,
+      default: ''
     }
   },
   computed: {

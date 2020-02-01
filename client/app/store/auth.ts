@@ -70,8 +70,7 @@ export const actions = {
       .auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then(() => {
-        dispatch('authentication')
-        return Promise.resolve()
+        return dispatch('authentication')
       })
       .catch((error: any) => {
         return Promise.reject(error)
