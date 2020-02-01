@@ -1,6 +1,6 @@
 <template>
   <validation-provider v-slot="{ errors, valid }" :name="label" :vid="name" :rules="rules">
-    <v-text-field
+    <v-textarea
       v-model="formData"
       :label="label"
       :name="name"
