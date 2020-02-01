@@ -4,7 +4,7 @@ settings:
     interval: 0s
 
 schema:
-  - name: user-api
+  - name: group-api
     path: .
     commands:
       install:

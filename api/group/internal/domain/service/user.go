@@ -7,7 +7,6 @@ import (
 
 	"github.com/16francs/gran/api/group/internal/domain"
 	"github.com/16francs/gran/api/group/internal/domain/repository"
-	"github.com/16francs/gran/api/group/internal/domain/validation"
 )
 
 // UserService - UserServiceインターフェース
@@ -16,15 +15,13 @@ type UserService interface {
 }
 
 type userService struct {
-	userDomainValidation validation.UserDomainValidation
-	userRepository       repository.UserRepository
+	userRepository repository.UserRepository
 }
 
 // NewUserService - UserServiceの生成
-func NewUserService(udv validation.UserDomainValidation, ur repository.UserRepository) UserService {
+func NewUserService(ur repository.UserRepository) UserService {
 	return &userService{
-		userDomainValidation: udv,
-		userRepository:       ur,
+		userRepository: ur,
 	}
 }
 
