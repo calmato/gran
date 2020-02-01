@@ -1,16 +1,5 @@
 package domain
 
-// CustomError - エラーコードを含めた構造体
-type CustomError struct {
-	ErrorCode ErrorCode
-	Value     error
-}
-
-// ErrorCodeGetter - ErrorCodeを返すインターフェース
-type ErrorCodeGetter interface {
-	Type() ErrorCode
-}
-
 // ErrorCode - エラーの種類
 type ErrorCode uint
 
@@ -27,22 +16,50 @@ const (
 	InvalidRequestValidation
 	// UnableParseJSON - JSON型から構造体への変換エラー
 	UnableParseJSON
+	// ErrorInDatastore - データストアでのエラー
+	ErrorInDatastore
 )
 
+// ShowError - エラー内容を返すインターフェース
+type ShowError interface {
+	Code() ErrorCode
+	Error() string
+	Validation() []*ValidationError
+}
+
+// ValidationError - バリデーションエラー用構造体
+type ValidationError struct {
+	Field   string
+	Message string
+}
+
+// CustomError - エラーコードを含めた構造体
+type CustomError struct {
+	ErrorCode        ErrorCode
+	Value            error
+	ValidationErrors []*ValidationError
+}
+
 // New - 指定したErrorCodeを持つCustomErrorを返す
-func (ec ErrorCode) New(err error) error {
+func (ec ErrorCode) New(err error, ves ...*ValidationError) error {
 	return CustomError{
-		ErrorCode: ec,
-		Value:     err,
+		ErrorCode:        ec,
+		Value:            err,
+		ValidationErrors: ves,
 	}
 }
 
-// Error - errorインターフェースを実装する
-func (e CustomError) Error() string {
-	return e.Value.Error()
+// Code - エラーコードを返す
+func (ce CustomError) Code() ErrorCode {
+	return ce.ErrorCode
 }
 
-// Type - ErrorCodeGetterインターフェースを実装する
-func (e CustomError) Type() ErrorCode {
-	return e.ErrorCode
+// Error - エラー内容を返す
+func (ce CustomError) Error() string {
+	return ce.Value.Error()
+}
+
+// Validation - エラー詳細を返す
+func (ce CustomError) Validation() []*ValidationError {
+	return ce.ValidationErrors
 }

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -21,35 +22,61 @@ func ErrorHandling(ctx *gin.Context, err error) {
 func errorResponse(err error) *response.ErrorResponse {
 	var res *response.ErrorResponse
 
-	switch errorCode(err) {
+	switch getErrorCode(err) {
 	case domain.InvalidDomainValidation:
 		res = response.BadRequest
-		log.Printf("info: BadRequest: %v", err.Error())
-		res.Description = "" // TODO: バリデーションエラーの結果入れる
+		setValidationErrors(res, err)
+		logging("info", "BadRequest", err, res.ValidationErrors...)
 	case domain.InvalidRequestValidation:
 		res = response.BadRequest
-		log.Printf("info: BadRequest: %v", err.Error())
-		res.Description = "" // TODO: バリデーションエラーの結果入れる
+		setValidationErrors(res, err)
+		logging("info", "BadRequest", err, res.ValidationErrors...)
 	case domain.Unauthorized:
-		log.Printf("info: Unauthorized: %v", err.Error())
 		res = response.Unauthorized
+		logging("info", "Unauthorized", err)
 	case domain.Forbidden:
-		log.Printf("info: Forbidden: %v", err.Error())
 		res = response.Forbidden
-	default:
-		log.Printf("error: Internal Server Error: %v", err.Error())
+		logging("info", "Forbidden", err)
+	case domain.ErrorInDatastore:
 		res = response.InternalServerError
+		logging("error", "Internal Server Error", err)
+	default:
+		res = response.InternalServerError
+		logging("error", "Internal Server Error", err)
 	}
 
-	res.ErrorCode = errorCode(err)
+	res.ErrorCode = getErrorCode(err)
 	return res
 }
 
-// errorCode - ErrorCodeを持つ場合はそれを返し、無ければUnknownを返す
-func errorCode(err error) domain.ErrorCode {
-	if e, ok := err.(domain.ErrorCodeGetter); ok {
-		return e.Type()
+func logging(level string, message string, err error, ves ...*response.ValidationError) {
+	log.Printf("%s: %s: %v", level, message, err.Error())
+
+	if len(ves) > 0 {
+		j, _ := json.Marshal(ves)
+
+		log.Printf("%s: %s", level, j)
+	}
+}
+
+func getErrorCode(err error) domain.ErrorCode {
+	if e, ok := err.(domain.ShowError); ok {
+		return e.Code()
 	}
 
 	return domain.Unknown
+}
+
+func setValidationErrors(er *response.ErrorResponse, err error) {
+	if e, ok := err.(domain.ShowError); ok {
+		ves := e.Validation()
+		er.ValidationErrors = make([]*response.ValidationError, len(ves))
+
+		for i, ve := range ves {
+			er.ValidationErrors[i] = &response.ValidationError{
+				Field:   ve.Field,
+				Message: ve.Message,
+			}
+		}
+	}
 }
