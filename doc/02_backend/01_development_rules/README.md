@@ -18,8 +18,14 @@
 
 1. Swaggerの作成
 2. Domain層の作成
-3. Infrastructure, Interface, Application層の作成
-4. Domain, Application層のテストを作成
+3. Infrastructure層の作成
+4. Application層の作成
+4. Interface層の作成
+5. テストを作成
+  * application
+  * application/validation
+  * domain/service
+  * infrastructure/validation
 
 ### 実装詳細
 
