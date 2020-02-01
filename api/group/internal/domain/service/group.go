@@ -30,7 +30,13 @@ func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRe
 }
 
 func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
-	return nil, nil
+	g, err := gs.GroupRepository.Index(ctx, u)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.Unauthorized.New(err)
+	}
+
+	return g, nil
 }
 
 func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
