@@ -3,11 +3,11 @@ package v1
 import (
 	"net/http"
 
-	"github.com/16francs/gran/api/user/internal/application"
-	"github.com/16francs/gran/api/user/internal/application/request"
-	"github.com/16francs/gran/api/user/internal/domain"
-	"github.com/16francs/gran/api/user/internal/interface/handler"
-	"github.com/16francs/gran/api/user/middleware"
+	"github.com/16francs/gran/api/group/internal/application"
+	"github.com/16francs/gran/api/group/internal/application/request"
+	"github.com/16francs/gran/api/group/internal/domain"
+	"github.com/16francs/gran/api/group/internal/interface/handler"
+	"github.com/16francs/gran/api/group/middleware"
 	"github.com/gin-gonic/gin"
 )
 

@@ -3,7 +3,7 @@ package validation
 import (
 	"context"
 
-	"github.com/16francs/gran/api/user/internal/domain"
+	"github.com/16francs/gran/api/group/internal/domain"
 )
 
 // GroupDomainValidation - GroupDomainRepositoryインターフェース

@@ -1,8 +1,8 @@
 package validation
 
 import (
-	"github.com/16francs/gran/api/user/internal/application/request"
-	"github.com/16francs/gran/api/user/internal/domain"
+	"github.com/16francs/gran/api/group/internal/application/request"
+	"github.com/16francs/gran/api/group/internal/domain"
 )
 
 // GroupRequestValidation - ユーザー関連のバリデーション

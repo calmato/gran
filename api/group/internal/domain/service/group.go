@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 
-	"github.com/16francs/gran/api/user/internal/domain/repository"
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/user/internal/domain"
-	"github.com/16francs/gran/api/user/internal/domain/validation"
+	"github.com/16francs/gran/api/group/internal/domain"
+	"github.com/16francs/gran/api/group/internal/domain/repository"
+	"github.com/16francs/gran/api/group/internal/domain/validation"
 )
 
 // GroupService - GroupServiceインターフェース

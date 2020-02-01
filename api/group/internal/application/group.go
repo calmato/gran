@@ -6,10 +6,10 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/user/internal/application/request"
-	"github.com/16francs/gran/api/user/internal/application/validation"
-	"github.com/16francs/gran/api/user/internal/domain"
-	"github.com/16francs/gran/api/user/internal/domain/service"
+	"github.com/16francs/gran/api/group/internal/application/request"
+	"github.com/16francs/gran/api/group/internal/application/validation"
+	"github.com/16francs/gran/api/group/internal/domain"
+	"github.com/16francs/gran/api/group/internal/domain/service"
 )
 
 // GroupApplication - GroupApplicationインターフェース
