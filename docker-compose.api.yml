@@ -22,6 +22,18 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
     command: realize start
 
+  group_api:
+    container_name: gran_group_api
+    build: ./container/api/group
+    working_dir: /go/src/github.com/16francs/gran/api/group
+    volumes:
+      - ./api/group:/go/src/github.com/16francs/gran/api/group:cached
+      - ./secret:/secret:cached
+    environment:
+      - PORT=8080
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+    command: realize start
+
   swagger:
     container_name: gran_swagger
     build: ./container/swagger
