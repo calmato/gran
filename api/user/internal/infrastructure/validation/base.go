@@ -1,9 +1,13 @@
 package validation
 
 import (
+	"fmt"
 	"regexp"
 
 	"github.com/go-playground/validator/v10"
+
+	"github.com/16francs/gran/api/user/internal/domain"
+	"github.com/16francs/gran/api/user/internal/domain/validation"
 )
 
 const (
@@ -16,7 +20,7 @@ var (
 
 // DomainValidator - ドメインバリデーションインターフェース
 type DomainValidator interface {
-	Run(i interface{}) error
+	Run(i interface{}) []*domain.ValidationError
 }
 
 type domainValidator struct {
@@ -37,10 +41,40 @@ func NewDomainValidator() DomainValidator {
 }
 
 // Run - バリデーションの実行
-func (dv *domainValidator) Run(i interface{}) error {
-	return dv.validate.Struct(i)
+func (dv *domainValidator) Run(i interface{}) []*domain.ValidationError {
+	err := dv.validate.Struct(i)
+	if err == nil {
+		return nil
+	}
+
+	errors := err.(validator.ValidationErrors)
+	validationErrors := make([]*domain.ValidationError, len(errors))
+
+	for i, v := range errors {
+		validationErrors[i] = &domain.ValidationError{
+			Field:   v.Field(),
+			Message: validationMessage(v.Tag(), v.Param()),
+		}
+	}
+
+	return validationErrors
 }
 
 func passwordCheck(fl validator.FieldLevel) bool {
 	return passwordRegex.MatchString(fl.Field().String())
+}
+
+func validationMessage(tag string, param string) string {
+	switch tag {
+	case validation.MinTag:
+		return fmt.Sprintf(validation.MinMessage, param)
+	case validation.MaxTag:
+		return fmt.Sprintf(validation.MaxMessage, param)
+	case validation.EmailTag:
+		return validation.EmailMessage
+	case validation.PasswordTag:
+		return validation.PasswordMessage
+	default:
+		return ""
+	}
 }

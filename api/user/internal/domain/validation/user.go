@@ -8,5 +8,5 @@ import (
 
 // UserDomainValidation - UserDomainRepositoryインターフェース
 type UserDomainValidation interface {
-	User(ctx context.Context, u *domain.User) error
+	User(ctx context.Context, u *domain.User) []*domain.ValidationError
 }

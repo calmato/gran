@@ -40,9 +40,9 @@ func (ga *groupApplication) Create(ctx context.Context, req *request.CreateGroup
 		return err
 	}
 
-	if err := ga.groupRequestValidation.CreateGroup(req); err != nil {
-		err = xerrors.Errorf("Failed to Application/RequestValidation: %w", err)
-		return domain.InvalidRequestValidation.New(err)
+	if ves := ga.groupRequestValidation.CreateGroup(req); len(ves) > 0 {
+		err := xerrors.New("Failed to Application/RequestValidation")
+		return domain.InvalidRequestValidation.New(err, ves...)
 	}
 
 	current := time.Now()
