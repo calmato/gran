@@ -31,6 +31,19 @@
 
 * [ディレクトリ関連図](https://github.com/16francs/gran/tree/master/doc/02_backend/01_development_rules/directory.md)
 
+### Application/Validation と Domain/Validation について
+
+* Application/Validation
+  * 入力フォームに関する制約についてのバリデーション
+  * バリデーション情報は、Application/Requestの構造体に記載
+
+* Domain/Validation
+  * データベースの設計に関連する制約についてのバリデーション
+  * バリデーション情報は、Domainの構造体に記載
+
+* 文字列の長さ等のApplication,Domainどちらのバリデーションにも含められるもの
+  * 原則、Domain/Valiadtion にのみ記載する形とする
+
 ## その他
 
 ### マイクロサービス化の粒度
