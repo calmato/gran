@@ -21,11 +21,15 @@
 3. Infrastructure, Interface, Application層の作成
 4. Domain, Application層のテストを作成
 
+### 実装詳細
+
+* [ディレクトリ関連図](https://github.com/16francs/gran/tree/master/doc/02_backend/directory.md)
+
 ## その他
 
 ### マイクロサービス化の粒度
 
-* [User Service](https://github.com/16francs/gran/tree/master/doc/02_backend/02_user_api)
+* [User Service](https://github.com/16francs/gran/tree/master/doc/02_backend/03_user_api)
 
 ### ディレクトリ構成
 
