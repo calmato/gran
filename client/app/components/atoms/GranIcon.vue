@@ -1,5 +1,5 @@
 <template>
-  <v-icon :left="left" :right="right" :dark="dark">{{ iconName }}</v-icon>
+  <v-icon :left="left" :right="right" :dark="dark" :x-large="xLarge">{{ iconName }}</v-icon>
 </template>
 
 <script lang="ts">
@@ -20,6 +20,10 @@ export default Vue.extend({
       default: false
     },
     dark: {
+      type: Boolean,
+      default: false
+    },
+    xLarge: {
       type: Boolean,
       default: false
     }
