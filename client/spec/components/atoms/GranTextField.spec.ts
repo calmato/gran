@@ -133,6 +133,17 @@ describe('components/atoms/GranTextField', () => {
           expect(wrapper.vm.prependIconName).toBe('mdi-home')
         })
       })
+
+      describe('appendIconName', () => {
+        test('appendIconName: 初期値', () => {
+          expect(wrapper.vm.appendIconName).toBe('')
+        })
+
+        test('appendIconName: 代入', () => {
+          wrapper.setProps({ appendIcon: 'home' })
+          expect(wrapper.vm.appendIconName).toBe('mdi-home')
+        })
+      })
     })
   })
 })
