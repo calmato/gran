@@ -1,6 +1,6 @@
 # ディレクトリ設計
 
-![ディレクトリ関連図](https://github.com/16francs/gran/tree/master/doc/02_backend/01_development_rules/directory_dependencies.jpeg)
+![ディレクトリ関連図](./directory_dependencies.jpeg)
 
 ## 詳細
 

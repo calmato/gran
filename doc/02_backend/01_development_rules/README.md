@@ -23,7 +23,7 @@
 
 ### 実装詳細
 
-* [ディレクトリ関連図](https://github.com/16francs/gran/tree/master/doc/02_backend/directory.md)
+* [ディレクトリ関連図](https://github.com/16francs/gran/tree/master/doc/02_backend/01_development_rules/directory.md)
 
 ## その他
 
