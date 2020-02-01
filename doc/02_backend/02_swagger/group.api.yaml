@@ -2,24 +2,28 @@ openapi: '3.0.0'
 
 info:
   title: gran
-  description: User Servie API設計
+  description: Group Servie API設計
   version: 0.1.0
 
 servers:
-  - url: http://localhost:8080/v1/users
+  - url: http://localhost:8080/v1/groups
     description: 開発環境
 
 paths:
   /:
     post:
-      summary: ユーザ登録
+      summary: グループ作成
+      security:
+        - BearerAuth: []
       requestBody:
-        $ref: '#/components/requestBodies/CreateUser'
+        $ref: '#/components/requestBodies/CreateGroup'
       responses:
         '200':
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/Unkown'
 
@@ -48,28 +52,22 @@ components:
           description: エラー詳細
 
   requestBodies:
-    CreateUser:
-      description: ユーザ登録フォーム
+    CreateGroup:
+      description: グループ作成フォーム
       required: true
       content:
         application/json:
           schema:
             type: object
             properties:
-              email:
+              name:
                 type: string
-                format: email
-                description: Eメール
-              password:
+                description: グループ名
+              description:
                 type: string
-                description: パスワード
-              passwordConfirmation:
-                type: string
-                description: パスワード(確認用)
+                description: 説明
             required:
-              - email
-              - password
-              - passwordConfirmation
+              - name
 
   responses:
     BadRequest:
