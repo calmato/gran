@@ -47,7 +47,10 @@ func TestUserApplication_Create(t *testing.T) {
 		PasswordConfirmation: "12345678",
 	}
 
-	err := target.Create(nil, u)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := target.Create(ctx, u)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}

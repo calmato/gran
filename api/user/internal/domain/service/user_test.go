@@ -56,7 +56,10 @@ func TestUserService_Authentication(t *testing.T) {
 		UpdatedAt:    current,
 	}
 
-	got, err := target.Authentication(nil)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	got, err := target.Authentication(ctx)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
@@ -80,7 +83,10 @@ func TestUserService_Create(t *testing.T) {
 		UpdatedAt:    current,
 	}
 
-	err := target.Create(nil, u)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := target.Create(ctx, u)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}

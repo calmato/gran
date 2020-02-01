@@ -52,7 +52,10 @@ func TestUserDomainValidation_User(t *testing.T) {
 		UpdatedAt:    current,
 	}
 
-	got := target.User(nil, u)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	got := target.User(ctx, u)
 
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("want %#v, but %#v", want, got)
