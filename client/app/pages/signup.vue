@@ -23,7 +23,10 @@ export default Vue.extend({
     async doSignUp(signUpForm: ISignUpForm): Promise<void> {
       await this.signUp(signUpForm)
         .then(() => {
-          this.$router.push('/') // 仮のルーティング
+          this.$router.push({
+            name: 'email-check',
+            params: { email: signUpForm.email.value }
+          })
         })
         .catch((error) => {
           this.isError = true
