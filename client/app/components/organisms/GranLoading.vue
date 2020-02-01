@@ -48,8 +48,8 @@ export default Vue.extend({
   z-index: 999999;
 }
 
-.loader:after,
-.loader:before {
+.loader::after,
+.loader::before {
   box-sizing: border-box;
   display: none;
 }
@@ -62,8 +62,8 @@ export default Vue.extend({
   top: 0;
 }
 
-.loader.is-active:after,
-.loader.is-active:before {
+.loader.is-active::after,
+.loader.is-active::before {
   display: block;
 }
 
@@ -71,6 +71,7 @@ export default Vue.extend({
   0% {
     transform: rotate(0);
   }
+
   to {
     transform: rotate(359deg);
   }
@@ -80,12 +81,13 @@ export default Vue.extend({
   0% {
     opacity: 0.5;
   }
+
   to {
     opacity: 1;
   }
 }
 
-.loader[data-text]:before {
+.loader[data-text]::before {
   position: fixed;
   left: 0;
   top: 50%;
@@ -96,23 +98,23 @@ export default Vue.extend({
   font-size: 14px;
 }
 
-.loader[data-text='']:before {
+.loader[data-text='']::before {
   content: 'Loading';
 }
 
-.loader[data-text]:not([data-text='']):before {
+.loader[data-text]:not([data-text=''])::before {
   content: attr(data-text);
 }
 
-.loader[data-text][data-blink]:before {
+.loader[data-text][data-blink]::before {
   animation: blink 1s linear infinite alternate;
 }
 
-.loader-default[data-text]:before {
+.loader-default[data-text]::before {
   top: calc(50% - 63px);
 }
 
-.loader-default:after {
+.loader-default::after {
   content: '';
   position: fixed;
   width: 48px;
@@ -125,11 +127,11 @@ export default Vue.extend({
   animation: rotation 1s linear infinite;
 }
 
-.loader-default[data-half]:after {
+.loader-default[data-half]::after {
   border-right-color: transparent;
 }
 
-.loader-default[data-inverse]:after {
+.loader-default[data-inverse]::after {
   animation-direction: reverse;
 }
 </style>
