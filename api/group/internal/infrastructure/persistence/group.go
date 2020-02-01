@@ -23,6 +23,10 @@ func NewGroupPersistence(fs *firestore.Firestore) repository.GroupRepository {
 	}
 }
 
+func (gp *groupPersistence) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
+	return nil, nil
+}
+
 func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
 	g.ID = uuid.New().String()
 	g.UserRefs = append(g.UserRefs, getUserReference(u.ID))

@@ -12,6 +12,7 @@ import (
 
 // GroupService - GroupServiceインターフェース
 type GroupService interface {
+	Index(ctx context.Context, u *domain.User) ([]*domain.Group, error)
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
 }
 
@@ -26,6 +27,10 @@ func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRe
 		GroupDomainValidation: gdv,
 		GroupRepository:       gr,
 	}
+}
+
+func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
+	return nil, nil
 }
 
 func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Group) error {

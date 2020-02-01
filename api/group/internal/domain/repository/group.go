@@ -8,5 +8,6 @@ import (
 
 // GroupRepository - GroupRepositoryインターフェース
 type GroupRepository interface {
+	Index(ctx context.Context, u *domain.User) ([]*domain.Group, error)
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
 }
