@@ -3,7 +3,7 @@ package config
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/16francs/gran/api/user/registry"
+	"github.com/16francs/gran/api/group/registry"
 )
 
 // Router - ルーティングの定義
@@ -17,11 +17,8 @@ func Router(reg *registry.Registry) *gin.Engine {
 	r.GET("/health", reg.Health.HealthCheck)
 
 	// api v1 routes
-	apiV1 := r.Group("/v1/users")
-	{
-		apiV1.POST("", reg.V1User.Create)
-		apiV1.POST("/groups", reg.V1Group.Create)
-	}
+	// apiV1 := r.Group("/v1/groups")
+	r.Group("/v1/groups")
 
 	return r
 }
