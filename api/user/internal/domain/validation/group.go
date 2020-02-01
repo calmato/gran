@@ -8,5 +8,5 @@ import (
 
 // GroupDomainValidation - GroupDomainRepositoryインターフェース
 type GroupDomainValidation interface {
-	Group(ctx context.Context, g *domain.Group) error
+	Group(ctx context.Context, g *domain.Group) []*domain.ValidationError
 }

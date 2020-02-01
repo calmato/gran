@@ -23,6 +23,6 @@ func NewGroupDomainValidation(gr repository.GroupRepository) dv.GroupDomainValid
 	}
 }
 
-func (gdv *groupDomainValidation) Group(ctx context.Context, g *domain.Group) error {
+func (gdv *groupDomainValidation) Group(ctx context.Context, g *domain.Group) []*domain.ValidationError {
 	return gdv.validator.Run(g)
 }
