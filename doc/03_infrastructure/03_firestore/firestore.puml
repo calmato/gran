@@ -17,7 +17,9 @@ entity "User" {
   Name: string
   Email: string [Unique]
   ThumbnailURL: string
-  Groups: []Group (Reference)
+  GroupRefs: []string (Reference)
+  CreatedAt: timestamp
+  UpdatedAt: timestamp
 }
 
 entity "Group" {
@@ -27,8 +29,11 @@ entity "Group" {
   ==
   Name: string
   Description: string
-  UserRefs: []User (Reference)
-  Boards: []Board (SubCollection)
+  ThumbnailURL: string
+  UserRefs: []string (Reference)
+  BoardRefs: []string (SubCollection)
+  CreatedAt: timestamp
+  UpdatedAt: timestamp
 }
 
 entity "Board" {
@@ -37,7 +42,14 @@ entity "Board" {
   + ID (Firebase 上の UID): string [Key]
   ==
   Name: string
-  Lists: []List (SubCollection)
+  Closed: boolean
+  ThumbnailURL: string
+  BackgroundColor: string
+  BackgroundURL: string
+  Labels: []string
+  Lists: []string (SubCollection)
+  CreatedAt: timestamp
+  UpdatedAt: timestamp
 }
 
 entity "BoardList" {
@@ -46,7 +58,9 @@ entity "BoardList" {
   + ID (Firebase 上の UID): string [Key]
   ==
   Name: string
-  TaskRefs: []Task (Reference)
+  TaskRefs: []string (Reference)
+  CreatedAt: timestamp
+  UpdatedAt: timestamp
 }
 
 entity "Task" {
@@ -56,12 +70,16 @@ entity "Task" {
   ==
   Name: string
   Description: string
-  Deadline: Time
+  DeadlinedAt: timestamp
   Tags: []string
-  BoardListRef: BoardList (Reference)
-  UserRefs: []User (Reference)
-  CheckLists: []CheckList (SubCollection)
-  Comments: []Comment (SubCollecition)
+  Labels: []string
+  AttachmentURLs: []string
+  BoardListRef: string (Reference)
+  UserRefs: []string (Reference)
+  CheckLists: []string (SubCollection)
+  Comments: []string (SubCollecition)
+  CreatedAt: timestamp
+  UpdatedAt: timestamp
 }
 
 entity "CheckList" {
@@ -70,8 +88,10 @@ entity "CheckList" {
   + ID (Firebase 上の UID): string [Key]
   ==
   Name: string
-  Deadline: Time
-  UserRefs: []User (Reference)
+  DeadlinedAt: timestamp
+  UserRefs: []string (Reference)
+  CreatedAt: timestamp
+  UpdatedAt: timestamp
 }
 
 entity "Comment" {
@@ -80,7 +100,9 @@ entity "Comment" {
   + ID (Firebase 上の UID): string [Key]
   ==
   Content: string
-  UserRef: User (Reference)
+  UserRef:  (Reference)
+  CreatedAt: timestamp
+  UpdatedAt: timestamp
 }
 
 ' --- Relation --- '
