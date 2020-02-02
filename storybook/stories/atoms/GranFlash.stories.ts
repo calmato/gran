@@ -1,5 +1,6 @@
-import { VAlert } from 'vuetify/lib'
 import { text, boolean } from '@storybook/addon-knobs'
+
+import { VAlert } from 'vuetify/lib'
 
 import GranFlash from '~/components/atoms/GranFlash.vue'
 
