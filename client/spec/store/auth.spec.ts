@@ -3,10 +3,11 @@ import cloneDeep from 'lodash.clonedeep'
 import '~~/spec/helpers/store-helper'
 import axios from '~~/spec/helpers/axios'
 import * as AuthStore from '~/store/auth'
+import { ISignUpForm } from '~/types/form'
 import { IUserStore } from '~/types/store'
 
 describe('store/auth', () => {
-  let store
+  let store: any
 
   beforeEach(() => {
     store = new Vuex.Store(cloneDeep(AuthStore))
@@ -65,7 +66,7 @@ describe('store/auth', () => {
   })
 
   describe('mutations', () => {
-    let commit
+    let commit: any
     beforeEach(() => {
       commit = store.commit
     })
@@ -88,14 +89,17 @@ describe('store/auth', () => {
       })
 
       test('signUp', async () => {
-        const form = {
+        const form: ISignUpForm = {
           email: {
+            label: 'Email',
             value: 'hoge@hoge.com'
           },
           password: {
+            label: 'Password',
             value: '12345678'
           },
           passwordConfirmation: {
+            label: 'Password Confirmation',
             value: '12345678'
           }
         }
@@ -110,15 +114,18 @@ describe('store/auth', () => {
       })
 
       test('signUp', async () => {
-        const form = {
+        const form: ISignUpForm = {
           email: {
-            value: 'hoge@hoge.com'
+            label: 'Email',
+            value: ''
           },
           password: {
-            value: '12345678'
+            label: 'Password',
+            value: ''
           },
           passwordConfirmation: {
-            value: '12345678'
+            label: 'Password Confirmation',
+            value: ''
           }
         }
 
