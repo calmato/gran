@@ -1,6 +1,10 @@
+import * as AuthStore from './auth'
+
 export default {
   get: {},
-  post: {},
+  post: {
+    ...AuthStore.post
+  },
   patch: {},
   put: {},
   delete: {}
