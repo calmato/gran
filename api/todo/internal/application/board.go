@@ -25,11 +25,11 @@ type boardApplication struct {
 
 // NewBoardApplication - BoardApplicationの生成
 func NewBoardApplication(
-	grv validation.BoardRequestValidation, gs service.BoardService, us service.UserService,
+	brv validation.BoardRequestValidation, bs service.BoardService, us service.UserService,
 ) BoardApplication {
 	return &boardApplication{
-		BoardRequestValidation: grv,
-		BoardService:           gs,
+		BoardRequestValidation: brv,
+		BoardService:           bs,
 		UserService:            us,
 	}
 }
