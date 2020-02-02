@@ -14,6 +14,8 @@ func Router(reg *registry.Registry) *gin.Engine {
 	// Corsの設定
 	r.Use(SetCors())
 
+	r.GET("/health", reg.Health.HealthCheck)
+
 	// api v1 routes
 	r.Group("/v1/todo")
 	// apiV1 := r.Group("/v1/todo")
