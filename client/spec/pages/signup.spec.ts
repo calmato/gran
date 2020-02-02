@@ -4,7 +4,7 @@ import { mount, RouterLinkStub } from '@vue/test-utils'
 import '~~/spec/helpers/component-helper'
 import axios from '~~/spec/helpers/axios'
 import storeModule from '~~/spec/helpers/store'
-import SignUp from '~/pages/SignUp.vue'
+import SignUp from '~/pages/signup.vue'
 import { ISignUpForm, SignUpForm } from '~/types/form'
 
 describe('pages/signup', () => {
