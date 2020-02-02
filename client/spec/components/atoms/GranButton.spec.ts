@@ -3,7 +3,7 @@ import '~~/spec/helpers/component-helper'
 import GranButton from '~/components/atoms/GranButton.vue'
 
 describe('components/atoms/GranButton', () => {
-  let wrapper
+  let wrapper: any
 
   beforeEach(() => {
     wrapper = mount(GranButton)

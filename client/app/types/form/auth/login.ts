@@ -3,7 +3,7 @@ export interface ILoginForm {
   password: string
 }
 
-interface ILoginFormValidate {
+export interface ILoginFormValidate {
   email: Object
   password: Object
 }

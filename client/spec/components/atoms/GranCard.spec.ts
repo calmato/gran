@@ -3,7 +3,7 @@ import '~~/spec/helpers/component-helper'
 import GranCard from '~/components/atoms/GranCard.vue'
 
 describe('components/atoms/GranCard', () => {
-  let wrapper
+  let wrapper: any
 
   beforeEach(() => {
     wrapper = mount(GranCard)
