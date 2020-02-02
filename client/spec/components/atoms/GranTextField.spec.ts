@@ -1,23 +1,16 @@
 import { mount } from '@vue/test-utils'
 import '~~/spec/helpers/component-helper'
 import GranTextField from '~/components/atoms/GranTextField.vue'
+import { ILoginFormValidate, LoginFormValidate } from '~/types/form'
 
 describe('components/atoms/GranTextField', () => {
-  let wrapper
-  let rules
+  let wrapper: any
+  let rules: ILoginFormValidate
 
   beforeEach(() => {
     wrapper = mount(GranTextField)
 
-    rules = {
-      email: {
-        required: true,
-        email: true
-      },
-      password: {
-        required: true
-      }
-    }
+    rules = LoginFormValidate
   })
 
   describe('script', () => {
