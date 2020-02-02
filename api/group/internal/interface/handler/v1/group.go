@@ -16,6 +16,7 @@ import (
 // APIV1GroupHandler - Groupハンドラのインターフェース
 type APIV1GroupHandler interface {
 	Index(ctx *gin.Context)
+	Show(ctx *gin.Context)
 	Create(ctx *gin.Context)
 }
 
@@ -55,6 +56,29 @@ func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
 
 	res := &response.Groups{
 		Groups: gsr,
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (gh *apiV1GroupHandler) Show(ctx *gin.Context) {
+	groupID := ctx.Params.ByName("groupID")
+
+	c := middleware.GinContextToContext(ctx)
+
+	g, err := gh.groupApplication.Show(c, groupID)
+	if err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+
+	res := &response.Group{
+		ID:          g.ID,
+		Name:        g.Name,
+		Description: g.Description,
+		UserRefs:    g.UserRefs,
+		CreatedAt:   g.CreatedAt,
+		UpdatedAt:   g.UpdatedAt,
 	}
 
 	ctx.JSON(http.StatusOK, res)
