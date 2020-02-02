@@ -59,3 +59,41 @@ update_configs:
           update_type: semver:patch
     commit_message:
       prefix: chore
+
+  # API (Group Service)
+  - package_manager: go:modules
+    directory: /api/group
+    update_schedule: daily
+    target_branch: develop
+    default_labels:
+      - "api: Group"
+      - golang
+      - dependabot
+    allowed_updates:
+      - match:
+          update_type: all
+    automerged_updates:
+      - match:
+          dependency_type: all
+          update_type: semver:patch
+    commit_message:
+      prefix: chore
+
+  # API (ToDo Service)
+  - package_manager: go:modules
+    directory: /api/todo
+    update_schedule: daily
+    target_branch: develop
+    default_labels:
+      - "api: ToDo"
+      - golang
+      - dependabot
+    allowed_updates:
+      - match:
+          update_type: all
+    automerged_updates:
+      - match:
+          dependency_type: all
+          update_type: semver:patch
+    commit_message:
+      prefix: chore
