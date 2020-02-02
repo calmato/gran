@@ -1,0 +1,60 @@
+openapi: '3.0.0'
+
+info:
+  title: gran
+  description: ToDo Servie API設計
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:8080/v1/todos
+    description: 開発環境
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Error:
+      title: エラーレスポンス
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTPステータスコード
+        code:
+          type: integer
+          description: エラー管理用ステータスコード
+        message:
+          type: string
+          description: エラーメッセージ
+        errors:
+          type: object
+          description: エラー詳細
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unkown:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
