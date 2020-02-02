@@ -1,9 +1,6 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify'
+import '~~/spec/helpers/component-helper'
 import { mount } from '@vue/test-utils'
 import GranButton from '~/components/atoms/GranButton.vue'
-
-Vue.use(Vuetify)
 
 describe('components/atoms/GranButton', () => {
   let wrapper

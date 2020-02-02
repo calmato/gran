@@ -1,11 +1,6 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import { ValidationProvider } from 'vee-validate'
+import '~~/spec/helpers/component-helper'
 import { mount } from '@vue/test-utils'
 import GranTextField from '~/components/atoms/GranTextField.vue'
-
-Vue.use(Vuetify)
-Vue.component('ValidationProvider', ValidationProvider)
 
 describe('components/atoms/GranTextField', () => {
   let wrapper
