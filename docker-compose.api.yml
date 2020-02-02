@@ -34,6 +34,18 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
     command: realize start
 
+  todo_api:
+    container_name: gran_todo_api
+    build: ./container/api/todo
+    working_dir: /go/src/github.com/16francs/gran/api/todo
+    volumes:
+      - ./api/todo:/go/src/github.com/16francs/gran/api/todo:cached
+      - ./secret:/secret:cached
+    environment:
+      - PORT=8080
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+    command: realize start
+
   swagger:
     container_name: gran_swagger
     build: ./container/swagger
