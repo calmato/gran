@@ -83,17 +83,16 @@ describe('store/auth', () => {
   })
 
   describe('actions', () => {
+    let signUpForm: ISignUpForm
+
     beforeEach(() => {
       store.$axios = axios
+      signUpForm = SignUpForm
     })
 
     describe('success', () => {
-      let signUpForm: ISignUpForm
-
       beforeEach(() => {
         store.$axios.setSafetyMode(true)
-
-        signUpForm = SignUpForm
       })
 
       test('signUp', async () => {
