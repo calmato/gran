@@ -45,6 +45,22 @@ func (gp *groupPersistence) Index(ctx context.Context, u *domain.User) ([]*domai
 	return gs, nil
 }
 
+func (gp *groupPersistence) Show(ctx context.Context, groupID string) (*domain.Group, error) {
+	doc, err := gp.firestore.Get(ctx, GroupCollection, groupID)
+	if err != nil {
+		return nil, err
+	}
+
+	g := &domain.Group{}
+
+	err = doc.DataTo(g)
+	if err != nil {
+		return nil, err
+	}
+
+	return g, nil
+}
+
 func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
 	g.ID = uuid.New().String()
 	g.UserRefs = append(g.UserRefs, getUserReference(u.ID))
