@@ -8,5 +8,5 @@ import (
 
 // BoardRepository - BoardRepositoryインターフェース
 type BoardRepository interface {
-	Create(ctx context.Context, b *domain.Board) error
+	Create(ctx context.Context, groupID string, b *domain.Board) error
 }
