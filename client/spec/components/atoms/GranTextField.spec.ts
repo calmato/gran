@@ -1,5 +1,5 @@
-import '~~/spec/helpers/component-helper'
 import { mount } from '@vue/test-utils'
+import '~~/spec/helpers/component-helper'
 import GranTextField from '~/components/atoms/GranTextField.vue'
 
 describe('components/atoms/GranTextField', () => {

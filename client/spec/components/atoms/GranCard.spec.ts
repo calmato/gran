@@ -1,5 +1,5 @@
-import '~~/spec/helpers/component-helper'
 import { mount } from '@vue/test-utils'
+import '~~/spec/helpers/component-helper'
 import GranCard from '~/components/atoms/GranCard.vue'
 
 describe('components/atoms/GranCard', () => {

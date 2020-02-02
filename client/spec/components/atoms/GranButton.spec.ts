@@ -1,5 +1,5 @@
-import '~~/spec/helpers/component-helper'
 import { mount } from '@vue/test-utils'
+import '~~/spec/helpers/component-helper'
 import GranButton from '~/components/atoms/GranButton.vue'
 
 describe('components/atoms/GranButton', () => {
