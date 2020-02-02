@@ -23,7 +23,7 @@
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.3.8",
     "@nuxtjs/axios": "^5.9.4",
-    "firebase": "^7.7.0",
+    "firebase": "^7.8.0",
     "js-cookie": "^2.2.1",
     "nuxt": "^2.0.0",
     "vee-validate": "^3.2.3",
@@ -38,7 +38,7 @@
     "@nuxtjs/eslint-module": "^1.0.0",
     "@nuxtjs/stylelint-module": "^3.2.1",
     "@nuxtjs/vuetify": "^1.10.3",
-    "@types/jest": "^24.9.1",
+    "@types/jest": "^25.1.1",
     "@vue/test-utils": "^1.0.0-beta.31",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^25.1.0",
