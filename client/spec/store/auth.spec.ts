@@ -3,14 +3,22 @@ import cloneDeep from 'lodash.clonedeep'
 import '~~/spec/helpers/store-helper'
 import axios from '~~/spec/helpers/axios'
 import * as AuthStore from '~/store/auth'
-import { ISignUpForm } from '~/types/form'
-import { IUserStore } from '~/types/store'
+import { ISignUpForm, SignUpForm } from '~/types/form'
+import { IUser, IUserStore } from '~/types/store'
 
 describe('store/auth', () => {
   let store: any
+  let user: IUser
 
   beforeEach(() => {
     store = new Vuex.Store(cloneDeep(AuthStore))
+
+    user = {
+      uid: 'JUA1ouY12ickxIupMVdVl3ieM7s2',
+      email: 'hoge@hoge.com',
+      creationTime: '2020-01-01T00:00:00.000000Z',
+      lastSignInTime: '2020-01-01T00:00:00.000000Z'
+    }
   })
 
   afterEach(() => {
@@ -36,12 +44,7 @@ describe('store/auth', () => {
       const userStore: IUserStore = {
         emailVerified: true,
         token: 'xL7QdFig7HOv7btzH8gAKuK81xI2',
-        user: {
-          uid: 'JUA1ouY12ickxIupMVdVl3ieM7s2',
-          email: 'hoge@hoge.com',
-          creationTime: '2020-01-01T00:00:00.000000Z',
-          lastSignInTime: '2020-01-01T00:00:00.000000Z'
-        }
+        user
       }
 
       store.replaceState(userStore)
@@ -56,12 +59,7 @@ describe('store/auth', () => {
     })
 
     test('user', () => {
-      expect(store.getters['user']).toEqual({
-        uid: 'JUA1ouY12ickxIupMVdVl3ieM7s2',
-        email: 'hoge@hoge.com',
-        creationTime: '2020-01-01T00:00:00.000000Z',
-        lastSignInTime: '2020-01-01T00:00:00.000000Z'
-      })
+      expect(store.getters['user']).toEqual(user)
     })
   })
 
@@ -76,6 +74,12 @@ describe('store/auth', () => {
 
       expect(store.state.emailVerified).toBeTruthy()
     })
+
+    test('setEmailVerified', () => {
+      commit('setToken', 'xL7QdFig7HOv7btzH8gAKuK81xI2')
+
+      expect(store.state.token).toBe('xL7QdFig7HOv7btzH8gAKuK81xI2')
+    })
   })
 
   describe('actions', () => {
@@ -84,27 +88,16 @@ describe('store/auth', () => {
     })
 
     describe('success', () => {
+      let signUpForm: ISignUpForm
+
       beforeEach(() => {
         store.$axios.setSafetyMode(true)
+
+        signUpForm = SignUpForm
       })
 
       test('signUp', async () => {
-        const form: ISignUpForm = {
-          email: {
-            label: 'Email',
-            value: 'hoge@hoge.com'
-          },
-          password: {
-            label: 'Password',
-            value: '12345678'
-          },
-          passwordConfirmation: {
-            label: 'Password Confirmation',
-            value: '12345678'
-          }
-        }
-
-        await store.dispatch('signUp', form)
+        await store.dispatch('signUp', signUpForm)
       })
     })
 
@@ -114,22 +107,9 @@ describe('store/auth', () => {
       })
 
       test('signUp', async () => {
-        const form: ISignUpForm = {
-          email: {
-            label: 'Email',
-            value: ''
-          },
-          password: {
-            label: 'Password',
-            value: ''
-          },
-          passwordConfirmation: {
-            label: 'Password Confirmation',
-            value: ''
-          }
-        }
-
-        await expect(store.dispatch('signUp', form)).rejects.toEqual(new Error('Error: some error'))
+        await expect(store.dispatch('signUp', SignUpForm)).rejects.toEqual(
+          new Error('Error: some error')
+        )
       })
     })
   })
