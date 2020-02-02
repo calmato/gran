@@ -14,7 +14,7 @@
     "@babel/core": "^7.8.4",
     "@nuxtjs/vuetify": "^1.10.3",
     "@storybook/addon-actions": "^5.3.10",
-    "@storybook/addon-knobs": "^5.3.9",
+    "@storybook/addon-knobs": "^5.3.10",
     "@storybook/addon-links": "^5.2.8",
     "@storybook/addon-storysource": "^5.3.9",
     "@storybook/addons": "^5.3.10",
