@@ -12,7 +12,7 @@ type boardDomainValidation struct {
 }
 
 // NewGroupDomainValidation - GroupDomainValidationの生成
-func NewGroupDomainValidation() dv.BoardDomainValidation {
+func NewBoardDomainValidation() dv.BoardDomainValidation {
 	v := NewDomainValidator()
 
 	return &boardDomainValidation{

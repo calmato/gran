@@ -4,8 +4,8 @@ package request
 type CreateBoard struct {
 	Name            string   `json:"name" validate:"required"`
 	GroupID         string   `json:"groupId" validate:"required"`
-	Closed          bool     `firestore:"closed" validate:"required"`
-	ThumbnailURL    string   `firestore:"thumbnailUrl"`
-	BackgroundColor string   `firestore:"backgroundColor"`
-	Labels          []string `firestore:"labels"`
+	Closed          bool     `json:"closed" validate:"required"`
+	ThumbnailURL    string   `json:"thumbnailUrl"`
+	BackgroundColor string   `json:"backgroundColor"`
+	Labels          []string `json:"labels"`
 }

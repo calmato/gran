@@ -24,5 +24,5 @@ func NewBoardRequestValidation() BoardRequestValidation {
 }
 
 func (brv *boardRequestValidation) CreateBoard(cb *request.CreateBoard) []*domain.ValidationError {
-	return grv.validator.Run(cb)
+	return brv.validator.Run(cb)
 }
