@@ -60,6 +60,7 @@ services:
       - ./secret:/secret:cached
     environment:
       - PORT=8080
+      - GROUP_API_URL=${GROUP_API_URL}
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
     command: realize start
 
