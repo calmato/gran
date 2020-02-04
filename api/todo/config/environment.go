@@ -9,6 +9,7 @@ import (
 // Environment - 環境変数の構造体
 type Environment struct {
 	Port                         string `envconfig:"PORT" default:"8080"`
+	GroupApiURL                  string `envconfig:"GROUP_API_URL" default:"http://group_api:8080"`
 	GoogleApplicationCredentials string `envconfig:"GOOGLE_APPLICATION_CREDENTIALS" required:"true"`
 }
 

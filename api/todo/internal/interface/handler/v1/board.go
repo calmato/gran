@@ -34,8 +34,6 @@ func (bh *apiV1BoardHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: Group Serviceにリクエスト投げてGroup IDを取得する処理を追加
-
 	c := middleware.GinContextToContext(ctx)
 	if err := bh.BoardApplication.Create(c, &req); err != nil {
 		handler.ErrorHandling(ctx, err)
