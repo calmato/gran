@@ -15,6 +15,7 @@ import (
 // GroupApplication - GroupApplicationインターフェース
 type GroupApplication interface {
 	Index(ctx context.Context) ([]*domain.Group, error)
+	Show(ctx context.Context, groupID string) (*domain.Group, error)
 	Create(ctx context.Context, req *request.CreateGroup) error
 }
 
@@ -47,6 +48,27 @@ func (ga *groupApplication) Index(ctx context.Context) ([]*domain.Group, error) 
 	}
 
 	return gs, nil
+}
+
+func (ga *groupApplication) Show(ctx context.Context, groupID string) (*domain.Group, error) {
+	u, err := ga.UserService.Authentication(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	g, err := ga.GroupService.Show(ctx, groupID)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, v := range g.UserRefs {
+		if v == u.ID {
+			return g, nil
+		}
+	}
+
+	err = xerrors.New("Faled to Application")
+	return nil, domain.Forbidden.New(err)
 }
 
 func (ga *groupApplication) Create(ctx context.Context, req *request.CreateGroup) error {
