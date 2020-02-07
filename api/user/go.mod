@@ -14,6 +14,6 @@ require (
 	github.com/rs/cors v1.7.0
 	golang.org/x/oauth2 v0.0.0-20191202225959-858c2ad4c8b6 // indirect
 	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
-	google.golang.org/api v0.16.0
+	google.golang.org/api v0.17.0
 	google.golang.org/appengine v1.6.5 // indirect
 )
