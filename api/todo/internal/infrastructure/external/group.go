@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"golang.org/x/xerrors"
 
@@ -26,13 +27,15 @@ func NewGroupAPI(url string) repository.GroupRepository {
 	}
 }
 
-func (ga *groupAPI) Show(ctx context.Context) (*domain.Group, error) {
+func (ga *groupAPI) Show(ctx context.Context, groupID string) (*domain.Group, error) {
 	t, err := getToken(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	req, _ := http.NewRequest("GET", ga.url, nil)
+	url := strings.Join([]string{ga.url, groupID}, "/")
+
+	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Set("Authorization", t)
 
 	res, err := ga.client.Do(req)

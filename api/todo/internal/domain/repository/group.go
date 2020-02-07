@@ -8,5 +8,5 @@ import (
 
 // GroupRepository - GroupRepositoryインターフェース
 type GroupRepository interface {
-	Show(ctx context.Context) (*domain.Group, error)
+	Show(ctx context.Context, groupID string) (*domain.Group, error)
 }
