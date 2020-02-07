@@ -1,3 +1,2 @@
 export PORT=8080
-export GROUP_API_URL=http://group_api:8080
 export GOOGLE_APPLICATION_CREDENTIALS=./../../secret/xxx-firebase-adminsdk-xxx.json
