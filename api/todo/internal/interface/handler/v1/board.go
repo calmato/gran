@@ -17,13 +17,13 @@ type APIV1BoardHandler interface {
 }
 
 type apiV1BoardHandler struct {
-	BoardApplication application.BoardApplication
+	boardApplication application.BoardApplication
 }
 
 // NewAPIV1BoardHandler - APIV1BoardHandlerの生成
 func NewAPIV1BoardHandler(ba application.BoardApplication) APIV1BoardHandler {
 	return &apiV1BoardHandler{
-		BoardApplication: ba,
+		boardApplication: ba,
 	}
 }
 
@@ -35,7 +35,7 @@ func (bh *apiV1BoardHandler) Create(ctx *gin.Context) {
 	}
 
 	c := middleware.GinContextToContext(ctx)
-	if err := bh.BoardApplication.Create(c, &req); err != nil {
+	if err := bh.boardApplication.Create(c, &req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
