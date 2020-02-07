@@ -20,9 +20,9 @@ type GroupApplication interface {
 }
 
 type groupApplication struct {
-	GroupRequestValidation validation.GroupRequestValidation
-	GroupService           service.GroupService
-	UserService            service.UserService
+	groupRequestValidation validation.GroupRequestValidation
+	groupService           service.GroupService
+	userService            service.UserService
 }
 
 // NewGroupApplication - GroupApplicationの生成
@@ -30,19 +30,19 @@ func NewGroupApplication(
 	grv validation.GroupRequestValidation, gs service.GroupService, us service.UserService,
 ) GroupApplication {
 	return &groupApplication{
-		GroupRequestValidation: grv,
-		GroupService:           gs,
-		UserService:            us,
+		groupRequestValidation: grv,
+		groupService:           gs,
+		userService:            us,
 	}
 }
 
 func (ga *groupApplication) Index(ctx context.Context) ([]*domain.Group, error) {
-	u, err := ga.UserService.Authentication(ctx)
+	u, err := ga.userService.Authentication(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	gs, err := ga.GroupService.Index(ctx, u)
+	gs, err := ga.groupService.Index(ctx, u)
 	if err != nil {
 		return nil, err
 	}
@@ -51,12 +51,12 @@ func (ga *groupApplication) Index(ctx context.Context) ([]*domain.Group, error) 
 }
 
 func (ga *groupApplication) Show(ctx context.Context, groupID string) (*domain.Group, error) {
-	u, err := ga.UserService.Authentication(ctx)
+	u, err := ga.userService.Authentication(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	g, err := ga.GroupService.Show(ctx, groupID)
+	g, err := ga.groupService.Show(ctx, groupID)
 	if err != nil {
 		return nil, err
 	}
@@ -72,12 +72,12 @@ func (ga *groupApplication) Show(ctx context.Context, groupID string) (*domain.G
 }
 
 func (ga *groupApplication) Create(ctx context.Context, req *request.CreateGroup) error {
-	u, err := ga.UserService.Authentication(ctx)
+	u, err := ga.userService.Authentication(ctx)
 	if err != nil {
 		return err
 	}
 
-	if ves := ga.GroupRequestValidation.CreateGroup(req); len(ves) > 0 {
+	if ves := ga.groupRequestValidation.CreateGroup(req); len(ves) > 0 {
 		err := xerrors.New("Failed to Application/RequestValidation")
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
@@ -90,7 +90,7 @@ func (ga *groupApplication) Create(ctx context.Context, req *request.CreateGroup
 		UpdatedAt:   current,
 	}
 
-	if err := ga.GroupService.Create(ctx, u, g); err != nil {
+	if err := ga.groupService.Create(ctx, u, g); err != nil {
 		return err
 	}
 
