@@ -5,4 +5,6 @@ const (
 	UserCollection = "users"
 	// GroupCollection - GroupCollection名
 	GroupCollection = "groups"
+	// BoardCollection - BoardCollection名
+	BoardCollection = "boards"
 )
