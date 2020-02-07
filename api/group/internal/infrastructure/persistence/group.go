@@ -82,5 +82,5 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 }
 
 func getUserReference(userID string) string {
-	return strings.Join([]string{GroupCollection, userID}, "/")
+	return strings.Join([]string{UserCollection, userID}, "/")
 }
