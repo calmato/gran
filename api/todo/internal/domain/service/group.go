@@ -28,7 +28,8 @@ func (gs *groupService) Show(ctx context.Context, groupID string) (*domain.Group
 	g, err := gs.groupRepository.Show(ctx, groupID)
 	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
-		// TODO: エラー処理ちゃんとやる
 		return nil, domain.ErrorInDatastore.New(err)
 	}
+
+	return g, nil
 }

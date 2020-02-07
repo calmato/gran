@@ -35,7 +35,7 @@ func NewBoardApplication(
 }
 
 func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard) error {
-	_, err := ba.UserService.Authentication(ctx)
+	u, err := ba.UserService.Authentication(ctx)
 	if err != nil {
 		return err
 	}
@@ -58,9 +58,24 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 
 	groupID := req.GroupID
 
+	if !containWithGroupID(u.GroupRefs, groupID) {
+		err := xerrors.New("Unable to create Board in the Group")
+		return domain.Forbidden.New(err)
+	}
+
 	if err := ba.BoardService.Create(ctx, groupID, b); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func containWithGroupID(groupRefs []string, groupID string) bool {
+	for _, v := range groupRefs {
+		if v == groupID {
+			return true
+		}
+	}
+
+	return false
 }
