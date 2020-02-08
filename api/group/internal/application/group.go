@@ -62,14 +62,12 @@ func (ga *groupApplication) Show(ctx context.Context, groupID string) (*domain.G
 		return nil, err
 	}
 
-	for _, v := range g.UserRefs {
-		if v == u.ID {
-			return g, nil
-		}
+	if !ga.groupService.ExistUserIDInUserRefs(ctx, u.ID, g) {
+		err = xerrors.New("Failed to Application")
+		return nil, domain.Forbidden.New(err)
 	}
 
-	err = xerrors.New("Faled to Application")
-	return nil, domain.Forbidden.New(err)
+	return g, nil
 }
 
 func (ga *groupApplication) Create(ctx context.Context, req *request.CreateGroup) error {
