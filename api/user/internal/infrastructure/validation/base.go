@@ -63,7 +63,7 @@ func passwordCheck(fl validator.FieldLevel) bool {
 	return passwordRegex.MatchString(fl.Field().String())
 }
 
-func validationMessage(tag string, param string) string {
+func validationMessage(tag string) string {
 	switch tag {
 	case validation.EmailTag:
 		return validation.EmailMessage
