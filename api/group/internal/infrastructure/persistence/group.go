@@ -81,6 +81,10 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 	return nil
 }
 
+func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
+	return nil
+}
+
 func getUserReference(userID string) string {
 	return strings.Join([]string{UserCollection, userID}, "/")
 }

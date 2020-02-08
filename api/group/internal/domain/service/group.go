@@ -15,6 +15,7 @@ type GroupService interface {
 	Index(ctx context.Context, u *domain.User) ([]*domain.Group, error)
 	Show(ctx context.Context, groupID string) (*domain.Group, error)
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
+	Update(ctx context.Context, g *domain.Group) error
 }
 
 type groupService struct {
@@ -57,6 +58,20 @@ func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Gr
 	}
 
 	if err := gs.groupRepository.Create(ctx, u, g); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.ErrorInDatastore.New(err)
+	}
+
+	return nil
+}
+
+func (gs *groupService) Update(ctx context.Context, g *domain.Group) error {
+	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+		return domain.InvalidDomainValidation.New(err, ves...)
+	}
+
+	if err := gs.groupRepository.Update(ctx, g); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return domain.ErrorInDatastore.New(err)
 	}
