@@ -89,7 +89,13 @@ func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
 	return nil
 }
 
-func (gp *groupPersistence) InviteUser(ctx context.Context, u *domain.Group, g *domain.Group) error {
+func (gp *groupPersistence) InviteUser(ctx context.Context, userID string, g *domain.Group) error {
+	g.InvitedUserRefs = append(g.InvitedUserRefs, getUserReference(userID))
+
+	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -106,7 +112,15 @@ func (gp *groupPersistence) ExistUserIDInUserRefs(ctx context.Context, userID st
 }
 
 func (gp *groupPersistence) ExistUserIDInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
-	return true
+	userRef := getUserReference(userID)
+
+	for _, v := range g.InvitedUserRefs {
+		if userRef == v {
+			return true
+		}
+	}
+
+	return false
 }
 
 func getUserReference(userID string) string {
