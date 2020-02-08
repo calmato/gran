@@ -11034,9 +11034,9 @@ stylelint-config-standard@^19.0.0:
     stylelint-config-recommended "^3.0.0"
 
 stylelint-webpack-plugin@^1.2.1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/stylelint-webpack-plugin/-/stylelint-webpack-plugin-1.2.2.tgz#ca8a6e5d443eeaff18f612a2c93de3b93c01bb81"
-  integrity sha512-4v6gXxNKKKNePv+8F9L4c593IsRyaKBW/pPtIUY3Rm0EsHLZu5mc4OAAniOrtvAhwhqJBekKR47GBRODjyZWfw==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/stylelint-webpack-plugin/-/stylelint-webpack-plugin-1.2.3.tgz#c1785dbb5a9e7ea2777726c6851c1e4ac6362ad8"
+  integrity sha512-XEevZZzlI6k3e0Amp7AtpZ/elgaOdPPwLFY9InNoajw4KNRcZTkK61ZsZdHvIyK32Ej9L9u4fwfXG2QGKW0imA==
   dependencies:
     arrify "^2.0.1"
     micromatch "^4.0.2"
