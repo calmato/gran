@@ -28,14 +28,14 @@ func NewAPIV1BoardHandler(ba application.BoardApplication) APIV1BoardHandler {
 }
 
 func (bh *apiV1BoardHandler) Create(ctx *gin.Context) {
-	req := request.CreateBoard{}
-	if err := ctx.BindJSON(&req); err != nil {
+	req := &request.CreateBoard{}
+	if err := ctx.BindJSON(req); err != nil {
 		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
 		return
 	}
 
 	c := middleware.GinContextToContext(ctx)
-	if err := bh.boardApplication.Create(c, &req); err != nil {
+	if err := bh.boardApplication.Create(c, req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
