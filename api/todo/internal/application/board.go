@@ -18,9 +18,9 @@ type BoardApplication interface {
 }
 
 type boardApplication struct {
-	BoardRequestValidation validation.BoardRequestValidation
-	BoardService           service.BoardService
-	UserService            service.UserService
+	boardRequestValidation validation.BoardRequestValidation
+	boardService           service.BoardService
+	userService            service.UserService
 }
 
 // NewBoardApplication - BoardApplicationの生成
@@ -28,19 +28,19 @@ func NewBoardApplication(
 	brv validation.BoardRequestValidation, bs service.BoardService, us service.UserService,
 ) BoardApplication {
 	return &boardApplication{
-		BoardRequestValidation: brv,
-		BoardService:           bs,
-		UserService:            us,
+		boardRequestValidation: brv,
+		boardService:           bs,
+		userService:            us,
 	}
 }
 
 func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard) error {
-	u, err := ba.UserService.Authentication(ctx)
+	u, err := ba.userService.Authentication(ctx)
 	if err != nil {
 		return err
 	}
 
-	if ves := ba.BoardRequestValidation.CreateBoard(req); len(ves) > 0 {
+	if ves := ba.boardRequestValidation.CreateBoard(req); len(ves) > 0 {
 		err := xerrors.New("Failed to Application/RequestValidation")
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
@@ -63,7 +63,7 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 		return domain.Forbidden.New(err)
 	}
 
-	if err := ba.BoardService.Create(ctx, groupID, b); err != nil {
+	if err := ba.boardService.Create(ctx, groupID, b); err != nil {
 		return err
 	}
 

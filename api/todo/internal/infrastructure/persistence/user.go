@@ -37,7 +37,7 @@ func (up *userPersistence) Authentication(ctx context.Context) (*domain.User, er
 		return nil, err
 	}
 
-	doc, err := up.firestore.Client.Collection(UserCollection).Doc(uid).Get(ctx)
+	doc, err := up.firestore.Get(ctx, UserCollection, uid)
 	if err != nil {
 		return nil, err
 	}
