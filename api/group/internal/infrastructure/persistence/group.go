@@ -89,7 +89,7 @@ func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
 	return nil
 }
 
-func (gp *groupPersistence) ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+func (gp *groupPersistence) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
 	userRef := getUserReference(userID)
 
 	for _, v := range g.UserRefs {
