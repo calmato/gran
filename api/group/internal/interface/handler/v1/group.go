@@ -86,14 +86,14 @@ func (gh *apiV1GroupHandler) Show(ctx *gin.Context) {
 }
 
 func (gh *apiV1GroupHandler) Create(ctx *gin.Context) {
-	req := request.CreateGroup{}
-	if err := ctx.BindJSON(&req); err != nil {
+	req := &request.CreateGroup{}
+	if err := ctx.BindJSON(req); err != nil {
 		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
 		return
 	}
 
 	c := middleware.GinContextToContext(ctx)
-	if err := gh.groupApplication.Create(c, &req); err != nil {
+	if err := gh.groupApplication.Create(c, req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
