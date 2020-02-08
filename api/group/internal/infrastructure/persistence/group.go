@@ -99,7 +99,7 @@ func (gp *groupPersistence) InviteUser(ctx context.Context, userID string, g *do
 	return nil
 }
 
-func (gp *groupPersistence) ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+func (gp *groupPersistence) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
 	userRef := getUserReference(userID)
 
 	for _, v := range g.UserRefs {
@@ -111,7 +111,7 @@ func (gp *groupPersistence) ExistUserIDInUserRefs(ctx context.Context, userID st
 	return false
 }
 
-func (gp *groupPersistence) ExistUserIDInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+func (gp *groupPersistence) UserIDExistsInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
 	userRef := getUserReference(userID)
 
 	for _, v := range g.InvitedUserRefs {

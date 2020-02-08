@@ -17,8 +17,8 @@ type GroupService interface {
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
 	Update(ctx context.Context, g *domain.Group) error
 	InviteUser(ctx context.Context, userID string, g *domain.Group) error
-	ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool
-	ExistUserIDInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool
+	UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool
+	UserIDExistsInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool
 }
 
 type groupService struct {
@@ -91,10 +91,10 @@ func (gs *groupService) InviteUser(ctx context.Context, userID string, g *domain
 	return nil
 }
 
-func (gs *groupService) ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
-	return gs.groupRepository.ExistUserIDInUserRefs(ctx, userID, g)
+func (gs *groupService) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+	return gs.groupRepository.UserIDExistsInUserRefs(ctx, userID, g)
 }
 
-func (gs *groupService) ExistUserIDInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
-	return gs.groupRepository.ExistUserIDInInvitedUserRefs(ctx, userID, g)
+func (gs *groupService) UserIDExistsInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+	return gs.groupRepository.UserIDExistsInInvitedUserRefs(ctx, userID, g)
 }
