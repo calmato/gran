@@ -41,6 +41,28 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
+  /{groupId}:
+    get:
+      summary: グループ詳細取得
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      responses:
+        '200':
+          $ref: '#/components/responses/Group'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -62,8 +84,14 @@ components:
           type: string
           description: エラーメッセージ
         errors:
-          type: object
+          type: array
           description: エラー詳細
+          items:
+            properties:
+              field:
+                type: string
+              message:
+                type: string
 
   requestBodies:
     CreateGroup:
@@ -108,6 +136,35 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+
+    Group:
+      description: グループ一覧レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: integer
+                description: グループID
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: グループ説明
+              created_at:
+                type: string
+                format: date-time
+                description: グループ作成日時
+              user_refs:
+                type: array
+                description: ユーザーReference一覧
+                items:
+                  type: string
+              updated_at:
+                type: string
+                format: date-time
+                description: グループ更新日時
 
     Groups:
       description: グループ一覧レスポンス
