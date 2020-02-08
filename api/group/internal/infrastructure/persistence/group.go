@@ -89,6 +89,10 @@ func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
 	return nil
 }
 
+func (gp *groupPersistence) InviteUser(ctx context.Context, u *domain.Group, g *domain.Group) error {
+	return nil
+}
+
 func (gp *groupPersistence) ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
 	userRef := getUserReference(userID)
 
@@ -99,6 +103,10 @@ func (gp *groupPersistence) ExistUserIDInUserRefs(ctx context.Context, userID st
 	}
 
 	return false
+}
+
+func (gp *groupPersistence) ExistUserIDInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+	return true
 }
 
 func getUserReference(userID string) string {
