@@ -53,6 +53,10 @@ func validationMessage(tag string, param string) string {
 		return validation.RequiredMessage
 	case validation.EqFieldTag:
 		return fmt.Sprintf(validation.EqFieldMessage, param)
+	case validation.MinTag:
+		return fmt.Sprintf(validation.MinMessage, param)
+	case validation.MaxTag:
+		return fmt.Sprintf(validation.MaxMessage, param)
 	default:
 		return ""
 	}
