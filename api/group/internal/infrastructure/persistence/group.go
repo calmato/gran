@@ -82,6 +82,10 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 }
 
 func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
+	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
+		return err
+	}
+
 	return nil
 }
 
