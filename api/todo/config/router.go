@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/16francs/gran/api/todo/middleware"
 	"github.com/16francs/gran/api/todo/registry"
 )
 
@@ -12,8 +13,8 @@ func Router(reg *registry.Registry) *gin.Engine {
 	r := gin.Default()
 
 	// Corsの設定
-  r.Use(SetCors())
-  
+	r.Use(SetCors())
+
 	// Loggingの設定
 	r.Use(middleware.Logging())
 
