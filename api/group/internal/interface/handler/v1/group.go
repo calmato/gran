@@ -18,6 +18,7 @@ type APIV1GroupHandler interface {
 	Index(ctx *gin.Context)
 	Show(ctx *gin.Context)
 	Create(ctx *gin.Context)
+	Update(ctx *gin.Context)
 }
 
 type apiV1GroupHandler struct {
@@ -98,4 +99,22 @@ func (gh *apiV1GroupHandler) Create(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{})
+}
+
+func (gh *apiV1GroupHandler) Update(ctx *gin.Context) {
+	groupID := ctx.Params.ByName("groupID")
+
+	req := &request.UpdateGroup{}
+	if err := ctx.BindJSON(req); err != nil {
+		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
+		return
+	}
+
+	c := middleware.GinContextToContext(ctx)
+
+	err := gh.groupApplication.Update(c, groupID, req)
+	if err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
 }

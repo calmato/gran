@@ -81,6 +81,26 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 	return nil
 }
 
+func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
+	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (gp *groupPersistence) ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+	userRef := getUserReference(userID)
+
+	for _, v := range g.UserRefs {
+		if userRef == v {
+			return true
+		}
+	}
+
+	return false
+}
+
 func getUserReference(userID string) string {
 	return strings.Join([]string{UserCollection, userID}, "/")
 }

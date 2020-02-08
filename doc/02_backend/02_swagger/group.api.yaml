@@ -63,6 +63,31 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
+    patch:
+      summary: グループ編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroup'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -96,6 +121,23 @@ components:
   requestBodies:
     CreateGroup:
       description: グループ作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: 説明
+            required:
+              - name
+
+    UpdateGroup:
+      description: グループ編集フォーム
       required: true
       content:
         application/json:
