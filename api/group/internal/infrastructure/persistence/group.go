@@ -89,6 +89,18 @@ func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
 	return nil
 }
 
+func (gp *groupPersistence) ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+	userRef := getUserReference(userID)
+
+	for _, v := range g.UserRefs {
+		if userRef == v {
+			return true
+		}
+	}
+
+	return false
+}
+
 func getUserReference(userID string) string {
 	return strings.Join([]string{UserCollection, userID}, "/")
 }
