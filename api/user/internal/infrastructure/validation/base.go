@@ -52,7 +52,7 @@ func (dv *domainValidator) Run(i interface{}) []*domain.ValidationError {
 	for i, v := range errors {
 		validationErrors[i] = &domain.ValidationError{
 			Field:   v.Field(),
-			Message: validationMessage(v.Tag(), v.Param()),
+			Message: validationMessage(v.Tag()),
 		}
 	}
 
