@@ -27,13 +27,13 @@ func NewAPIV1UserHandler(ua application.UserApplication) APIV1UserHandler {
 }
 
 func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
-	req := request.CreateUser{}
-	if err := ctx.BindJSON(&req); err != nil {
+	req := &request.CreateUser{}
+	if err := ctx.BindJSON(req); err != nil {
 		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
 		return
 	}
 
-	if err := uh.userApplication.Create(ctx, &req); err != nil {
+	if err := uh.userApplication.Create(ctx, req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
