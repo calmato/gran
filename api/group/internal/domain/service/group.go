@@ -16,7 +16,9 @@ type GroupService interface {
 	Show(ctx context.Context, groupID string) (*domain.Group, error)
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
 	Update(ctx context.Context, g *domain.Group) error
+	InviteUser(ctx context.Context, u *domain.Group, g *domain.Group) error
 	ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool
+	ExistUserIDInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool
 }
 
 type groupService struct {
@@ -80,6 +82,19 @@ func (gs *groupService) Update(ctx context.Context, g *domain.Group) error {
 	return nil
 }
 
+func (gs *groupService) InviteUser(ctx context.Context, u *domain.User, g *domain.Group) error {
+	if err := gs.groupRepository.InviteUser(ctx, u, g); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.ErrorInDatastore.New(err)
+	}
+
+	return nil
+}
+
 func (gs *groupService) ExistUserIDInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
 	return gs.groupRepository.ExistUserIDInUserRefs(ctx, userID, g)
+}
+
+func (gs *groupService) ExistUserIDInInvitedUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+	return gs.groupRepository.ExistUserIDInInvitedUserRefs(ctx, userID, g)
 }
