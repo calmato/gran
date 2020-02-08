@@ -1,7 +1,6 @@
 package validation
 
 import (
-	"fmt"
 	"regexp"
 
 	"github.com/go-playground/validator/v10"
@@ -66,10 +65,6 @@ func passwordCheck(fl validator.FieldLevel) bool {
 
 func validationMessage(tag string, param string) string {
 	switch tag {
-	case validation.MinTag:
-		return fmt.Sprintf(validation.MinMessage, param)
-	case validation.MaxTag:
-		return fmt.Sprintf(validation.MaxMessage, param)
 	case validation.EmailTag:
 		return validation.EmailMessage
 	case validation.PasswordTag:
