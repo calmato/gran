@@ -18,20 +18,20 @@ type GroupService interface {
 }
 
 type groupService struct {
-	GroupDomainValidation validation.GroupDomainValidation
-	GroupRepository       repository.GroupRepository
+	groupDomainValidation validation.GroupDomainValidation
+	groupRepository       repository.GroupRepository
 }
 
 // NewGroupService - GroupServiceの生成
 func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRepository) GroupService {
 	return &groupService{
-		GroupDomainValidation: gdv,
-		GroupRepository:       gr,
+		groupDomainValidation: gdv,
+		groupRepository:       gr,
 	}
 }
 
 func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
-	g, err := gs.GroupRepository.Index(ctx, u)
+	g, err := gs.groupRepository.Index(ctx, u)
 	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return nil, domain.Unauthorized.New(err)
@@ -41,7 +41,7 @@ func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Gr
 }
 
 func (gs *groupService) Show(ctx context.Context, groupID string) (*domain.Group, error) {
-	g, err := gs.GroupRepository.Show(ctx, groupID)
+	g, err := gs.groupRepository.Show(ctx, groupID)
 	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return nil, domain.Unauthorized.New(err)
@@ -51,12 +51,12 @@ func (gs *groupService) Show(ctx context.Context, groupID string) (*domain.Group
 }
 
 func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
-	if ves := gs.GroupDomainValidation.Group(ctx, g); len(ves) > 0 {
+	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
 		return domain.InvalidDomainValidation.New(err, ves...)
 	}
 
-	if err := gs.GroupRepository.Create(ctx, u, g); err != nil {
+	if err := gs.groupRepository.Create(ctx, u, g); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return domain.ErrorInDatastore.New(err)
 	}
