@@ -12,7 +12,10 @@ func Router(reg *registry.Registry) *gin.Engine {
 	r := gin.Default()
 
 	// Corsの設定
-	r.Use(SetCors())
+  r.Use(SetCors())
+  
+	// Loggingの設定
+	r.Use(middleware.Logging())
 
 	r.GET("/health", reg.Health.HealthCheck)
 
