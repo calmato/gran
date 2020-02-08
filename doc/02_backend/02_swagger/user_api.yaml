@@ -44,8 +44,14 @@ components:
           type: string
           description: エラーメッセージ
         errors:
-          type: object
+          type: array
           description: エラー詳細
+          items:
+            properties:
+              field:
+                type: string
+              message:
+                type: string
 
   requestBodies:
     CreateUser:
