@@ -53,6 +53,18 @@ func (up *userPersistence) Authentication(ctx context.Context) (*domain.User, er
 	return u, nil
 }
 
+func (up *userPersistence) GroupIDExistsInGroupRefs(ctx context.Context, groupID string, u *domain.User) bool {
+	groupRef := getGroupReference(groupID)
+
+	for _, v := range u.GroupRefs {
+		if groupRef == v {
+			return true
+		}
+	}
+
+	return false
+}
+
 func getToken(ctx context.Context) (string, error) {
 	gc, err := middleware.GinContextFromContext(ctx)
 	if err != nil {

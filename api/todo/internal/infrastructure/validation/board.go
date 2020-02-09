@@ -15,5 +15,7 @@ func NewBoardDomainValidation() dv.BoardDomainValidation {
 }
 
 func (bdv *boardDomainValidation) Board(ctx context.Context, b *domain.Board) []*domain.ValidationError {
-	return nil
+	ves := make([]*domain.ValidationError, 0)
+
+	return ves
 }

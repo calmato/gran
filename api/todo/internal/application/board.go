@@ -58,7 +58,7 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 
 	groupID := req.GroupID
 
-	if !containWithGroupID(u.GroupRefs, groupID) {
+	if !ba.userService.GroupIDExistsInGroupRefs(ctx, groupID, u) {
 		err := xerrors.New("Unable to create Board in the Group")
 		return domain.Forbidden.New(err)
 	}
@@ -68,14 +68,4 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 	}
 
 	return nil
-}
-
-func containWithGroupID(groupRefs []string, groupID string) bool {
-	for _, v := range groupRefs {
-		if v == groupID {
-			return true
-		}
-	}
-
-	return false
 }

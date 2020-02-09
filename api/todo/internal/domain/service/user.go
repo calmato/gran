@@ -12,6 +12,7 @@ import (
 // UserService - UserServiceインターフェース
 type UserService interface {
 	Authentication(ctx context.Context) (*domain.User, error)
+	GroupIDExistsInGroupRefs(ctx context.Context, groupID string, u *domain.User) bool
 }
 
 type userService struct {
@@ -33,4 +34,8 @@ func (us *userService) Authentication(ctx context.Context) (*domain.User, error)
 	}
 
 	return u, nil
+}
+
+func (us *userService) GroupIDExistsInGroupRefs(ctx context.Context, groupID string, u *domain.User) bool {
+	return us.userRepository.GroupIDExistsInGroupRefs(ctx, groupID, u)
 }
