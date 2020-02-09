@@ -20,5 +20,6 @@ func NewGroupDomainValidation(gr repository.GroupRepository) dv.GroupDomainValid
 }
 
 func (gdv *groupDomainValidation) Group(ctx context.Context, g *domain.Group) []*domain.ValidationError {
-	return nil
+	ves := make([]*domain.ValidationError, 0)
+	return ves
 }
