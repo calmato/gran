@@ -6,5 +6,16 @@ export const actions = {
         .then(() => resolve())
         .catch((err) => reject(new Error(err)))
     })
+  },
+  groupAll({ _ }) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .get('/v1/groups')
+        .then((res: any) => {
+          console.log('res', res)
+          resolve()
+        })
+        .catch((err: any) => reject(err))
+    })
   }
 }
