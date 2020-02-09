@@ -70,7 +70,7 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 
 	current := time.Now()
 
-	u.GroupRefs = append(u.GroupRefs, g.ID)
+	u.GroupRefs = append(u.GroupRefs, getGroupReference(g.ID))
 	u.UpdatedAt = current
 
 	if err := gp.firestore.Set(ctx, UserCollection, u.ID, u); err != nil {
