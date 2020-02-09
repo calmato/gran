@@ -7,7 +7,6 @@ const (
 	MinTag      = "min"
 	MaxTag      = "max"
 	EmailTag    = "email"
-	PasswordTag = "password"
 )
 
 // バリデーションメッセージ
