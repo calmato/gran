@@ -2924,9 +2924,9 @@ commander@^2.20.0, commander@^2.9.0:
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 commander@^4.0.0, commander@^4.0.1:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.0.tgz#545983a0603fe425bc672d66c9e3c89c42121a83"
-  integrity sha512-NIQrwvv9V39FHgGFm36+U9SMQzbiHvU79k+iADraJTpmrFFfx7Ds0IvDoAdZsDrknlkRk14OYoWXb57uTh7/sw==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
+  integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -4786,9 +4786,9 @@ html-entities@^1.2.0:
   integrity sha1-DfKTUfByEWNRXfueVUPl9u7VFi8=
 
 html-minifier-terser@^5.0.1:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/html-minifier-terser/-/html-minifier-terser-5.0.2.tgz#0e67a0b062ae1dd0719fc73199479298f807ae16"
-  integrity sha512-VAaitmbBuHaPKv9bj47XKypRhgDxT/cDLvsPiiF7w+omrN3K0eQhpigV9Z1ilrmHa9e0rOYcD6R/+LCDADGcnQ==
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/html-minifier-terser/-/html-minifier-terser-5.0.3.tgz#b33549b57be7f0357be0d0b892995aaed1ed90f8"
+  integrity sha512-It4No3H1V3Dhd/O0MePFdo0oX/M6u6YZTMw4My/010mT6vxdbqge7+0RoxGAmeSbKok6gjYZoP0p4rpZ2+J2yw==
   dependencies:
     camel-case "^3.0.0"
     clean-css "^4.2.1"
