@@ -9,20 +9,16 @@ import (
 )
 
 type groupDomainValidation struct {
-	validator       DomainValidator
 	groupRepository repository.GroupRepository
 }
 
 // NewGroupDomainValidation - GroupDomainValidationの生成
 func NewGroupDomainValidation(gr repository.GroupRepository) dv.GroupDomainValidation {
-	v := NewDomainValidator()
-
 	return &groupDomainValidation{
-		validator:       v,
 		groupRepository: gr,
 	}
 }
 
 func (gdv *groupDomainValidation) Group(ctx context.Context, g *domain.Group) []*domain.ValidationError {
-	return gdv.validator.Run(g)
+	return nil
 }
