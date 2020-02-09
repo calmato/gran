@@ -9,10 +9,10 @@ const (
 	GroupCollection = "groups"
 )
 
-func getUserReference(userID string) string {
+func GetUserReference(userID string) string {
 	return strings.Join([]string{UserCollection, userID}, "/")
 }
 
-func getGroupReference(groupID string) string {
+func GetGroupReference(groupID string) string {
 	return strings.Join([]string{GroupCollection, groupID}, "/")
 }
