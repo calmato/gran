@@ -6,8 +6,6 @@ const (
 	EqFieldTag  = "eqfield"
 	MinTag      = "min"
 	MaxTag      = "max"
-	EmailTag    = "email"
-	PasswordTag = "password"
 )
 
 // バリデーションメッセージ
@@ -16,8 +14,6 @@ const (
 	EqFieldMessage  = "%sと入力が一致しません"
 	MinMessage      = "%s文字以上で入力してください"
 	MaxMessage      = "%s文字以下で入力してください"
-	EmailMessage    = "メールアドレスの形式で入力してください"
-	PasswordMessage = "パスワードの形式で入力してください"
 )
 
 // カスタムバリデーションメッセージ

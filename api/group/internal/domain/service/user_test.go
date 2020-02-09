@@ -1,4 +1,4 @@
-package validation
+package service
 
 import (
 	"context"
@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/16francs/gran/api/user/internal/domain"
+	"github.com/16francs/gran/api/group/internal/domain"
 )
 
-var current = time.Now()
+var userCurrent = time.Now()
 
 type userRepositoryMock struct{}
 
@@ -17,45 +17,38 @@ func (urm *userRepositoryMock) Authentication(ctx context.Context) (*domain.User
 	u := &domain.User{
 		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Email:        "hoge@hoge.com",
-		Password:     "12345678",
+		Password:     "",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
 		GroupRefs:    make([]string, 0),
-		CreatedAt:    current,
-		UpdatedAt:    current,
+		CreatedAt:    userCurrent,
+		UpdatedAt:    userCurrent,
 	}
 
 	return u, nil
 }
 
-func (urm *userRepositoryMock) Create(ctx context.Context, u *domain.User) error {
-	return nil
-}
+func TestUserService_Authentication(t *testing.T) {
+	target := NewUserService(&userRepositoryMock{})
 
-func (urm *userRepositoryMock) GetUIDByEmail(ctx context.Context, email string) (string, error) {
-	return "", nil
-}
-
-func TestUserDomainValidation_User(t *testing.T) {
-	target := NewUserDomainValidation(&userRepositoryMock{})
-
-	want := []*domain.ValidationError{}
-
-	u := &domain.User{
+	want := &domain.User{
 		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Email:        "hoge@hoge.com",
-		Password:     "12345678",
+		Password:     "",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
 		GroupRefs:    make([]string, 0),
-		CreatedAt:    current,
-		UpdatedAt:    current,
+		CreatedAt:    userCurrent,
+		UpdatedAt:    userCurrent,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got := target.User(ctx, u)
+	got, err := target.Authentication(ctx)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
 
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("want %#v, but %#v", want, got)

@@ -2,7 +2,6 @@ package persistence
 
 import (
 	"context"
-	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -99,8 +98,4 @@ func (gp *groupPersistence) UserIDExistsInUserRefs(ctx context.Context, userID s
 	}
 
 	return false
-}
-
-func getUserReference(userID string) string {
-	return strings.Join([]string{UserCollection, userID}, "/")
 }

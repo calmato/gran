@@ -2,7 +2,6 @@ package persistence
 
 import (
 	"context"
-	"strings"
 
 	"github.com/google/uuid"
 
@@ -31,12 +30,4 @@ func (bp *boardPersistence) Create(ctx context.Context, groupID string, b *domai
 	}
 
 	return nil
-}
-
-func getGroupReference(groupID string) string {
-	return strings.Join([]string{GroupCollection, groupID}, "/")
-}
-
-func getBoardCollection(groupRef string) string {
-	return strings.Join([]string{groupRef, BoardCollection}, "/")
 }
