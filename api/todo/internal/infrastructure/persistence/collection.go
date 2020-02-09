@@ -11,10 +11,10 @@ const (
 	BoardCollection = "boards"
 )
 
-func getGroupReference(groupID string) string {
+func GetGroupReference(groupID string) string {
 	return strings.Join([]string{GroupCollection, groupID}, "/")
 }
 
-func getBoardCollection(groupRef string) string {
+func GetBoardCollection(groupRef string) string {
 	return strings.Join([]string{groupRef, BoardCollection}, "/")
 }
