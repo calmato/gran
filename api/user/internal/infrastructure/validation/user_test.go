@@ -39,7 +39,7 @@ func (urm *userRepositoryMock) GetUIDByEmail(ctx context.Context, email string) 
 func TestUserDomainValidation_User(t *testing.T) {
 	target := NewUserDomainValidation(&userRepositoryMock{})
 
-	want := []*domain.ValidationError(nil)
+	want := []*domain.ValidationError{}
 
 	u := &domain.User{
 		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
