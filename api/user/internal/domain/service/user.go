@@ -42,6 +42,11 @@ func (us *userService) Authentication(ctx context.Context) (*domain.User, error)
 func (us *userService) Create(ctx context.Context, u *domain.User) error {
 	if ves := us.userDomainValidation.User(ctx, u); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
+
+		if containUniqueError(ves) {
+			return domain.AlreadyExists.New(err, ves...)
+		}
+
 		return domain.InvalidDomainValidation.New(err, ves...)
 	}
 
@@ -51,4 +56,14 @@ func (us *userService) Create(ctx context.Context, u *domain.User) error {
 	}
 
 	return nil
+}
+
+func containUniqueError(ves []*domain.ValidationError) bool {
+	for _, v := range ves {
+		if v.Message == validation.CustomUniqueMessage {
+			return true
+		}
+	}
+
+	return false
 }
