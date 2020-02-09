@@ -1,6 +1,7 @@
 package validation
 
 import (
+	"fmt"
 	"regexp"
 
 	"github.com/go-playground/validator/v10"
@@ -52,7 +53,7 @@ func (dv *domainValidator) Run(i interface{}) []*domain.ValidationError {
 	for i, v := range errors {
 		validationErrors[i] = &domain.ValidationError{
 			Field:   v.Field(),
-			Message: validationMessage(v.Tag()),
+			Message: validationMessage(v.Tag(), v.Param()),
 		}
 	}
 
@@ -63,8 +64,16 @@ func passwordCheck(fl validator.FieldLevel) bool {
 	return passwordRegex.MatchString(fl.Field().String())
 }
 
-func validationMessage(tag string) string {
+func validationMessage(tag string, param string) string {
 	switch tag {
+	case validation.RequiredTag:
+		return validation.RequiredMessage
+	case validation.EqFieldTag:
+		return fmt.Sprintf(validation.EqFieldMessage, param)
+	case validation.MinTag:
+		return fmt.Sprintf(validation.MinMessage, param)
+	case validation.MaxTag:
+		return fmt.Sprintf(validation.MaxMessage, param)
 	case validation.EmailTag:
 		return validation.EmailMessage
 	case validation.PasswordTag:

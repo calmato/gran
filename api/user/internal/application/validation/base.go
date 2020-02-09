@@ -2,11 +2,20 @@ package validation
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/go-playground/validator/v10"
 
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/domain/validation"
+)
+
+const (
+	passwordString = "^[a-zA-Z0-9_!@#$_%^&*.?()-=+]*$"
+)
+
+var (
+	passwordRegex = regexp.MustCompile(passwordString)
 )
 
 // RequestValidator - リクエストバリデーションインターフェース
@@ -21,6 +30,10 @@ type requestValidator struct {
 // NewRequestValidator - Validatorの生成
 func NewRequestValidator() RequestValidator {
 	validate := validator.New()
+
+	if err := validate.RegisterValidation("password", passwordCheck); err != nil {
+		return nil
+	}
 
 	return &requestValidator{
 		validate: *validate,
@@ -47,6 +60,10 @@ func (rv *requestValidator) Run(i interface{}) []*domain.ValidationError {
 	return validationErrors
 }
 
+func passwordCheck(fl validator.FieldLevel) bool {
+	return passwordRegex.MatchString(fl.Field().String())
+}
+
 func validationMessage(tag string, param string) string {
 	switch tag {
 	case validation.RequiredTag:
@@ -57,6 +74,10 @@ func validationMessage(tag string, param string) string {
 		return fmt.Sprintf(validation.MinMessage, param)
 	case validation.MaxTag:
 		return fmt.Sprintf(validation.MaxMessage, param)
+	case validation.EmailTag:
+		return validation.EmailMessage
+	case validation.PasswordTag:
+		return validation.PasswordMessage
 	default:
 		return ""
 	}
