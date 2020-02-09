@@ -10,16 +10,16 @@ import (
 )
 
 var (
-	current  = time.Now()
-	authUser = &domain.User{
+	groupCurrent  = time.Now()
+	groupAuthUser = &domain.User{
 		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Email:        "hoge@hoge.com",
 		Password:     "",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
 		GroupRefs:    make([]string, 0),
-		CreatedAt:    current,
-		UpdatedAt:    current,
+		CreatedAt:    groupCurrent,
+		UpdatedAt:    groupCurrent,
 	}
 )
 
@@ -37,8 +37,8 @@ func (grm *groupRepositoryMock) Index(ctx context.Context, u *domain.User) ([]*d
 		Name:        "テストグループ",
 		Description: "グループの説明",
 		UserRefs:    make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
 	}
 
 	gs := []*domain.Group{g}
@@ -52,8 +52,8 @@ func (grm *groupRepositoryMock) Show(ctx context.Context, groupID string) (*doma
 		Name:        "テストグループ",
 		Description: "グループの説明",
 		UserRefs:    make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
 	}
 
 	return g, nil
@@ -79,8 +79,8 @@ func TestGroupService_Index(t *testing.T) {
 		Name:        "テストグループ",
 		Description: "グループの説明",
 		UserRefs:    make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
 	}
 
 	want := []*domain.Group{g}
@@ -88,7 +88,7 @@ func TestGroupService_Index(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got, err := target.Index(ctx, authUser)
+	got, err := target.Index(ctx, groupAuthUser)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
@@ -106,8 +106,8 @@ func TestGroupService_Show(t *testing.T) {
 		Name:        "テストグループ",
 		Description: "グループの説明",
 		UserRefs:    make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -131,14 +131,14 @@ func TestGroupService_Create(t *testing.T) {
 		Name:        "テストグループ",
 		Description: "グループの説明",
 		UserRefs:    make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	err := target.Create(ctx, authUser, g)
+	err := target.Create(ctx, groupAuthUser, g)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
@@ -152,8 +152,8 @@ func TestGroupService_Update(t *testing.T) {
 		Name:        "テストグループ",
 		Description: "グループの説明",
 		UserRefs:    make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -173,14 +173,14 @@ func TestGroupService_UserIDExistsInUserRefs(t *testing.T) {
 		Name:        "テストグループ",
 		Description: "グループの説明",
 		UserRefs:    make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got := target.UserIDExistsInUserRefs(ctx, authUser.ID, g)
+	got := target.UserIDExistsInUserRefs(ctx, groupAuthUser.ID, g)
 	if !got {
 		t.Fatalf("error: %v", got)
 	}
