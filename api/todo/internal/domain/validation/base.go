@@ -6,6 +6,7 @@ const (
 	EqFieldTag  = "eqfield"
 	MinTag      = "min"
 	MaxTag      = "max"
+	UniqueTag   = "unique"
 )
 
 // バリデーションメッセージ
@@ -14,6 +15,7 @@ const (
 	EqFieldMessage  = "%sと入力が一致しません"
 	MinMessage      = "%s文字以上で入力してください"
 	MaxMessage      = "%s文字以下で入力してください"
+	UniqueMessage   = "重複する要素が存在します"
 )
 
 // カスタムバリデーションメッセージ
