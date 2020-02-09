@@ -23,24 +23,29 @@ type ErrorResponse struct {
 // ステータスコードを付与したエラーレスポンス
 var (
 	BadRequest = &ErrorResponse{
-		StatusCode: http.StatusBadRequest,
+		StatusCode: http.StatusBadRequest, // 404
 		Message:    "不正なパラメータが入力されています。",
 	}
 
 	Unauthorized = &ErrorResponse{
-		StatusCode:       http.StatusUnauthorized,
+		StatusCode:       http.StatusUnauthorized, // 401
 		Message:          "認証に必要な情報がありません。",
 		ValidationErrors: nil,
 	}
 
 	Forbidden = &ErrorResponse{
-		StatusCode:       http.StatusForbidden,
+		StatusCode:       http.StatusForbidden, // 403
 		Message:          "その操作を実行する権限がありません。",
 		ValidationErrors: nil,
 	}
 
+	AlreadyExists = &ErrorResponse{
+		StatusCode: http.StatusConflict, // 409
+		Message:    "不正なパラメータが入力されています。",
+	}
+
 	InternalServerError = &ErrorResponse{
-		StatusCode:       http.StatusInternalServerError,
+		StatusCode:       http.StatusInternalServerError, // 500
 		Message:          "異常な処理が検出されました。",
 		ValidationErrors: nil,
 	}

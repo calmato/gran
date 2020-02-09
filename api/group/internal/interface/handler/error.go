@@ -23,14 +23,6 @@ func errorResponse(err error) *response.ErrorResponse {
 	var res *response.ErrorResponse
 
 	switch getErrorCode(err) {
-	case domain.InvalidDomainValidation:
-		res = response.BadRequest
-		setValidationErrors(res, err)
-		logging("info", "BadRequest", err, res.ValidationErrors...)
-	case domain.InvalidRequestValidation:
-		res = response.BadRequest
-		setValidationErrors(res, err)
-		logging("info", "BadRequest", err, res.ValidationErrors...)
 	case domain.Unauthorized:
 		res = response.Unauthorized
 		logging("info", "Unauthorized", err)
@@ -38,16 +30,27 @@ func errorResponse(err error) *response.ErrorResponse {
 		res = response.Forbidden
 		logging("info", "Forbidden", err)
 	case domain.UnableParseJSON:
+		res = response.BadRequest
+		logging("info", "Unable parse request body", err)
+	case domain.InvalidRequestValidation:
+		res = response.BadRequest
+		setValidationErrors(res, err)
+		logging("info", "Invalid request validation", err, res.ValidationErrors...)
+	case domain.AlreadyExists:
+		res = response.AlreadyExists
+		setValidationErrors(res, err)
+		logging("info", "Already exists request", err, res.ValidationErrors...)
+	case domain.InvalidDomainValidation:
 		res = response.InternalServerError
-		logging("error", "Unable parse request body", err)
+		setValidationErrors(res, err)
+		logging("info", "Invalid domain validation", err, res.ValidationErrors...)
 	case domain.ErrorInDatastore:
 		res = response.InternalServerError
-		logging("error", "Error in datastore", err)
+		logging("warning", "Error in datastore", err)
 	default:
 		res = response.InternalServerError
 		logging("error", "Internal server error", err)
 	}
-
 	res.ErrorCode = getErrorCode(err)
 	return res
 }
