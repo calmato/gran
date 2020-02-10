@@ -47,7 +47,7 @@ func (us *userService) Create(ctx context.Context, u *domain.User) error {
 			return domain.AlreadyExists.New(err, ves...)
 		}
 
-		return domain.InvalidDomainValidation.New(err, ves...)
+		return domain.Unknown.New(err, ves...)
 	}
 
 	if err := us.userRepository.Create(ctx, u); err != nil {

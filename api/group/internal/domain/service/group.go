@@ -90,7 +90,7 @@ func (gs *groupService) InviteUsers(ctx context.Context, g *domain.Group) error 
 			return domain.InvalidDomainValidation.New(err, ves...)
 		}
 
-		return domain.InvalidDomainValidation.New(err, ves...)
+		return domain.Unknown.New(err, ves...)
 	}
 
 	if err := gs.groupRepository.Update(ctx, g); err != nil {
