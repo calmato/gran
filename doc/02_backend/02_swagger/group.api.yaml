@@ -88,7 +88,7 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
-  /{groupId}/join:
+  /{groupId}/invite:
     post:
       summary: グループ招待
       security:
