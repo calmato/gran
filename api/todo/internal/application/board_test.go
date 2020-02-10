@@ -13,7 +13,7 @@ var current = time.Now()
 
 type boardRequestValidationMock struct{}
 
-func (brvm *boardRequestValidationMock) CreateBoard(cb *request.CreateBoard) []*domain.ValidationError {
+func (brvm *boardRequestValidationMock) CreateBoard(req *request.CreateBoard) []*domain.ValidationError {
 	return nil
 }
 
