@@ -88,6 +88,32 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
+  /{groupId}/join:
+    post:
+      summary: グループ招待
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/InviteUsers'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -153,6 +179,20 @@ components:
             required:
               - name
 
+    InviteUsers:
+      description: グループ招待フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              emails:
+                type: array
+                description: 招待メールアドレス一覧
+                items:
+                  type: string
+
   responses:
     BadRequest:
       description: Bad Request
@@ -186,7 +226,7 @@ components:
             $ref: '#/components/schemas/Error'
 
     Group:
-      description: グループ一覧レスポンス
+      description: グループ招待レスポンス
       content:
         application/json:
           schema:
