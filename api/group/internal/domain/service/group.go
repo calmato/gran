@@ -87,7 +87,7 @@ func (gs *groupService) InviteUsers(ctx context.Context, g *domain.Group) error 
 		err := xerrors.New("Failed to Domain/DomainValidation")
 
 		if containUniqueError(ves) {
-			return domain.AlreadyExists.New(err, ves...)
+			return domain.DomainValidation.New(err, ves...)
 		}
 
 		return domain.InvalidDomainValidation.New(err, ves...)
