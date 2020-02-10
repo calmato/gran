@@ -72,6 +72,10 @@ func (gsm *groupServiceMock) UserIDExistsInUserRefs(ctx context.Context, userID 
 	return true
 }
 
+func (gsm *groupServiceMock) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
+	return true
+}
+
 type userServiceMock struct{}
 
 func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, error) {
