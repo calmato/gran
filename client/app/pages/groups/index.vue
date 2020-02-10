@@ -15,7 +15,6 @@ export default Vue.extend({
 
   async fetch({ store }) {
     await store.dispatch('group/groupAll').catch((err: any) => {
-      console.log(err)
     })
   }
 })
