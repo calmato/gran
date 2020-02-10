@@ -88,19 +88,6 @@ func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
 	return nil
 }
 
-func (gp *groupPersistence) InviteUser(ctx context.Context, email string, g *domain.Group) error {
-	current := time.Now()
-
-	g.InvitedEmails = append(g.InvitedEmails, email)
-	g.UpdatedAt = current
-
-	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func (gp *groupPersistence) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
 	userRef := GetUserReference(userID)
 
