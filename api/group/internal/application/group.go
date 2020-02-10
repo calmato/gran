@@ -18,6 +18,7 @@ type GroupApplication interface {
 	Show(ctx context.Context, groupID string) (*domain.Group, error)
 	Create(ctx context.Context, req *request.CreateGroup) error
 	Update(ctx context.Context, groupID string, req *request.UpdateGroup) error
+	InviteUsers(ctx context.Context, groupID string, req *request.InviteUsers) error
 }
 
 type groupApplication struct {
@@ -123,6 +124,38 @@ func (ga *groupApplication) Update(ctx context.Context, groupID string, req *req
 	g.UpdatedAt = current
 
 	if err := ga.groupService.Update(ctx, g); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ga *groupApplication) InviteUsers(ctx context.Context, groupID string, req *request.InviteUsers) error {
+	u, err := ga.userService.Authentication(ctx)
+	if err != nil {
+		return err
+	}
+
+	g, err := ga.groupService.Show(ctx, groupID)
+	if err != nil {
+		return err
+	}
+
+	if !ga.groupService.UserIDExistsInUserRefs(ctx, u.ID, g) {
+		err = xerrors.New("Failed to Application")
+		return domain.Forbidden.New(err)
+	}
+
+	if ves := ga.groupRequestValidation.InviteUsers(req); len(ves) > 0 {
+		err := xerrors.New("Failed to Application/RequestValidation")
+		return domain.InvalidRequestValidation.New(err, ves...)
+	}
+
+	current := time.Now()
+	g.InvitedEmails = append(g.InvitedEmails, req.Emails...)
+	g.UpdatedAt = current
+
+	if err := ga.groupService.InviteUsers(ctx, g); err != nil {
 		return err
 	}
 
