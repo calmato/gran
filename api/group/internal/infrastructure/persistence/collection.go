@@ -13,6 +13,11 @@ func GetUserReference(userID string) string {
 	return strings.Join([]string{UserCollection, userID}, "/")
 }
 
+func GetGroupID(groupRef string) string {
+	slice := strings.Split(groupRef, "/")
+	return slice[len(slice)-1]
+}
+
 func GetGroupReference(groupID string) string {
 	return strings.Join([]string{GroupCollection, groupID}, "/")
 }

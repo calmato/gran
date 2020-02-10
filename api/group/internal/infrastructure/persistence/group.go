@@ -26,7 +26,7 @@ func (gp *groupPersistence) Index(ctx context.Context, u *domain.User) ([]*domai
 	gs := make([]*domain.Group, len(u.GroupRefs))
 
 	for i, v := range u.GroupRefs {
-		doc, err := gp.firestore.Get(ctx, GroupCollection, v)
+		doc, err := gp.firestore.Get(ctx, GroupCollection, GetGroupID(v))
 		if err != nil {
 			return nil, err
 		}

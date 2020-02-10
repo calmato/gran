@@ -111,7 +111,7 @@ func (gs *groupService) EmailExistsInInvitedEmails(ctx context.Context, email st
 
 func containUniqueError(ves []*domain.ValidationError) bool {
 	for _, v := range ves {
-		if v.Message == validation.CustomUniqueMessage {
+		if v.Message == validation.UniqueMessage {
 			return true
 		}
 	}

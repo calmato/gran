@@ -21,7 +21,7 @@ func (gdv *groupDomainValidation) Group(ctx context.Context, g *domain.Group) []
 
 	if err := uniqueCheckInvitedEmails(g.InvitedEmails); err != nil {
 		ve := &domain.ValidationError{
-			Field:   "招待中メールアドレス一覧",
+			Field:   "招待メールアドレス一覧",
 			Message: dv.UniqueMessage,
 		}
 

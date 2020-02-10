@@ -45,12 +45,13 @@ func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
 	gsr := make([]*response.Group, len(gs))
 	for i, v := range gs {
 		gr := &response.Group{
-			ID:          v.ID,
-			Name:        v.Name,
-			Description: v.Description,
-			UserRefs:    v.UserRefs,
-			CreatedAt:   v.CreatedAt,
-			UpdatedAt:   v.UpdatedAt,
+			ID:            v.ID,
+			Name:          v.Name,
+			Description:   v.Description,
+			UserRefs:      v.UserRefs,
+			InvitedEmails: v.InvitedEmails,
+			CreatedAt:     v.CreatedAt,
+			UpdatedAt:     v.UpdatedAt,
 		}
 
 		gsr[i] = gr
@@ -75,12 +76,13 @@ func (gh *apiV1GroupHandler) Show(ctx *gin.Context) {
 	}
 
 	res := &response.Group{
-		ID:          g.ID,
-		Name:        g.Name,
-		Description: g.Description,
-		UserRefs:    g.UserRefs,
-		CreatedAt:   g.CreatedAt,
-		UpdatedAt:   g.UpdatedAt,
+		ID:            g.ID,
+		Name:          g.Name,
+		Description:   g.Description,
+		UserRefs:      g.UserRefs,
+		InvitedEmails: g.InvitedEmails,
+		CreatedAt:     g.CreatedAt,
+		UpdatedAt:     g.UpdatedAt,
 	}
 
 	ctx.JSON(http.StatusOK, res)
