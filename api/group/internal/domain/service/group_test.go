@@ -71,6 +71,10 @@ func (grm *groupRepositoryMock) UserIDExistsInUserRefs(ctx context.Context, user
 	return true
 }
 
+func (grm *groupRepositoryMock) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
+	return true
+}
+
 func TestGroupService_Index(t *testing.T) {
 	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
 
