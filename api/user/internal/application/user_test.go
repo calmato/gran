@@ -13,7 +13,7 @@ var current = time.Now()
 
 type userRequestValidationMock struct{}
 
-func (urvm *userRequestValidationMock) CreateUser(cu *request.CreateUser) []*domain.ValidationError {
+func (urvm *userRequestValidationMock) CreateUser(req *request.CreateUser) []*domain.ValidationError {
 	return nil
 }
 

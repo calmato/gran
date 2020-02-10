@@ -99,3 +99,13 @@ func (gp *groupPersistence) UserIDExistsInUserRefs(ctx context.Context, userID s
 
 	return false
 }
+
+func (gp *groupPersistence) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
+	for _, v := range g.InvitedEmails {
+		if email == v {
+			return true
+		}
+	}
+
+	return false
+}

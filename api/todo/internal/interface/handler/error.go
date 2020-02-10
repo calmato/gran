@@ -36,14 +36,14 @@ func errorResponse(err error) *response.ErrorResponse {
 		res = response.BadRequest
 		setValidationErrors(res, err)
 		logging("info", "Invalid request validation", err, res.ValidationErrors...)
+	case domain.InvalidDomainValidation:
+		res = response.BadRequest
+		setValidationErrors(res, err)
+		logging("info", "Invalid domain validation", err, res.ValidationErrors...)
 	case domain.AlreadyExists:
 		res = response.AlreadyExists
 		setValidationErrors(res, err)
 		logging("info", "Already exists request", err, res.ValidationErrors...)
-	case domain.InvalidDomainValidation:
-		res = response.InternalServerError
-		setValidationErrors(res, err)
-		logging("info", "Invalid domain validation", err, res.ValidationErrors...)
 	case domain.ErrorInDatastore:
 		res = response.InternalServerError
 		logging("warning", "Error in datastore", err)

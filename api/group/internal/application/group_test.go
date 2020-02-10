@@ -14,11 +14,15 @@ var current = time.Now()
 
 type groupRequestValidationMock struct{}
 
-func (grvm *groupRequestValidationMock) CreateGroup(cg *request.CreateGroup) []*domain.ValidationError {
+func (grvm *groupRequestValidationMock) CreateGroup(req *request.CreateGroup) []*domain.ValidationError {
 	return nil
 }
 
-func (grvm *groupRequestValidationMock) UpdateGroup(ug *request.UpdateGroup) []*domain.ValidationError {
+func (grvm *groupRequestValidationMock) UpdateGroup(req *request.UpdateGroup) []*domain.ValidationError {
+	return nil
+}
+
+func (grvm *groupRequestValidationMock) InviteUsers(req *request.InviteUsers) []*domain.ValidationError {
 	return nil
 }
 
@@ -60,7 +64,15 @@ func (gsm *groupServiceMock) Update(ctx context.Context, g *domain.Group) error 
 	return nil
 }
 
+func (gsm *groupServiceMock) InviteUsers(ctx context.Context, g *domain.Group) error {
+	return nil
+}
+
 func (gsm *groupServiceMock) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+	return true
+}
+
+func (gsm *groupServiceMock) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
 	return true
 }
 

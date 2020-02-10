@@ -7,7 +7,7 @@ import (
 
 // BoardRequestValidation - ユーザー関連のバリデーション
 type BoardRequestValidation interface {
-	CreateBoard(cb *request.CreateBoard) []*domain.ValidationError
+	CreateBoard(req *request.CreateBoard) []*domain.ValidationError
 }
 
 type boardRequestValidation struct {
@@ -23,6 +23,6 @@ func NewBoardRequestValidation() BoardRequestValidation {
 	}
 }
 
-func (brv *boardRequestValidation) CreateBoard(cb *request.CreateBoard) []*domain.ValidationError {
-	return brv.validator.Run(cb)
+func (brv *boardRequestValidation) CreateBoard(req *request.CreateBoard) []*domain.ValidationError {
+	return brv.validator.Run(req)
 }
