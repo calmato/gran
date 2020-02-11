@@ -67,13 +67,13 @@ func TestUserService_Authentication(t *testing.T) {
 	}
 }
 
-func TestUserService_GroupIDExistsInGroupIDs(t *testing.T) {
+func TestUserService_IsContainInGroupIDs(t *testing.T) {
 	target := NewUserService(&userRepositoryMock{})
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got := target.GroupIDExistsInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", userAuthUser)
+	got := target.IsContainInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", userAuthUser)
 	if !got {
 		t.Fatalf("error: %v", got)
 	}

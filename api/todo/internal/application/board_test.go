@@ -40,7 +40,7 @@ func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, e
 	return u, nil
 }
 
-func (usm *userServiceMock) GroupIDExistsInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
+func (usm *userServiceMock) IsContainInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
 	return true
 }
 

@@ -54,7 +54,7 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 
 	groupID := req.GroupID
 
-	if !ba.userService.GroupIDExistsInGroupIDs(ctx, groupID, u) {
+	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
 		err := xerrors.New("Unable to create Board in the Group")
 		return domain.Forbidden.New(err)
 	}

@@ -12,7 +12,7 @@ import (
 // UserService - UserServiceインターフェース
 type UserService interface {
 	Authentication(ctx context.Context) (*domain.User, error)
-	GroupIDExistsInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool
+	IsContainInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool
 }
 
 type userService struct {
@@ -36,7 +36,7 @@ func (us *userService) Authentication(ctx context.Context) (*domain.User, error)
 	return u, nil
 }
 
-func (us *userService) GroupIDExistsInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
+func (us *userService) IsContainInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
 	for _, v := range u.GroupIDs {
 		if groupID == v {
 			return true
