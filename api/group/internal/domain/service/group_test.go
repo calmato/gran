@@ -17,7 +17,7 @@ var (
 		Password:     "",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     make([]string, 0),
 		CreatedAt:    groupCurrent,
 		UpdatedAt:    groupCurrent,
 	}
@@ -36,7 +36,7 @@ func (grm *groupRepositoryMock) Index(ctx context.Context, u *domain.User) ([]*d
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   groupCurrent,
 		UpdatedAt:   groupCurrent,
 	}
@@ -51,7 +51,7 @@ func (grm *groupRepositoryMock) Show(ctx context.Context, groupID string) (*doma
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   groupCurrent,
 		UpdatedAt:   groupCurrent,
 	}
@@ -67,14 +67,6 @@ func (grm *groupRepositoryMock) Update(ctx context.Context, g *domain.Group) err
 	return nil
 }
 
-func (grm *groupRepositoryMock) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
-	return true
-}
-
-func (grm *groupRepositoryMock) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
-	return true
-}
-
 func TestGroupService_Index(t *testing.T) {
 	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
 
@@ -82,7 +74,7 @@ func TestGroupService_Index(t *testing.T) {
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   groupCurrent,
 		UpdatedAt:   groupCurrent,
 	}
@@ -109,7 +101,7 @@ func TestGroupService_Show(t *testing.T) {
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   groupCurrent,
 		UpdatedAt:   groupCurrent,
 	}
@@ -134,7 +126,7 @@ func TestGroupService_Create(t *testing.T) {
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   groupCurrent,
 		UpdatedAt:   groupCurrent,
 	}
@@ -155,7 +147,7 @@ func TestGroupService_Update(t *testing.T) {
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   groupCurrent,
 		UpdatedAt:   groupCurrent,
 	}
@@ -169,14 +161,14 @@ func TestGroupService_Update(t *testing.T) {
 	}
 }
 
-func TestGroupService_UserIDExistsInUserRefs(t *testing.T) {
+func TestGroupService_UserIDExistsInUserIDs(t *testing.T) {
 	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
 
 	g := &domain.Group{
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   groupCurrent,
 		UpdatedAt:   groupCurrent,
 	}
@@ -184,7 +176,30 @@ func TestGroupService_UserIDExistsInUserRefs(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got := target.UserIDExistsInUserRefs(ctx, groupAuthUser.ID, g)
+	got := target.UserIDExistsInUserIDs(ctx, groupAuthUser.ID, g)
+	if !got {
+		t.Fatalf("error: %v", got)
+	}
+}
+
+func TestGroupService_EmailExistsInEmails(t *testing.T) {
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+
+	email := "hoge@hoge.com"
+
+	g := &domain.Group{
+		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Name:        "テストグループ",
+		Description: "グループの説明",
+		UserIDs:     make([]string, 0),
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	got := target.EmailExistsInInvitedEmails(ctx, email, g)
 	if !got {
 		t.Fatalf("error: %v", got)
 	}

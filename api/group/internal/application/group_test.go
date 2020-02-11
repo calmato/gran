@@ -33,7 +33,7 @@ func (gsm *groupServiceMock) Index(ctx context.Context, u *domain.User) ([]*doma
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   current,
 		UpdatedAt:   current,
 	}
@@ -48,7 +48,7 @@ func (gsm *groupServiceMock) Show(ctx context.Context, groupID string) (*domain.
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   current,
 		UpdatedAt:   current,
 	}
@@ -68,7 +68,7 @@ func (gsm *groupServiceMock) InviteUsers(ctx context.Context, g *domain.Group) e
 	return nil
 }
 
-func (gsm *groupServiceMock) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
+func (gsm *groupServiceMock) UserIDExistsInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
 	return true
 }
 
@@ -85,7 +85,7 @@ func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, e
 		Password:     "12345678",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     make([]string, 0),
 		CreatedAt:    current,
 		UpdatedAt:    current,
 	}
@@ -100,7 +100,7 @@ func TestGroupApplication_Index(t *testing.T) {
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   current,
 		UpdatedAt:   current,
 	}
@@ -127,7 +127,7 @@ func TestGroupApplication_Show(t *testing.T) {
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   current,
 		UpdatedAt:   current,
 	}

@@ -20,7 +20,7 @@ func TestGroupDomainValidation_Group(t *testing.T) {
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserRefs:    make([]string, 0),
+		UserIDs:     make([]string, 0),
 		CreatedAt:   current,
 		UpdatedAt:   current,
 	}
