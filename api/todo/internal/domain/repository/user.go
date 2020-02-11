@@ -9,5 +9,4 @@ import (
 // UserRepository - UserRepositoryインターフェース
 type UserRepository interface {
 	Authentication(ctx context.Context) (*domain.User, error)
-	GroupIDExistsInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool
 }

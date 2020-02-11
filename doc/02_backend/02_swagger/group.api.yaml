@@ -192,6 +192,7 @@ components:
                 description: 招待メールアドレス一覧
                 items:
                   type: string
+                  format: date-time
 
   responses:
     BadRequest:
@@ -240,16 +241,16 @@ components:
               description:
                 type: string
                 description: グループ説明
-              created_at:
-                type: string
-                format: date-time
-                description: グループ作成日時
-              user_refs:
+              userIDs:
                 type: array
                 description: ユーザーReference一覧
                 items:
                   type: string
-              updated_at:
+              createdAt:
+                type: string
+                format: date-time
+                description: グループ作成日時
+              updatedAt:
                 type: string
                 format: date-time
                 description: グループ更新日時
@@ -273,16 +274,16 @@ components:
                     description:
                       type: string
                       description: グループ説明
-                    created_at:
-                      type: string
-                      format: date-time
-                      description: グループ作成日時
-                    user_refs:
+                    userIDs:
                       type: array
                       description: ユーザーReference一覧
                       items:
                         type: string
-                    updated_at:
+                    createdAt:
+                      type: string
+                      format: date-time
+                      description: グループ作成日時
+                    updatedAt:
                       type: string
                       format: date-time
                       description: グループ更新日時

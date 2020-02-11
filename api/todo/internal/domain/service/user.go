@@ -37,5 +37,11 @@ func (us *userService) Authentication(ctx context.Context) (*domain.User, error)
 }
 
 func (us *userService) GroupIDExistsInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
-	return us.userRepository.GroupIDExistsInGroupIDs(ctx, groupID, u)
+	for _, v := range u.GroupIDs {
+		if groupID == v {
+			return true
+		}
+	}
+
+	return false
 }

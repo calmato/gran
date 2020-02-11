@@ -91,24 +91,3 @@ func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
 
 	return nil
 }
-
-// TODO: 下の全部Domain/Serviceに持ってく
-func (gp *groupPersistence) UserIDExistsInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
-	for _, v := range g.UserIDs {
-		if userID == v {
-			return true
-		}
-	}
-
-	return false
-}
-
-func (gp *groupPersistence) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
-	for _, v := range g.InvitedEmails {
-		if email == v {
-			return true
-		}
-	}
-
-	return false
-}

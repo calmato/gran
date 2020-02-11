@@ -102,11 +102,23 @@ func (gs *groupService) InviteUsers(ctx context.Context, g *domain.Group) error 
 }
 
 func (gs *groupService) UserIDExistsInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
-	return gs.groupRepository.UserIDExistsInUserIDs(ctx, userID, g)
+	for _, v := range g.UserIDs {
+		if userID == v {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (gs *groupService) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
-	return gs.groupRepository.EmailExistsInInvitedEmails(ctx, email, g)
+	for _, v := range g.InvitedEmails {
+		if email == v {
+			return true
+		}
+	}
+
+	return false
 }
 
 func containUniqueError(ves []*domain.ValidationError) bool {
