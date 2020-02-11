@@ -26,7 +26,7 @@ func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, e
 		Password:     "12345678",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     make([]string, 0),
 		CreatedAt:    current,
 		UpdatedAt:    current,
 	}
