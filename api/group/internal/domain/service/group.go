@@ -17,6 +17,7 @@ type GroupService interface {
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
 	Update(ctx context.Context, g *domain.Group) error
 	InviteUsers(ctx context.Context, g *domain.Group) error
+	Join(ctx context.Context, g *domain.Group) error
 	IsContainInUserIDs(ctx context.Context, userID string, g *domain.Group) bool
 	IsContainInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool
 }
@@ -91,6 +92,20 @@ func (gs *groupService) InviteUsers(ctx context.Context, g *domain.Group) error 
 		}
 
 		return domain.Unknown.New(err, ves...)
+	}
+
+	if err := gs.groupRepository.Update(ctx, g); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.ErrorInDatastore.New(err)
+	}
+
+	return nil
+}
+
+func (gs *groupService) Join(ctx context.Context, g *domain.Group) error {
+	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+		return domain.InvalidDomainValidation.New(err, ves...)
 	}
 
 	if err := gs.groupRepository.Update(ctx, g); err != nil {

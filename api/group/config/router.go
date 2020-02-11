@@ -30,6 +30,7 @@ func Router(reg *registry.Registry) *gin.Engine {
 		apiV1.PATCH("/:groupID", reg.V1Group.Update)
 
 		apiV1.POST("/:groupID/invite", reg.V1Group.InviteUsers)
+		apiV1.POST("/:groupID/join", reg.V1Group.Join)
 	}
 
 	return r
