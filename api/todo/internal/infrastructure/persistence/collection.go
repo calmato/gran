@@ -15,6 +15,6 @@ func GetGroupReference(groupID string) string {
 	return strings.Join([]string{GroupCollection, groupID}, "/")
 }
 
-func GetBoardCollection(groupRef string) string {
-	return strings.Join([]string{groupRef, BoardCollection}, "/")
+func GetBoardCollection(groupID string) string {
+	return strings.Join([]string{GroupCollection, groupID, BoardCollection}, "/")
 }

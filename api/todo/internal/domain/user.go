@@ -5,11 +5,11 @@ import "time"
 // User - Userエンティティ
 type User struct {
 	ID           string    `firestore:"id"`
-	Email        string    `firestore:"email" validate:"email,max=256"`
-	Password     string    `firestore:"-" validate:"password,min=6,max=32"`
-	Name         string    `firestore:"name" validate:"max=32"`
+	Email        string    `firestore:"email"`
+	Password     string    `firestore:"-"`
+	Name         string    `firestore:"name"`
 	ThumbnailURL string    `firestore:"thumbnail_url"`
-	GroupRefs    []string  `firestore:"group_refs"`
+	GroupIDs     []string  `firestore:"group_ids,omitempty"`
 	CreatedAt    time.Time `firestore:"created_at"`
 	UpdatedAt    time.Time `firestore:"updated_at"`
 }

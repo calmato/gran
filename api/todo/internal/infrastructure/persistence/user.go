@@ -53,11 +53,9 @@ func (up *userPersistence) Authentication(ctx context.Context) (*domain.User, er
 	return u, nil
 }
 
-func (up *userPersistence) GroupIDExistsInGroupRefs(ctx context.Context, groupID string, u *domain.User) bool {
-	groupRef := GetGroupReference(groupID)
-
-	for _, v := range u.GroupRefs {
-		if groupRef == v {
+func (up *userPersistence) GroupIDExistsInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
+	for _, v := range u.GroupIDs {
+		if groupID == v {
 			return true
 		}
 	}

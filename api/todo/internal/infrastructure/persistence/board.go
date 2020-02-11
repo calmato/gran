@@ -26,11 +26,11 @@ func (bp *boardPersistence) Create(ctx context.Context, groupID string, b *domai
 	current := time.Now()
 
 	b.ID = uuid.New().String()
-	b.GroupRef = GetGroupReference(groupID)
+	b.GroupID = groupID
 	b.CreatedAt = current
 	b.UpdatedAt = current
 
-	if err := bp.firestore.Set(ctx, GetBoardCollection(b.GroupRef), b.ID, b); err != nil {
+	if err := bp.firestore.Set(ctx, GetBoardCollection(b.GroupID), b.ID, b); err != nil {
 		return err
 	}
 

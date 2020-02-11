@@ -10,7 +10,7 @@ type Board struct {
 	ThumbnailURL    string    `firestore:"thumbnail_url"`
 	BackgroundColor string    `firestore:"background_url"`
 	Labels          []string  `firestore:"labels"`
-	GroupRef        string    `firestore:"group_ref"`
+	GroupID         string    `firestore:"group_id"`
 	CreatedAt       time.Time `firestore:"created_at"`
 	UpdatedAt       time.Time `firestore:"updated_at"`
 }
