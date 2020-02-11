@@ -19,6 +19,7 @@ type APIV1GroupHandler interface {
 	Show(ctx *gin.Context)
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
+	InviteUsers(ctx *gin.Context)
 }
 
 type apiV1GroupHandler struct {
@@ -44,12 +45,13 @@ func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
 	gsr := make([]*response.Group, len(gs))
 	for i, v := range gs {
 		gr := &response.Group{
-			ID:          v.ID,
-			Name:        v.Name,
-			Description: v.Description,
-			UserRefs:    v.UserRefs,
-			CreatedAt:   v.CreatedAt,
-			UpdatedAt:   v.UpdatedAt,
+			ID:            v.ID,
+			Name:          v.Name,
+			Description:   v.Description,
+			UserRefs:      v.UserRefs,
+			InvitedEmails: v.InvitedEmails,
+			CreatedAt:     v.CreatedAt,
+			UpdatedAt:     v.UpdatedAt,
 		}
 
 		gsr[i] = gr
@@ -74,12 +76,13 @@ func (gh *apiV1GroupHandler) Show(ctx *gin.Context) {
 	}
 
 	res := &response.Group{
-		ID:          g.ID,
-		Name:        g.Name,
-		Description: g.Description,
-		UserRefs:    g.UserRefs,
-		CreatedAt:   g.CreatedAt,
-		UpdatedAt:   g.UpdatedAt,
+		ID:            g.ID,
+		Name:          g.Name,
+		Description:   g.Description,
+		UserRefs:      g.UserRefs,
+		InvitedEmails: g.InvitedEmails,
+		CreatedAt:     g.CreatedAt,
+		UpdatedAt:     g.UpdatedAt,
 	}
 
 	ctx.JSON(http.StatusOK, res)
@@ -113,6 +116,24 @@ func (gh *apiV1GroupHandler) Update(ctx *gin.Context) {
 	c := middleware.GinContextToContext(ctx)
 
 	err := gh.groupApplication.Update(c, groupID, req)
+	if err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+}
+
+func (gh *apiV1GroupHandler) InviteUsers(ctx *gin.Context) {
+	groupID := ctx.Params.ByName("groupID")
+
+	req := &request.InviteUsers{}
+	if err := ctx.BindJSON(req); err != nil {
+		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
+		return
+	}
+
+	c := middleware.GinContextToContext(ctx)
+
+	err := gh.groupApplication.InviteUsers(c, groupID, req)
 	if err != nil {
 		handler.ErrorHandling(ctx, err)
 		return

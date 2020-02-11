@@ -2,7 +2,6 @@ package persistence
 
 import (
 	"context"
-	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -27,7 +26,7 @@ func (gp *groupPersistence) Index(ctx context.Context, u *domain.User) ([]*domai
 	gs := make([]*domain.Group, len(u.GroupRefs))
 
 	for i, v := range u.GroupRefs {
-		doc, err := gp.firestore.Get(ctx, GroupCollection, v)
+		doc, err := gp.firestore.Get(ctx, GroupCollection, GetGroupID(v))
 		if err != nil {
 			return nil, err
 		}
@@ -63,7 +62,7 @@ func (gp *groupPersistence) Show(ctx context.Context, groupID string) (*domain.G
 
 func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
 	g.ID = uuid.New().String()
-	g.UserRefs = append(g.UserRefs, getUserReference(u.ID))
+	g.UserRefs = append(g.UserRefs, GetUserReference(u.ID))
 
 	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
 		return err
@@ -71,7 +70,7 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 
 	current := time.Now()
 
-	u.GroupRefs = append(u.GroupRefs, g.ID)
+	u.GroupRefs = append(u.GroupRefs, GetGroupReference(g.ID))
 	u.UpdatedAt = current
 
 	if err := gp.firestore.Set(ctx, UserCollection, u.ID, u); err != nil {
@@ -90,7 +89,7 @@ func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
 }
 
 func (gp *groupPersistence) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
-	userRef := getUserReference(userID)
+	userRef := GetUserReference(userID)
 
 	for _, v := range g.UserRefs {
 		if userRef == v {
@@ -101,6 +100,12 @@ func (gp *groupPersistence) UserIDExistsInUserRefs(ctx context.Context, userID s
 	return false
 }
 
-func getUserReference(userID string) string {
-	return strings.Join([]string{UserCollection, userID}, "/")
+func (gp *groupPersistence) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
+	for _, v := range g.InvitedEmails {
+		if email == v {
+			return true
+		}
+	}
+
+	return false
 }

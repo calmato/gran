@@ -7,19 +7,15 @@ import (
 	dv "github.com/16francs/gran/api/todo/internal/domain/validation"
 )
 
-type boardDomainValidation struct {
-	validator DomainValidator
-}
+type boardDomainValidation struct{}
 
-// NewGroupDomainValidation - GroupDomainValidationの生成
+// NewBoardDomainValidation - GroupDomainValidationの生成
 func NewBoardDomainValidation() dv.BoardDomainValidation {
-	v := NewDomainValidator()
-
-	return &boardDomainValidation{
-		validator: v,
-	}
+	return &boardDomainValidation{}
 }
 
 func (bdv *boardDomainValidation) Board(ctx context.Context, b *domain.Board) []*domain.ValidationError {
-	return bdv.validator.Run(b)
+	ves := make([]*domain.ValidationError, 0)
+
+	return ves
 }

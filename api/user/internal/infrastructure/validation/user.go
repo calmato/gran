@@ -11,27 +11,22 @@ import (
 )
 
 type userDomainValidation struct {
-	validator      DomainValidator
 	userRepository repository.UserRepository
 }
 
 // NewUserDomainValidation - UserDomainValidationの生成
 func NewUserDomainValidation(ur repository.UserRepository) dv.UserDomainValidation {
-	v := NewDomainValidator()
-
 	return &userDomainValidation{
-		validator:      v,
 		userRepository: ur,
 	}
 }
 
 func (udv *userDomainValidation) User(ctx context.Context, u *domain.User) []*domain.ValidationError {
-	validationErrors := udv.validator.Run(u)
+	validationErrors := make([]*domain.ValidationError, 0)
 
-	err := uniqueCheckEmail(ctx, udv.userRepository, u.Email)
-	if err != nil {
+	if err := uniqueCheckEmail(ctx, udv.userRepository, u.Email); err != nil {
 		validationError := &domain.ValidationError{
-			Field:   "email",
+			Field:   "メールアドレス",
 			Message: dv.CustomUniqueMessage,
 		}
 
@@ -44,7 +39,7 @@ func (udv *userDomainValidation) User(ctx context.Context, u *domain.User) []*do
 func uniqueCheckEmail(ctx context.Context, ur repository.UserRepository, email string) error {
 	uid, _ := ur.GetUIDByEmail(ctx, email)
 	if uid != "" {
-		return xerrors.New("Email is not unique.")
+		return xerrors.New("This email is already exists.")
 	}
 
 	return nil
