@@ -19,6 +19,24 @@ func (brvm *boardRequestValidationMock) CreateBoard(req *request.CreateBoard) []
 
 type boardServiceMock struct{}
 
+func (bsm *boardServiceMock) Index(ctx context.Context, groupID string) ([]*domain.Board, error) {
+	b := &domain.Board{
+		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Name:            "テストグループ",
+		Closed:          true,
+		ThumbnailURL:    "",
+		BackgroundColor: "",
+		Labels:          make([]string, 0),
+		GroupID:         "",
+		CreatedAt:       current,
+		UpdatedAt:       current,
+	}
+
+	bs := []*domain.Board{b}
+
+	return bs, nil
+}
+
 func (bsm *boardServiceMock) Create(ctx context.Context, groupID string, b *domain.Board) error {
 	return nil
 }

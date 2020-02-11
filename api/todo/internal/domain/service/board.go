@@ -14,6 +14,7 @@ import (
 
 // BoardService - BoardServiceインターフェース
 type BoardService interface {
+	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Create(ctx context.Context, groupID string, b *domain.Board) error
 }
 
@@ -28,6 +29,16 @@ func NewBoardService(bdv validation.BoardDomainValidation, br repository.BoardRe
 		boardDomainValidation: bdv,
 		boardRepository:       br,
 	}
+}
+
+func (bs *boardService) Index(ctx context.Context, groupID string) ([]*domain.Board, error) {
+	b, err := bs.boardRepository.Index(ctx, groupID)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	return b, nil
 }
 
 func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Board) error {
