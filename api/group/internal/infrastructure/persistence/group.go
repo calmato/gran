@@ -2,9 +2,6 @@ package persistence
 
 import (
 	"context"
-	"time"
-
-	"github.com/google/uuid"
 
 	"github.com/16francs/gran/api/group/internal/domain"
 	"github.com/16francs/gran/api/group/internal/domain/repository"
@@ -60,21 +57,8 @@ func (gp *groupPersistence) Show(ctx context.Context, groupID string) (*domain.G
 	return g, nil
 }
 
-func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
-	current := time.Now()
-	g.ID = uuid.New().String()
-	g.UserIDs = append(g.UserIDs, u.ID)
-	g.CreatedAt = current
-	g.UpdatedAt = current
-
+func (gp *groupPersistence) Create(ctx context.Context, g *domain.Group) error {
 	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
-		return err
-	}
-
-	u.GroupIDs = append(u.GroupIDs, g.ID)
-	u.UpdatedAt = current
-
-	if err := gp.firestore.Set(ctx, UserCollection, u.ID, u); err != nil {
 		return err
 	}
 
@@ -82,9 +66,6 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 }
 
 func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
-	current := time.Now()
-	g.UpdatedAt = current
-
 	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
 		return err
 	}
