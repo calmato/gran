@@ -161,7 +161,7 @@ func TestGroupService_Update(t *testing.T) {
 	}
 }
 
-func TestGroupService_UserIDExistsInUserIDs(t *testing.T) {
+func TestGroupService_IsContainInUserIDs(t *testing.T) {
 	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
 
 	g := &domain.Group{
@@ -176,13 +176,13 @@ func TestGroupService_UserIDExistsInUserIDs(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got := target.UserIDExistsInUserIDs(ctx, groupAuthUser.ID, g)
+	got := target.IsContainInUserIDs(ctx, groupAuthUser.ID, g)
 	if !got {
 		t.Fatalf("error: %v", got)
 	}
 }
 
-func TestGroupService_EmailExistsInEmails(t *testing.T) {
+func TestGroupService_IsContainInInvitedEmails(t *testing.T) {
 	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
 
 	email := "hoge@hoge.com"
@@ -199,7 +199,7 @@ func TestGroupService_EmailExistsInEmails(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got := target.EmailExistsInInvitedEmails(ctx, email, g)
+	got := target.IsContainInInvitedEmails(ctx, email, g)
 	if !got {
 		t.Fatalf("error: %v", got)
 	}

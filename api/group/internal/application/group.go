@@ -62,7 +62,7 @@ func (ga *groupApplication) Show(ctx context.Context, groupID string) (*domain.G
 		return nil, err
 	}
 
-	if !ga.groupService.UserIDExistsInUserIDs(ctx, u.ID, g) {
+	if !ga.groupService.IsContainInUserIDs(ctx, u.ID, g) {
 		err = xerrors.New("Failed to Application")
 		return nil, domain.Forbidden.New(err)
 	}
@@ -104,7 +104,7 @@ func (ga *groupApplication) Update(ctx context.Context, groupID string, req *req
 		return err
 	}
 
-	if !ga.groupService.UserIDExistsInUserIDs(ctx, u.ID, g) {
+	if !ga.groupService.IsContainInUserIDs(ctx, u.ID, g) {
 		err = xerrors.New("Failed to Application")
 		return domain.Forbidden.New(err)
 	}
@@ -135,7 +135,7 @@ func (ga *groupApplication) InviteUsers(ctx context.Context, groupID string, req
 		return err
 	}
 
-	if !ga.groupService.UserIDExistsInUserIDs(ctx, u.ID, g) {
+	if !ga.groupService.IsContainInUserIDs(ctx, u.ID, g) {
 		err = xerrors.New("Failed to Application")
 		return domain.Forbidden.New(err)
 	}

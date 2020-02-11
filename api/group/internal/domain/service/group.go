@@ -17,8 +17,8 @@ type GroupService interface {
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
 	Update(ctx context.Context, g *domain.Group) error
 	InviteUsers(ctx context.Context, g *domain.Group) error
-	UserIDExistsInUserIDs(ctx context.Context, userID string, g *domain.Group) bool
-	EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool
+	IsContainInUserIDs(ctx context.Context, userID string, g *domain.Group) bool
+	IsContainInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool
 }
 
 type groupService struct {
@@ -86,7 +86,7 @@ func (gs *groupService) InviteUsers(ctx context.Context, g *domain.Group) error 
 	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
 
-		if containUniqueError(ves) {
+		if isContainUniqueError(ves) {
 			return domain.InvalidDomainValidation.New(err, ves...)
 		}
 
@@ -101,7 +101,7 @@ func (gs *groupService) InviteUsers(ctx context.Context, g *domain.Group) error 
 	return nil
 }
 
-func (gs *groupService) UserIDExistsInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
+func (gs *groupService) IsContainInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
 	for _, v := range g.UserIDs {
 		if userID == v {
 			return true
@@ -111,7 +111,7 @@ func (gs *groupService) UserIDExistsInUserIDs(ctx context.Context, userID string
 	return false
 }
 
-func (gs *groupService) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
+func (gs *groupService) IsContainInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
 	for _, v := range g.InvitedEmails {
 		if email == v {
 			return true
@@ -121,7 +121,7 @@ func (gs *groupService) EmailExistsInInvitedEmails(ctx context.Context, email st
 	return false
 }
 
-func containUniqueError(ves []*domain.ValidationError) bool {
+func isContainUniqueError(ves []*domain.ValidationError) bool {
 	for _, v := range ves {
 		if v.Message == validation.UniqueMessage {
 			return true

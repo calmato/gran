@@ -68,11 +68,11 @@ func (gsm *groupServiceMock) InviteUsers(ctx context.Context, g *domain.Group) e
 	return nil
 }
 
-func (gsm *groupServiceMock) UserIDExistsInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
+func (gsm *groupServiceMock) IsContainInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
 	return true
 }
 
-func (gsm *groupServiceMock) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
+func (gsm *groupServiceMock) IsContainInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
 	return true
 }
 
