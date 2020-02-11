@@ -9,7 +9,7 @@ type User struct {
 	Password     string    `firestore:"-"`
 	Name         string    `firestore:"name"`
 	ThumbnailURL string    `firestore:"thumbnail_url"`
-	GroupRefs    []string  `firestore:"group_refs,omitempty"`
+	GroupIDs     []string  `firestore:"group_ids,omitempty"`
 	CreatedAt    time.Time `firestore:"created_at"`
 	UpdatedAt    time.Time `firestore:"updated_at"`
 }
