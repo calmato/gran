@@ -168,7 +168,7 @@ func TestGroupService_IsContainInUserIDs(t *testing.T) {
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:        "テストグループ",
 		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
+		UserIDs:     []string{"JUA1ouY12ickxIupMVdVl3ieM7s2"},
 		CreatedAt:   groupCurrent,
 		UpdatedAt:   groupCurrent,
 	}
@@ -188,12 +188,13 @@ func TestGroupService_IsContainInInvitedEmails(t *testing.T) {
 	email := "hoge@hoge.com"
 
 	g := &domain.Group{
-		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
-		CreatedAt:   groupCurrent,
-		UpdatedAt:   groupCurrent,
+		ID:            "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Name:          "テストグループ",
+		Description:   "グループの説明",
+		UserIDs:       make([]string, 0),
+		InvitedEmails: []string{"hoge@hoge.com"},
+		CreatedAt:     groupCurrent,
+		UpdatedAt:     groupCurrent,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
