@@ -161,6 +161,48 @@ func TestGroupService_Update(t *testing.T) {
 	}
 }
 
+func TestGroupService_InviteUsers(t *testing.T) {
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+
+	g := &domain.Group{
+		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Name:        "テストグループ",
+		Description: "グループの説明",
+		UserIDs:     make([]string, 0),
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := target.InviteUsers(ctx, g)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+}
+
+func TestGroupService_Join(t *testing.T) {
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+
+	g := &domain.Group{
+		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Name:        "テストグループ",
+		Description: "グループの説明",
+		UserIDs:     make([]string, 0),
+		CreatedAt:   groupCurrent,
+		UpdatedAt:   groupCurrent,
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := target.Join(ctx, g)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+}
+
 func TestGroupService_IsContainInUserIDs(t *testing.T) {
 	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
 
