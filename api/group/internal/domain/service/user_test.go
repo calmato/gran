@@ -28,6 +28,10 @@ func (urm *userRepositoryMock) Authentication(ctx context.Context) (*domain.User
 	return u, nil
 }
 
+func (urm *userRepositoryMock) Update(ctx context.Context, u *domain.User) error {
+	return nil
+}
+
 func TestUserService_Authentication(t *testing.T) {
 	target := NewUserService(&userRepositoryMock{})
 

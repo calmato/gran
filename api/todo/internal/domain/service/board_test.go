@@ -18,7 +18,7 @@ func (bdvm *boardDomainValidationMock) Board(ctx context.Context, g *domain.Boar
 
 type boardRepositoryMock struct{}
 
-func (brm *boardRepositoryMock) Create(ctx context.Context, groupID string, b *domain.Board) error {
+func (brm *boardRepositoryMock) Create(ctx context.Context, b *domain.Board) error {
 	return nil
 }
 

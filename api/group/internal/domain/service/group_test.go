@@ -59,7 +59,7 @@ func (grm *groupRepositoryMock) Show(ctx context.Context, groupID string) (*doma
 	return g, nil
 }
 
-func (grm *groupRepositoryMock) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
+func (grm *groupRepositoryMock) Create(ctx context.Context, g *domain.Group) error {
 	return nil
 }
 
@@ -67,35 +67,8 @@ func (grm *groupRepositoryMock) Update(ctx context.Context, g *domain.Group) err
 	return nil
 }
 
-func TestGroupService_Index(t *testing.T) {
-	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
-
-	g := &domain.Group{
-		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
-		CreatedAt:   groupCurrent,
-		UpdatedAt:   groupCurrent,
-	}
-
-	want := []*domain.Group{g}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	got, err := target.Index(ctx, groupAuthUser)
-	if err != nil {
-		t.Fatalf("error: %v", err)
-	}
-
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
-	}
-}
-
 func TestGroupService_Show(t *testing.T) {
-	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{}, &userRepositoryMock{})
 
 	want := &domain.Group{
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -120,7 +93,7 @@ func TestGroupService_Show(t *testing.T) {
 }
 
 func TestGroupService_Create(t *testing.T) {
-	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{}, &userRepositoryMock{})
 
 	g := &domain.Group{
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -141,7 +114,7 @@ func TestGroupService_Create(t *testing.T) {
 }
 
 func TestGroupService_Update(t *testing.T) {
-	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{}, &userRepositoryMock{})
 
 	g := &domain.Group{
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -162,7 +135,7 @@ func TestGroupService_Update(t *testing.T) {
 }
 
 func TestGroupService_InviteUsers(t *testing.T) {
-	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{}, &userRepositoryMock{})
 
 	g := &domain.Group{
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -183,7 +156,7 @@ func TestGroupService_InviteUsers(t *testing.T) {
 }
 
 func TestGroupService_Join(t *testing.T) {
-	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{}, &userRepositoryMock{})
 
 	g := &domain.Group{
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -204,7 +177,7 @@ func TestGroupService_Join(t *testing.T) {
 }
 
 func TestGroupService_IsContainInUserIDs(t *testing.T) {
-	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{}, &userRepositoryMock{})
 
 	g := &domain.Group{
 		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -225,7 +198,7 @@ func TestGroupService_IsContainInUserIDs(t *testing.T) {
 }
 
 func TestGroupService_IsContainInInvitedEmails(t *testing.T) {
-	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{})
+	target := NewGroupService(&groupDomainValidationMock{}, &groupRepositoryMock{}, &userRepositoryMock{})
 
 	email := "hoge@hoge.com"
 

@@ -38,6 +38,10 @@ func (urm *userRepositoryMock) Create(ctx context.Context, u *domain.User) error
 	return nil
 }
 
+func (urm *userRepositoryMock) Update(ctx context.Context, u *domain.User) error {
+	return nil
+}
+
 func (urm *userRepositoryMock) GetUIDByEmail(ctx context.Context, email string) (string, error) {
 	return "", nil
 }
