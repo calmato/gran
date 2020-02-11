@@ -17,7 +17,7 @@ type GroupService interface {
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
 	Update(ctx context.Context, g *domain.Group) error
 	InviteUsers(ctx context.Context, g *domain.Group) error
-	UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool
+	UserIDExistsInUserIDs(ctx context.Context, userID string, g *domain.Group) bool
 	EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool
 }
 
@@ -101,8 +101,8 @@ func (gs *groupService) InviteUsers(ctx context.Context, g *domain.Group) error 
 	return nil
 }
 
-func (gs *groupService) UserIDExistsInUserRefs(ctx context.Context, userID string, g *domain.Group) bool {
-	return gs.groupRepository.UserIDExistsInUserRefs(ctx, userID, g)
+func (gs *groupService) UserIDExistsInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
+	return gs.groupRepository.UserIDExistsInUserIDs(ctx, userID, g)
 }
 
 func (gs *groupService) EmailExistsInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
