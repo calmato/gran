@@ -61,14 +61,15 @@ func (gp *groupPersistence) Show(ctx context.Context, groupID string) (*domain.G
 }
 
 func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
+	current := time.Now()
 	g.ID = uuid.New().String()
 	g.UserRefs = append(g.UserRefs, GetUserReference(u.ID))
+	g.CreatedAt = current
+	g.UpdatedAt = current
 
 	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
 		return err
 	}
-
-	current := time.Now()
 
 	u.GroupRefs = append(u.GroupRefs, GetGroupReference(g.ID))
 	u.UpdatedAt = current
@@ -81,6 +82,9 @@ func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domai
 }
 
 func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
+	current := time.Now()
+	g.UpdatedAt = current
+
 	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
 		return err
 	}

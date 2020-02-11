@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -22,8 +23,12 @@ func NewBoardPersistence(fs *firestore.Firestore) repository.BoardRepository {
 }
 
 func (bp *boardPersistence) Create(ctx context.Context, groupID string, b *domain.Board) error {
+	current := time.Now()
+
 	b.ID = uuid.New().String()
 	b.GroupRef = GetGroupReference(groupID)
+	b.CreatedAt = current
+	b.UpdatedAt = current
 
 	if err := bp.firestore.Set(ctx, GetBoardCollection(b.GroupRef), b.ID, b); err != nil {
 		return err

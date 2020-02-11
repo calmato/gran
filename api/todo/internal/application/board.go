@@ -2,7 +2,6 @@ package application
 
 import (
 	"context"
-	"time"
 
 	"golang.org/x/xerrors"
 
@@ -45,15 +44,12 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
 
-	current := time.Now()
 	b := &domain.Board{
 		Name:            req.Name,
 		Closed:          req.Closed,
 		ThumbnailURL:    req.ThumbnailURL,
 		BackgroundColor: req.BackgroundColor,
 		Labels:          req.Labels,
-		CreatedAt:       current,
-		UpdatedAt:       current,
 	}
 
 	groupID := req.GroupID

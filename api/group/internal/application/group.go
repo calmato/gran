@@ -2,7 +2,6 @@ package application
 
 import (
 	"context"
-	"time"
 
 	"golang.org/x/xerrors"
 
@@ -82,12 +81,9 @@ func (ga *groupApplication) Create(ctx context.Context, req *request.CreateGroup
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
 
-	current := time.Now()
 	g := &domain.Group{
 		Name:        req.Name,
 		Description: req.Description,
-		CreatedAt:   current,
-		UpdatedAt:   current,
 	}
 
 	if err := ga.groupService.Create(ctx, u, g); err != nil {
@@ -118,10 +114,8 @@ func (ga *groupApplication) Update(ctx context.Context, groupID string, req *req
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
 
-	current := time.Now()
 	g.Name = req.Name
 	g.Description = req.Description
-	g.UpdatedAt = current
 
 	if err := ga.groupService.Update(ctx, g); err != nil {
 		return err
@@ -151,9 +145,7 @@ func (ga *groupApplication) InviteUsers(ctx context.Context, groupID string, req
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
 
-	current := time.Now()
 	g.InvitedEmails = append(g.InvitedEmails, req.Emails...)
-	g.UpdatedAt = current
 
 	if err := ga.groupService.InviteUsers(ctx, g); err != nil {
 		return err
