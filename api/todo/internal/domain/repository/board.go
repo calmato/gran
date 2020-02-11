@@ -8,5 +8,6 @@ import (
 
 // BoardRepository - BoardRepositoryインターフェース
 type BoardRepository interface {
+	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Create(ctx context.Context, b *domain.Board) error
 }
