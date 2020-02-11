@@ -23,7 +23,7 @@ func TestBoardDomainValidation_Board(t *testing.T) {
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
-		GroupRef:        "",
+		GroupID:         "",
 		CreatedAt:       current,
 		UpdatedAt:       current,
 	}

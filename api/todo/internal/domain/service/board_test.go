@@ -32,7 +32,7 @@ func TestBoardService_Create(t *testing.T) {
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
-		GroupRef:        "",
+		GroupID:         "",
 		CreatedAt:       boardCurrent,
 		UpdatedAt:       boardCurrent,
 	}

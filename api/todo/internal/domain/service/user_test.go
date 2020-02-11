@@ -17,7 +17,7 @@ var (
 		Password:     "",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     []string{"JUA1ouY12ickxIupMVdVl3ieM7s2"},
 		CreatedAt:    userCurrent,
 		UpdatedAt:    userCurrent,
 	}
@@ -32,16 +32,12 @@ func (urm *userRepositoryMock) Authentication(ctx context.Context) (*domain.User
 		Password:     "",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     make([]string, 0),
 		CreatedAt:    userCurrent,
 		UpdatedAt:    userCurrent,
 	}
 
 	return u, nil
-}
-
-func (urm *userRepositoryMock) GroupIDExistsInGroupRefs(ctx context.Context, groupID string, u *domain.User) bool {
-	return true
 }
 
 func TestUserService_Authentication(t *testing.T) {
@@ -53,7 +49,7 @@ func TestUserService_Authentication(t *testing.T) {
 		Password:     "",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     make([]string, 0),
 		CreatedAt:    userCurrent,
 		UpdatedAt:    userCurrent,
 	}
@@ -71,13 +67,13 @@ func TestUserService_Authentication(t *testing.T) {
 	}
 }
 
-func TestUserService_GroupIDExistsInGroupRefs(t *testing.T) {
+func TestUserService_GroupIDExistsInGroupIDs(t *testing.T) {
 	target := NewUserService(&userRepositoryMock{})
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got := target.GroupIDExistsInGroupRefs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", userAuthUser)
+	got := target.GroupIDExistsInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", userAuthUser)
 	if !got {
 		t.Fatalf("error: %v", got)
 	}

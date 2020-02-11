@@ -32,7 +32,7 @@ func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, e
 		Password:     "12345678",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     make([]string, 0),
 		CreatedAt:    current,
 		UpdatedAt:    current,
 	}
@@ -40,7 +40,7 @@ func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, e
 	return u, nil
 }
 
-func (usm *userServiceMock) GroupIDExistsInGroupRefs(ctx context.Context, groupID string, u *domain.User) bool {
+func (usm *userServiceMock) GroupIDExistsInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
 	return true
 }
 
