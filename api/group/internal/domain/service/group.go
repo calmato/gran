@@ -31,7 +31,7 @@ type groupService struct {
 }
 
 // NewGroupService - GroupServiceの生成
-func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRepository, ur repository.UserRepositoryj) GroupService {
+func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRepository, ur repository.UserRepository) GroupService {
 	return &groupService{
 		groupDomainValidation: gdv,
 		groupRepository:       gr,
@@ -71,7 +71,7 @@ func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Gr
 	g.CreatedAt = current
 	g.UpdatedAt = current
 
-	if err := gs.groupRepository.Create(ctx, u, g); err != nil {
+	if err := gs.groupRepository.Create(ctx, g); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return domain.ErrorInDatastore.New(err)
 	}

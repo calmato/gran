@@ -18,7 +18,7 @@ func V1GroupInjection(fa *authentication.Auth, fs *firestore.Firestore) v1.APIV1
 
 	gp := persistence.NewGroupPersistence(fs)
 	gdv := dv.NewGroupDomainValidation()
-	gs := service.NewGroupService(gdv, gp)
+	gs := service.NewGroupService(gdv, gp, up)
 	grv := rv.NewGroupRequestValidation()
 	gu := application.NewGroupApplication(grv, gs, us)
 	gh := v1.NewAPIV1GroupHandler(gu)
