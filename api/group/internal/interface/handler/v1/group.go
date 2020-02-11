@@ -20,6 +20,7 @@ type APIV1GroupHandler interface {
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
 	InviteUsers(ctx *gin.Context)
+	Join(ctx *gin.Context)
 }
 
 type apiV1GroupHandler struct {
@@ -134,6 +135,18 @@ func (gh *apiV1GroupHandler) InviteUsers(ctx *gin.Context) {
 	c := middleware.GinContextToContext(ctx)
 
 	err := gh.groupApplication.InviteUsers(c, groupID, req)
+	if err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+}
+
+func (gh *apiV1GroupHandler) Join(ctx *gin.Context) {
+	groupID := ctx.Params.ByName("groupID")
+
+	c := middleware.GinContextToContext(ctx)
+
+	err := gh.groupApplication.Join(c, groupID)
 	if err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
