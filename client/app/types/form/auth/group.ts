@@ -12,11 +12,11 @@ interface IGroupFormValidate {
 
 export const GroupNewForm: IGroupForm = {
   name: {
-    label: 'GroupNew',
+    label: 'グループ名',
     value: ''
   },
   description: {
-    label: 'GroupDescription',
+    label: 'グループの説明',
     value: ''
   }
 }
