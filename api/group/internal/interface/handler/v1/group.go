@@ -3,10 +3,9 @@ package v1
 import (
 	"net/http"
 
-	"github.com/16francs/gran/api/group/internal/application/response"
-
 	"github.com/16francs/gran/api/group/internal/application"
 	"github.com/16francs/gran/api/group/internal/application/request"
+	"github.com/16francs/gran/api/group/internal/application/response"
 	"github.com/16francs/gran/api/group/internal/domain"
 	"github.com/16francs/gran/api/group/internal/interface/handler"
 	"github.com/16francs/gran/api/group/middleware"
@@ -20,6 +19,7 @@ type APIV1GroupHandler interface {
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
 	InviteUsers(ctx *gin.Context)
+	Join(ctx *gin.Context)
 }
 
 type apiV1GroupHandler struct {
@@ -42,7 +42,7 @@ func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
 		return
 	}
 
-	gsr := make([]*response.Group, len(gs))
+	grs := make([]*response.Group, len(gs))
 	for i, v := range gs {
 		gr := &response.Group{
 			ID:            v.ID,
@@ -54,7 +54,7 @@ func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
 			UpdatedAt:     v.UpdatedAt,
 		}
 
-		gsr[i] = gr
+		grs[i] = gr
 	}
 
 	res := &response.Groups{
@@ -134,6 +134,18 @@ func (gh *apiV1GroupHandler) InviteUsers(ctx *gin.Context) {
 	c := middleware.GinContextToContext(ctx)
 
 	err := gh.groupApplication.InviteUsers(c, groupID, req)
+	if err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+}
+
+func (gh *apiV1GroupHandler) Join(ctx *gin.Context) {
+	groupID := ctx.Params.ByName("groupID")
+
+	c := middleware.GinContextToContext(ctx)
+
+	err := gh.groupApplication.Join(c, groupID)
 	if err != nil {
 		handler.ErrorHandling(ctx, err)
 		return

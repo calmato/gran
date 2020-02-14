@@ -18,6 +18,7 @@ type GroupApplication interface {
 	Create(ctx context.Context, req *request.CreateGroup) error
 	Update(ctx context.Context, groupID string, req *request.UpdateGroup) error
 	InviteUsers(ctx context.Context, groupID string, req *request.InviteUsers) error
+	Join(ctx context.Context, groupID string) error
 }
 
 type groupApplication struct {
@@ -152,4 +153,45 @@ func (ga *groupApplication) InviteUsers(ctx context.Context, groupID string, req
 	}
 
 	return nil
+}
+
+func (ga *groupApplication) Join(ctx context.Context, groupID string) error {
+	u, err := ga.userService.Authentication(ctx)
+	if err != nil {
+		return err
+	}
+
+	g, err := ga.groupService.Show(ctx, groupID)
+	if err != nil {
+		return err
+	}
+
+	if !ga.groupService.IsContainInInvitedEmails(ctx, u.Email, g) {
+		err = xerrors.New("Failed to Application")
+		return domain.Forbidden.New(err)
+	}
+
+	g.UserIDs = append(g.UserIDs, u.ID)
+
+	removeEmailInInvitedEmails(u.Email, g)
+
+	if err := ga.groupService.Join(ctx, g); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func removeEmailInInvitedEmails(email string, g *domain.Group) {
+	list := make([]string, 0)
+
+	for _, v := range g.InvitedEmails {
+		if email == v {
+			continue
+		}
+
+		list = append(list, v)
+	}
+
+	g.InvitedEmails = list
 }

@@ -3,7 +3,6 @@ package persistence
 import (
 	"context"
 	"strings"
-	"time"
 
 	"golang.org/x/xerrors"
 
@@ -55,10 +54,6 @@ func (up *userPersistence) Authentication(ctx context.Context) (*domain.User, er
 }
 
 func (up *userPersistence) Create(ctx context.Context, u *domain.User) error {
-	current := time.Now()
-	u.CreatedAt = current
-	u.UpdatedAt = current
-
 	uid, err := up.auth.CreateUser(ctx, u.Email, u.Password)
 	if err != nil {
 		return err

@@ -20,7 +20,7 @@ func (urm *userRepositoryMock) Authentication(ctx context.Context) (*domain.User
 		Password:     "12345678",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     make([]string, 0),
 		CreatedAt:    current,
 		UpdatedAt:    current,
 	}
@@ -47,7 +47,7 @@ func TestUserDomainValidation_User(t *testing.T) {
 		Password:     "12345678",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupRefs:    make([]string, 0),
+		GroupIDs:     make([]string, 0),
 		CreatedAt:    current,
 		UpdatedAt:    current,
 	}

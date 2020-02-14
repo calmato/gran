@@ -2,7 +2,9 @@ package service
 
 import (
 	"context"
+	"time"
 
+	"github.com/google/uuid"
 	"golang.org/x/xerrors"
 
 	"github.com/16francs/gran/api/todo/internal/domain"
@@ -34,7 +36,13 @@ func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Bo
 		return domain.InvalidDomainValidation.New(err, ves...)
 	}
 
-	if err := bs.boardRepository.Create(ctx, groupID, b); err != nil {
+	current := time.Now()
+	b.ID = uuid.New().String()
+	b.GroupID = groupID
+	b.CreatedAt = current
+	b.UpdatedAt = current
+
+	if err := bs.boardRepository.Create(ctx, b); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return domain.ErrorInDatastore.New(err)
 	}

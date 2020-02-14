@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"golang.org/x/xerrors"
 
@@ -49,6 +50,11 @@ func (us *userService) Create(ctx context.Context, u *domain.User) error {
 
 		return domain.Unknown.New(err, ves...)
 	}
+
+	current := time.Now()
+
+	u.CreatedAt = current
+	u.UpdatedAt = current
 
 	if err := us.userRepository.Create(ctx, u); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)

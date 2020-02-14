@@ -68,6 +68,10 @@ func (gsm *groupServiceMock) InviteUsers(ctx context.Context, g *domain.Group) e
 	return nil
 }
 
+func (gsm *groupServiceMock) Join(ctx context.Context, g *domain.Group) error {
+	return nil
+}
+
 func (gsm *groupServiceMock) IsContainInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
 	return true
 }
@@ -148,7 +152,7 @@ func TestGroupApplication_Show(t *testing.T) {
 func TestGroupApplication_Create(t *testing.T) {
 	target := NewGroupApplication(&groupRequestValidationMock{}, &groupServiceMock{}, &userServiceMock{})
 
-	g := &request.CreateGroup{
+	req := &request.CreateGroup{
 		Name:        "テストグループ",
 		Description: "説明",
 	}
@@ -156,7 +160,7 @@ func TestGroupApplication_Create(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	err := target.Create(ctx, g)
+	err := target.Create(ctx, req)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
@@ -165,7 +169,7 @@ func TestGroupApplication_Create(t *testing.T) {
 func TestGroupApplication_Update(t *testing.T) {
 	target := NewGroupApplication(&groupRequestValidationMock{}, &groupServiceMock{}, &userServiceMock{})
 
-	g := &request.UpdateGroup{
+	req := &request.UpdateGroup{
 		Name:        "テストグループ",
 		Description: "説明",
 	}
@@ -173,7 +177,23 @@ func TestGroupApplication_Update(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	err := target.Update(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s", g)
+	err := target.Update(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s", req)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+}
+
+func TestGroupApplication_InviteUsers(t *testing.T) {
+	target := NewGroupApplication(&groupRequestValidationMock{}, &groupServiceMock{}, &userServiceMock{})
+
+	req := &request.InviteUsers{
+		Emails: []string{"hoge@sample.com"},
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err := target.InviteUsers(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s", req)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
