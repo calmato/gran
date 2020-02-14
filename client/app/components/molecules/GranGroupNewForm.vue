@@ -2,12 +2,12 @@
   <form>
     <gran-text-field
       v-model="groupNewForm.name.value"
-      label="GranNewForm.name.label"
+      :label="groupNewForm.name.label"
       :rules="groupNewFormValidate.name"
     />
     <gran-text-area
       v-model="groupNewForm.description.value"
-      label="GranNewForm.description.label"
+      :label="groupNewForm.description.label"
       :rules="groupNewFormValidate.description"
     />
     <gran-button @click="doSubmit">適用</gran-button>
@@ -16,11 +16,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { GroupNewForm } from '~/types'
+import { GroupNewForm, IGroupForm, GroupNewFormValidate } from '~/types'
 import GranTextField from '~/components/atoms/GranTextField.vue'
 import GranTextArea from '~/components/atoms/GranTextArea.vue'
 import GranButton from '~/components/atoms/GranButton.vue'
-import { IGroupForm, GroupNewFormValidate } from '~/types'
 
 export default Vue.extend({
   components: {
