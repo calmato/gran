@@ -26,7 +26,7 @@
     "firebase": "^7.8.2",
     "js-cookie": "^2.2.1",
     "nuxt": "^2.0.0",
-    "vee-validate": "^3.2.4",
+    "vee-validate": "^3.2.5",
     "vuex": "^3.1.2",
     "vuex-persistedstate": "^2.7.1"
   },
