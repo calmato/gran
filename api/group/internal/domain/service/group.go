@@ -32,7 +32,7 @@ type groupService struct {
 
 // NewGroupService - GroupServiceの生成
 func NewGroupService(
-	gdv validation.GroupDomainValidation, gr repository.GroupRepository, ur repository.UserRepository
+	gdv validation.GroupDomainValidation, gr repository.GroupRepository, ur repository.UserRepository,
 ) GroupService {
 	return &groupService{
 		groupDomainValidation: gdv,
