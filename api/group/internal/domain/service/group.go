@@ -31,7 +31,9 @@ type groupService struct {
 }
 
 // NewGroupService - GroupServiceの生成
-func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRepository, ur repository.UserRepository) GroupService {
+func NewGroupService(
+	gdv validation.GroupDomainValidation, gr repository.GroupRepository, ur repository.UserRepository
+) GroupService {
 	return &groupService{
 		groupDomainValidation: gdv,
 		groupRepository:       gr,
@@ -39,9 +41,7 @@ func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRe
 	}
 }
 
-func (gs *groupService) Index(
-	ctx context.Context, u *domain.User) ([]*domain.Group, error
-) {
+func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
 	g, err := gs.groupRepository.Index(ctx, u)
 	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
