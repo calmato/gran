@@ -8,7 +8,7 @@ type Board struct {
 	Name            string    `firestore:"name"`
 	Closed          bool      `firestore:"closed"`
 	ThumbnailURL    string    `firestore:"thumbnail_url"`
-	BackgroundColor string    `firestore:"background_url"`
+	BackgroundColor string    `firestore:"background_color"`
 	Labels          []string  `firestore:"labels"`
 	GroupID         string    `firestore:"group_id"`
 	CreatedAt       time.Time `firestore:"created_at"`

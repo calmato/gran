@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+	"reflect"
 	"testing"
 	"time"
 
@@ -19,6 +20,24 @@ func (brvm *boardRequestValidationMock) CreateBoard(req *request.CreateBoard) []
 
 type boardServiceMock struct{}
 
+func (bsm *boardServiceMock) Index(ctx context.Context, groupID string) ([]*domain.Board, error) {
+	b := &domain.Board{
+		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Name:            "テストグループ",
+		Closed:          true,
+		ThumbnailURL:    "",
+		BackgroundColor: "",
+		Labels:          make([]string, 0),
+		GroupID:         "",
+		CreatedAt:       current,
+		UpdatedAt:       current,
+	}
+
+	bs := []*domain.Board{b}
+
+	return bs, nil
+}
+
 func (bsm *boardServiceMock) Create(ctx context.Context, groupID string, b *domain.Board) error {
 	return nil
 }
@@ -32,7 +51,7 @@ func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, e
 		Password:     "12345678",
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
+		GroupIDs:     []string{"JUA1ouY12ickxIupMVdVl3ieM7s2"},
 		CreatedAt:    current,
 		UpdatedAt:    current,
 	}
@@ -42,6 +61,36 @@ func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, e
 
 func (usm *userServiceMock) IsContainInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
 	return true
+}
+
+func TestBoardApplication_Index(t *testing.T) {
+	target := NewBoardApplication(&boardRequestValidationMock{}, &boardServiceMock{}, &userServiceMock{})
+
+	b := &domain.Board{
+		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Name:            "テストグループ",
+		Closed:          true,
+		ThumbnailURL:    "",
+		BackgroundColor: "",
+		Labels:          make([]string, 0),
+		GroupID:         "",
+		CreatedAt:       current,
+		UpdatedAt:       current,
+	}
+
+	want := []*domain.Board{b}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	got, err := target.Index(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2")
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("want %#v, but %#v", want, got)
+	}
 }
 
 func TestBoardApplication_Create(t *testing.T) {
