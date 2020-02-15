@@ -58,7 +58,7 @@ func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
 	}
 
 	res := &response.Groups{
-		Groups: gsr,
+		Groups: grs,
 	}
 
 	ctx.JSON(http.StatusOK, res)
