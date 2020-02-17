@@ -880,16 +880,16 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@nuxtjs/vuetify@^1.10.3":
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/vuetify/-/vuetify-1.10.3.tgz#5ec7f0afd4959ab80e3ab43521f15eb5ceac5d55"
-  integrity sha512-9/1EWY4U8pC7gcSTsWugxkr4Sfx/h6L6a+a2ZgyJhZLBMF7DZVJpP9/rPkz0/1032bWC68QwXtgQWECNm5w/Iw==
+"@nuxtjs/vuetify@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/vuetify/-/vuetify-1.11.0.tgz#de8bc9e737479e6c167c2ff45122811362fee7b1"
+  integrity sha512-5yHaQ8sc9rrae6fAhJeqBbfbZWvhvD+rL3ROUQnTpvognvN2qTvDseM1fezyfQSYh28JRu4qGlTe2Lbgsq3msw==
   dependencies:
     deepmerge "^4.2.2"
     fibers "^4.0.2"
     sass "^1.25.0"
     sass-loader "^8.0.2"
-    vuetify "^2.2.8"
+    vuetify "^2.2.12"
     vuetify-loader "^1.4.3"
 
 "@reach/router@^1.2.1":
@@ -8996,7 +8996,7 @@ vuetify-loader@^1.4.3:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^2.2.12, vuetify@^2.2.8:
+vuetify@^2.2.12:
   version "2.2.12"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.12.tgz#4bbd5485801b05d1a4e977974ec1b1fa943c16e3"
   integrity sha512-rtNug+2I45p/ahEeY54nWM/8UyJ1LouS5CpwWjb6JaaMusE3GHD3FBwvb/FMyR+vWZkCxJpLIRfRT0cRpr/QJA==
