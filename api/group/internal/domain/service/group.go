@@ -2,7 +2,9 @@ package service
 
 import (
 	"context"
+	"time"
 
+	"github.com/google/uuid"
 	"golang.org/x/xerrors"
 
 	"github.com/16francs/gran/api/group/internal/domain"
@@ -13,24 +15,44 @@ import (
 // GroupService - GroupServiceインターフェース
 type GroupService interface {
 	Index(ctx context.Context, u *domain.User) ([]*domain.Group, error)
+	Show(ctx context.Context, groupID string) (*domain.Group, error)
 	Create(ctx context.Context, u *domain.User, g *domain.Group) error
+	Update(ctx context.Context, g *domain.Group) error
+	InviteUsers(ctx context.Context, g *domain.Group) error
+	Join(ctx context.Context, g *domain.Group) error
+	IsContainInUserIDs(ctx context.Context, userID string, g *domain.Group) bool
+	IsContainInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool
 }
 
 type groupService struct {
-	GroupDomainValidation validation.GroupDomainValidation
-	GroupRepository       repository.GroupRepository
+	groupDomainValidation validation.GroupDomainValidation
+	groupRepository       repository.GroupRepository
+	userRepository        repository.UserRepository
 }
 
 // NewGroupService - GroupServiceの生成
-func NewGroupService(gdv validation.GroupDomainValidation, gr repository.GroupRepository) GroupService {
+func NewGroupService(
+	gdv validation.GroupDomainValidation, gr repository.GroupRepository, ur repository.UserRepository,
+) GroupService {
 	return &groupService{
-		GroupDomainValidation: gdv,
-		GroupRepository:       gr,
+		groupDomainValidation: gdv,
+		groupRepository:       gr,
+		userRepository:        ur,
 	}
 }
 
 func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
-	g, err := gs.GroupRepository.Index(ctx, u)
+	g, err := gs.groupRepository.Index(ctx, u)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.Unauthorized.New(err)
+	}
+
+	return g, nil
+}
+
+func (gs *groupService) Show(ctx context.Context, groupID string) (*domain.Group, error) {
+	g, err := gs.groupRepository.Show(ctx, groupID)
 	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return nil, domain.Unauthorized.New(err)
@@ -40,15 +62,109 @@ func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Gr
 }
 
 func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
-	if ves := gs.GroupDomainValidation.Group(ctx, g); len(ves) > 0 {
+	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
 		return domain.InvalidDomainValidation.New(err, ves...)
 	}
 
-	if err := gs.GroupRepository.Create(ctx, u, g); err != nil {
+	current := time.Now()
+	g.ID = uuid.New().String()
+	g.UserIDs = append(g.UserIDs, u.ID)
+	g.CreatedAt = current
+	g.UpdatedAt = current
+
+	if err := gs.groupRepository.Create(ctx, g); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.ErrorInDatastore.New(err)
+	}
+
+	u.GroupIDs = append(u.GroupIDs, g.ID)
+	u.UpdatedAt = current
+
+	if err := gs.userRepository.Update(ctx, u); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return domain.ErrorInDatastore.New(err)
 	}
 
 	return nil
+}
+
+func (gs *groupService) Update(ctx context.Context, g *domain.Group) error {
+	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+		return domain.InvalidDomainValidation.New(err, ves...)
+	}
+
+	current := time.Now()
+	g.UpdatedAt = current
+
+	if err := gs.groupRepository.Update(ctx, g); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.ErrorInDatastore.New(err)
+	}
+
+	return nil
+}
+
+func (gs *groupService) InviteUsers(ctx context.Context, g *domain.Group) error {
+	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+
+		if isContainUniqueError(ves) {
+			return domain.InvalidDomainValidation.New(err, ves...)
+		}
+
+		return domain.Unknown.New(err, ves...)
+	}
+
+	if err := gs.groupRepository.Update(ctx, g); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.ErrorInDatastore.New(err)
+	}
+
+	return nil
+}
+
+func (gs *groupService) Join(ctx context.Context, g *domain.Group) error {
+	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+		return domain.InvalidDomainValidation.New(err, ves...)
+	}
+
+	if err := gs.groupRepository.Update(ctx, g); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.ErrorInDatastore.New(err)
+	}
+
+	return nil
+}
+
+func (gs *groupService) IsContainInUserIDs(ctx context.Context, userID string, g *domain.Group) bool {
+	for _, v := range g.UserIDs {
+		if userID == v {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (gs *groupService) IsContainInInvitedEmails(ctx context.Context, email string, g *domain.Group) bool {
+	for _, v := range g.InvitedEmails {
+		if email == v {
+			return true
+		}
+	}
+
+	return false
+}
+
+func isContainUniqueError(ves []*domain.ValidationError) bool {
+	for _, v := range ves {
+		if v.Message == validation.UniqueMessage {
+			return true
+		}
+	}
+
+	return false
 }

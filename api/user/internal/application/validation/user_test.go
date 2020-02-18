@@ -8,7 +8,7 @@ import (
 	"github.com/16francs/gran/api/user/internal/domain"
 )
 
-func TestUserRequestValidation_Createuser(t *testing.T) {
+func TestUserRequestValidation_CreateUser(t *testing.T) {
 	target := NewUserRequestValidation()
 
 	want := []*domain.ValidationError(nil)

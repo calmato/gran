@@ -45,7 +45,7 @@ export default Vue.extend({
     },
     icon: {
       type: String,
-      default: undefined
+      default: ''
     },
     dense: {
       type: Boolean,
@@ -73,9 +73,12 @@ export default Vue.extend({
     }
   },
   computed: {
-    iconName(): string | undefined {
-      if (!this.icon === undefined) return 'mdi-' + this.icon
-      else return undefined
+    iconName(): string {
+      if (this.icon === '') {
+        return ''
+      }
+
+      return 'mdi-' + this.icon
     }
   }
 })

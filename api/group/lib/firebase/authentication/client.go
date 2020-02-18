@@ -79,5 +79,5 @@ func (a *Auth) DeleteUser(ctx context.Context, uid string) error {
 }
 
 func emailVerified(email string) bool {
-	return email != ""
+	return email == ""
 }

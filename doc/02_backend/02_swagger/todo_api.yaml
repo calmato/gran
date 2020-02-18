@@ -9,6 +9,26 @@ servers:
   - url: http://localhost:8080/v1/todos
     description: 開発環境
 
+paths:
+  /:
+    post:
+      summary: ボード作成
+      security:
+        - BearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateBoard'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -30,8 +50,47 @@ components:
           type: string
           description: エラーメッセージ
         errors:
-          type: object
+          type: array
           description: エラー詳細
+          items:
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+
+  requestBodies:
+    CreateBoard:
+      description: ボード作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: ボード名
+              groupId:
+                type: string
+                description: グループID
+              closed:
+                type: boolean
+                description: ボードを非公開
+              tuhumbnailUrl:
+                type: string
+                description: サムネイルURL
+              backgroundColor:
+                type: string
+                description: 背景色
+              labels:
+                type: array
+                description: タグ
+                items:
+                  type: string
+            required:
+              - name
+              - groupId
 
   responses:
     BadRequest:
@@ -48,6 +107,12 @@ components:
             $ref: '#/components/schemas/Error'
     Forbidden:
       description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Conflict
       content:
         application/json:
           schema:

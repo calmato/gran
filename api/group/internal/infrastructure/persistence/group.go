@@ -2,10 +2,6 @@ package persistence
 
 import (
 	"context"
-	"strings"
-	"time"
-
-	"github.com/google/uuid"
 
 	"github.com/16francs/gran/api/group/internal/domain"
 	"github.com/16francs/gran/api/group/internal/domain/repository"
@@ -24,9 +20,9 @@ func NewGroupPersistence(fs *firestore.Firestore) repository.GroupRepository {
 }
 
 func (gp *groupPersistence) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
-	gs := make([]*domain.Group, len(u.GroupRefs))
+	gs := make([]*domain.Group, len(u.GroupIDs))
 
-	for i, v := range u.GroupRefs {
+	for i, v := range u.GroupIDs {
 		doc, err := gp.firestore.Get(ctx, GroupCollection, v)
 		if err != nil {
 			return nil, err
@@ -45,26 +41,34 @@ func (gp *groupPersistence) Index(ctx context.Context, u *domain.User) ([]*domai
 	return gs, nil
 }
 
-func (gp *groupPersistence) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
-	g.ID = uuid.New().String()
-	g.UserRefs = append(g.UserRefs, getUserReference(u.ID))
-
-	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
-		return err
+func (gp *groupPersistence) Show(ctx context.Context, groupID string) (*domain.Group, error) {
+	doc, err := gp.firestore.Get(ctx, GroupCollection, groupID)
+	if err != nil {
+		return nil, err
 	}
 
-	current := time.Now()
+	g := &domain.Group{}
 
-	u.GroupRefs = append(u.GroupRefs, g.ID)
-	u.UpdatedAt = current
+	err = doc.DataTo(g)
+	if err != nil {
+		return nil, err
+	}
 
-	if err := gp.firestore.Set(ctx, UserCollection, u.ID, u); err != nil {
+	return g, nil
+}
+
+func (gp *groupPersistence) Create(ctx context.Context, g *domain.Group) error {
+	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func getUserReference(userID string) string {
-	return strings.Join([]string{GroupCollection, userID}, "/")
+func (gp *groupPersistence) Update(ctx context.Context, g *domain.Group) error {
+	if err := gp.firestore.Set(ctx, GroupCollection, g.ID, g); err != nil {
+		return err
+	}
+
+	return nil
 }

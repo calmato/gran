@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"golang.org/x/xerrors"
 
@@ -42,8 +43,18 @@ func (us *userService) Authentication(ctx context.Context) (*domain.User, error)
 func (us *userService) Create(ctx context.Context, u *domain.User) error {
 	if ves := us.userDomainValidation.User(ctx, u); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
-		return domain.InvalidDomainValidation.New(err, ves...)
+
+		if isContainCustomUniqueError(ves) {
+			return domain.AlreadyExists.New(err, ves...)
+		}
+
+		return domain.Unknown.New(err, ves...)
 	}
+
+	current := time.Now()
+
+	u.CreatedAt = current
+	u.UpdatedAt = current
 
 	if err := us.userRepository.Create(ctx, u); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
@@ -51,4 +62,14 @@ func (us *userService) Create(ctx context.Context, u *domain.User) error {
 	}
 
 	return nil
+}
+
+func isContainCustomUniqueError(ves []*domain.ValidationError) bool {
+	for _, v := range ves {
+		if v.Message == validation.CustomUniqueMessage {
+			return true
+		}
+	}
+
+	return false
 }

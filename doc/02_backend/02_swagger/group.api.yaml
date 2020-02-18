@@ -41,6 +41,101 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
+  /{groupId}:
+    get:
+      summary: グループ詳細取得
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      responses:
+        '200':
+          $ref: '#/components/responses/Group'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+    patch:
+      summary: グループ編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroup'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /{groupId}/invite:
+    post:
+      summary: グループ招待
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/InviteUsers'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /{groupId}/join:
+    post:
+      summary: グループ参加
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -62,8 +157,14 @@ components:
           type: string
           description: エラーメッセージ
         errors:
-          type: object
+          type: array
           description: エラー詳細
+          items:
+            properties:
+              field:
+                type: string
+              message:
+                type: string
 
   requestBodies:
     CreateGroup:
@@ -82,6 +183,38 @@ components:
                 description: 説明
             required:
               - name
+
+    UpdateGroup:
+      description: グループ編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: 説明
+            required:
+              - name
+
+    InviteUsers:
+      description: グループ招待フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              emails:
+                type: array
+                description: 招待メールアドレス一覧
+                items:
+                  type: string
+                  format: date-time
 
   responses:
     BadRequest:
@@ -102,12 +235,47 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unkown:
       description: Internal Server Error
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+
+    Group:
+      description: グループ招待レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: integer
+                description: グループID
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: グループ説明
+              userIDs:
+                type: array
+                description: ユーザーReference一覧
+                items:
+                  type: string
+              createdAt:
+                type: string
+                format: date-time
+                description: グループ作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: グループ更新日時
 
     Groups:
       description: グループ一覧レスポンス
@@ -128,16 +296,16 @@ components:
                     description:
                       type: string
                       description: グループ説明
-                    created_at:
-                      type: string
-                      format: date-time
-                      description: グループ作成日時
-                    user_refs:
+                    userIDs:
                       type: array
                       description: ユーザーReference一覧
                       items:
                         type: string
-                    updated_at:
+                    createdAt:
+                      type: string
+                      format: date-time
+                      description: グループ作成日時
+                    updatedAt:
                       type: string
                       format: date-time
                       description: グループ更新日時

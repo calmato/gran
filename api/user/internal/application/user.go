@@ -2,7 +2,6 @@ package application
 
 import (
 	"context"
-	"time"
 
 	"golang.org/x/xerrors"
 
@@ -36,12 +35,9 @@ func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) 
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
 
-	current := time.Now()
 	u := &domain.User{
-		Email:     req.Email,
-		Password:  req.Password,
-		CreatedAt: current,
-		UpdatedAt: current,
+		Email:    req.Email,
+		Password: req.Password,
 	}
 
 	if err := ua.userService.Create(ctx, u); err != nil {
