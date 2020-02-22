@@ -77,9 +77,10 @@ components:
               closed:
                 type: boolean
                 description: ボードを非公開
-              tuhumbnailUrl:
+              tuhumbnail:
                 type: string
-                description: サムネイルURL
+                format: base64
+                description: サムネイル
               backgroundColor:
                 type: string
                 description: 背景色

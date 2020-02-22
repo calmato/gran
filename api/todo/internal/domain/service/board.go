@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"mime/multipart"
 	"time"
 
 	"github.com/google/uuid"
@@ -18,7 +17,7 @@ import (
 type BoardService interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Create(ctx context.Context, groupID string, b *domain.Board) error
-	UploadThumbnail(ctx context.Context, thumbnail multipart.File) (string, error)
+	UploadThumbnail(ctx context.Context, data []byte) (string, error)
 }
 
 type boardService struct {
@@ -66,8 +65,8 @@ func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Bo
 	return nil
 }
 
-func (bs *boardService) UploadThumbnail(ctx context.Context, thumbnail multipart.File) (string, error) {
-	thumbnailURL, err := bs.fileUploader.UploadBoardThumbnail(ctx, thumbnail)
+func (bs *boardService) UploadThumbnail(ctx context.Context, data []byte) (string, error) {
+	thumbnailURL, err := bs.fileUploader.UploadBoardThumbnail(ctx, data)
 	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Uploader: %w", err)
 		return "", domain.ErrorInStorage.New(err)

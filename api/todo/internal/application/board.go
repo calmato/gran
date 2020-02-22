@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+	"encoding/base64"
 
 	"golang.org/x/xerrors"
 
@@ -66,8 +67,14 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 
 	thumbnailURL := ""
 
-	if req.Thumbnail != nil {
-		thumbnailURL, err = ba.boardService.UploadThumbnail(ctx, req.Thumbnail)
+	if req.Thumbnail != "" {
+		data, err := base64.StdEncoding.DecodeString(req.Thumbnail)
+		if err != nil {
+			err := xerrors.New("Failed to Application")
+			return domain.Unknown.New(err)
+		}
+
+		thumbnailURL, err = ba.boardService.UploadThumbnail(ctx, data)
 		if err != nil {
 			return err
 		}

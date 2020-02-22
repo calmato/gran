@@ -71,16 +71,6 @@ func (bh *apiV1BoardHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	if fileHeader, _ := ctx.FormFile("thumbnail"); fileHeader != nil {
-		thumbnail, err := fileHeader.Open()
-		if err != nil {
-			handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
-			return
-		}
-
-		req.Thumbnail = thumbnail
-	}
-
 	c := middleware.GinContextToContext(ctx)
 	if err := bh.boardApplication.Create(c, req); err != nil {
 		handler.ErrorHandling(ctx, err)
