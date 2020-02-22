@@ -5,6 +5,7 @@
     :dark="dark"
     :outlined="outlined"
     :icon="icon"
+    :text="text"
     @click="click"
   >
     <slot />
@@ -33,6 +34,10 @@ export default Vue.extend({
       default: false
     },
     icon: {
+      type: Boolean,
+      default: false
+    },
+    text: {
       type: Boolean,
       default: false
     }
