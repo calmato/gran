@@ -26,14 +26,21 @@
 
     <v-app-bar app color="#039BE5">
       <v-spacer />
-      <div class="title">
+      <div class="font-weight-black white--text title">
         <v-toolbar-title>Gran</v-toolbar-title>
       </div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
     </v-app-bar>
     <v-content>
-      <v-container>
+      <v-container color="grey lighten-5">
         <nuxt />
+        <v-footer color="white" padless fixed>
+          <v-row justify="center" no-gutters>
+            <v-btn v-for="link in links" :key="link" color="light-blue darken-1" text class="my-2">
+              {{ link }}
+            </v-btn>
+          </v-row>
+        </v-footer>
       </v-container>
     </v-content>
   </v-app>
@@ -42,7 +49,8 @@
 <script>
 export default {
   data: () => ({
-    drawer: null
+    drawer: null,
+    links: ['Home', 'Board', 'Calender', 'Alert', 'Account']
   })
 }
 </script>
