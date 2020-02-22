@@ -15,6 +15,8 @@ setup:
 install:
 	docker-compose run --rm client yarn
 	docker-compose run --rm storybook yarn
+	docker-compose run --rm group_api make setup
+	docker-compose run --rm todo_api make setup
 	docker-compose run --rm user_api make setup
 
 .PHONY: start
@@ -31,6 +33,8 @@ api-setup:
 
 .PHONY: api-install
 api-install:
+	docker-compose -f docker-compose.api.yml run group_api make setup
+	docker-compose -f docker-compose.api.yml run todo_api make setup
 	docker-compose -f docker-compose.api.yml run user_api make setup
 
 .PHONY: api-start
@@ -92,6 +96,56 @@ storybook-test:
 .PHONY: storybook-build
 storybook-build:
 	cd ${STORYBOOK_DIR}; yarn build-storybook
+
+##################################################
+# Local Commands - API (Group Service)
+##################################################
+.PHONY: group-api-setup
+group-api-setup:
+	cp ${GROUP_API_DIR}/.envrc.sample ${GROUP_API_DIR}/.envrc
+	cd ${GROUP_API_DIR}; make setup
+
+.PHONY: group-api-start
+group-api-start:
+	cd ${GROUP_API_DIR}; make run
+
+.PHONY: group-api-lint
+group-api-lint:
+	cd ${GROUP_API_DIR}; make fmt
+	cd ${GROUP_API_DIR}; make lint
+
+.PHONY: group-api-test
+group-api-test:
+	cd ${GROUP_API_DIR}; make test
+
+.PHONY: group-api-build
+group-api-build:
+	cd ${GROUP_API_DIR}; make build
+
+##################################################
+# Local Commands - API (ToDo Service)
+##################################################
+.PHONY: todo-api-setup
+todo-api-setup:
+	cp ${TODO_API_DIR}/.envrc.sample ${TODO_API_DIR}/.envrc
+	cd ${TODO_API_DIR}; make setup
+
+.PHONY: todo-api-start
+todo-api-start:
+	cd ${TODO_API_DIR}; make run
+
+.PHONY: todo-api-lint
+todo-api-lint:
+	cd ${TODO_API_DIR}; make fmt
+	cd ${TODO_API_DIR}; make lint
+
+.PHONY: todo-api-test
+todo-api-test:
+	cd ${TODO_API_DIR}; make test
+
+.PHONY: todo-api-build
+todo-api-build:
+	cd ${TODO_API_DIR}; make build
 
 ##################################################
 # Local Commands - API (User Service)
