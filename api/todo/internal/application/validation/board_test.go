@@ -17,7 +17,7 @@ func TestBoardRequestValidation_CreateBoard(t *testing.T) {
 		Name:            "テストグループ",
 		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Closed:          true,
-		ThumbnailURL:    "",
+		Thumbnail:       "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
 	}
