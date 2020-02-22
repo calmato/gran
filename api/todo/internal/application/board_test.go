@@ -42,6 +42,10 @@ func (bsm *boardServiceMock) Create(ctx context.Context, groupID string, b *doma
 	return nil
 }
 
+func (bsm *boardServiceMock) UploadThumbnail(ctx context.Context, data []byte) (string, error) {
+	return "", nil
+}
+
 type userServiceMock struct{}
 
 func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, error) {
@@ -100,7 +104,7 @@ func TestBoardApplication_Create(t *testing.T) {
 		Name:            "テストグループ",
 		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Closed:          true,
-		ThumbnailURL:    "",
+		Thumbnail:       "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
 	}

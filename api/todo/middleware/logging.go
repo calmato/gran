@@ -11,6 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	logFilter = "******"
+)
+
 // Logging - ログの出力
 func Logging() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -41,11 +45,16 @@ func requestLogging(reader io.Reader) {
 
 	// password のみフィルターにかける
 	if params["password"] != nil {
-		params["password"] = "********"
+		params["password"] = logFilter
 	}
 
 	if params["passwordConfirmation"] != nil {
-		params["passwordConfirmation"] = "********"
+		params["passwordConfirmation"] = logFilter
+	}
+
+	// thumbnail は長いので省略
+	if params["thumbnail"] != nil {
+		params["thumbnail"] = logFilter
 	}
 
 	// ログの整形・出力

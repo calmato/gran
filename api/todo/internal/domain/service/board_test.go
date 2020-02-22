@@ -41,8 +41,14 @@ func (brm *boardRepositoryMock) Create(ctx context.Context, b *domain.Board) err
 	return nil
 }
 
+type fileUploaderMock struct{}
+
+func (fum *fileUploaderMock) UploadBoardThumbnail(ctx context.Context, data []byte) (string, error) {
+	return "test success", nil
+}
+
 func TestBoardService_Index(t *testing.T) {
-	target := NewBoardService(&boardDomainValidationMock{}, &boardRepositoryMock{})
+	target := NewBoardService(&boardDomainValidationMock{}, &boardRepositoryMock{}, &fileUploaderMock{})
 
 	b := &domain.Board{
 		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -72,7 +78,7 @@ func TestBoardService_Index(t *testing.T) {
 }
 
 func TestBoardService_Create(t *testing.T) {
-	target := NewBoardService(&boardDomainValidationMock{}, &boardRepositoryMock{})
+	target := NewBoardService(&boardDomainValidationMock{}, &boardRepositoryMock{}, &fileUploaderMock{})
 
 	b := &domain.Board{
 		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -92,5 +98,23 @@ func TestBoardService_Create(t *testing.T) {
 	err := target.Create(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", b)
 	if err != nil {
 		t.Fatalf("error: %v", err)
+	}
+}
+
+func TestBoardService_UploadThumbnail(t *testing.T) {
+	target := NewBoardService(&boardDomainValidationMock{}, &boardRepositoryMock{}, &fileUploaderMock{})
+
+	want := "test success"
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	got, err := target.UploadThumbnail(ctx, []byte{})
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("want %#v, but %#v", want, got)
 	}
 }
