@@ -7,5 +7,5 @@ import (
 
 // FileUploader - FilerUploaderインターフェース
 type FileUploader interface {
-	UploadBoardThumbnail(ctx context.Context, file multipart.File) (string, error)
+	UploadBoardThumbnail(ctx context.Context, thumbnail multipart.File) (string, error)
 }
