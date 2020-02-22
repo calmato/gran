@@ -27,7 +27,9 @@ type boardService struct {
 }
 
 // NewBoardService - BoardServiceの生成
-func NewBoardService(bdv validation.BoardDomainValidation, br repository.BoardRepository, fu uploader.FileUploader) BoardService {
+func NewBoardService(
+	bdv validation.BoardDomainValidation, br repository.BoardRepository, fu uploader.FileUploader,
+) BoardService {
 	return &boardService{
 		boardDomainValidation: bdv,
 		boardRepository:       br,
