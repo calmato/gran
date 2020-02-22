@@ -48,6 +48,11 @@ func requestLogging(reader io.Reader) {
 		params["passwordConfirmation"] = "********"
 	}
 
+	// thumbnail は長いので省略
+	if params["thumbnail"] != nil {
+		params["thumbnail"] = "********"
+	}
+
 	// ログの整形・出力
 	message := ""
 	for key, value := range params {

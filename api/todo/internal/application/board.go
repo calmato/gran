@@ -3,6 +3,7 @@ package application
 import (
 	"context"
 	"encoding/base64"
+	"strings"
 
 	"golang.org/x/xerrors"
 
@@ -68,9 +69,13 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 	thumbnailURL := ""
 
 	if req.Thumbnail != "" {
-		data, err := base64.StdEncoding.DecodeString(req.Thumbnail)
+		// data:image/png;base64,iVBORw0KGgoAAAA... みたいなのうちの
+		// `data:image/png;base64,` の部分を無くした []byte を取得
+		b64data := req.Thumbnail[strings.IndexByte(req.Thumbnail, ',')+1:]
+
+		data, err := base64.StdEncoding.DecodeString(b64data)
 		if err != nil {
-			err := xerrors.New("Failed to Application")
+			err = xerrors.Errorf("Failed to Application: %w", err)
 			return domain.Unknown.New(err)
 		}
 
