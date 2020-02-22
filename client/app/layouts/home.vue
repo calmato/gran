@@ -24,13 +24,17 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="#039BE5">
+    <v-app-bar app color="#039BE5" dark>
       <v-spacer />
       <div class="font-weight-black white--text title">
         <v-toolbar-title>Gran</v-toolbar-title>
       </div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <template v-if="isForm" v-slot:extension>
+        <gran-group-tab />
+      </template>
     </v-app-bar>
+
     <v-content>
       <v-container color="grey lighten-5">
         <nuxt />
@@ -47,17 +51,27 @@
 </template>
 
 <script>
+import GranGroupTab from '~/components/atoms/GranGroupTab.vue'
+
 export default {
+  components: {
+    GranGroupTab
+  },
   data: () => ({
     drawer: null,
     links: ['Home', 'Board', 'Calender', 'Alert', 'Account']
-  })
+  }),
+  computed: {
+    isForm() {
+      return this.$route.name === 'boards-new'
+    }
+  }
 }
 </script>
 
-<style>
-body {
-  background-color: #f7f7f7;
+<style scoped>
+#inspire {
+  background-color: #f5f5f5;
 }
 
 .title {
