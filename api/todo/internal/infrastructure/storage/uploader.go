@@ -20,10 +20,10 @@ func NewFileUploader(cs *gcs.Storage) uploader.FileUploader {
 }
 
 func (fu *fileUploader) UploadBoardThumbnail(ctx context.Context, thumbnail multipart.File) (string, error) {
-	url, err := fu.storage.Write(ctx, BoardThumbnailPath, thumbnail)
+	thumbnailURL, err := fu.storage.Write(ctx, BoardThumbnailPath, thumbnail)
 	if err != nil {
 		return "", err
 	}
 
-	return url, nil
+	return thumbnailURL, nil
 }
