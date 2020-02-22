@@ -1,10 +1,10 @@
 package storage
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"io"
+	"mime/multipart"
 
 	"cloud.google.com/go/storage"
 	firebase "firebase.google.com/go"
@@ -35,16 +35,14 @@ func NewClient(ctx context.Context, app *firebase.App, bucketName string) (*Stor
 }
 
 // Write - CLoud Storageにアップロード
-func (s *Storage) Write(ctx context.Context, path string, data []byte) (string, error) {
+func (s *Storage) Write(ctx context.Context, path string, file multipart.File) (string, error) {
 	fileName := fmt.Sprintf("%s/%s", path, uuid.New().String())
 
 	w := s.Bucket.Object(fileName).NewWriter(ctx)
 	w.ACL = []storage.ACLRule{{Entity: storage.AllUsers, Role: storage.RoleReader}}
 	w.CacheControl = "public, max-age=86400" // 1 day
 
-	r := bytes.NewReader(data)
-
-	if _, err := io.Copy(w, r); err != nil {
+	if _, err := io.Copy(w, file); err != nil {
 		return "", err
 	}
 
