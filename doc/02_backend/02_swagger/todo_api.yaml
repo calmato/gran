@@ -10,7 +10,7 @@ servers:
     description: 開発環境
 
 paths:
-  /:
+  /boards:
     post:
       summary: ボード作成
       security:
@@ -77,7 +77,7 @@ components:
               closed:
                 type: boolean
                 description: ボードを非公開
-              tuhumbnail:
+              thumbnail:
                 type: string
                 format: base64
                 description: サムネイル
