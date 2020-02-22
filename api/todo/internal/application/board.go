@@ -64,10 +64,19 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
 
+	thumbnailURL := ""
+
+	if req.Thumbnail != nil {
+		thumbnailURL, err = ba.boardService.UploadThumbnail(ctx, req.Thumbnail)
+		if err != nil {
+			return err
+		}
+	}
+
 	b := &domain.Board{
 		Name:            req.Name,
 		Closed:          req.Closed,
-		ThumbnailURL:    req.ThumbnailURL,
+		ThumbnailURL:    thumbnailURL,
 		BackgroundColor: req.BackgroundColor,
 		Labels:          req.Labels,
 	}
