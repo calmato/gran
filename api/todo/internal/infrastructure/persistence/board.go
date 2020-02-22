@@ -2,7 +2,6 @@ package persistence
 
 import (
 	"context"
-	"mime/multipart"
 
 	"google.golang.org/api/iterator"
 
@@ -58,8 +57,4 @@ func (bp *boardPersistence) Create(ctx context.Context, b *domain.Board) error {
 	}
 
 	return nil
-}
-
-func (bp *boardPersistence) UploadThumbnail(ctx context.Context, thumbnail multipart.File) (string, error) {
-	return "", nil
 }
