@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"mime/multipart"
+
 	"github.com/google/uuid"
 	"golang.org/x/xerrors"
 
@@ -16,6 +18,7 @@ import (
 type BoardService interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Create(ctx context.Context, groupID string, b *domain.Board) error
+	UploadThumbnail(ctx context.Context, thumbnail multipart.File) (string, error)
 }
 
 type boardService struct {
@@ -59,4 +62,8 @@ func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Bo
 	}
 
 	return nil
+}
+
+func (bs *boardService) UploadThumbnail(ctx context.Context, thumbnail multipart.File) (string, error) {
+	return "", nil
 }

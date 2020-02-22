@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"mime/multipart"
 
 	"github.com/16francs/gran/api/todo/internal/domain"
 )
@@ -10,4 +11,5 @@ import (
 type BoardRepository interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Create(ctx context.Context, b *domain.Board) error
+	UploadThumbnail(ctx context.Context, thumbnail multipart.File) (string, error)
 }
