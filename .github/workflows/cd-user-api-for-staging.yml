@@ -9,8 +9,6 @@ on:
 env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GCP_REGION: asia-northeast1
-  GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
-  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GCR_HOSTNAME: asia.gcr.io
   GCR_IMAGE_TAG: ${{ github.sha }}
 
@@ -40,18 +38,12 @@ jobs:
 
       - name: Docker Build
         run: |
-          docker build \
-            -f container/api/user/Docker.production \
-            -t gran_stg_user_api \
-            .
+          docker build -f container/api/user/Docker.production -t gran_stg_user_api .
 
       - name: Attached Tag by GitHub hash
         run: |
-          docker tag \
-            gran_stg_user_api \
-            ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_user_api:${GCR_IMAGE_TAG}
+          docker tag gran_stg_user_api ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_user_api:${GCR_IMAGE_TAG}
 
       - name: Push Google Cloud Registry for Staging
         run: |
-          docker push \
-            ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_user_api:${GCR_IMAGE_TAG}
+          docker push ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_user_api:${GCR_IMAGE_TAG}
