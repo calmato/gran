@@ -10,7 +10,6 @@ env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GCP_REGION: asia-northeast1
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-  GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
   GCR_HOSTNAME: asia.gcr.io
   GCR_IMAGE_TAG: ${{ github.sha }}
 
@@ -27,12 +26,7 @@ jobs:
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '281.0.0'
-          service_account_email: ${GCP_SA_EMAIL}
           service_account_key: ${GCP_SA_KEY}
-          export_default_credentials: true
-        env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-          GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
 
       - name: Configure Gcloud
         run: |
