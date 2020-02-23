@@ -23,14 +23,13 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Install PyOpenSSL
-        run: pip install pyopenssl
-
       - name: Setup gcloud CLI
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          service_account_key: $GCP_SA_KEY
-          service_account_email: $GCP_SA_EMAIL
+          version: '281.0.0'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
 
       - name: Configure gcloud
         run: |
