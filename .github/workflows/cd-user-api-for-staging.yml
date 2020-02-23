@@ -30,6 +30,9 @@ jobs:
           service_account_email: ${GCP_SA_EMAIL}
           service_account_key: ${GCP_SA_KEY}
           export_default_credentials: true
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
 
       - name: Configure Gcloud
         run: |
