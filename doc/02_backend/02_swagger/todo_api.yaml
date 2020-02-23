@@ -10,7 +10,7 @@ servers:
     description: 開発環境
 
 paths:
-  /:
+  /boards:
     post:
       summary: ボード作成
       security:
@@ -22,6 +22,28 @@ paths:
           description: OK
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /{groupId}/boards:
+    get:
+      summary: ボード一覧
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      responses:
+        '200':
+          $ref: '#/components/responses/Boards'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -77,9 +99,10 @@ components:
               closed:
                 type: boolean
                 description: ボードを非公開
-              tuhumbnailUrl:
+              thumbnail:
                 type: string
-                description: サムネイルURL
+                format: base64
+                description: サムネイル
               backgroundColor:
                 type: string
                 description: 背景色
@@ -123,3 +146,45 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+
+    Boards:
+      description: グループ一覧レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              boards:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                      description: ボードID
+                    groupId:
+                      type: integer
+                      description: グループID
+                    name:
+                      type: string
+                      description: ボード名
+                    closed:
+                      type: string
+                      description: 非公開設定
+                    ThumbnailUrl:
+                      type: string
+                      description: サムネイルURL
+                    BackgroundColor:
+                      type: string
+                      description: 背景色
+                    labels:
+                      type: array
+                      description: ラベル一覧
+                      items:
+                        type: string
+                    createdAt:
+                      type: string
+                      format: date-time
+                      description: グループ作成日時
+                    updatedAt:
+                      type: string
+                      format: date-time
+                      description: グループ更新日時

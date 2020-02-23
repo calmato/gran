@@ -9,6 +9,7 @@ import (
 
 	"github.com/16francs/gran/api/todo/internal/domain"
 	"github.com/16francs/gran/api/todo/internal/domain/repository"
+	"github.com/16francs/gran/api/todo/internal/domain/uploader"
 	"github.com/16francs/gran/api/todo/internal/domain/validation"
 )
 
@@ -16,18 +17,23 @@ import (
 type BoardService interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Create(ctx context.Context, groupID string, b *domain.Board) error
+	UploadThumbnail(ctx context.Context, data []byte) (string, error)
 }
 
 type boardService struct {
 	boardDomainValidation validation.BoardDomainValidation
 	boardRepository       repository.BoardRepository
+	fileUploader          uploader.FileUploader
 }
 
 // NewBoardService - BoardServiceの生成
-func NewBoardService(bdv validation.BoardDomainValidation, br repository.BoardRepository) BoardService {
+func NewBoardService(
+	bdv validation.BoardDomainValidation, br repository.BoardRepository, fu uploader.FileUploader,
+) BoardService {
 	return &boardService{
 		boardDomainValidation: bdv,
 		boardRepository:       br,
+		fileUploader:          fu,
 	}
 }
 
@@ -59,4 +65,14 @@ func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Bo
 	}
 
 	return nil
+}
+
+func (bs *boardService) UploadThumbnail(ctx context.Context, data []byte) (string, error) {
+	thumbnailURL, err := bs.fileUploader.UploadBoardThumbnail(ctx, data)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Uploader: %w", err)
+		return "", domain.ErrorInStorage.New(err)
+	}
+
+	return thumbnailURL, nil
 }

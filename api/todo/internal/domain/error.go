@@ -18,6 +18,8 @@ const (
 	UnableParseJSON
 	// ErrorInDatastore - データストアでのエラー
 	ErrorInDatastore
+	// ErrorInStorage - ストレージでのエラー
+	ErrorInStorage
 	// AlreadyExists - ユニークチェックでのエラー
 	AlreadyExists
 )
