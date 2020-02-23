@@ -23,6 +23,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Install PyOpenSSL
+        run: apt install python-openssl
+
       - name: Setup gcloud CLI
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
