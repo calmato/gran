@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    name: Build and Test
+    name: Deploy Firebase Hosting
     runs-on: ubuntu-latest
 
     steps:

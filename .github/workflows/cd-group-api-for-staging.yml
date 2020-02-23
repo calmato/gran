@@ -1,8 +1,8 @@
-name: User API(Golang) Deploy to Staging
+name: Group API(Golang) Deploy to Staging
 on:
   push:
     paths:
-      - 'api/user/**'
+      - 'api/group/**'
     branches:
       - master
 
@@ -38,12 +38,12 @@ jobs:
 
       - name: Docker Build
         run: |
-          docker build -f container/api/user/Dockerfile.production -t gran_stg_user_api .
+          docker build -f container/api/group/Dockerfile.production -t gran_stg_group_api .
 
       - name: Attached Tag by GitHub hash
         run: |
-          docker tag gran_stg_user_api ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_user_api:${GCR_IMAGE_TAG}
+          docker tag gran_stg_group_api ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_group_api:${GCR_IMAGE_TAG}
 
       - name: Push Google Cloud Registry for Staging
         run: |
-          docker push ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_user_api:${GCR_IMAGE_TAG}
+          docker push ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_group_api:${GCR_IMAGE_TAG}
