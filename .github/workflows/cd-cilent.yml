@@ -1,19 +1,21 @@
-name: Client(Nuxt.js) Lighthouse
+name: Client(Nuxt.js) Deploy to Firebase Hosting
 on:
-  pull_request:
+  push:
     paths:
       - 'client/**'
+    branches:
+      - master
 
 jobs:
-  lighthouse:
-    name: Lighthouse
+  deploy:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
         uses: actions/checkout@v1
 
-      - name: setup node.js
+      - name: Setup Node.js 12
         uses: actions/setup-node@v1
         with:
           node-version: 12
@@ -28,20 +30,27 @@ jobs:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn
+            ${{ runner.os }}-yarn-
 
-      - name: install
+      - name: Install
         working-directory: ./client
-        run: yarn install
+        run: yarn
 
-      - name: build
+      - name: Build
         working-directory: ./client
         run: yarn build
-
-      - name: lhci
-        working-directory: ./client
-        run: |
-          npm install -g @lhci/cli
-          lhci autorun --config=./lighthouserc.json || echo "LHCI failed!"
         env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          API_URL: ${{ secrets.API_URL }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+
+      - name: Install firebase-tools
+        working-directory: ./client
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Firebase Hosting
+        working-directory: ./client
+        run: firebase deploy --token $FIREBASE_TOKEN
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
