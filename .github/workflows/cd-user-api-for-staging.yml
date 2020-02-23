@@ -26,7 +26,9 @@ jobs:
         with:
           version: '281.0.0'
           service_account_key: $GCP_SA_KEY
+          service_account_email: $GCP_SA_EMAIL
         env:
+          GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
 
       - name: Configure gcloud
