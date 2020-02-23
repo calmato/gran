@@ -1,15 +1,14 @@
 name: User API(Golang) Deploy to Staging
 on:
   push:
-    paths:
-      - 'api/user/**'
+    # paths:
+    #   - 'api/user/**'
     branches:
       - master
 
 env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GCP_REGION: asia-northeast1
-  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GCR_HOSTNAME: asia.gcr.io
   GCR_IMAGE_TAG: ${{ github.sha }}
 
@@ -22,13 +21,15 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Setup Gcloud CLI
+      - name: Setup gcloud CLI
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '281.0.0'
           service_account_key: ${GCP_SA_KEY}
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Configure Gcloud
+      - name: Configure gcloud
         run: |
           gcloud config set project ${GCP_PROJECT_ID}
           gcloud config set run/platform managed
