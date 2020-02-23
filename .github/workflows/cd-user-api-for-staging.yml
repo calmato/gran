@@ -38,8 +38,7 @@ jobs:
 
       - name: Docker Build
         run: |
-          pwd
-          docker build -f container/api/user/Docker.production -t gran_stg_user_api .
+          docker build -f container/api/user/Dockerfile.production -t gran_stg_user_api .
 
       - name: Attached Tag by GitHub hash
         run: |
