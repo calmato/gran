@@ -86,3 +86,12 @@ services:
       - 8000:8080
     tty: true
     stdin_open: true
+
+  terraform:
+    container_name: gran_terraform
+    build: ./container/terraform
+    working_dir: /terraform
+    volumes:
+      - ./terraform:/terraform:cached
+    tty: true
+    stdin_open: true
