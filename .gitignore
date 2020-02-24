@@ -11,6 +11,7 @@ pids
 # dotenv environment variables file
 .env
 !.env.sample
+.envrc
 
 # secret files
 secret
