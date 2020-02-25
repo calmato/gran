@@ -1,5 +1,5 @@
 <template>
-  <v-card :color="color" flat>
+  <v-card :color="color" :flat="flat">
     <slot />
   </v-card>
 </template>
