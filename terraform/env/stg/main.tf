@@ -1,6 +1,6 @@
 provider "google" {
-  project     = var.project_id
-  region      = "asia-northeast1"
+  project = var.project_id
+  region  = "asia-northeast1"
 }
 
 module "this" {

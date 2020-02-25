@@ -42,6 +42,25 @@ api-start:
 	docker-compose -f docker-compose.api.yml up
 
 ##################################################
+# Container Commands - Terraform
+##################################################
+.PHONY: terraform-stg-setup
+terraform-stg-setup:
+	docker-compose run --rm terraform make init ENV=stg
+
+.PHONY: terraform-stg-lint
+terraform-stg-lint:
+	docker-compose run --rm terraform make fmt ENV=stg
+
+.PHONY: terraform-stg-plan
+terraform-stg-plan:
+	docker-compose run --rm terraform make plan ENV=stg
+
+.PHONY: terraform-stg-apply
+terraform-stg-apply:
+	docker-compose run --rm terraform make apply ENV=stg
+
+##################################################
 # Local Commands - Client
 ##################################################
 .PHONY: client-setup
