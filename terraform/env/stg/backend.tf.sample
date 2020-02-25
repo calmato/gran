@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    credentials = "./../../secret/xxxxxx-xxxxxx.json"
+    credentials = "/secret/xxxxxx-xxxxxx.json"
     bucket      = "gran-stg"
   }
 }

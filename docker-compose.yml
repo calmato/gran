@@ -93,5 +93,9 @@ services:
     working_dir: /terraform
     volumes:
       - ./terraform:/terraform:cached
+      - ./secret:/secret:cached
     tty: true
     stdin_open: true
+    environment:
+      - GOOGLE_CLOUD_KEYFILE_JSON=${TERRAFORM_CREDENTIALS}
+      - GOOGLE_APPLICATION_CREDENTIALS=${TERRAFORM_CREDENTIALS}
