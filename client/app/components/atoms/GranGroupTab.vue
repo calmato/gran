@@ -8,11 +8,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+
 export default Vue.extend({
   props: {
     tabs: {
       type: Array,
-      default: () => {
+      default: (): Array<string> => {
         return ['グループ', 'ボード']
       }
     }
