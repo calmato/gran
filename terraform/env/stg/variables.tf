@@ -1,15 +1,12 @@
-variable "project_id" {}
-variable "credential_file" {}
-
 #################################################
 # Common
 #################################################
-variable "location" {
-  default = "asia-northeast1-a"
+variable "project_id" {
+  default = ""
 }
 
-variable "tags" {
-  default = {}
+variable "location" {
+  default = "asia-northeast1-a"
 }
 
 #################################################

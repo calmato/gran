@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    credentials = "/secret/xxxxxx-xxxxxx.json"
-    bucket      = "gran-stg"
+    bucket = "xxxxxx"
+    prefix = "terraform/staging.state"
   }
 }
