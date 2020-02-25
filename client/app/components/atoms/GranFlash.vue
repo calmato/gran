@@ -73,7 +73,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    iconName(): string {
+    iconName(): string | undefined {
       if (this.icon === '') {
         return undefined
       } else {
