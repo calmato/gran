@@ -10,7 +10,7 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     src: {
-      typs: String,
+      type: String,
       default: 'https://cdn.vuetifyjs.com/images/john.jpg'
     }
   },
