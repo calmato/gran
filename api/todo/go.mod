@@ -11,5 +11,5 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/cors v1.7.0
 	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
-	google.golang.org/api v0.17.0
+	google.golang.org/api v0.18.0
 )
