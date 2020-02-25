@@ -11,3 +11,6 @@ plan:
 
 apply:
 	cd env/${ENV}; terraform apply -auto-approve -parallelism=60
+
+destroy:
+	cd env/${ENV}; terraform destroy -auto-approve -parallelism=60

@@ -60,6 +60,10 @@ terraform-stg-plan:
 terraform-stg-apply:
 	docker-compose run --rm terraform make apply ENV=stg
 
+.PHONY: terraform-stg-destroy
+terraform-stg-destroy:
+	docker-compose run --rm terraform make destroy ENV=stg
+
 ##################################################
 # Local Commands - Client
 ##################################################
