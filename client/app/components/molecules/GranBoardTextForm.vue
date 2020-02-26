@@ -4,8 +4,7 @@
       <gran-text-field label="ボード名" />
       <gran-select label="グループ" />
       <gran-select label="公開範囲" />
-      <gran-select label="背景" />
-      <v-color-picker v-model="color" />
+      <gran-color-picker />
     </gran-form-group>
   </div>
 </template>
@@ -15,18 +14,15 @@ import Vue from 'vue'
 import GranTextField from '~/components/atoms/GranTextField.vue'
 import GranSelect from '~/components/atoms/GranSelect.vue'
 import GranFormGroup from '~/components/atoms/GranFormGroup.vue'
+import GranColorPicker from '~/components/atoms/GranColorPicker.vue'
 
 export default Vue.extend({
   components: {
     GranFormGroup,
     GranSelect,
-    GranTextField
+    GranTextField,
+    GranColorPicker
   },
-  props: {},
-  data: () => {
-    return {
-      color: ''
-    }
-  }
+  props: {}
 })
 </script>
