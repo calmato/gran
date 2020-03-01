@@ -39,13 +39,13 @@ jobs:
 
       - name: Docker Build
         run: |
-          docker build -f container/api/user/Dockerfile.production -t ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME} .
+          docker build -f container/api/user/Dockerfile.production -t ${GCR_IMAGE_NAME} .
 
       - name: Attached Tag
         run: |
-          docker tag ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME} ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME}:latest
-          docker tag ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME} ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME}:${GCR_IMAGE_TAG}
+          docker tag ${GCR_IMAGE_NAME} ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME}:latest
+          docker tag ${GCR_IMAGE_NAME} ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME}:${GCR_IMAGE_TAG}
 
       - name: Push Google Cloud Registry for Staging
         run: |
-          docker push ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME}
+          docker push ${GCR_IMAGE_NAME}
