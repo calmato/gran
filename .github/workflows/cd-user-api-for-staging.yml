@@ -1,8 +1,8 @@
 name: User API(Golang) Deploy to Staging
 on:
   push:
-    paths:
-      - 'api/user/**'
+    # paths:
+    #   - 'api/user/**'
     branches:
       - master
 
@@ -40,8 +40,9 @@ jobs:
         run: |
           docker build -f container/api/user/Dockerfile.production -t gran_stg_user_api .
 
-      - name: Attached Tag by GitHub hash
+      - name: Attached Tag
         run: |
+          docker tag gran_stg_user_api ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_user_api:latest
           docker tag gran_stg_user_api ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/gran_stg_user_api:${GCR_IMAGE_TAG}
 
       - name: Push Google Cloud Registry for Staging
