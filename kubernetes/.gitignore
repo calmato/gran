@@ -1,1 +1,6 @@
 secret.yaml
+
+# image名の対応ができるまで
+deployment-group-api.yaml
+deployment-todo-api.yaml
+deployment-user-api.yaml
