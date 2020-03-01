@@ -48,4 +48,4 @@ jobs:
 
       - name: Push Google Cloud Registry for Staging
         run: |
-          docker push ${GCR_IMAGE_NAME}
+          docker push ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME}
