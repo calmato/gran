@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "@mdi/font": "^4.9.95",
+    "@mdi/js": "^4.9.95",
+    "file-loader": "^5.1.0",
+    "material-design-icons-iconfont": "^5.0.1"
+  }
+}
