@@ -37,7 +37,7 @@ spec:
             - name: GCP_STORAGE_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
-                  name: firebase-secret
+                  name: gcp-secret
                   key: GCP_STORAGE_BUCKET_NAME
           volumeMounts:
             - mountPath: /secret
