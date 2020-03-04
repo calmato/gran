@@ -1,8 +1,8 @@
-name: User API(Golang) Deploy to Staging
+name: Group API(Golang) Deploy to Staging
 on:
   push:
     paths:
-      - 'api/user/**'
+      - 'api/group/**'
     branches:
       - master
 
@@ -10,7 +10,7 @@ env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GCP_REGION: asia-northeast1
   GCR_HOSTNAME: asia.gcr.io
-  GCR_IMAGE_NAME: gran_stg_user_api
+  GCR_IMAGE_NAME: gran_stg_group_api
   GCR_IMAGE_TAG: ${{ github.sha }}
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
 
       - name: Docker Build
         run: |
-          docker build -f container/api/user/Dockerfile.production -t ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME} .
+          docker build -f container/api/group/Dockerfile.production -t ${GCR_HOSTNAME}/${GCP_PROJECT_ID}/${GCR_IMAGE_NAME} .
 
       - name: Attached Tag
         run: |
