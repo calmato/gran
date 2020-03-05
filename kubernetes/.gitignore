@@ -1,2 +1,5 @@
 secret-*.yaml
 deployment-*.yaml
+
+cert.pem
+privkey.pem
