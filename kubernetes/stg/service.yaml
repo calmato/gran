@@ -27,6 +27,7 @@ spec:
   selector:
     app: group-api
 
+  type: ClusterIP
   ports:
     - name: http-group-api
       protocol: TCP
@@ -45,6 +46,7 @@ spec:
   selector:
     app: todo-api
 
+  type: ClusterIP
   ports:
     - name: http-todo-api
       protocol: TCP
@@ -63,6 +65,7 @@ spec:
   selector:
     app: user-api
 
+  type: ClusterIP
   ports:
     - name: http-user-api
       protocol: TCP

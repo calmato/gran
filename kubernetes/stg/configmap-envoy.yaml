@@ -77,8 +77,6 @@ data:
                                 cluster: todo_service
 
                     http_filters:
-                      - name: envoy.cors
-                      - name: envoy.router
                       - name: envoy.health_check
                         config:
                           pass_through_mode: false
@@ -87,14 +85,18 @@ data:
                               exact_match: "/healthz"
                             - name: "x-envoy-livenessprobe"
                               exact_match: "healthz"
+                      - name: envoy.cors
+                        config: {}
+                      - name: envoy.router
+                        config: {}
 
               tls_context:
                 common_tls_context:
                   tls_certificates:
-                  - certificate_chain:
-                      filename: "/etc/ssl/envoy/tls.crt"
-                    private_key:
-                      filename: "/etc/ssl/envoy/tls.key"
+                    - certificate_chain:
+                        filename: "/etc/ssl/envoy/tls.crt"
+                      private_key:
+                        filename: "/etc/ssl/envoy/tls.key"
 
       clusters:
         - name: user_service
@@ -111,7 +113,7 @@ data:
             - timeout: 1s
               interval: 20s
               interval_jitter: 1s
-              unhealthy_threshol: 3
+              unhealthy_threshold: 3
               healthy_threshold: 3
               http_health_check:
                 path: "/health"
