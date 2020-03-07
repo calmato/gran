@@ -19,8 +19,18 @@ module "this" {
   #################################################
   # GKE Node
   #################################################
-  gke_node_name_prefix = "gran-node"
-
-  gke_node_count        = 1
-  gke_node_machine_type = "f1-micro"
+  gke_node_configs = [
+    {
+      name  = "gran-node"
+      count        = 1
+      preemptible  = false
+      machine_type = "f1-micro"
+    },
+    {
+      name  = "gran-preemptible-node"
+      count        = 2
+      preemptible  = true
+      machine_type = "f1-micro"
+    },
+  ]
 }
