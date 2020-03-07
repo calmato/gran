@@ -28,9 +28,9 @@ module "this" {
     },
     {
       name  = "gran-preemptible-node"
-      count        = 2
+      count        = 1
       preemptible  = true
-      machine_type = "f1-micro"
+      machine_type = "n1-standard-1"
     },
   ]
 }
