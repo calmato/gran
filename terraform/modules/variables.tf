@@ -35,18 +35,12 @@ variable "gke_cluster_ipv4_cidr" {
 #################################################
 # GKE Node
 #################################################
-variable "gke_node_name_prefix" {
-  description = "GKE ノード名の接頭辞"
-  default     = ""
-}
-
-variable "gke_node_count" {
-  description = "GKE ノード数"
-  type        = number
-  default     = 1
-}
-
-variable "gke_node_machine_type" {
-  description = "GKE ノードマシンタイプ"
-  default     = "f1-micro"
+variable "gke_node_configs" {
+  description = "GKE ノード設定"
+  type = list(object({
+    name         = string # ノード名
+    count        = number # ノード数
+    preemptible  = bool   # プリエンプティブの利用
+    machine_type = string # マシンタイプ e.g.) f1-micro, n1-standard-1, etc..
+  }))
 }
