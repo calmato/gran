@@ -28,9 +28,16 @@ module "this" {
     },
     {
       name  = "gran-preemptible-node"
-      count        = 1
+      count        = 2
       preemptible  = true
-      machine_type = "n1-standard-1"
+      machine_type = "g1-small"
     },
   ]
+
+  #################################################
+  # GCE Global Address
+  #################################################
+  create_global_address = true
+
+  global_address_name = "gran-ip-address"
 }

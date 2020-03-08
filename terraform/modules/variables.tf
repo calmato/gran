@@ -44,3 +44,27 @@ variable "gke_node_configs" {
     machine_type = string # マシンタイプ e.g.) f1-micro, n1-standard-1, etc..
   }))
 }
+
+#################################################
+# GCE Global Address
+#################################################
+variable "create_global_address" {
+  description = "グローバルアドレスの作成"
+  type        = bool
+  default     = false
+}
+
+variable "global_address_name" {
+  description = "グローバルアドレス名"
+  default     = ""
+}
+
+variable "global_address_description" {
+  description = "グローバルアドレス説明"
+  default     = ""
+}
+
+variable "global_address_ip_version" {
+  description = "グローバルアドレスIPアドレスバージョン"
+  default     = "IPV4"
+}
