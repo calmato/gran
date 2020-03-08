@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: group-api
+  labels:
+    app: group-api
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: group-api
+
+  template:
+    metadata:
+      labels:
+        app: group-api
+
+    spec:
+      containers:
+        - name: group-api
+          image: asia.gcr.io/<PROJECT-ID>/gran_stg_group_api:latest
+          imagePullPolicy: Always
+          ports:
+            - name: group-api
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: '0.1'
+              memory: 100Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          env:
+            - name: PORT
+              value: '8080'
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: '/secret/firebase-adminsdk.json'
+          volumeMounts:
+            - mountPath: /secret
+              name: firebase-secret-volume
+              readOnly: true
+      volumes:
+        - name: firebase-secret-volume
+          secret:
+            secretName: firebase-secret
