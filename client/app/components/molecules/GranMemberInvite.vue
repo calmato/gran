@@ -6,7 +6,7 @@
     </v-row>
     <v-layout>
       <v-flex xs12 sm8 md6>
-        <v-card>
+        <v-card :elevation="0">
           <v-card-text>
             <div v-for="(email, index) in emails" :key="index">
               <gran-text-field v-model="email.value" :label="`email-${index + 1}`" />
