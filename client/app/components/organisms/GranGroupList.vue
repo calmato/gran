@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <gran-icon :x-large="xLarge" name="account" />
-      <p class="ma-3 pt-1">参加中のボード一覧</p>
+      <p class="ma-3 pt-1">参加中のグループ一覧</p>
     </v-row>
     <v-card max-width="max" class="mx-auto">
       <v-list three-line>
@@ -32,11 +32,11 @@ export default Vue.extend({
   components: {
     GranIcon
   },
-  computed: {
-    ...mapGetters('group', ['groups'])
-  },
   data: () => ({
     xLarge: true
-  })
+  }),
+  computed: {
+    ...mapGetters('group', ['groups'])
+  }
 })
 </script>
