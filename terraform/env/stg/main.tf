@@ -25,12 +25,16 @@ module "this" {
       count        = 1
       preemptible  = false
       machine_type = "f1-micro"
+      disk_type    = "pd-standard"
+      disk_size_gb = 10
     },
     {
       name  = "gran-preemptible-node"
       count        = 2
       preemptible  = true
       machine_type = "g1-small"
+      disk_type    = "pd-standard"
+      disk_size_gb = 20
     },
   ]
 
