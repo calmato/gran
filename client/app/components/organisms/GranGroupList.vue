@@ -23,9 +23,22 @@
         <v-card-title>
           <span class="headline">グループ情報の編集</span>
         </v-card-title>
+        <v-card-title>タイトル</v-card-title>
+        <v-row justify="center">
+          <v-flex xs12 sm8 md6>
+            <gran-text-field v-model="groupName"></gran-text-field>
+          </v-flex>
+        </v-row>
+        <v-card-title>説明</v-card-title>
+        <v-row justify="center">
+          <v-flex xs12 sm8 md6>
+            <gran-text-field v-model="groupDescription"></gran-text-field>
+          </v-flex>
+        </v-row>
+        <v-card-title>メンバー</v-card-title>
         <v-row>
-          <gran-icon :x-large="xLarge" class="ma-4 pt-1" name="account-multiple-plus" />
-          <p class="pt-7">メンバーを招待</p>
+          <gran-icon :x-large="xLarge" class="pl-4 pt-1" name="account-multiple-plus" />
+          <v-card-title class="pt-7 ">メンバーを招待</v-card-title>
         </v-row>
         <v-row justify="center">
           <v-flex xs12 sm8 md6>
@@ -48,9 +61,11 @@
             </div>
           </v-flex>
         </v-row>
-        <v-btn color="green darken-1" text @click="dialog = false">
-          Agree
-        </v-btn>
+        <v-row justify="center">
+          <v-btn class="ma-3" color="primary" @click="dialog = false">
+            適用
+          </v-btn>
+        </v-row>
       </v-card>
     </v-dialog>
   </div>
