@@ -34,5 +34,4 @@ figure img {
 figure:hover img {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
-}
 </style>
