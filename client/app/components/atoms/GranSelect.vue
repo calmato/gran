@@ -1,7 +1,5 @@
 <template>
-  <v-card :color="color" :flat="flat">
-    <slot />
-  </v-card>
+  <v-select :label="label" :items="items" />
 </template>
 
 <script lang="ts">
@@ -9,13 +7,13 @@ import Vue from 'vue'
 
 export default Vue.extend({
   props: {
-    color: {
+    label: {
       type: String,
-      default: 'white'
+      default: ''
     },
-    flat: {
-      type: Boolean,
-      default: false
+    items: {
+      type: Array,
+      default: () => ['16frances', 'gran']
     }
   }
 })

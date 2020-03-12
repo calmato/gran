@@ -24,32 +24,54 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="#039BE5">
+    <v-app-bar app color="#039BE5" dark>
       <v-spacer />
-      <div class="title">
+      <div class="font-weight-black white--text title">
         <v-toolbar-title>Gran</v-toolbar-title>
       </div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <template v-if="isForm" v-slot:extension>
+        <gran-group-tab />
+      </template>
     </v-app-bar>
+
     <v-content>
-      <v-container>
+      <v-container color="grey lighten-5">
         <nuxt />
+        <v-footer color="white" padless fixed>
+          <v-row justify="center" no-gutters>
+            <v-btn v-for="link in links" :key="link" color="light-blue darken-1" text class="my-2">
+              {{ link }}
+            </v-btn>
+          </v-row>
+        </v-footer>
       </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
+import GranGroupTab from '~/components/molecules/GranGroupTab.vue'
+
 export default {
+  components: {
+    GranGroupTab
+  },
   data: () => ({
-    drawer: null
-  })
+    drawer: null,
+    links: ['Home', 'Board', 'Calender', 'Alert', 'Account']
+  }),
+  computed: {
+    isForm() {
+      return this.$route.name === 'boards-new'
+    }
+  }
 }
 </script>
 
-<style>
-body {
-  background-color: #f7f7f7;
+<style scoped>
+#inspire {
+  background-color: #f5f5f5;
 }
 
 .title {

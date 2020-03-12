@@ -1,73 +1,52 @@
 <template>
   <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for Vue.js. It was designed
-            to empower developers to create amazing applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a href="https://vuetifyjs.com" target="_blank"> documentation </a>.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a href="https://chat.vuetifyjs.com/" target="_blank" title="chat"> discord </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing more exciting
-            features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a href="https://nuxtjs.org/" target="_blank">
-            Nuxt Documentation
-          </a>
-          <br />
-          <a href="https://github.com/nuxt/nuxt.js" target="_blank">
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire">
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
+    <hr />
+    <p>タスクカードコンポーネント</p>
+    <v-window :show-arrows="showArrows" reverse>
+      <v-window-item v-for="(list, i) in lists" :key="i">
+        <draggable :list="list.array" class="dragArea list-group">
+          <transition-group>
+            <div v-for="(element, index) in list.array" :key="index" class="pa-1 mb-4">
+              <v-card>
+                <div class="text-left pa-1 my-1">
+                  <v-chip class="px-2" x-small>Default</v-chip>
+                  <v-chip class="px-2" color="primary" x-small>Default</v-chip>
+                  <v-chip class="px-2" color="secondary" x-small>Default</v-chip>
+                </div>
+                <v-card-title class="headline px-4 pt-0">
+                  {{ element }}
+                </v-card-title>
+                <v-card-text>
+                  <div class="text-left my-2"></div>
+                </v-card-text>
+              </v-card>
+            </div>
+          </transition-group>
+        </draggable>
+      </v-window-item>
+    </v-window>
   </v-layout>
 </template>
 
 <script lang="ts">
+import draggable from 'vuedraggable'
 import Vue from 'vue'
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default Vue.extend({
+  layout: 'home',
   components: {
-    Logo,
-    VuetifyLogo
-  }
+    draggable
+  },
+  data: () => ({
+    lists: [
+      {
+        array: ['UI設計考える', 'タスク', 'タスク2']
+      },
+      {
+        array: ['UI設計考える', 'タスク3', 'タスク4']
+      }
+    ],
+    showArrows: true
+  })
 })
 </script>

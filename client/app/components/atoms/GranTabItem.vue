@@ -1,7 +1,8 @@
 <template>
-  <v-card :color="color" :flat="flat">
+  <v-tab>
     <slot />
-  </v-card>
+    {{ name }}
+  </v-tab>
 </template>
 
 <script lang="ts">
@@ -9,13 +10,9 @@ import Vue from 'vue'
 
 export default Vue.extend({
   props: {
-    color: {
+    name: {
       type: String,
-      default: 'white'
-    },
-    flat: {
-      type: Boolean,
-      default: false
+      default: 'default'
     }
   }
 })
