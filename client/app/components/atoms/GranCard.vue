@@ -1,5 +1,5 @@
 <template>
-  <v-card :color="color" :flat="flat">
+  <v-card :color="color" :min-width="minWidth" :max-width="maxWidth" :flat="flat" @click="click">
     <slot />
   </v-card>
 </template>
@@ -16,6 +16,19 @@ export default Vue.extend({
     flat: {
       type: Boolean,
       default: false
+    },
+    minWidth: {
+      type: Number,
+      default: 100
+    },
+    maxWidth: {
+      type: Number,
+      default: 350
+    }
+  },
+  methods: {
+    click() {
+      this.$emit('click')
     }
   }
 })
