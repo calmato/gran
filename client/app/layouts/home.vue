@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import GranGroupTab from '~/components/atoms/GranGroupTab.vue'
+import GranGroupTab from '~/components/molecules/GranGroupTab.vue'
 
 export default {
   components: {
