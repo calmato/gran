@@ -38,28 +38,23 @@
     <v-content>
       <v-container color="grey lighten-5">
         <nuxt />
-        <v-footer color="white" padless fixed>
-          <v-row justify="center" no-gutters>
-            <v-btn v-for="link in links" :key="link" color="light-blue darken-1" text class="my-2">
-              {{ link }}
-            </v-btn>
-          </v-row>
-        </v-footer>
       </v-container>
     </v-content>
+    <gran-home-footer />
   </v-app>
 </template>
 
 <script>
 import GranGroupTab from '~/components/molecules/GranGroupTab.vue'
+import GranHomeFooter from '~/components/templates/GranHomeFooter.vue'
 
 export default {
   components: {
-    GranGroupTab
+    GranGroupTab,
+    GranHomeFooter
   },
   data: () => ({
-    drawer: null,
-    links: ['Home', 'Board', 'Calender', 'Alert', 'Account']
+    drawer: null
   }),
   computed: {
     isForm() {

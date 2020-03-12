@@ -1,18 +1,16 @@
 <template>
-  <div>
-    <gran-board-new />
-  </div>
+  <gran-board />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import GranBoardNew from '~/components/templates/GranBoardNew.vue'
+import GranBoard from '~/components/templates/GranBoard.vue'
 
 export default Vue.extend({
   layout: 'home',
 
   components: {
-    GranBoardNew
+    GranBoard
   }
 })
 </script>
