@@ -8,6 +8,7 @@ type Group struct {
 	Name        string    `firestore:"name"`
 	Description string    `firestore:"description"`
 	UserIDs     []string  `firestore:"user_ids"`
+	BoardIDs    []string  `firestore:"-"`
 	CreatedAt   time.Time `firestore:"created_at"`
 	UpdatedAt   time.Time `firestore:"updated_at"`
 }
