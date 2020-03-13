@@ -8,7 +8,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-container color="grey lighten-5">
+      <v-container color="grey lighten-5" fluid>
         <nuxt />
       </v-container>
     </v-content>
@@ -30,3 +30,9 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style scoped>
+.v-content {
+  overflow-x: auto;
+}
+</style>
