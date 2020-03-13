@@ -17,7 +17,7 @@ export default Vue.extend({
   },
   data: () => ({}),
   methods: {
-    click() {
+    click(): void {
       this.$router.push('/boards/1')
     }
   }

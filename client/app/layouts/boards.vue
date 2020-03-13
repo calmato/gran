@@ -24,7 +24,7 @@ export default Vue.extend({
     GranIcon
   },
   methods: {
-    back() {
+    back(): void {
       this.$router.go(-1)
     }
   }

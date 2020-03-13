@@ -45,7 +45,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    add() {
+    add(): void {
       this.$emit('add')
     }
   }

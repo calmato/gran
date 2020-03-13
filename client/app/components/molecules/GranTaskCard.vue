@@ -58,7 +58,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    click() {
+    click(): void {
       this.$emit('click')
     }
   }
