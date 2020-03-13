@@ -1,6 +1,6 @@
 <template>
   <gran-card :width="width" @click="click">
-    <div v-if="hasLables" class="text-left pa-1 my-1">
+    <div v-if="hasLables" class="text-left px-1 my-1">
       <gran-chip
         v-for="lable in task.labels"
         :key="lable.name"
@@ -11,7 +11,7 @@
         {{ lable.name }}
       </gran-chip>
     </div>
-    <gran-card-title class="headline px-4 pt-0">
+    <gran-card-title class="headline px-4 pt-2">
       {{ task.title }}
     </gran-card-title>
     <v-card-text>
