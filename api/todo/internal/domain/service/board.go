@@ -16,6 +16,7 @@ import (
 // BoardService - BoardServiceインターフェース
 type BoardService interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
+	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, b *domain.Board) error
 	UploadThumbnail(ctx context.Context, data []byte) (string, error)
 }
@@ -23,16 +24,19 @@ type BoardService interface {
 type boardService struct {
 	boardDomainValidation validation.BoardDomainValidation
 	boardRepository       repository.BoardRepository
+	taskRepository        repository.TaskRepository
 	fileUploader          uploader.FileUploader
 }
 
 // NewBoardService - BoardServiceの生成
 func NewBoardService(
-	bdv validation.BoardDomainValidation, br repository.BoardRepository, fu uploader.FileUploader,
+	bdv validation.BoardDomainValidation, br repository.BoardRepository,
+	tr repository.TaskRepository, fu uploader.FileUploader,
 ) BoardService {
 	return &boardService{
 		boardDomainValidation: bdv,
 		boardRepository:       br,
+		taskRepository:        tr,
 		fileUploader:          fu,
 	}
 }
@@ -42,6 +46,33 @@ func (bs *boardService) Index(ctx context.Context, groupID string) ([]*domain.Bo
 	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	return b, nil
+}
+
+func (bs *boardService) Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error) {
+	b, err := bs.boardRepository.Show(ctx, groupID, boardID)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	bls, err := bs.boardRepository.IndexBoardList(ctx, groupID, boardID)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	b.Lists = bls
+	for i, v := range b.Lists {
+		ts, err := bs.taskRepository.IndexByBoardListID(ctx, v.ID)
+		if err != nil {
+			err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+			return nil, domain.ErrorInDatastore.New(err)
+		}
+
+		b.Lists[i].Tasks = ts
 	}
 
 	return b, nil

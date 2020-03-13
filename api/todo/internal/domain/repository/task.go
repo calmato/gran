@@ -8,5 +8,5 @@ import (
 
 // TaskRepository - TaskRepositoryインターフェース
 type TaskRepository interface {
-	IndexByBoardID(ctx context.Context, boardID string) ([]*domain.Task, error)
+	IndexByBoardListID(ctx context.Context, boardListID string) ([]*domain.Task, error)
 }

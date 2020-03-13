@@ -4,16 +4,17 @@ import "time"
 
 // Board - Boardエンティティ
 type Board struct {
-	ID              string    `firestore:"id"`
-	Name            string    `firestore:"name"`
-	Closed          bool      `firestore:"closed"`
-	ThumbnailURL    string    `firestore:"thumbnail_url"`
-	BackgroundColor string    `firestore:"background_color"`
-	Labels          []string  `firestore:"labels"`
-	GroupID         string    `firestore:"group_id"`
-	ListIDs         []string  `firestore:"-"`
-	CreatedAt       time.Time `firestore:"created_at"`
-	UpdatedAt       time.Time `firestore:"updated_at"`
+	ID              string       `firestore:"id"`
+	Name            string       `firestore:"name"`
+	Closed          bool         `firestore:"closed"`
+	ThumbnailURL    string       `firestore:"thumbnail_url"`
+	BackgroundColor string       `firestore:"background_color"`
+	Labels          []string     `firestore:"labels"`
+	GroupID         string       `firestore:"group_id"`
+	ListIDs         []string     `firestore:"-"`
+	Lists           []*BoardList `firestore:"-"`
+	CreatedAt       time.Time    `firestore:"created_at"`
+	UpdatedAt       time.Time    `firestore:"updated_at"`
 }
 
 // BoardList - BoardListエンティティ
@@ -23,6 +24,7 @@ type BoardList struct {
 	Color     string    `firestore:"color"`
 	BoardID   string    `firestore:"board_id"`
 	TaskIDs   []string  `firestore:"task_ids"`
+	Tasks     []*Task   `firestore:"-"`
 	CreatedAt time.Time `firestore:"created_at"`
 	UpdatedAt time.Time `firestore:"updated_at"`
 }
