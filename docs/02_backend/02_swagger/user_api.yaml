@@ -8,6 +8,8 @@ info:
 servers:
   - url: http://localhost:8080/v1/users
     description: 開発環境
+  - url: https://api.16francs.work/v1/users
+    description: 検証環境
 
 paths:
   /:
