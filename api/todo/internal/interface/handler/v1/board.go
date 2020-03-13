@@ -15,6 +15,7 @@ import (
 // APIV1BoardHandler - Boardハンドラのインターフェース
 type APIV1BoardHandler interface {
 	Index(ctx *gin.Context)
+	Show(ctx *gin.Context)
 	Create(ctx *gin.Context)
 }
 
@@ -60,6 +61,60 @@ func (bh *apiV1BoardHandler) Index(ctx *gin.Context) {
 	res := &response.Boards{
 		Boards: brs,
 	}
+
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
+	groupID := ctx.Params.ByName("groupID")
+	boardID := ctx.Params.ByName("boardID")
+
+	c := middleware.GinContextToContext(ctx)
+
+	b, err := bh.boardApplication.Show(c, groupID, boardID)
+	if err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+
+	res := &response.ShowBoard{
+		ID:              b.ID,
+		Name:            b.Name,
+		Closed:          b.Closed,
+		ThumbnailURL:    b.ThumbnailURL,
+		BackgroundColor: b.BackgroundColor,
+		Labels:          b.Labels,
+		GroupID:         b.GroupID,
+		CreatedAt:       b.CreatedAt,
+		UpdatedAt:       b.UpdatedAt,
+	}
+
+	lrs := make([]*response.ListInShowBoard, len(b.Lists))
+	for i, l := range b.Lists {
+		lr := &response.ListInShowBoard{
+			ID:    l.ID,
+			Name:  l.Name,
+			Color: l.Color,
+		}
+
+		trs := make([]*response.TaskInShowBoard, len(l.Tasks))
+		for j, t := range l.Tasks {
+			tr := &response.TaskInShowBoard{
+				ID:              t.ID,
+				Name:            t.Name,
+				Labels:          t.Labels,
+				AssignedUserIDs: t.AssignedUserIDs,
+				DeadlinedAt:     t.DeadlinedAt,
+			}
+
+			trs[j] = tr
+		}
+
+		lr.Tasks = trs
+		lrs[i] = lr
+	}
+
+	res.Lists = lrs
 
 	ctx.JSON(http.StatusOK, res)
 }

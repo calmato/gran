@@ -16,6 +16,7 @@ import (
 // BoardApplication - BoardApplicationインターフェース
 type BoardApplication interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
+	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, req *request.CreateBoard) error
 }
 
@@ -53,6 +54,25 @@ func (ba *boardApplication) Index(ctx context.Context, groupID string) ([]*domai
 	}
 
 	return bs, nil
+}
+
+func (ba *boardApplication) Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error) {
+	u, err := ba.userService.Authentication(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
+		err := xerrors.New("Unable to create Board in the Group")
+		return nil, domain.Forbidden.New(err)
+	}
+
+	b, err := ba.boardService.Show(ctx, groupID, boardID)
+	if err != nil {
+		return nil, err
+	}
+
+	return b, err
 }
 
 func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard) error {

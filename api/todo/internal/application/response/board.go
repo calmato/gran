@@ -20,27 +20,33 @@ type Boards struct {
 	Boards []*Board `json:"boards"`
 }
 
+// TaskInShowBoard - ボード詳細用 タスクのレスポンス
+type TaskInShowBoard struct {
+	ID              string    `json:"id"`
+	Name            string    `json:"name"`
+	Labels          []string  `json:"labels"`
+	AssignedUserIDs []string  `json:"assignedUserIds"`
+	DeadlinedAt     time.Time `json:"deadlinedAt"`
+}
+
+// ListInShowBoard - ボード詳細用 リストのレスポンス
+type ListInShowBoard struct {
+	ID    string             `json:"id"`
+	Name  string             `json:"name"`
+	Color string             `json:"color"`
+	Tasks []*TaskInShowBoard `json:"tasks"`
+}
+
 // ShowBoard - ボード詳細のレスポンス
 type ShowBoard struct {
-	ID              string   `json:"id"`
-	Name            string   `json:"name"`
-	Closed          bool     `json:"closed"`
-	ThumbnailURL    string   `json:"thumbnailUrl"`
-	BackgroundColor string   `json:"backgroundColor"`
-	Labels          []string `json:"labels"`
-	GroupID         string   `json:"groupId"`
-	Lists           []struct {
-		ID    string `json:"id"`
-		Name  string `json:"name"`
-		Color string `json:"color"`
-		Tasks []struct {
-			ID              string    `json:"id"`
-			Name            string    `json:"name"`
-			Labels          []string  `json:"labels"`
-			AssignedUserIDs []string  `json:"assignedUserIds"`
-			DeadlinedAt     time.Time `json:"deadlinedAt"`
-		} `json:"tasks"`
-	} `json:"lists"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	ID              string             `json:"id"`
+	Name            string             `json:"name"`
+	Closed          bool               `json:"closed"`
+	ThumbnailURL    string             `json:"thumbnailUrl"`
+	BackgroundColor string             `json:"backgroundColor"`
+	Labels          []string           `json:"labels"`
+	GroupID         string             `json:"groupId"`
+	Lists           []*ListInShowBoard `json:"lists"`
+	CreatedAt       time.Time          `json:"createdAt"`
+	UpdatedAt       time.Time          `json:"updatedAt"`
 }
