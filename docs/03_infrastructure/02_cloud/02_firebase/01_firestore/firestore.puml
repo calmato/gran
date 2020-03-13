@@ -47,7 +47,7 @@ entity "Board" {
   - BackgroundColor: string
   - Labels:          []string
   - GroupID:         string [ParentDocument]
-  - Lists:           []string [SubCollection]
+  - ListIDs:         []string [SubCollection]
   - CreatedAt:       timestamp
   - UpdatedAt:       timestamp
   ==
@@ -77,8 +77,8 @@ entity "Task" {
   - AttachmentURLs:  []string
   - BoardListID:     string [Reference]
   - AssignedUserIDs: []string [Reference]
-  - CheckLists:      []string [SubCollection]
-  - Comments:        []string [SubCollecition]
+  - CheckListIDs:    []string [SubCollection]
+  - CommentIDs:      []string [SubCollecition]
   - CreatedAt:       timestamp
   - UpdatedAt:       timestamp
   ==
