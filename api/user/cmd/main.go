@@ -8,6 +8,7 @@ import (
 	"github.com/16francs/gran/api/user/lib/firebase"
 	"github.com/16francs/gran/api/user/lib/firebase/authentication"
 	"github.com/16francs/gran/api/user/lib/firebase/firestore"
+	"github.com/16francs/gran/api/user/lib/firebase/storage"
 	"github.com/16francs/gran/api/user/registry"
 	"google.golang.org/api/option"
 )
@@ -46,7 +47,13 @@ func main() {
 	}
 	defer fs.Close()
 
-	reg := registry.NewRegistry(fa, fs)
+	// Cloud Storage
+	cs, err := storage.NewClient(ctx, fb.App, e.GCPStorageBucketName)
+	if err != nil {
+		panic(err)
+	}
+
+	reg := registry.NewRegistry(fa, fs, cs)
 
 	// サーバ起動
 	r := config.Router(reg)
