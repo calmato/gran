@@ -1,5 +1,12 @@
 <template>
-  <v-card :color="color" :min-width="minWidth" :max-width="maxWidth" :flat="flat" @click="click">
+  <v-card
+    :color="color"
+    :width="width"
+    :min-width="minWidth"
+    :max-width="maxWidth"
+    :flat="flat"
+    @click.native="click"
+  >
     <slot />
   </v-card>
 </template>
@@ -17,13 +24,17 @@ export default Vue.extend({
       type: Boolean,
       default: false
     },
+    width: {
+      type: Number,
+      default: undefined
+    },
     minWidth: {
       type: Number,
-      default: 100
+      default: undefined
     },
     maxWidth: {
       type: Number,
-      default: 350
+      default: undefined
     }
   },
   methods: {
