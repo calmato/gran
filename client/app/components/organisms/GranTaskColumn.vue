@@ -1,0 +1,54 @@
+<template>
+  <div class="ma-1">
+    <gran-kanban-card :name="column.name" :length="tasksLength" :color="column.color">
+      <draggable group="task">
+        <div v-for="task in column.tasks" :key="task.id" class="pa-1 mb-2">
+          <gran-task-card :task="task" />
+        </div>
+      </draggable>
+    </gran-kanban-card>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import draggable from 'vuedraggable'
+import GranTaskCard from '~/components/molecules/GranTaskCard.vue'
+import GranKanbanCard from '~/components/molecules/GranKanbanCard.vue'
+
+export default Vue.extend({
+  components: {
+    draggable,
+    GranTaskCard,
+    GranKanbanCard
+  },
+  props: {
+    column: {
+      type: Object,
+      default: () => {
+        return {
+          name: 'ToDo',
+          color: '#FF80AB',
+          tasks: [
+            {
+              id: 1,
+              title: 'UI設計',
+              labels: []
+            },
+            {
+              id: 2,
+              title: 'APIの実装',
+              labels: [{ name: 'client', color: 'primary' }]
+            }
+          ]
+        }
+      }
+    }
+  },
+  computed: {
+    tasksLength(): number {
+      return this.column.tasks.length
+    }
+  }
+})
+</script>
