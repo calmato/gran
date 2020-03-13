@@ -1,5 +1,5 @@
 <template>
-  <gran-card :min-width="minWidth" @click="click">
+  <gran-card :width="width" @click="click">
     <div v-if="hasLables" class="text-left pa-1 my-1">
       <gran-chip
         v-for="lable in task.labels"
@@ -49,7 +49,7 @@ export default Vue.extend({
   },
   data: () => {
     return {
-      minWidth: 330
+      width: 300
     }
   },
   computed: {
