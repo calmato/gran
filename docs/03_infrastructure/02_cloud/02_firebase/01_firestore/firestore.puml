@@ -1,120 +1,122 @@
 @startuml firestore
 ' --- Entity --- '
-entity "Firebase Authentication" {
-  Firebase Authenticationのデータ
+entity "Auth" {
+  Authentication Userエンティティ
   ==
-  + ID（Firebase 上の UID): string [Key]
+  - UID:      string [Key]
+  - Email:    string [Unique]
+  - Password: string
   ==
-  Email: string [Unique]
-  Password: string
 }
 
 entity "User" {
   Firestore Userエンティティ
   ==
-  + ID (Firebase 上の UID): string [Key]
+  - UID:          string [Key]
+  - Name:         string
+  - Email:        string [Unique]
+  - ThumbnailURL: string
+  - GroupIDs:     []string [Reference]
+  - CreatedAt:    timestamp
+  - UpdatedAt:    timestamp
   ==
-  Name: string
-  Email: string [Unique]
-  ThumbnailURL: string
-  GroupRefs: []string (Reference)
-  CreatedAt: timestamp
-  UpdatedAt: timestamp
 }
 
 entity "Group" {
   Firestore Groupエンティティ
   ==
-  + ID (Firebase 上の UID): string [Key]
+  - UID:           string [Key]
+  - Name:          string
+  - Description:   string
+  - ThumbnailURL:  string
+  - InvitedEmails: []string
+  - UserIDs:       []string [Reference]
+  - BoardIDs:      []string [SubCollection]
+  - CreatedAt:     timestamp
+  - UpdatedAt:     timestamp
   ==
-  Name: string
-  Description: string
-  ThumbnailURL: string
-  UserRefs: []string (Reference)
-  BoardRefs: []string (SubCollection)
-  CreatedAt: timestamp
-  UpdatedAt: timestamp
 }
 
 entity "Board" {
   Firestore Boardエンティティ
   ==
-  + ID (Firebase 上の UID): string [Key]
+  - UID:             string [Key]
+  - Name:            string
+  - Closed:          boolean
+  - ThumbnailURL:    string
+  - BackgroundColor: string
+  - Labels:          []string
+  - GroupID:         string [ParentDocument]
+  - Lists:           []string [SubCollection]
+  - CreatedAt:       timestamp
+  - UpdatedAt:       timestamp
   ==
-  Name: string
-  Closed: boolean
-  ThumbnailURL: string
-  BackgroundColor: string
-  BackgroundURL: string
-  Labels: []string
-  Lists: []string (SubCollection)
-  CreatedAt: timestamp
-  UpdatedAt: timestamp
 }
 
 entity "BoardList" {
-  Firestore Listエンティティ
+  Firestore BaordListエンティティ
   ==
-  + ID (Firebase 上の UID): string [Key]
+  - UID:       string [Key]
+  - Name:      string
+  - Color:     string
+  - BoardID:   string [ParentDocument]
+  - TaskIDs:   []string [Reference]
+  - CreatedAt: timestamp
+  - UpdatedAt: timestamp
   ==
-  Name: string
-  TaskRefs: []string (Reference)
-  CreatedAt: timestamp
-  UpdatedAt: timestamp
 }
 
 entity "Task" {
   Firestore Taskエンティティ
   ==
-  + ID (Firebase 上の UID): string [Key]
+  - UID:             string [Key]
+  - Name:            string
+  - Description:     string
+  - DeadlinedAt:     timestamp
+  - Labels:          []string
+  - AttachmentURLs:  []string
+  - BoardListID:     string [Reference]
+  - AssignedUserIDs: []string [Reference]
+  - CheckLists:      []string [SubCollection]
+  - Comments:        []string [SubCollecition]
+  - CreatedAt:       timestamp
+  - UpdatedAt:       timestamp
   ==
-  Name: string
-  Description: string
-  DeadlinedAt: timestamp
-  Tags: []string
-  Labels: []string
-  AttachmentURLs: []string
-  BoardListRef: string (Reference)
-  UserRefs: []string (Reference)
-  CheckLists: []string (SubCollection)
-  Comments: []string (SubCollecition)
-  CreatedAt: timestamp
-  UpdatedAt: timestamp
 }
 
 entity "CheckList" {
   Firestore CheckListエンティティ
   ==
-  + ID (Firebase 上の UID): string [Key]
+  - UID:             string [Key]
+  - Name:            string
+  - DeadlinedAt:     timestamp
+  - AssignedUserIDs: []string [Reference]
+  - CreatedAt:       timestamp
+  - UpdatedAt:       timestamp
   ==
-  Name: string
-  DeadlinedAt: timestamp
-  UserRefs: []string (Reference)
-  CreatedAt: timestamp
-  UpdatedAt: timestamp
 }
 
 entity "Comment" {
   Firestore Commentエンティティ
   ==
-  + ID (Firebase 上の UID): string [Key]
+  - UID:       string [Key]
+  - Content:   string
+  - UserID:    string [Reference]
+  - CreatedAt: timestamp
+  - UpdatedAt: timestamp
   ==
-  Content: string
-  UserRef:  (Reference)
-  CreatedAt: timestamp
-  UpdatedAt: timestamp
 }
 
 ' --- Relation --- '
-"Firebase Authentication" ||--|| User
-Board ||--|{ BoardList
-BoardList ||--|{ Task
-Group ||--|{ Board
-Group }|--|{ User
-Task ||--|{ CheckList
-Task }|--|{ User
-Task ||--|{ Comment
-User ||--|{ CheckList
-User ||--|{ Comment
+"Auth"      ||--|| "User"
+"Board"     ||--|{ "BoardList"
+"BoardList" ||--|{ "Task"
+"Group"     ||--|{ "Board"
+"Group"     }|--|{ "User"
+"Task"      ||--|{ "CheckList"
+"Task"      }|--|{ "User"
+"Task"      ||--|{ "Comment"
+"User"      ||--|{ "CheckList"
+"User"      ||--|{ "Comment"
 
 @enduml
