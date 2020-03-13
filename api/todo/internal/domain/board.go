@@ -11,7 +11,7 @@ type Board struct {
 	BackgroundColor string    `firestore:"background_color"`
 	Labels          []string  `firestore:"labels"`
 	GroupID         string    `firestore:"group_id"`
-	ListIDs         []string  `firestore:"list_ids"`
+	ListIDs         []string  `firestore:"-"`
 	CreatedAt       time.Time `firestore:"created_at"`
 	UpdatedAt       time.Time `firestore:"updated_at"`
 }
