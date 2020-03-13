@@ -20,6 +20,7 @@ services:
     environment:
       - PORT=8080
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+      - GCP_STORAGE_BUCKET_NAME=${GCP_STORAGE_BUCKET_NAME}
     command: realize start
 
   group_api:
@@ -32,6 +33,7 @@ services:
     environment:
       - PORT=8080
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+      - GCP_STORAGE_BUCKET_NAME=${GCP_STORAGE_BUCKET_NAME}
     command: realize start
 
   todo_api:
