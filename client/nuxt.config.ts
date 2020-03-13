@@ -30,7 +30,8 @@ const configuration: Configuration = {
     '~/plugins/firebase',
     '~/plugins/persisted-state',
     '~/plugins/vee-validate',
-    '~/plugins/vuetify'
+    '~/plugins/vuetify',
+    '~/plugins/global-components'
   ],
   buildModules: [
     '@nuxt/typescript-build',
