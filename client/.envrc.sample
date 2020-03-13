@@ -1,3 +1,4 @@
+export API_URL=https://xxxx.com
 export FIREBASE_API_KEY=xxxxxx
 export FIREBASE_PROJECT_ID=xxxxxx
 export FIREBASE_MESSAGING_ID=xxxxxx
