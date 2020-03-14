@@ -11,6 +11,9 @@ export default Vue.extend({
   components: {
     GranKanban
   },
+  fetch({ store }) {
+    store.dispatch('boards/init')
+  },
   data: () => ({
     lists: [
       {
@@ -28,9 +31,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style scoped>
-.row {
-  overflow-x: auto;
-}
-</style>
