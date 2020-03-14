@@ -1,5 +1,5 @@
 <template>
-  <gran-card color="grey lighten-2">
+  <gran-card :width="width" color="grey lighten-2">
     <gran-card-title :style="{ '--color': color }">
       {{ name }}
       <span class="light-blue--text text--darken-1 mx-2">{{ length }}</span>
@@ -40,6 +40,11 @@ export default Vue.extend({
     length: {
       type: Number,
       default: 0
+    }
+  },
+  data: () => {
+    return {
+      width: 310
     }
   },
   methods: {
