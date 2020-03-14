@@ -7,19 +7,19 @@
       :component-data="getComponentData(column)"
       tag="gran-task-column"
     />
-    <div>
-      <!-- ここにboardListの追加ボタンを配置する -->
-    </div>
+    <gran-add-column-form />
   </v-layout>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import draggable from 'vuedraggable'
+import GranAddColumnForm from '~/components/molecules/GranAddColumnForm.vue'
 
 export default Vue.extend({
   components: {
-    draggable
+    draggable,
+    GranAddColumnForm
   },
   props: {
     board: {
