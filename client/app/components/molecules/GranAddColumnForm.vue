@@ -7,12 +7,16 @@
             v-model="newBoardListForm.name.value"
             :label="newBoardListForm.name.label"
             :rules="newBoardListFormValidate.name"
+            autofocus
+            @keydown="onKeydownHandler"
           />
           <gran-color-picker
             v-model="newBoardListForm.color.value"
             :label="newBoardListForm.color.label"
           />
-          <gran-button color="light-blue darken-1" dark @click="doSubmit">Add</gran-button>
+          <gran-button color="light-blue darken-1" :disabled="submitDisabled" @click="doSubmit">
+            Add
+          </gran-button>
           <gran-button color="grey darken-1" icon @click="close">
             <gran-icon name="close" />
           </gran-button>
@@ -56,6 +60,11 @@ export default Vue.extend({
       newBoardListFormValidate: BoardListFormValidate
     }
   },
+  computed: {
+    submitDisabled(): Boolean {
+      return this.newBoardListForm.name.value.length === 0
+    }
+  },
   methods: {
     open(): void {
       this.isOpen = true
@@ -64,10 +73,16 @@ export default Vue.extend({
       this.isOpen = false
     },
     doSubmit(): void {
-      this.isOpen = false
-      this.$emit('addColumn', this.newBoardListForm)
-      this.newBoardListForm.name.value = ''
-      this.newBoardListForm.color.value = ''
+      if (!this.submitDisabled) {
+        this.isOpen = false
+        this.$emit('addColumn', this.newBoardListForm)
+        this.newBoardListForm.name.value = ''
+        this.newBoardListForm.color.value = ''
+      }
+    },
+    onKeydownHandler(keyEvent: KeyboardEvent): void {
+      if (keyEvent.keyCode === 13) this.doSubmit()
+      if (keyEvent.keyCode === 27) this.close()
     }
   }
 })
