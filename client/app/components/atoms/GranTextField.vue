@@ -9,6 +9,8 @@
       :append-icon="appendIconName"
       :error-messages="errors"
       :success="valid"
+      :autofocus="autofocus"
+      @keydown="keydown"
     />
   </validation-provider>
 </template>
@@ -45,6 +47,10 @@ export default Vue.extend({
     value: {
       type: String,
       default: ''
+    },
+    autofocus: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -70,6 +76,11 @@ export default Vue.extend({
       }
 
       return 'mdi-' + this.appendIcon
+    }
+  },
+  methods: {
+    keydown(keyEvent: KeyboardEvent) {
+      this.$emit('keydown', keyEvent)
     }
   }
 })
