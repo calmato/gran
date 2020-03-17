@@ -6,25 +6,63 @@ export const mutations = {
   setBoard(state, board) {
     state.board = board
   },
+  updateBoardLists(state, payload) {
+    state.board.lists = payload
+  },
+  updateBoardTasks(state, payload) {
+    state.board.lists[payload.index].tasks = payload.value
+  },
   initBoard(state) {
     state.board = {
       id: '36de3d32-4d67-4959-9056-23b6763299db',
       name: 'test board with vuex',
       closed: false,
       thumbnailUrl: '',
-      backgroundColor: '#A7FFEB',
+      backgroundColor: '#E6EE9C',
       labels: null,
       groupId: 'be02c252-d1c3-4e53-9f38-6bdef8e03e3f',
       lists: [
         {
           id: '0ai5jtQZIBtQKrNCT3Bf',
-          name: 'テスト',
-          color: 'blue',
+          name: 'To Do',
+          color: '#009688',
           tasks: [
             {
               id: '65bv2GQawTYMY2Toatao',
               name: 'テストタスク',
-              labels: ['Client', 'API', 'Infra'],
+              labels: [
+                { name: 'Client', color: '#2196F3' },
+                { name: 'API', color: '#F44336' },
+                { name: 'Infra', color: '#FFEB3B' }
+              ],
+              assignedUserIds: null,
+              deadlinedAt: '0001-01-01T00:00:00Z'
+            },
+            {
+              id: '67bv2GQawTYMY2Toatao',
+              name: 'UI設計',
+              labels: [],
+              assignedUserIds: null,
+              deadlinedAt: '0001-01-01T00:00:00Z'
+            }
+          ]
+        },
+        {
+          id: '1ai5jtQZIBtQKrNCT3Bf',
+          name: 'In Prgress',
+          color: '#D81B60',
+          tasks: [
+            {
+              id: '63bv2GQawTYMY2Toatao',
+              name: 'Figma',
+              labels: [],
+              assignedUserIds: null,
+              deadlinedAt: '0001-01-01T00:00:00Z'
+            },
+            {
+              id: '61bv2GQawTYMY2Toatao',
+              name: '本番環境',
+              labels: [],
               assignedUserIds: null,
               deadlinedAt: '0001-01-01T00:00:00Z'
             }
