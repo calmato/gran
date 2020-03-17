@@ -14,7 +14,12 @@
             v-model="newBoardListForm.color.value"
             :label="newBoardListForm.color.label"
           />
-          <gran-button color="light-blue darken-1" :disabled="submitDisabled" @click="doSubmit">
+          <gran-button
+            color="light-blue darken-1"
+            :dark="!submitDisabled"
+            :disabled="submitDisabled"
+            @click="doSubmit"
+          >
             Add
           </gran-button>
           <gran-button color="grey darken-1" icon @click="close">
