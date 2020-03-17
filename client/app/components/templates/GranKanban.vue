@@ -1,83 +1,51 @@
 <template>
-  <v-layout col>
-    <draggable
-      v-for="column in board.columns"
+  <draggable v-model="lists" :component-data="getComponentData()" tag="v-layout">
+    <gran-task-column
+      v-for="(column, index) in board.lists"
       :key="column.id"
-      group="column"
-      :component-data="getComponentData(column)"
-      tag="gran-task-column"
+      :value="lists[index].tasks"
+      :list-index="index"
+      :column="column"
+      @input="updateTasks"
     />
-    <gran-add-column-form />
-  </v-layout>
+    <gran-add-column-form slot="footer" />
+  </draggable>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 import draggable from 'vuedraggable'
+import GranTaskColumn from '~/components/organisms/GranTaskColumn.vue'
 import GranAddColumnForm from '~/components/molecules/GranAddColumnForm.vue'
 
 export default Vue.extend({
   components: {
     draggable,
-    GranAddColumnForm
+    GranAddColumnForm,
+    GranTaskColumn
   },
-  props: {
-    board: {
-      type: Object,
-      default: () => {
-        return {
-          columns: [
-            {
-              id: 1,
-              name: 'ToDo',
-              color: '#FF80AB',
-              tasks: [
-                {
-                  id: 1,
-                  title: 'UI設計',
-                  labels: []
-                },
-                {
-                  id: 2,
-                  title: 'APIの実装',
-                  labels: [{ name: 'client', color: 'primary' }]
-                },
-                {
-                  id: 3,
-                  title: 'Figma',
-                  labels: []
-                }
-              ]
-            },
-            {
-              id: 2,
-              name: 'In Progless',
-              color: '#26A69A',
-              tasks: [
-                {
-                  id: 1,
-                  title: 'バグ修正',
-                  labels: []
-                },
-                {
-                  id: 2,
-                  title: '本番環境の構築',
-                  labels: [{ name: 'client', color: 'yellow' }]
-                }
-              ]
-            }
-          ]
-        }
+  computed: {
+    ...mapState('boards', ['board']),
+    lists: {
+      get() {
+        return this.board.lists
+      },
+      set(value: any) {
+        this.$store.commit('boards/updateBoardLists', value)
       }
     }
   },
   methods: {
-    getComponentData(column) {
+    getComponentData() {
       return {
         props: {
-          column
+          col: true
         }
       }
+    },
+    updateTasks(listIndex, tasks) {
+      this.$store.commit('boards/updateBoardTasks', { index: listIndex, value: tasks })
     }
   }
 })
