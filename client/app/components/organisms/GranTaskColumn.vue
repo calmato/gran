@@ -1,8 +1,8 @@
 <template>
   <div class="ma-1">
     <gran-kanban-card :name="column.name" :length="tasksLength" :color="column.color">
-      <draggable group="task">
-        <div v-for="task in column.tasks" :key="task.id" class="pa-1 mb-2">
+      <draggable :value="value" group="task" @input="emitter">
+        <div v-for="task in column.tasks" :key="task.id" class="pa-1 mb-1">
           <gran-task-card :task="task" />
         </div>
       </draggable>
@@ -23,6 +23,15 @@ export default Vue.extend({
     GranKanbanCard
   },
   props: {
+    listIndex: {
+      type: Number,
+      default: 0
+    },
+    value: {
+      required: false,
+      type: Array,
+      default: null
+    },
     column: {
       type: Object,
       default: () => {
@@ -32,12 +41,12 @@ export default Vue.extend({
           tasks: [
             {
               id: 1,
-              title: 'UI設計',
+              name: 'UI設計',
               labels: []
             },
             {
               id: 2,
-              title: 'APIの実装',
+              name: 'APIの実装',
               labels: [{ name: 'client', color: 'primary' }]
             }
           ]
@@ -48,6 +57,11 @@ export default Vue.extend({
   computed: {
     tasksLength(): number {
       return this.column.tasks.length
+    }
+  },
+  methods: {
+    emitter(value) {
+      this.$emit('input', this.listIndex, value)
     }
   }
 })
