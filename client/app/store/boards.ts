@@ -12,6 +12,9 @@ export const mutations = {
   updateBoardTasks(state, payload) {
     state.board.lists[payload.index].tasks = payload.value
   },
+  addColumn(state, payload) {
+    state.board.lists.push(payload)
+  },
   initBoard(state) {
     state.board = {
       id: '36de3d32-4d67-4959-9056-23b6763299db',
@@ -78,5 +81,14 @@ export const mutations = {
 export const actions = {
   init({ commit }) {
     commit('initBoard')
+  },
+  addNewColumn({ commit }, formData) {
+    const newColumn = {
+      id: Date.now(),
+      name: formData.name.value,
+      color: formData.color.value,
+      tasks: []
+    }
+    commit('addColumn', newColumn)
   }
 }
