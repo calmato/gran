@@ -12,7 +12,7 @@
       </gran-chip>
     </div>
     <gran-card-title class="headline px-4 pt-2">
-      {{ task.title }}
+      {{ task.name }}
     </gran-card-title>
     <v-card-text>
       <div class="text-left my-2"></div>
@@ -38,7 +38,7 @@ export default Vue.extend({
       default: () => {
         return {
           id: 1,
-          title: 'タスク',
+          name: 'タスク',
           labels: [
             { name: 'client', color: 'primary' },
             { name: 'api', color: 'yellow' }
