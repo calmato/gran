@@ -49,7 +49,7 @@ func (bh *apiV1BoardHandler) Index(ctx *gin.Context) {
 			Closed:          v.Closed,
 			ThumbnailURL:    v.ThumbnailURL,
 			BackgroundColor: v.BackgroundColor,
-			Labels:          v.Labels,
+			Labels:          append([]string{}, v.Labels...),
 			GroupID:         v.GroupID,
 			CreatedAt:       v.CreatedAt,
 			UpdatedAt:       v.UpdatedAt,
@@ -83,7 +83,7 @@ func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
 		Closed:          b.Closed,
 		ThumbnailURL:    b.ThumbnailURL,
 		BackgroundColor: b.BackgroundColor,
-		Labels:          b.Labels,
+		Labels:          append([]string{}, b.Labels...),
 		GroupID:         b.GroupID,
 		CreatedAt:       b.CreatedAt,
 		UpdatedAt:       b.UpdatedAt,
@@ -102,8 +102,8 @@ func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
 			tr := &response.TaskInShowBoard{
 				ID:              t.ID,
 				Name:            t.Name,
-				Labels:          t.Labels,
-				AssignedUserIDs: t.AssignedUserIDs,
+				Labels:          append([]string{}, t.Labels...),
+				AssignedUserIDs: append([]string{}, t.AssignedUserIDs...),
 				DeadlinedAt:     t.DeadlinedAt,
 			}
 
