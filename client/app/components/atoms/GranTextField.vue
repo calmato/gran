@@ -9,6 +9,8 @@
       :append-icon="appendIconName"
       :error-messages="errors"
       :success="valid"
+      :counter="count"
+      :maxlength="maxlength"
     />
   </validation-provider>
 </template>
@@ -19,6 +21,14 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     appendIcon: {
+      type: String,
+      default: ''
+    },
+    maxlength: {
+      type: String,
+      default: ''
+    },
+    count: {
       type: String,
       default: ''
     },

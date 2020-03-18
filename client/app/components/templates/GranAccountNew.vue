@@ -2,7 +2,9 @@
   <div>
     <div class="centering_item">
       <gran-avatar />
-      <p>Change Profile Photo</p>
+      <p>
+        Change Profile Photo
+      </p>
     </div>
     <v-row justify="center">
       <v-flex xs12 sm8 md6>
@@ -10,11 +12,13 @@
           v-model="accountForm.name.value"
           :label="accountForm.name.label"
           :rules="accountFormValidate.name"
+          maxlength="10"
         />
         <gran-text-field
           v-model="accountForm.userName.value"
           :label="accountForm.userName.label"
           :rules="accountFormValidate.userName"
+          maxlength="10"
         />
         <gran-text-area v-model="accountForm.profile.value" :label="accountForm.profile.label" />
       </v-flex>
