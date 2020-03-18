@@ -6,7 +6,7 @@ import "time"
 type Board struct {
 	ID              string    `json:"id"`
 	Name            string    `json:"name"`
-	Closed          bool      `json:"closed"`
+	IsClosed        bool      `json:"isClosed"`
 	ThumbnailURL    string    `json:"thumbnailUrl"`
 	BackgroundColor string    `json:"backgroundColor"`
 	Labels          []string  `json:"labels"`
@@ -41,7 +41,7 @@ type ListInShowBoard struct {
 type ShowBoard struct {
 	ID              string             `json:"id"`
 	Name            string             `json:"name"`
-	Closed          bool               `json:"closed"`
+	IsClosed        bool               `json:"isClosed"`
 	ThumbnailURL    string             `json:"thumbnailUrl"`
 	BackgroundColor string             `json:"backgroundColor"`
 	Labels          []string           `json:"labels"`

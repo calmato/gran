@@ -24,7 +24,7 @@ func (bsm *boardServiceMock) Index(ctx context.Context, groupID string) ([]*doma
 	b := &domain.Board{
 		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:            "テストグループ",
-		Closed:          true,
+		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
@@ -73,7 +73,7 @@ func TestBoardApplication_Index(t *testing.T) {
 	b := &domain.Board{
 		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:            "テストグループ",
-		Closed:          true,
+		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
@@ -103,7 +103,7 @@ func TestBoardApplication_Create(t *testing.T) {
 	b := &request.CreateBoard{
 		Name:            "テストグループ",
 		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Closed:          true,
+		IsClosed:        true,
 		Thumbnail:       "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),

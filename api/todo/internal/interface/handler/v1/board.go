@@ -46,7 +46,7 @@ func (bh *apiV1BoardHandler) Index(ctx *gin.Context) {
 		br := &response.Board{
 			ID:              v.ID,
 			Name:            v.Name,
-			Closed:          v.Closed,
+			IsClosed:        v.IsClosed,
 			ThumbnailURL:    v.ThumbnailURL,
 			BackgroundColor: v.BackgroundColor,
 			Labels:          append([]string{}, v.Labels...),
@@ -80,7 +80,7 @@ func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
 	res := &response.ShowBoard{
 		ID:              b.ID,
 		Name:            b.Name,
-		Closed:          b.Closed,
+		IsClosed:        b.IsClosed,
 		ThumbnailURL:    b.ThumbnailURL,
 		BackgroundColor: b.BackgroundColor,
 		Labels:          append([]string{}, b.Labels...),

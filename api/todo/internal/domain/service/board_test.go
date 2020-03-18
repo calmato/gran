@@ -23,7 +23,7 @@ func (brm *boardRepositoryMock) Index(ctx context.Context, groupID string) ([]*d
 	b := &domain.Board{
 		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:            "テストグループ",
-		Closed:          true,
+		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
@@ -53,7 +53,7 @@ func TestBoardService_Index(t *testing.T) {
 	b := &domain.Board{
 		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:            "テストグループ",
-		Closed:          true,
+		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
@@ -83,7 +83,7 @@ func TestBoardService_Create(t *testing.T) {
 	b := &domain.Board{
 		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Name:            "テストグループ",
-		Closed:          true,
+		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),

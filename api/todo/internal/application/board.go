@@ -107,7 +107,7 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 
 	b := &domain.Board{
 		Name:            req.Name,
-		Closed:          req.Closed,
+		IsClosed:        req.IsClosed,
 		ThumbnailURL:    thumbnailURL,
 		BackgroundColor: req.BackgroundColor,
 		Labels:          req.Labels,
