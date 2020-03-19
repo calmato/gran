@@ -4,11 +4,11 @@
       <v-app-bar-nav-icon @click="back">
         <gran-icon name="chevron-left" />
       </v-app-bar-nav-icon>
-      <v-toolbar-title>ボード名</v-toolbar-title>
+      <v-toolbar-title>{{ board.name }}</v-toolbar-title>
     </v-app-bar>
 
-    <v-content>
-      <v-container color="grey lighten-5" fluid>
+    <v-content :style="{ '--color': board.backgroundColor }">
+      <v-container fluid>
         <nuxt />
       </v-container>
     </v-content>
@@ -17,11 +17,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 import GranIcon from '~/components/atoms/GranIcon.vue'
 
 export default Vue.extend({
   components: {
     GranIcon
+  },
+  computed: {
+    ...mapState('boards', ['board'])
   },
   methods: {
     back(): void {
@@ -33,6 +37,9 @@ export default Vue.extend({
 
 <style scoped>
 .v-content {
+  --color: #fafafa;
+
   overflow-x: auto;
+  background-color: var(--color);
 }
 </style>

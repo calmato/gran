@@ -1,6 +1,6 @@
 <template>
   <gran-card :width="width" @click="click">
-    <div v-if="hasLables" class="text-left pa-1 my-1">
+    <div v-if="hasLables" class="text-left px-1 my-1">
       <gran-chip
         v-for="lable in task.labels"
         :key="lable.name"
@@ -11,8 +11,8 @@
         {{ lable.name }}
       </gran-chip>
     </div>
-    <gran-card-title class="headline px-4 pt-0">
-      {{ task.title }}
+    <gran-card-title class="headline px-4 pt-2">
+      {{ task.name }}
     </gran-card-title>
     <v-card-text>
       <div class="text-left my-2"></div>
@@ -38,7 +38,7 @@ export default Vue.extend({
       default: () => {
         return {
           id: 1,
-          title: 'タスク',
+          name: 'タスク',
           labels: [
             { name: 'client', color: 'primary' },
             { name: 'api', color: 'yellow' }

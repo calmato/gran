@@ -1,5 +1,5 @@
 <template>
-  <v-text-field v-model="color" label="背景" readonly hide-details>
+  <v-text-field v-model="color" :label="label" readonly hide-details>
     <template v-slot:append-outer>
       <v-menu v-model="menu" top :close-on-content-click="false">
         <template v-slot:activator="{ on }">
@@ -28,6 +28,12 @@
 import Vue from 'vue'
 
 export default Vue.extend({
+  props: {
+    label: {
+      type: String,
+      default: '背景'
+    }
+  },
   data: () => {
     return {
       color: '',
