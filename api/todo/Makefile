@@ -23,8 +23,8 @@ vet:
 
 .PHONY: lint
 lint:
-	./bin/golangci-lint run -c .golangci.yml ./...
+	./bin/golangci-lint run -c .golangci.yml $(PACKAGES)
 
 .PHONY: test
 test:
-	go test -v -cover ./...
+	go test -v -cover ./internal
