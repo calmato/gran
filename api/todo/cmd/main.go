@@ -47,7 +47,7 @@ func main() {
 	}
 	defer fs.Close()
 
-	// CLoud Storage
+	// Cloud Storage
 	cs, err := storage.NewClient(ctx, fb.App, e.GCPStorageBucketName)
 	if err != nil {
 		panic(err)

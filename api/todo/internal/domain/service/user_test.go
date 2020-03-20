@@ -6,26 +6,22 @@ import (
 	"testing"
 	"time"
 
+	"github.com/golang/mock/gomock"
+
 	"github.com/16francs/gran/api/todo/internal/domain"
+	mock_repository "github.com/16francs/gran/api/todo/mock/domain/repository"
 )
 
-var (
-	userCurrent  = time.Now()
-	userAuthUser = &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     []string{"JUA1ouY12ickxIupMVdVl3ieM7s2"},
-		CreatedAt:    userCurrent,
-		UpdatedAt:    userCurrent,
-	}
-)
+func TestUserService_Authentication(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-type userRepositoryMock struct{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-func (urm *userRepositoryMock) Authentication(ctx context.Context) (*domain.User, error) {
+	// Defined variables
+	current := time.Now()
+
 	u := &domain.User{
 		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		Email:        "hoge@hoge.com",
@@ -33,29 +29,18 @@ func (urm *userRepositoryMock) Authentication(ctx context.Context) (*domain.User
 		Name:         "テストユーザ",
 		ThumbnailURL: "",
 		GroupIDs:     make([]string, 0),
-		CreatedAt:    userCurrent,
-		UpdatedAt:    userCurrent,
+		CreatedAt:    current,
+		UpdatedAt:    current,
 	}
 
-	return u, nil
-}
+	// Defined mocks
+	brm := mock_repository.NewMockUserRepository(ctrl)
+	brm.EXPECT().Authentication(ctx).Return(u, nil)
 
-func TestUserService_Authentication(t *testing.T) {
-	target := NewUserService(&userRepositoryMock{})
+	// Start test
+	target := NewUserService(brm)
 
-	want := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
-		CreatedAt:    userCurrent,
-		UpdatedAt:    userCurrent,
-	}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	want := u
 
 	got, err := target.Authentication(ctx)
 	if err != nil {
@@ -68,12 +53,34 @@ func TestUserService_Authentication(t *testing.T) {
 }
 
 func TestUserService_IsContainInGroupIDs(t *testing.T) {
-	target := NewUserService(&userRepositoryMock{})
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	got := target.IsContainInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", userAuthUser)
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	// Defined variables
+	current := time.Now()
+	groupID := "JUA1ouY12ickxIupMVdVl3ieM7s2"
+
+	u := &domain.User{
+		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Email:        "hoge@hoge.com",
+		Password:     "",
+		Name:         "テストユーザ",
+		ThumbnailURL: "",
+		GroupIDs:     []string{groupID},
+		CreatedAt:    current,
+		UpdatedAt:    current,
+	}
+
+	// Defined mocks
+	brm := mock_repository.NewMockUserRepository(ctrl)
+
+	// Start test
+	target := NewUserService(brm)
+
+	got := target.IsContainInGroupIDs(ctx, groupID, u)
 	if !got {
 		t.Fatalf("error: %v", got)
 	}

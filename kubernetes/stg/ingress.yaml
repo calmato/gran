@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+
+metadata:
+  name: gran-ingress
+  annotations:
+    networking.gke.io/managed-certificates: gran-certificate
+    kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/ingress.global-static-ip-name: gran-ip-address
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /v1/groups
+            backend:
+              serviceName: group-api
+              servicePort: 80
+          - path: /v1/groups/*
+            backend:
+              serviceName: group-api
+              servicePort: 80
+          - path: /v1/todos
+            backend:
+              serviceName: todo-api
+              servicePort: 80
+          - path: /v1/todos/*
+            backend:
+              serviceName: todo-api
+              servicePort: 80
+          - path: /v1/users
+            backend:
+              serviceName: user-api
+              servicePort: 80
+          - path: /v1/users/*
+            backend:
+              serviceName: user-api
+              servicePort: 80

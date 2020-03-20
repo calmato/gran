@@ -5,6 +5,7 @@ import (
 	v1 "github.com/16francs/gran/api/group/internal/interface/handler/v1"
 	"github.com/16francs/gran/api/group/lib/firebase/authentication"
 	"github.com/16francs/gran/api/group/lib/firebase/firestore"
+	"github.com/16francs/gran/api/group/lib/firebase/storage"
 )
 
 // Registry - DIコンテナ
@@ -14,7 +15,7 @@ type Registry struct {
 }
 
 // NewRegistry - internalディレクトリのファイルを読み込み
-func NewRegistry(fa *authentication.Auth, fs *firestore.Firestore) *Registry {
+func NewRegistry(fa *authentication.Auth, fs *firestore.Firestore, _ *storage.Storage) *Registry {
 	health := healthInjection()
 	v1Group := V1GroupInjection(fa, fs)
 

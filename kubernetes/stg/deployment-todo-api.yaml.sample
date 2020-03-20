@@ -29,6 +29,12 @@ spec:
             limits:
               cpu: '0.1'
               memory: 100Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
           env:
             - name: PORT
               value: '8080'

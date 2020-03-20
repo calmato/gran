@@ -8,6 +8,8 @@ info:
 servers:
   - url: http://localhost:8080/v1/todos
     description: 開発環境
+  - url: https://api.16francs.work/v1/todos
+    description: 検証環境
 
 paths:
   /boards:
@@ -44,6 +46,34 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Boards'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /{groupId}/boards/{boardId}:
+    get:
+      summary: (WIP)ボード詳細
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+          required: true
+          description: ボードID
+      responses:
+        '200':
+          $ref: '#/components/responses/Board'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -148,7 +178,7 @@ components:
             $ref: '#/components/schemas/Error'
 
     Boards:
-      description: グループ一覧レスポンス
+      description: ボード一覧レスポンス
       content:
         application/json:
           schema:
@@ -188,3 +218,85 @@ components:
                       type: string
                       format: date-time
                       description: グループ更新日時
+
+    Board:
+      description: ボード詳細レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: integer
+                description: ボードID
+              groupId:
+                type: integer
+                description: グループID
+              name:
+                type: string
+                description: ボード名
+              closed:
+                type: string
+                description: 非公開設定
+              ThumbnailUrl:
+                type: string
+                description: サムネイルURL
+              BackgroundColor:
+                type: string
+                description: 背景色
+              labels:
+                type: array
+                description: ラベル一覧
+                items:
+                  type: string
+              lists:
+                type: array
+                description: ボードリスト一覧
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: リストID
+                    name:
+                      type: string
+                      description: リスト名
+                    color:
+                      type: string
+                      description: カラー
+                    tasks:
+                      type: array
+                      description: タスク一覧
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: タスクID
+                          name:
+                            type: string
+                            description: タスク名
+                          description:
+                            type: string
+                            description: 説明
+                          labels:
+                            type: array
+                            description: ラベル一覧
+                            items:
+                              type: string
+                          deadlinedAt:
+                            type: string
+                            format: date-time
+                            description: 期限
+                          assignedUserIds:
+                            type: array
+                            description: アサインユーザID一覧
+                            items:
+                              type: string
+              createdAt:
+                type: string
+                format: date-time
+                description: グループ作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: グループ更新日時

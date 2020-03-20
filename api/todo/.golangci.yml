@@ -44,6 +44,7 @@ linters:
 run:
   skip-dirs:
     - bin
+    - mock
 
 service:
   golangci-lint-version: 1.22.2

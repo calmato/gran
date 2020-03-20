@@ -19,6 +19,9 @@ resource "google_container_node_pool" "this" {
     preemptible  = each.value.preemptible
     machine_type = each.value.machine_type
 
+    disk_type    = each.value.disk_type
+    disk_size_gb = each.value.disk_size_gb
+
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]

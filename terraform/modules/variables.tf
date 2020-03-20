@@ -42,5 +42,31 @@ variable "gke_node_configs" {
     count        = number # ノード数
     preemptible  = bool   # プリエンプティブの利用
     machine_type = string # マシンタイプ e.g.) f1-micro, n1-standard-1, etc..
+    disk_type    = string # ディスクタイプ e.g.) pd-standard or pd-ssd
+    disk_size_gb = number # ディスクサイズ[GB] min: 10GB
   }))
+}
+
+#################################################
+# GCE Global Address
+#################################################
+variable "create_global_address" {
+  description = "グローバルアドレスの作成"
+  type        = bool
+  default     = false
+}
+
+variable "global_address_name" {
+  description = "グローバルアドレス名"
+  default     = ""
+}
+
+variable "global_address_description" {
+  description = "グローバルアドレス説明"
+  default     = ""
+}
+
+variable "global_address_ip_version" {
+  description = "グローバルアドレスIPアドレスバージョン"
+  default     = "IPV4"
 }

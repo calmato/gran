@@ -73,12 +73,12 @@ export default Vue.extend({
     }
   },
   computed: {
-    iconName(): string {
+    iconName(): string | undefined {
       if (this.icon === '') {
-        return ''
+        return undefined
+      } else {
+        return 'mdi-' + this.icon
       }
-
-      return 'mdi-' + this.icon
     }
   }
 })
