@@ -23,6 +23,7 @@ func TestBoardApplication_Index(t *testing.T) {
 
 	// Defined variables
 	current := time.Now()
+	groupID := "JUA1ouY12ickxIupMVdVl3ieM7s2"
 
 	u := &domain.User{}
 
@@ -44,17 +45,17 @@ func TestBoardApplication_Index(t *testing.T) {
 	brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
 
 	bsm := mock_service.NewMockBoardService(ctrl)
-	bsm.EXPECT().Index(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2").Return(bs, nil)
+	bsm.EXPECT().Index(ctx, groupID).Return(bs, nil)
 
 	usm := mock_service.NewMockUserService(ctrl)
 	usm.EXPECT().Authentication(ctx).Return(u, nil)
-	usm.EXPECT().IsContainInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", u).Return(true)
+	usm.EXPECT().IsContainInGroupIDs(ctx, groupID, u).Return(true)
 
 	// Start test
 	target := NewBoardApplication(brvm, bsm, usm)
 	want := bs
 
-	got, err := target.Index(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2")
+	got, err := target.Index(ctx, groupID)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
@@ -72,6 +73,9 @@ func TestBoardApplication_Create(t *testing.T) {
 	defer ctrl.Finish()
 
 	// Defined variables
+	groupID := "JUA1ouY12ickxIupMVdVl3ieM7s2"
+	ves := make([]*domain.ValidationError, 0)
+
 	req := &request.CreateBoard{
 		Name:            "テストグループ",
 		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -80,8 +84,6 @@ func TestBoardApplication_Create(t *testing.T) {
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
 	}
-
-	ves := make([]*domain.ValidationError, 0)
 
 	u := &domain.User{}
 
@@ -98,11 +100,11 @@ func TestBoardApplication_Create(t *testing.T) {
 	brvm.EXPECT().CreateBoard(req).Return(ves)
 
 	bsm := mock_service.NewMockBoardService(ctrl)
-	bsm.EXPECT().Create(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", b).Return(nil)
+	bsm.EXPECT().Create(ctx, groupID, b).Return(nil)
 
 	usm := mock_service.NewMockUserService(ctrl)
 	usm.EXPECT().Authentication(ctx).Return(u, nil)
-	usm.EXPECT().IsContainInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", u).Return(true)
+	usm.EXPECT().IsContainInGroupIDs(ctx, groupID, u).Return(true)
 
 	// Start test
 	target := NewBoardApplication(brvm, bsm, usm)
