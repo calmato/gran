@@ -53,6 +53,7 @@ func TestBoardApplication_Index(t *testing.T) {
 
 	// Start test
 	target := NewBoardApplication(brvm, bsm, usm)
+
 	want := bs
 
 	got, err := target.Index(ctx, groupID)
