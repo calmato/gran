@@ -63,6 +63,71 @@ func TestBoardService_Index(t *testing.T) {
 	}
 }
 
+func TestBoardService_Show(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	// Defined variables
+	current := time.Now()
+	groupID := "board-show-group-id"
+	boardID := "board-show-board-id"
+
+	b := &domain.Board{
+		ID:              boardID,
+		Name:            "テストグループ",
+		IsClosed:        true,
+		ThumbnailURL:    "",
+		BackgroundColor: "",
+		Labels:          make([]string, 0),
+		GroupID:         groupID,
+		CreatedAt:       current,
+		UpdatedAt:       current,
+	}
+
+	bl := &domain.BoardList{
+		ID:        "board-show-boardlist-id",
+		Name:      "テストボードリスト",
+		Color:     "red",
+		BoardID:   boardID,
+		TaskIDs:   make([]string, 0),
+		CreatedAt: current,
+		UpdatedAt: current,
+	}
+
+	bls := []*domain.BoardList{bl}
+
+	// Defined mocks
+	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+
+	brm := mock_repository.NewMockBoardRepository(ctrl)
+	brm.EXPECT().Show(ctx, groupID, boardID).Return(b, nil)
+	brm.EXPECT().IndexBoardList(ctx, groupID, boardID).Return(bls, nil)
+
+	trm := mock_repository.NewMockTaskRepository(ctrl)
+	trm.EXPECT().IndexByBoardListID(ctx, bl.ID).Return([]*domain.Task{}, nil)
+
+	fum := mock_uploader.NewMockFileUploader(ctrl)
+
+	// Start test
+	target := NewBoardService(brvm, brm, trm, fum)
+
+	want := b
+	want.Lists = bls
+	want.Lists[0].Tasks = []*domain.Task{}
+
+	got, err := target.Show(ctx, groupID, boardID)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("want %#v, but %#v", want, got)
+	}
+}
+
 func TestBoardService_Create(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
