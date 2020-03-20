@@ -41,6 +41,11 @@ linters:
   # - maligned
   # - prealloc
 
+linters-settings:
+  funlen:
+    lines: 100
+    statements: 50
+
 run:
   skip-dirs:
     - bin
