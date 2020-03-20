@@ -14,8 +14,6 @@ import (
 	mock_service "github.com/16francs/gran/api/todo/mock/domain/service"
 )
 
-var current = time.Now()
-
 func TestBoardApplication_Index(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -24,6 +22,8 @@ func TestBoardApplication_Index(t *testing.T) {
 	defer ctrl.Finish()
 
 	// Defined variables
+	current := time.Now()
+
 	u := &domain.User{}
 
 	b := &domain.Board{
