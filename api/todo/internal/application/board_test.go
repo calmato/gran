@@ -6,11 +6,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/golang/mock/gomock"
+
 	"github.com/16francs/gran/api/todo/internal/application/request"
 	"github.com/16francs/gran/api/todo/internal/domain"
 	mock_validation "github.com/16francs/gran/api/todo/mock/application/validation"
 	mock_service "github.com/16francs/gran/api/todo/mock/domain/service"
-	"github.com/golang/mock/gomock"
 )
 
 var current = time.Now()
@@ -22,6 +23,7 @@ func TestBoardApplication_Index(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	// Defined variables
 	u := &domain.User{}
 
 	b := &domain.Board{
@@ -38,6 +40,7 @@ func TestBoardApplication_Index(t *testing.T) {
 
 	bs := []*domain.Board{b}
 
+	// Defined mocks
 	brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
 
 	bsm := mock_service.NewMockBoardService(ctrl)
@@ -47,6 +50,7 @@ func TestBoardApplication_Index(t *testing.T) {
 	usm.EXPECT().Authentication(ctx).Return(u, nil)
 	usm.EXPECT().IsContainInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", u).Return(true)
 
+	// Start test
 	target := NewBoardApplication(brvm, bsm, usm)
 	want := bs
 
@@ -67,6 +71,7 @@ func TestBoardApplication_Create(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	// Defined variables
 	req := &request.CreateBoard{
 		Name:            "テストグループ",
 		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
@@ -88,6 +93,7 @@ func TestBoardApplication_Create(t *testing.T) {
 		Labels:          make([]string, 0),
 	}
 
+	// Defined mocks
 	brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
 	brvm.EXPECT().CreateBoard(req).Return(ves)
 
@@ -98,6 +104,7 @@ func TestBoardApplication_Create(t *testing.T) {
 	usm.EXPECT().Authentication(ctx).Return(u, nil)
 	usm.EXPECT().IsContainInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", u).Return(true)
 
+	// Start test
 	target := NewBoardApplication(brvm, bsm, usm)
 
 	err := target.Create(ctx, req)
