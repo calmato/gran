@@ -19,7 +19,7 @@ func TestBoardDomainValidation_Board(t *testing.T) {
 	b := &domain.Board{
 		ID:              "board-id",
 		Name:            "テストグループ",
-		Closed:          true,
+		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),

@@ -20,9 +20,11 @@ func V1BoardInjection(fa *authentication.Auth, fs *firestore.Firestore, cs *gcs.
 	up := persistence.NewUserPersistence(fa, fs)
 	us := service.NewUserService(up)
 
+	tp := persistence.NewTaskPersistence(fs)
+
 	bp := persistence.NewBoardPersistence(fs)
 	bdv := dv.NewBoardDomainValidation()
-	bs := service.NewBoardService(bdv, bp, fu)
+	bs := service.NewBoardService(bdv, bp, tp, fu)
 	brv := rv.NewBoardRequestValidation()
 	bu := application.NewBoardApplication(brv, bs, us)
 	bh := v1.NewAPIV1BoardHandler(bu)

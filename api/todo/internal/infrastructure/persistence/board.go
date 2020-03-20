@@ -49,6 +49,24 @@ func (bp *boardPersistence) Index(ctx context.Context, groupID string) ([]*domai
 	return bs, nil
 }
 
+func (bp *boardPersistence) Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error) {
+	boardCollection := GetBoardCollection(groupID)
+
+	doc, err := bp.firestore.Get(ctx, boardCollection, boardID)
+	if err != nil {
+		return nil, err
+	}
+
+	b := &domain.Board{}
+
+	err = doc.DataTo(b)
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
+}
+
 func (bp *boardPersistence) Create(ctx context.Context, b *domain.Board) error {
 	boardCollection := GetBoardCollection(b.GroupID)
 
@@ -57,4 +75,34 @@ func (bp *boardPersistence) Create(ctx context.Context, b *domain.Board) error {
 	}
 
 	return nil
+}
+
+func (bp *boardPersistence) IndexBoardList(
+	ctx context.Context, groupID string, boardID string,
+) ([]*domain.BoardList, error) {
+	bls := make([]*domain.BoardList, 0)
+	boardListCollection := GetBoardListCollection(groupID, boardID)
+
+	iter := bp.firestore.GetAll(ctx, boardListCollection)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+
+		if err != nil {
+			return nil, err
+		}
+
+		bl := &domain.BoardList{}
+
+		err = doc.DataTo(bl)
+		if err != nil {
+			return nil, err
+		}
+
+		bls = append(bls, bl)
+	}
+
+	return bls, nil
 }

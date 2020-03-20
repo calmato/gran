@@ -30,7 +30,7 @@ func TestBoardApplication_Index(t *testing.T) {
 	b := &domain.Board{
 		ID:              "board-index-board-id",
 		Name:            "テストグループ",
-		Closed:          true,
+		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
@@ -66,6 +66,57 @@ func TestBoardApplication_Index(t *testing.T) {
 	}
 }
 
+func TestBoardApplication_Show(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	// Defined variables
+	current := time.Now()
+	groupID := "board-show-group-id"
+	boardID := "board-show-board-id"
+
+	u := &domain.User{}
+
+	b := &domain.Board{
+		ID:              boardID,
+		Name:            "テストグループ",
+		IsClosed:        true,
+		ThumbnailURL:    "",
+		BackgroundColor: "",
+		Labels:          make([]string, 0),
+		GroupID:         groupID,
+		CreatedAt:       current,
+		UpdatedAt:       current,
+	}
+
+	// Defined mocks
+	brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
+
+	bsm := mock_service.NewMockBoardService(ctrl)
+	bsm.EXPECT().Show(ctx, groupID, boardID).Return(b, nil)
+
+	usm := mock_service.NewMockUserService(ctrl)
+	usm.EXPECT().Authentication(ctx).Return(u, nil)
+	usm.EXPECT().IsContainInGroupIDs(ctx, groupID, u).Return(true)
+
+	// Start test
+	target := NewBoardApplication(brvm, bsm, usm)
+
+	want := b
+
+	got, err := target.Show(ctx, groupID, boardID)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("want %#v, but %#v", want, got)
+	}
+}
+
 func TestBoardApplication_Create(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -80,7 +131,7 @@ func TestBoardApplication_Create(t *testing.T) {
 	req := &request.CreateBoard{
 		Name:            "テストグループ",
 		GroupID:         groupID,
-		Closed:          true,
+		IsClosed:        true,
 		Thumbnail:       "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
@@ -90,7 +141,7 @@ func TestBoardApplication_Create(t *testing.T) {
 
 	b := &domain.Board{
 		Name:            "テストグループ",
-		Closed:          true,
+		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
