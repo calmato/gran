@@ -23,7 +23,7 @@ func TestUserService_Authentication(t *testing.T) {
 	current := time.Now()
 
 	u := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:           "user-authentication-user-id",
 		Email:        "hoge@hoge.com",
 		Password:     "",
 		Name:         "テストユーザ",
@@ -61,10 +61,10 @@ func TestUserService_IsContainInGroupIDs(t *testing.T) {
 
 	// Defined variables
 	current := time.Now()
-	groupID := "JUA1ouY12ickxIupMVdVl3ieM7s2"
+	groupID := "user-iscontainingroupids-group-id"
 
 	u := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:           "user-iscontaingroupids-user-id",
 		Email:        "hoge@hoge.com",
 		Password:     "",
 		Name:         "テストユーザ",

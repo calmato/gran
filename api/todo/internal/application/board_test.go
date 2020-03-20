@@ -23,12 +23,12 @@ func TestBoardApplication_Index(t *testing.T) {
 
 	// Defined variables
 	current := time.Now()
-	groupID := "JUA1ouY12ickxIupMVdVl3ieM7s2"
+	groupID := "board-index-group-id"
 
 	u := &domain.User{}
 
 	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:              "board-index-board-id",
 		Name:            "テストグループ",
 		Closed:          true,
 		ThumbnailURL:    "",
@@ -74,12 +74,12 @@ func TestBoardApplication_Create(t *testing.T) {
 	defer ctrl.Finish()
 
 	// Defined variables
-	groupID := "JUA1ouY12ickxIupMVdVl3ieM7s2"
+	groupID := "board-create-group-id"
 	ves := make([]*domain.ValidationError, 0)
 
 	req := &request.CreateBoard{
 		Name:            "テストグループ",
-		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		GroupID:         groupID,
 		Closed:          true,
 		Thumbnail:       "",
 		BackgroundColor: "",

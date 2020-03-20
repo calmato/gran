@@ -22,10 +22,10 @@ func TestBoardService_Index(t *testing.T) {
 
 	// Defined variables
 	current := time.Now()
-	groupID := "JUA1ouY12ickxIupMVdVl3ieM7s2"
+	groupID := "board-index-group-id"
 
 	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:              "board-index-board-id",
 		Name:            "テストグループ",
 		Closed:          true,
 		ThumbnailURL:    "",
@@ -71,10 +71,10 @@ func TestBoardService_Create(t *testing.T) {
 	// Defined variables
 	current := time.Now()
 	ves := make([]*domain.ValidationError, 0)
-	groupID := "JUA1ouY12ickxIupMVdVl3ieM7s2"
+	groupID := "board-create-group-id"
 
 	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:              "board-create-board-id",
 		Name:            "テストグループ",
 		Closed:          true,
 		ThumbnailURL:    "",
