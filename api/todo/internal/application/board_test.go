@@ -79,7 +79,7 @@ func TestBoardApplication_Create(t *testing.T) {
 
 	req := &request.CreateBoard{
 		Name:            "テストグループ",
-		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		GroupID:         groupID,
 		IsClosed:        true,
 		Thumbnail:       "",
 		BackgroundColor: "",
