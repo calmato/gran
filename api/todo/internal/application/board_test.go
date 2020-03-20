@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/16francs/gran/api/todo/internal/application/request"
 	"github.com/16francs/gran/api/todo/internal/domain"
 	mock_validation "github.com/16francs/gran/api/todo/mock/application/validation"
 	mock_service "github.com/16francs/gran/api/todo/mock/domain/service"
@@ -59,23 +60,48 @@ func TestBoardApplication_Index(t *testing.T) {
 	}
 }
 
-// func TestBoardApplication_Create(t *testing.T) {
-// 	target := NewBoardApplication(&boardRequestValidationMock{}, &boardServiceMock{}, &userServiceMock{})
+func TestBoardApplication_Create(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-// 	b := &request.CreateBoard{
-// 		Name:            "テストグループ",
-// 		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
-// 		Closed:          true,
-// 		Thumbnail:       "",
-// 		BackgroundColor: "",
-// 		Labels:          make([]string, 0),
-// 	}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-// 	ctx, cancel := context.WithCancel(context.Background())
-// 	defer cancel()
+	req := &request.CreateBoard{
+		Name:            "テストグループ",
+		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		Closed:          true,
+		Thumbnail:       "",
+		BackgroundColor: "",
+		Labels:          make([]string, 0),
+	}
 
-// 	err := target.Create(ctx, b)
-// 	if err != nil {
-// 		t.Fatalf("error: %v", err)
-// 	}
-// }
+	ves := make([]*domain.ValidationError, 0)
+
+	u := &domain.User{}
+
+	b := &domain.Board{
+		Name:            "テストグループ",
+		Closed:          true,
+		ThumbnailURL:    "",
+		BackgroundColor: "",
+		Labels:          make([]string, 0),
+	}
+
+	brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
+	brvm.EXPECT().CreateBoard(req).Return(ves)
+
+	bsm := mock_service.NewMockBoardService(ctrl)
+	bsm.EXPECT().Create(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", b).Return(nil)
+
+	usm := mock_service.NewMockUserService(ctrl)
+	usm.EXPECT().Authentication(ctx).Return(u, nil)
+	usm.EXPECT().IsContainInGroupIDs(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", u).Return(true)
+
+	target := NewBoardApplication(brvm, bsm, usm)
+
+	err := target.Create(ctx, req)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+}
