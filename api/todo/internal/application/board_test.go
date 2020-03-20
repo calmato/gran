@@ -6,23 +6,29 @@ import (
 	"testing"
 	"time"
 
+	"github.com/golang/mock/gomock"
+
 	"github.com/16francs/gran/api/todo/internal/application/request"
 	"github.com/16francs/gran/api/todo/internal/domain"
+	mock_validation "github.com/16francs/gran/api/todo/mock/application/validation"
+	mock_service "github.com/16francs/gran/api/todo/mock/domain/service"
 )
 
-var current = time.Now()
+func TestBoardApplication_Index(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-type boardRequestValidationMock struct{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-func (brvm *boardRequestValidationMock) CreateBoard(req *request.CreateBoard) []*domain.ValidationError {
-	return nil
-}
+	// Defined variables
+	current := time.Now()
+	groupID := "board-index-group-id"
 
-type boardServiceMock struct{}
+	u := &domain.User{}
 
-func (bsm *boardServiceMock) Index(ctx context.Context, groupID string) ([]*domain.Board, error) {
 	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:              "board-index-board-id",
 		Name:            "テストグループ",
 		IsClosed:        true,
 		ThumbnailURL:    "",
@@ -35,59 +41,22 @@ func (bsm *boardServiceMock) Index(ctx context.Context, groupID string) ([]*doma
 
 	bs := []*domain.Board{b}
 
-	return bs, nil
-}
+	// Defined mocks
+	brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
 
-func (bsm *boardServiceMock) Create(ctx context.Context, groupID string, b *domain.Board) error {
-	return nil
-}
+	bsm := mock_service.NewMockBoardService(ctrl)
+	bsm.EXPECT().Index(ctx, groupID).Return(bs, nil)
 
-func (bsm *boardServiceMock) UploadThumbnail(ctx context.Context, data []byte) (string, error) {
-	return "", nil
-}
+	usm := mock_service.NewMockUserService(ctrl)
+	usm.EXPECT().Authentication(ctx).Return(u, nil)
+	usm.EXPECT().IsContainInGroupIDs(ctx, groupID, u).Return(true)
 
-type userServiceMock struct{}
+	// Start test
+	target := NewBoardApplication(brvm, bsm, usm)
 
-func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, error) {
-	u := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "12345678",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     []string{"JUA1ouY12ickxIupMVdVl3ieM7s2"},
-		CreatedAt:    current,
-		UpdatedAt:    current,
-	}
+	want := bs
 
-	return u, nil
-}
-
-func (usm *userServiceMock) IsContainInGroupIDs(ctx context.Context, groupID string, u *domain.User) bool {
-	return true
-}
-
-func TestBoardApplication_Index(t *testing.T) {
-	target := NewBoardApplication(&boardRequestValidationMock{}, &boardServiceMock{}, &userServiceMock{})
-
-	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Name:            "テストグループ",
-		IsClosed:        true,
-		ThumbnailURL:    "",
-		BackgroundColor: "",
-		Labels:          make([]string, 0),
-		GroupID:         "",
-		CreatedAt:       current,
-		UpdatedAt:       current,
-	}
-
-	want := []*domain.Board{b}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	got, err := target.Index(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2")
+	got, err := target.Index(ctx, groupID)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
@@ -98,9 +67,17 @@ func TestBoardApplication_Index(t *testing.T) {
 }
 
 func TestBoardApplication_Create(t *testing.T) {
-	target := NewBoardApplication(&boardRequestValidationMock{}, &boardServiceMock{}, &userServiceMock{})
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-	b := &request.CreateBoard{
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	// Defined variables
+	groupID := "board-create-group-id"
+	ves := make([]*domain.ValidationError, 0)
+
+	req := &request.CreateBoard{
 		Name:            "テストグループ",
 		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
 		IsClosed:        true,
@@ -109,10 +86,31 @@ func TestBoardApplication_Create(t *testing.T) {
 		Labels:          make([]string, 0),
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	u := &domain.User{}
 
-	err := target.Create(ctx, b)
+	b := &domain.Board{
+		Name:            "テストグループ",
+		IsClosed:        true,
+		ThumbnailURL:    "",
+		BackgroundColor: "",
+		Labels:          make([]string, 0),
+	}
+
+	// Defined mocks
+	brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
+	brvm.EXPECT().CreateBoard(req).Return(ves)
+
+	bsm := mock_service.NewMockBoardService(ctrl)
+	bsm.EXPECT().Create(ctx, groupID, b).Return(nil)
+
+	usm := mock_service.NewMockUserService(ctrl)
+	usm.EXPECT().Authentication(ctx).Return(u, nil)
+	usm.EXPECT().IsContainInGroupIDs(ctx, groupID, u).Return(true)
+
+	// Start test
+	target := NewBoardApplication(brvm, bsm, usm)
+
+	err := target.Create(ctx, req)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}

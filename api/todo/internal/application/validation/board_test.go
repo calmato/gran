@@ -15,7 +15,7 @@ func TestBoardRequestValidation_CreateBoard(t *testing.T) {
 
 	b := &request.CreateBoard{
 		Name:            "テストグループ",
-		GroupID:         "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		GroupID:         "board-createboard-group-id",
 		Closed:          true,
 		Thumbnail:       "",
 		BackgroundColor: "",

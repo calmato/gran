@@ -7,67 +7,51 @@ import (
 	"time"
 
 	"github.com/16francs/gran/api/todo/internal/domain"
+	mock_repository "github.com/16francs/gran/api/todo/mock/domain/repository"
+	mock_uploader "github.com/16francs/gran/api/todo/mock/domain/uploader"
+	mock_validation "github.com/16francs/gran/api/todo/mock/domain/validation"
+	"github.com/golang/mock/gomock"
 )
 
-var boardCurrent = time.Now()
+func TestBoardService_Index(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-type boardDomainValidationMock struct{}
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
 
-func (bdvm *boardDomainValidationMock) Board(ctx context.Context, g *domain.Board) []*domain.ValidationError {
-	return nil
-}
+	// Defined variables
+	current := time.Now()
+	groupID := "board-index-group-id"
 
-type boardRepositoryMock struct{}
-
-func (brm *boardRepositoryMock) Index(ctx context.Context, groupID string) ([]*domain.Board, error) {
 	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:              "board-index-board-id",
 		Name:            "テストグループ",
 		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
 		GroupID:         "",
-		CreatedAt:       boardCurrent,
-		UpdatedAt:       boardCurrent,
+		CreatedAt:       current,
+		UpdatedAt:       current,
 	}
 
 	bs := []*domain.Board{b}
 
-	return bs, nil
-}
+	// Defined mocks
+	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
 
-func (brm *boardRepositoryMock) Create(ctx context.Context, b *domain.Board) error {
-	return nil
-}
+	brm := mock_repository.NewMockBoardRepository(ctrl)
+	brm.EXPECT().Index(ctx, groupID).Return(bs, nil)
 
-type fileUploaderMock struct{}
+	fum := mock_uploader.NewMockFileUploader(ctrl)
 
-func (fum *fileUploaderMock) UploadBoardThumbnail(ctx context.Context, data []byte) (string, error) {
-	return "test success", nil
-}
+	// Start test
+	target := NewBoardService(brvm, brm, fum)
 
-func TestBoardService_Index(t *testing.T) {
-	target := NewBoardService(&boardDomainValidationMock{}, &boardRepositoryMock{}, &fileUploaderMock{})
+	want := bs
 
-	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Name:            "テストグループ",
-		IsClosed:        true,
-		ThumbnailURL:    "",
-		BackgroundColor: "",
-		Labels:          make([]string, 0),
-		GroupID:         "",
-		CreatedAt:       boardCurrent,
-		UpdatedAt:       boardCurrent,
-	}
-
-	want := []*domain.Board{b}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	got, err := target.Index(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2")
+	got, err := target.Index(ctx, groupID)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
@@ -78,36 +62,69 @@ func TestBoardService_Index(t *testing.T) {
 }
 
 func TestBoardService_Create(t *testing.T) {
-	target := NewBoardService(&boardDomainValidationMock{}, &boardRepositoryMock{}, &fileUploaderMock{})
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	// Defined variables
+	current := time.Now()
+	ves := make([]*domain.ValidationError, 0)
+	groupID := "board-create-group-id"
 
 	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:              "board-create-board-id",
 		Name:            "テストグループ",
 		IsClosed:        true,
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
 		GroupID:         "",
-		CreatedAt:       boardCurrent,
-		UpdatedAt:       boardCurrent,
+		CreatedAt:       current,
+		UpdatedAt:       current,
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	// Defined mocks
+	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+	brvm.EXPECT().Board(ctx, b).Return(ves)
 
-	err := target.Create(ctx, "JUA1ouY12ickxIupMVdVl3ieM7s2", b)
+	brm := mock_repository.NewMockBoardRepository(ctrl)
+	brm.EXPECT().Create(ctx, b).Return(nil)
+
+	fum := mock_uploader.NewMockFileUploader(ctrl)
+
+	// Start test
+	target := NewBoardService(brvm, brm, fum)
+
+	err := target.Create(ctx, groupID, b)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
 }
 
 func TestBoardService_UploadThumbnail(t *testing.T) {
-	target := NewBoardService(&boardDomainValidationMock{}, &boardRepositoryMock{}, &fileUploaderMock{})
-
-	want := "test success"
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	// Defined variables
+	thumbnailURL := "http://localhost:8080"
+
+	// Defined mocks
+	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+
+	brm := mock_repository.NewMockBoardRepository(ctrl)
+
+	fum := mock_uploader.NewMockFileUploader(ctrl)
+	fum.EXPECT().UploadBoardThumbnail(ctx, []byte{}).Return(thumbnailURL, nil)
+
+	// Start test
+	target := NewBoardService(brvm, brm, fum)
+
+	want := thumbnailURL
 
 	got, err := target.UploadThumbnail(ctx, []byte{})
 	if err != nil {

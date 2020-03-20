@@ -1,19 +1,17 @@
 <template>
-  <div class="ma-1">
-    <gran-card color="grey lighten-2">
-      <gran-card-title :style="{ '--color': color }">
-        {{ name }}
-        <span class="light-blue--text text--darken-1 mx-2">{{ length }}</span>
-      </gran-card-title>
-      <slot />
-      <v-card-actions>
-        <gran-button color="grey darken-1" text block @click="add">
-          <gran-icon name="plus" />
-          Add Task
-        </gran-button>
-      </v-card-actions>
-    </gran-card>
-  </div>
+  <gran-card :width="width" color="grey lighten-2">
+    <gran-card-title :style="{ '--color': color }">
+      {{ name }}
+      <span class="light-blue--text text--darken-1 mx-2">{{ length }}</span>
+    </gran-card-title>
+    <slot />
+    <v-card-actions>
+      <gran-button color="grey darken-1" text block @click="add">
+        <gran-icon name="plus" />
+        Add Task
+      </gran-button>
+    </v-card-actions>
+  </gran-card>
 </template>
 
 <script lang="ts">
@@ -42,6 +40,11 @@ export default Vue.extend({
     length: {
       type: Number,
       default: 0
+    }
+  },
+  data: () => {
+    return {
+      width: 310
     }
   },
   methods: {

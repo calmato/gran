@@ -17,7 +17,7 @@ func TestBoardDomainValidation_Board(t *testing.T) {
 	want := []*domain.ValidationError{}
 
 	b := &domain.Board{
-		ID:              "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:              "board-id",
 		Name:            "テストグループ",
 		Closed:          true,
 		ThumbnailURL:    "",
