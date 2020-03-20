@@ -44,10 +44,12 @@ func TestBoardService_Index(t *testing.T) {
 	brm := mock_repository.NewMockBoardRepository(ctrl)
 	brm.EXPECT().Index(ctx, groupID).Return(bs, nil)
 
+	trm := mock_repository.NewMockTaskRepository(ctrl)
+
 	fum := mock_uploader.NewMockFileUploader(ctrl)
 
 	// Start test
-	target := NewBoardService(brvm, brm, fum)
+	target := NewBoardService(brvm, brm, trm, fum)
 
 	want := bs
 
@@ -92,10 +94,12 @@ func TestBoardService_Create(t *testing.T) {
 	brm := mock_repository.NewMockBoardRepository(ctrl)
 	brm.EXPECT().Create(ctx, b).Return(nil)
 
+	trm := mock_repository.NewMockTaskRepository(ctrl)
+
 	fum := mock_uploader.NewMockFileUploader(ctrl)
 
 	// Start test
-	target := NewBoardService(brvm, brm, fum)
+	target := NewBoardService(brvm, brm, trm, fum)
 
 	err := target.Create(ctx, groupID, b)
 	if err != nil {
@@ -118,11 +122,13 @@ func TestBoardService_UploadThumbnail(t *testing.T) {
 
 	brm := mock_repository.NewMockBoardRepository(ctrl)
 
+	trm := mock_repository.NewMockTaskRepository(ctrl)
+
 	fum := mock_uploader.NewMockFileUploader(ctrl)
 	fum.EXPECT().UploadBoardThumbnail(ctx, []byte{}).Return(thumbnailURL, nil)
 
 	// Start test
-	target := NewBoardService(brvm, brm, fum)
+	target := NewBoardService(brvm, brm, trm, fum)
 
 	want := thumbnailURL
 
