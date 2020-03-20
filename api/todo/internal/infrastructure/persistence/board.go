@@ -77,7 +77,9 @@ func (bp *boardPersistence) Create(ctx context.Context, b *domain.Board) error {
 	return nil
 }
 
-func (bp *boardPersistence) IndexBoardList(ctx context.Context, groupID string, boardID string) ([]*domain.BoardList, error) {
+func (bp *boardPersistence) IndexBoardList(
+	ctx context.Context, groupID string, boardID string,
+) ([]*domain.BoardList, error) {
 	bls := make([]*domain.BoardList, 0)
 	boardListCollection := GetBoardListCollection(groupID, boardID)
 
