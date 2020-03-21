@@ -120,7 +120,7 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 		return domain.Forbidden.New(err)
 	}
 
-	if err := ba.boardService.Create(ctx, groupID, b); err != nil {
+	if _, err := ba.boardService.Create(ctx, groupID, b); err != nil {
 		return err
 	}
 

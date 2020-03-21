@@ -17,7 +17,7 @@ import (
 type BoardService interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
-	Create(ctx context.Context, groupID string, b *domain.Board) error
+	Create(ctx context.Context, groupID string, b *domain.Board) (*domain.Board, error)
 	UploadThumbnail(ctx context.Context, data []byte) (string, error)
 }
 
@@ -78,10 +78,10 @@ func (bs *boardService) Show(ctx context.Context, groupID string, boardID string
 	return b, nil
 }
 
-func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Board) error {
+func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Board) (*domain.Board, error) {
 	if ves := bs.boardDomainValidation.Board(ctx, b); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
-		return domain.InvalidDomainValidation.New(err, ves...)
+		return nil, domain.InvalidDomainValidation.New(err, ves...)
 	}
 
 	current := time.Now()
@@ -92,10 +92,10 @@ func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Bo
 
 	if err := bs.boardRepository.Create(ctx, b); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
-		return domain.ErrorInDatastore.New(err)
+		return nil, domain.ErrorInDatastore.New(err)
 	}
 
-	return nil
+	return nil, nil
 }
 
 func (bs *boardService) UploadThumbnail(ctx context.Context, data []byte) (string, error) {

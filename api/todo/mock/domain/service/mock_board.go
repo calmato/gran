@@ -65,11 +65,12 @@ func (mr *MockBoardServiceMockRecorder) Show(ctx, groupID, boardID interface{}) 
 }
 
 // Create mocks base method
-func (m *MockBoardService) Create(ctx context.Context, groupID string, b *domain.Board) error {
+func (m *MockBoardService) Create(ctx context.Context, groupID string, b *domain.Board) (*domain.Board, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, groupID, b)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(*domain.Board)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Create indicates an expected call of Create

@@ -166,7 +166,7 @@ func TestBoardService_Create(t *testing.T) {
 	// Start test
 	target := NewBoardService(brvm, brm, trm, fum)
 
-	err := target.Create(ctx, groupID, b)
+	_, err := target.Create(ctx, groupID, b)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
