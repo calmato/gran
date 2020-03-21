@@ -19,6 +19,9 @@ export const mutations = {
   addColumn(state, payload) {
     state.board.lists.push(payload)
   },
+  addTask(state, payload) {
+    state.board.lists[payload.index].tasks.push(payload.task)
+  },
   initBoard(state) {
     state.board = {
       id: '36de3d32-4d67-4959-9056-23b6763299db',
@@ -94,5 +97,16 @@ export const actions = {
       tasks: []
     }
     commit('addColumn', newColumn)
+  },
+  addNewTask({ commit }, formData) {
+    const newTask = {
+      index: formData.index,
+      task: {
+        id: Date.now(),
+        name: formData.value,
+        labels: []
+      }
+    }
+    commit('addTask', newTask)
   }
 }
