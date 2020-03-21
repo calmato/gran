@@ -1,6 +1,11 @@
 <template>
   <div class="ma-1">
-    <gran-kanban-card :name="column.name" :length="tasksLength" :color="column.color" @add="add">
+    <gran-kanban-card
+      :name="column.name"
+      :length="tasksLength"
+      :color="column.color"
+      @addTask="addTask"
+    >
       <draggable :value="value" group="task" @input="emitter">
         <div v-for="task in column.tasks" :key="task.id" class="pa-1 mb-1">
           <gran-task-card :task="task" />
@@ -63,8 +68,8 @@ export default Vue.extend({
     emitter(value) {
       this.$emit('input', this.listIndex, value)
     },
-    add(value) {
-      this.$emit('addTask', this.listIndec, value)
+    addTask(value) {
+      this.$emit('addTask', this.listIndex, value)
     }
   }
 })
