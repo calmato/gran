@@ -8,16 +8,18 @@
       :column="column"
       @input="updateTasks"
     />
-    <gran-add-column-form slot="footer" />
+    <gran-add-column-form slot="footer" @addColumn="addColumn" />
   </draggable>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
-import GranTaskColumn from '~/components/organisms/GranTaskColumn.vue'
 import GranAddColumnForm from '~/components/molecules/GranAddColumnForm.vue'
+import GranTaskColumn from '~/components/organisms/GranTaskColumn.vue'
+
+import { IBoardListForm } from '~/types/form'
 
 export default Vue.extend({
   components: {
@@ -26,7 +28,7 @@ export default Vue.extend({
     GranTaskColumn
   },
   computed: {
-    ...mapState('boards', ['board']),
+    ...mapGetters('boards', ['board']),
     lists: {
       get() {
         return this.board.lists
@@ -37,15 +39,19 @@ export default Vue.extend({
     }
   },
   methods: {
-    getComponentData() {
+    ...mapActions('boards', ['addNewColumn']),
+    getComponentData(): Object {
       return {
         props: {
           col: true
         }
       }
     },
-    updateTasks(listIndex, tasks) {
+    updateTasks(listIndex, tasks): void {
       this.$store.commit('boards/updateBoardTasks', { index: listIndex, value: tasks })
+    },
+    addColumn(formData: IBoardListForm): void {
+      this.addNewColumn(formData)
     }
   }
 })

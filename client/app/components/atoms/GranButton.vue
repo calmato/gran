@@ -6,6 +6,7 @@
     :outlined="outlined"
     :icon="icon"
     :text="text"
+    :disabled="disabled"
     @click="click"
   >
     <slot />
@@ -38,6 +39,10 @@ export default Vue.extend({
       default: false
     },
     text: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     }
