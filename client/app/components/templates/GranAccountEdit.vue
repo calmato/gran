@@ -12,13 +12,11 @@
           v-model="accountForm.name.value"
           :label="accountForm.name.label"
           :rules="accountFormValidate.name"
-          maxlength="10"
         />
         <gran-text-field
           v-model="accountForm.userName.value"
           :label="accountForm.userName.label"
           :rules="accountFormValidate.userName"
-          maxlength="10"
         />
         <gran-text-area v-model="accountForm.profile.value" :label="accountForm.profile.label" />
       </v-flex>

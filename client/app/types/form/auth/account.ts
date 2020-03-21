@@ -19,7 +19,7 @@ export const AccountForm: IAccountForm = {
     value: ''
   },
   userName: {
-    label: 'UserName',
+    label: 'Username',
     value: ''
   },
   profile: {
@@ -38,9 +38,11 @@ export const AccountForm: IAccountForm = {
 
 export const AccountFormValidate: IAccountFormValidate = {
   name: {
-    required: true
+    required: true,
+    max: '10'
   },
   userName: {
-    required: true
+    required: true,
+    max: '10'
   }
 }
