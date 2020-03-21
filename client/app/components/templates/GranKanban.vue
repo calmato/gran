@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
 import GranAddColumnForm from '~/components/molecules/GranAddColumnForm.vue'
 import GranTaskColumn from '~/components/organisms/GranTaskColumn.vue'
@@ -28,7 +28,7 @@ export default Vue.extend({
     GranTaskColumn
   },
   computed: {
-    ...mapState('boards', ['board']),
+    ...mapGetters('boards', ['board']),
     lists: {
       get() {
         return this.board.lists

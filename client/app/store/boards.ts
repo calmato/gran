@@ -2,6 +2,10 @@ export const state = () => ({
   board: {}
 })
 
+export const getters = {
+  board: (state) => state.board
+}
+
 export const mutations = {
   setBoard(state, board) {
     state.board = board

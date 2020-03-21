@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import GranIcon from '~/components/atoms/GranIcon.vue'
 
 export default Vue.extend({
@@ -25,7 +25,7 @@ export default Vue.extend({
     GranIcon
   },
   computed: {
-    ...mapState('boards', ['board'])
+    ...mapGetters('boards', ['board'])
   },
   methods: {
     back(): void {
