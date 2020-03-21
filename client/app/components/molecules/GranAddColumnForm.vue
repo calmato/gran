@@ -8,7 +8,7 @@
             :label="newBoardListForm.name.label"
             :rules="newBoardListFormValidate.name"
             autofocus
-            @keydown="onKeydownHandler"
+            @keydown="onKeydown"
           />
           <gran-color-picker
             v-model="newBoardListForm.color.value"
@@ -85,9 +85,9 @@ export default Vue.extend({
         this.newBoardListForm.color.value = ''
       }
     },
-    onKeydownHandler(keyEvent: KeyboardEvent): void {
-      if (keyEvent.keyCode === 13) this.doSubmit()
-      if (keyEvent.keyCode === 27) this.close()
+    onKeydown(keyEvent: KeyboardEvent): void {
+      if (keyEvent.keyCode === 13) this.doSubmit() // KeyCode: 13 => enter
+      if (keyEvent.keyCode === 27) this.close() // KeyCode: 27 => esc
     }
   }
 })
