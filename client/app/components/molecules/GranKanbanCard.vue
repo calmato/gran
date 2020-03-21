@@ -11,7 +11,7 @@
         Add Task
       </gran-button>
     </v-card-actions>
-    <div v-if="isOpen" class="ma-2">
+    <gran-card-text v-if="isOpen">
       <form @submit.prevent>
         <gran-text-field
           v-model="value"
@@ -20,8 +20,16 @@
           autofocus
           @keydown="onKeydown"
         />
+        <gran-button
+          color="light-blue darken-1"
+          :dark="!submitDisabled"
+          :disabled="submitDisabled"
+          @click="doSubmit"
+        >
+          Add
+        </gran-button>
       </form>
-    </div>
+    </gran-card-text>
   </gran-card>
 </template>
 
@@ -29,6 +37,7 @@
 import Vue from 'vue'
 import GranCard from '~/components/atoms/GranCard.vue'
 import GranCardTitle from '~/components/atoms/GranCardTitle.vue'
+import GranCardText from '~/components/atoms/GranCardText.vue'
 import GranIcon from '~/components/atoms/GranIcon.vue'
 import GranButton from '~/components/atoms/GranButton.vue'
 import GranTextField from '~/components/atoms/GranTextField.vue'
@@ -39,6 +48,7 @@ export default Vue.extend({
   components: {
     GranCard,
     GranCardTitle,
+    GranCardText,
     GranIcon,
     GranButton,
     GranTextField
@@ -66,6 +76,11 @@ export default Vue.extend({
       newTaskFormValidate: TaskFormValidate
     }
   },
+  computed: {
+    submitDisabled(): Boolean {
+      return this.value.length === 0
+    }
+  },
   methods: {
     open(): void {
       this.isOpen = true
@@ -75,13 +90,15 @@ export default Vue.extend({
       this.isOpen = false
     },
     doSubmit(): void {
-      this.$emit('add', this.value)
-      this.isOpen = false
-      this.value = ''
+      if (!this.submitDisabled) {
+        this.isOpen = false
+        this.$emit('addTask', this.value)
+        this.value = ''
+      }
     },
     onKeydown(keyEvent: KeyboardEvent): void {
-      if (keyEvent.keyCode === 13) this.doSubmit()
-      if (keyEvent.keyCode === 27) this.close()
+      if (keyEvent.keyCode === 13) this.doSubmit() // KeyCode: 13 => enter
+      if (keyEvent.keyCode === 27) this.close() // KeyCode: 27 => esc
     }
   }
 })
