@@ -130,7 +130,6 @@ func TestBoardApplication_Create(t *testing.T) {
 
 	req := &request.CreateBoard{
 		Name:            "テストグループ",
-		GroupID:         groupID,
 		IsClosed:        true,
 		Thumbnail:       "",
 		BackgroundColor: "",
@@ -161,7 +160,7 @@ func TestBoardApplication_Create(t *testing.T) {
 	// Start test
 	target := NewBoardApplication(brvm, bsm, usm)
 
-	err := target.Create(ctx, req)
+	err := target.Create(ctx, groupID, req)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}

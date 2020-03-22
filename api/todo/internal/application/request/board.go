@@ -3,7 +3,6 @@ package request
 // CreateBoard - ボード作成APIのリクエスト
 type CreateBoard struct {
 	Name            string   `json:"name" label:"ボード名" validate:"required,max=64"`
-	GroupID         string   `json:"groupId" label:"グループID" validate:"required"`
 	IsClosed        bool     `json:"isClosed" label:"非公開"`
 	BackgroundColor string   `json:"backgroundColor" label:"背景色"`
 	Thumbnail       string   `json:"thumbnail" label:"サムネイル"`

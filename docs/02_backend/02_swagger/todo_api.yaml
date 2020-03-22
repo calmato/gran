@@ -38,6 +38,13 @@ paths:
       summary: ボード作成
       security:
         - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
       requestBody:
         $ref: '#/components/requestBodies/CreateBoard'
       responses:
@@ -122,9 +129,6 @@ components:
               name:
                 type: string
                 description: ボード名
-              groupId:
-                type: string
-                description: グループID
               isClosed:
                 type: boolean
                 description: ボードを非公開
