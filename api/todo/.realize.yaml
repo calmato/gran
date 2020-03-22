@@ -22,5 +22,6 @@ schema:
         - .envrc
         - .envrc.sample
         - .gitignore
+        - mock
         - go.mod
         - go.sum
