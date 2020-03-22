@@ -19,6 +19,7 @@ type BoardService interface {
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, b *domain.Board) (*domain.Board, error)
 	UploadThumbnail(ctx context.Context, data []byte) (string, error)
+	CreateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) (*domain.BoardList, error)
 }
 
 type boardService struct {
@@ -106,4 +107,27 @@ func (bs *boardService) UploadThumbnail(ctx context.Context, data []byte) (strin
 	}
 
 	return thumbnailURL, nil
+}
+
+func (bs *boardService) CreateBoardList(
+	ctx context.Context, groupID string, boardID string, bl *domain.BoardList,
+) (*domain.BoardList, error) {
+	if ves := bs.boardDomainValidation.BoardList(ctx, bl); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+		return nil, domain.InvalidDomainValidation.New(err, ves...)
+	}
+
+	current := time.Now()
+	bl.ID = uuid.New().String()
+	bl.BoardID = boardID
+	bl.TaskIDs = []string{}
+	bl.CreatedAt = current
+	bl.UpdatedAt = current
+
+	if err := bs.boardRepository.CreateBoardList(ctx, groupID, boardID, bl); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	return nil, nil
 }
