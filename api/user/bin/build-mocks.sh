@@ -24,6 +24,7 @@ main() {
 main 'domain/repository'
 main 'domain/service'
 main 'domain/validation'
+main 'domain/uploader'
 
 # --- Application ---
 main 'application/validation'
