@@ -41,11 +41,12 @@ func TestTaskApplication_Create(t *testing.T) {
 	task := &domain.Task{
 		Name:            "タスク",
 		Description:     "説明",
-		BoardListID:     "task-create-boardlist-id",
 		Labels:          []string{},
 		AttachmentURLs:  []string{},
 		AssignedUserIDs: []string{},
 		DeadlinedAt:     current,
+		BoardID:         boardID,
+		BoardListID:     "task-create-boardlist-id",
 	}
 
 	// Defined mocks

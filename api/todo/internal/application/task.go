@@ -73,11 +73,12 @@ func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID s
 	t := &domain.Task{
 		Name:            req.Name,
 		Description:     req.Description,
-		BoardListID:     req.BoardListID,
 		Labels:          req.Labels,
-		AttachmentURLs:  attachmentURLs,
 		AssignedUserIDs: req.AssignedUserIDs,
 		DeadlinedAt:     req.DeadlinedAt,
+		AttachmentURLs:  attachmentURLs,
+		BoardID:         boardID,
+		BoardListID:     req.BoardListID,
 	}
 
 	if _, err := ta.taskService.Create(ctx, boardID, t); err != nil {

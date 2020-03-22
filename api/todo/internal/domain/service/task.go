@@ -37,8 +37,8 @@ func (ts *taskService) Create(ctx context.Context, boardID string, t *domain.Tas
 	}
 
 	current := time.Now()
+
 	t.ID = uuid.New().String()
-	t.BoardID = boardID
 	t.CreatedAt = current
 	t.UpdatedAt = current
 

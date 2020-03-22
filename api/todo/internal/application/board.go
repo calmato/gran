@@ -117,6 +117,7 @@ func (ba *boardApplication) Create(ctx context.Context, groupID string, req *req
 		ThumbnailURL:    thumbnailURL,
 		BackgroundColor: req.BackgroundColor,
 		Labels:          req.Labels,
+		GroupID:         groupID,
 	}
 
 	if _, err := ba.boardService.Create(ctx, groupID, b); err != nil {
@@ -147,8 +148,10 @@ func (ba *boardApplication) CreateBoardList(
 	}
 
 	bl := &domain.BoardList{
-		Name:  req.Name,
-		Color: req.Color,
+		Name:    req.Name,
+		Color:   req.Color,
+		BoardID: boardID,
+		TaskIDs: []string{},
 	}
 
 	if _, err := ba.boardService.CreateBoardList(ctx, groupID, boardID, bl); err != nil {
