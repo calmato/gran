@@ -48,3 +48,17 @@ func (mr *MockTaskRepositoryMockRecorder) IndexByBoardListID(ctx, boardListID in
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IndexByBoardListID", reflect.TypeOf((*MockTaskRepository)(nil).IndexByBoardListID), ctx, boardListID)
 }
+
+// Create mocks base method
+func (m *MockTaskRepository) Create(ctx context.Context, t *domain.Task) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Create", ctx, t)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Create indicates an expected call of Create
+func (mr *MockTaskRepositoryMockRecorder) Create(ctx, t interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockTaskRepository)(nil).Create), ctx, t)
+}
