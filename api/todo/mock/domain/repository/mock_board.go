@@ -92,3 +92,17 @@ func (mr *MockBoardRepositoryMockRecorder) IndexBoardList(ctx, groupID, boardID 
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IndexBoardList", reflect.TypeOf((*MockBoardRepository)(nil).IndexBoardList), ctx, groupID, boardID)
 }
+
+// CreateBoardList mocks base method
+func (m *MockBoardRepository) CreateBoardList(ctx context.Context, groupID, boardID string, bl *domain.BoardList) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateBoardList", ctx, groupID, boardID, bl)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateBoardList indicates an expected call of CreateBoardList
+func (mr *MockBoardRepositoryMockRecorder) CreateBoardList(ctx, groupID, boardID, bl interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBoardList", reflect.TypeOf((*MockBoardRepository)(nil).CreateBoardList), ctx, groupID, boardID, bl)
+}

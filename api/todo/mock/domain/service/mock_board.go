@@ -93,3 +93,18 @@ func (mr *MockBoardServiceMockRecorder) UploadThumbnail(ctx, data interface{}) *
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadThumbnail", reflect.TypeOf((*MockBoardService)(nil).UploadThumbnail), ctx, data)
 }
+
+// CreateBoardList mocks base method
+func (m *MockBoardService) CreateBoardList(ctx context.Context, groupID, boardID string, bl *domain.BoardList) (*domain.BoardList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateBoardList", ctx, groupID, boardID, bl)
+	ret0, _ := ret[0].(*domain.BoardList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateBoardList indicates an expected call of CreateBoardList
+func (mr *MockBoardServiceMockRecorder) CreateBoardList(ctx, groupID, boardID, bl interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBoardList", reflect.TypeOf((*MockBoardService)(nil).CreateBoardList), ctx, groupID, boardID, bl)
+}

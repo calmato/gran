@@ -12,4 +12,5 @@ type BoardRepository interface {
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, b *domain.Board) error
 	IndexBoardList(ctx context.Context, groupID string, boardID string) ([]*domain.BoardList, error)
+	CreateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) error
 }

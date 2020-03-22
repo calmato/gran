@@ -19,3 +19,9 @@ func (bdv *boardDomainValidation) Board(ctx context.Context, b *domain.Board) []
 
 	return ves
 }
+
+func (bdv *boardDomainValidation) BoardList(ctx context.Context, b *domain.BoardList) []*domain.ValidationError {
+	ves := make([]*domain.ValidationError, 0)
+
+	return ves
+}
