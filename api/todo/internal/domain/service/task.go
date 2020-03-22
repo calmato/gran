@@ -14,7 +14,7 @@ import (
 
 // TaskService - TaskServiceインターフェース
 type TaskService interface {
-	Create(ctx context.Context, boardID string, boardListID string, t *domain.Task) (*domain.Task, error)
+	Create(ctx context.Context, boardID string, t *domain.Task) (*domain.Task, error)
 }
 
 type taskService struct {
@@ -30,7 +30,7 @@ func NewTaskService(tdv validation.TaskDomainValidation, tr repository.TaskRepos
 	}
 }
 
-func (ts *taskService) Create(ctx context.Context, boardID string, boardListID string, t *domain.Task) (*domain.Task, error) {
+func (ts *taskService) Create(ctx context.Context, boardID string, t *domain.Task) (*domain.Task, error) {
 	if ves := ts.taskDomainValidation.Task(ctx, t); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
 		return nil, domain.InvalidDomainValidation.New(err, ves...)
@@ -39,7 +39,6 @@ func (ts *taskService) Create(ctx context.Context, boardID string, boardListID s
 	current := time.Now()
 	t.ID = uuid.New().String()
 	t.BoardID = boardID
-	t.BoardListID = boardListID
 	t.CreatedAt = current
 	t.UpdatedAt = current
 

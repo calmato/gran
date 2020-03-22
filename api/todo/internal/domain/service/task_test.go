@@ -22,7 +22,6 @@ func TestTaskService_Create(t *testing.T) {
 	ves := make([]*domain.ValidationError, 0)
 	current := time.Now()
 	boardID := "task-create-board-id"
-	boardListID := "task-create-boardlist-id"
 
 	task := &domain.Task{
 		Name:            "タスク",
@@ -43,7 +42,7 @@ func TestTaskService_Create(t *testing.T) {
 	// Start test
 	target := NewTaskService(tdvm, trm)
 
-	_, err := target.Create(ctx, boardID, boardListID, task)
+	_, err := target.Create(ctx, boardID, task)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
