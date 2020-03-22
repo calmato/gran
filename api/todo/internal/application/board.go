@@ -18,6 +18,7 @@ type BoardApplication interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, req *request.CreateBoard) error
+	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) error
 }
 
 type boardApplication struct {
@@ -119,6 +120,38 @@ func (ba *boardApplication) Create(ctx context.Context, groupID string, req *req
 	}
 
 	if _, err := ba.boardService.Create(ctx, groupID, b); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ba *boardApplication) CreateBoardList(
+	ctx context.Context, groupID string, boardID string, req *request.CreateBoardList,
+) error {
+	u, err := ba.userService.Authentication(ctx)
+	if err != nil {
+		return err
+	}
+
+	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
+		err := xerrors.New("Unable to create Board in the Group")
+		return domain.Forbidden.New(err)
+	}
+
+	// TODO: ボードが存在するかの検証
+
+	if ves := ba.boardRequestValidation.CreateBoardList(req); len(ves) > 0 {
+		err := xerrors.New("Failed to Application/RequestValidation")
+		return domain.InvalidRequestValidation.New(err, ves...)
+	}
+
+	bl := &domain.BoardList{
+		Name:  req.Name,
+		Color: req.Color,
+	}
+
+	if _, err := ba.boardService.CreateBoardList(ctx, groupID, boardID, bl); err != nil {
 		return err
 	}
 

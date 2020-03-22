@@ -8,3 +8,9 @@ type CreateBoard struct {
 	Thumbnail       string   `json:"thumbnail" label:"サムネイル"`
 	Labels          []string `json:"labels" label:"ラベル一覧" validate:"unique,dive,max=16"`
 }
+
+// CreateBoardList - ボードリスト作成APIのリクエスト
+type CreateBoardList struct {
+	Name  string `json:"name" label:"ボードリスト名" validate:"required,max=64"`
+	Color string `json:"color" label:"ボードリストの色"`
+}

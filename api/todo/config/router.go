@@ -29,11 +29,11 @@ func Router(reg *registry.Registry) *gin.Engine {
 			groups.GET("/boards/:boardID", reg.V1Board.Show)
 			groups.POST("/boards", reg.V1Board.Create)
 
-			// boards := groups.Group("/boards/:boardID")
-			// {
-			// 	// boards.POST("/lists", reg.V1Board.CreateList)
-			// 	// boards.POST("/tasks", reg.V1Task.Create)
-			// }
+			boards := groups.Group("/boards/:boardID")
+			{
+				boards.POST("/lists", reg.V1Board.CreateBoardList)
+				// boards.POST("/tasks", reg.V1Task.Create)
+			}
 		}
 	}
 
