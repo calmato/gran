@@ -9,7 +9,7 @@ import (
 
 type boardDomainValidation struct{}
 
-// NewBoardDomainValidation - GroupDomainValidationの生成
+// NewBoardDomainValidation - BoardDomainValidationの生成
 func NewBoardDomainValidation() dv.BoardDomainValidation {
 	return &boardDomainValidation{}
 }
