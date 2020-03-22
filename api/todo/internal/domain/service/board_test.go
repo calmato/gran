@@ -39,7 +39,7 @@ func TestBoardService_Index(t *testing.T) {
 	bs := []*domain.Board{b}
 
 	// Defined mocks
-	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+	bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
 
 	brm := mock_repository.NewMockBoardRepository(ctrl)
 	brm.EXPECT().Index(ctx, groupID).Return(bs, nil)
@@ -49,7 +49,7 @@ func TestBoardService_Index(t *testing.T) {
 	fum := mock_uploader.NewMockFileUploader(ctrl)
 
 	// Start test
-	target := NewBoardService(brvm, brm, trm, fum)
+	target := NewBoardService(bdvm, brm, trm, fum)
 
 	want := bs
 
@@ -100,7 +100,7 @@ func TestBoardService_Show(t *testing.T) {
 	bls := []*domain.BoardList{bl}
 
 	// Defined mocks
-	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+	bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
 
 	brm := mock_repository.NewMockBoardRepository(ctrl)
 	brm.EXPECT().Show(ctx, groupID, boardID).Return(b, nil)
@@ -112,7 +112,7 @@ func TestBoardService_Show(t *testing.T) {
 	fum := mock_uploader.NewMockFileUploader(ctrl)
 
 	// Start test
-	target := NewBoardService(brvm, brm, trm, fum)
+	target := NewBoardService(bdvm, brm, trm, fum)
 
 	want := b
 	want.Lists = bls
@@ -148,8 +148,8 @@ func TestBoardService_Create(t *testing.T) {
 	}
 
 	// Defined mocks
-	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
-	brvm.EXPECT().Board(ctx, b).Return(ves)
+	bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+	bdvm.EXPECT().Board(ctx, b).Return(ves)
 
 	brm := mock_repository.NewMockBoardRepository(ctrl)
 	brm.EXPECT().Create(ctx, b).Return(nil)
@@ -159,7 +159,7 @@ func TestBoardService_Create(t *testing.T) {
 	fum := mock_uploader.NewMockFileUploader(ctrl)
 
 	// Start test
-	target := NewBoardService(brvm, brm, trm, fum)
+	target := NewBoardService(bdvm, brm, trm, fum)
 
 	_, err := target.Create(ctx, groupID, b)
 	if err != nil {
@@ -178,7 +178,7 @@ func TestBoardService_UploadThumbnail(t *testing.T) {
 	thumbnailURL := "http://localhost:8080"
 
 	// Defined mocks
-	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+	bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
 
 	brm := mock_repository.NewMockBoardRepository(ctrl)
 
@@ -188,7 +188,7 @@ func TestBoardService_UploadThumbnail(t *testing.T) {
 	fum.EXPECT().UploadBoardThumbnail(ctx, []byte{}).Return(thumbnailURL, nil)
 
 	// Start test
-	target := NewBoardService(brvm, brm, trm, fum)
+	target := NewBoardService(bdvm, brm, trm, fum)
 
 	want := thumbnailURL
 
@@ -220,8 +220,8 @@ func TestBoardService_CreateBoardList(t *testing.T) {
 	}
 
 	// Defined mocks
-	brvm := mock_validation.NewMockBoardDomainValidation(ctrl)
-	brvm.EXPECT().BoardList(ctx, bl).Return(ves)
+	bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+	bdvm.EXPECT().BoardList(ctx, bl).Return(ves)
 
 	brm := mock_repository.NewMockBoardRepository(ctrl)
 	brm.EXPECT().CreateBoardList(ctx, groupID, boardID, bl).Return(nil)
@@ -231,7 +231,7 @@ func TestBoardService_CreateBoardList(t *testing.T) {
 	fum := mock_uploader.NewMockFileUploader(ctrl)
 
 	// Start test
-	target := NewBoardService(brvm, brm, trm, fum)
+	target := NewBoardService(bdvm, brm, trm, fum)
 
 	_, err := target.CreateBoardList(ctx, groupID, boardID, bl)
 	if err != nil {

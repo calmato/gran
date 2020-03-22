@@ -336,8 +336,37 @@ components:
               name:
                 type: string
                 description: リスト名
+              description:
+                type: string
+                description: 説明
+              listId:
+                type: string
+                format: uuid
+                description: ボードリストID
+              labels:
+                type: array
+                description: ラベル一覧
+                items:
+                  type: string
+              attachments:
+                type: array
+                description: 添付ファイル一覧
+                items:
+                  type: string
+                  format: byte
+              assignedUserIDs:
+                type: array
+                description: 参加ユーザー一覧
+                items:
+                  type: string
+                  format: uuid
+              deadlinedAt:
+                type: string
+                format: date-time
+                description: 期限
             required:
               - name
+              - boardListId
 
   responses:
     BadRequest:

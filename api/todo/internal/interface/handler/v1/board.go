@@ -3,13 +3,14 @@ package v1
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/16francs/gran/api/todo/internal/application"
 	"github.com/16francs/gran/api/todo/internal/application/request"
 	"github.com/16francs/gran/api/todo/internal/application/response"
 	"github.com/16francs/gran/api/todo/internal/domain"
 	"github.com/16francs/gran/api/todo/internal/interface/handler"
 	"github.com/16francs/gran/api/todo/middleware"
-	"github.com/gin-gonic/gin"
 )
 
 // APIV1BoardHandler - Boardハンドラのインターフェース

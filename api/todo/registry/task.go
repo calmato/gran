@@ -5,7 +5,6 @@ import (
 	rv "github.com/16francs/gran/api/todo/internal/application/validation"
 	"github.com/16francs/gran/api/todo/internal/domain/service"
 	"github.com/16francs/gran/api/todo/internal/infrastructure/persistence"
-	"github.com/16francs/gran/api/todo/internal/infrastructure/storage"
 	dv "github.com/16francs/gran/api/todo/internal/infrastructure/validation"
 	v1 "github.com/16francs/gran/api/todo/internal/interface/handler/v1"
 	"github.com/16francs/gran/api/todo/lib/firebase/authentication"
@@ -13,21 +12,19 @@ import (
 	gcs "github.com/16francs/gran/api/todo/lib/firebase/storage"
 )
 
-// V1BoardInjection - v1 Board関連の依存関係を記載
-func V1BoardInjection(fa *authentication.Auth, fs *firestore.Firestore, cs *gcs.Storage) v1.APIV1BoardHandler {
-	fu := storage.NewFileUploader(cs)
+// V1TaskInjection - v1 Task関連の依存関係を記載
+func V1TaskInjection(fa *authentication.Auth, fs *firestore.Firestore, _ *gcs.Storage) v1.APIV1TaskHandler {
+	// fu := storage.NewFileUploader(cs)
 
 	up := persistence.NewUserPersistence(fa, fs)
 	us := service.NewUserService(up)
 
 	tp := persistence.NewTaskPersistence(fs)
+	tdv := dv.NewTaskDomainValidation()
+	ts := service.NewTaskService(tdv, tp)
+	trv := rv.NewTaskRequestValidation()
+	ta := application.NewTaskApplication(trv, ts, us)
+	th := v1.NewAPIV1TaskHandler(ta)
 
-	bp := persistence.NewBoardPersistence(fs)
-	bdv := dv.NewBoardDomainValidation()
-	bs := service.NewBoardService(bdv, bp, tp, fu)
-	brv := rv.NewBoardRequestValidation()
-	ba := application.NewBoardApplication(brv, bs, us)
-	bh := v1.NewAPIV1BoardHandler(ba)
-
-	return bh
+	return th
 }

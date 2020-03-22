@@ -32,7 +32,7 @@ func Router(reg *registry.Registry) *gin.Engine {
 			boards := groups.Group("/boards/:boardID")
 			{
 				boards.POST("/lists", reg.V1Board.CreateBoardList)
-				// boards.POST("/tasks", reg.V1Task.Create)
+				boards.POST("/tasks", reg.V1Task.Create)
 			}
 		}
 	}

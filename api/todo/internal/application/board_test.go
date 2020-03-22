@@ -144,6 +144,7 @@ func TestBoardApplication_Create(t *testing.T) {
 		ThumbnailURL:    "",
 		BackgroundColor: "",
 		Labels:          make([]string, 0),
+		GroupID:         groupID,
 	}
 
 	// Defined mocks
@@ -186,8 +187,10 @@ func TestBoardApplication_CreateBoardList(t *testing.T) {
 	u := &domain.User{}
 
 	bl := &domain.BoardList{
-		Name:  "テストボードリスト",
-		Color: "",
+		Name:    "テストボードリスト",
+		Color:   "",
+		BoardID: boardID,
+		TaskIDs: []string{},
 	}
 
 	// Defined mocks

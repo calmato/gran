@@ -86,8 +86,8 @@ func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Bo
 	}
 
 	current := time.Now()
+
 	b.ID = uuid.New().String()
-	b.GroupID = groupID
 	b.CreatedAt = current
 	b.UpdatedAt = current
 
@@ -118,9 +118,8 @@ func (bs *boardService) CreateBoardList(
 	}
 
 	current := time.Now()
+
 	bl.ID = uuid.New().String()
-	bl.BoardID = boardID
-	bl.TaskIDs = []string{}
 	bl.CreatedAt = current
 	bl.UpdatedAt = current
 
