@@ -4,13 +4,13 @@ import { IUserStore, IUser } from '~/types/store/auth'
 export const state = (): IUserStore => ({
   emailVerified: false,
   token: '',
-  user: {} as IUser
+  user: {} as IUser,
 })
 
 export const getters = {
   emailVerified: (state: IUserStore) => state.emailVerified,
   token: (state: IUserStore) => state.token,
-  user: (state: IUserStore) => state.user
+  user: (state: IUserStore) => state.user,
 }
 
 export const mutations = {
@@ -24,7 +24,7 @@ export const mutations = {
 
   setUser(state: IUserStore, user: IUser) {
     state.user = user
-  }
+  },
 }
 
 export const actions = {
@@ -36,7 +36,7 @@ export const actions = {
             uid: res.uid,
             email: res.email,
             creationTime: res.metadata.creationTime,
-            lastSignInTime: res.metadata.lastSignInTime
+            lastSignInTime: res.metadata.lastSignInTime,
           }
 
           dispatch('setIdToken')
@@ -83,7 +83,7 @@ export const actions = {
         .post('/v1/users/', {
           email: form.email.value,
           password: form.password.value,
-          passwordConfirmation: form.passwordConfirmation.value
+          passwordConfirmation: form.passwordConfirmation.value,
         })
         .then(() => {
           resolve()
@@ -92,5 +92,5 @@ export const actions = {
           reject(new Error(err))
         })
     })
-  }
+  },
 }

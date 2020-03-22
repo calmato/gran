@@ -17,15 +17,15 @@ export default Vue.extend({
         return [
           {
             href: '/signup',
-            title: '新規登録する'
+            title: '新規登録する',
           },
           {
             href: '/forget',
-            title: 'パスワードを忘れた'
-          }
+            title: 'パスワードを忘れた',
+          },
         ]
-      }
-    }
-  }
+      },
+    },
+  },
 })
 </script>

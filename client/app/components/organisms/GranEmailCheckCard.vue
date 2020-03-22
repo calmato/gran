@@ -29,21 +29,21 @@ export default Vue.extend({
     GranCard,
     GranCardText,
     GranButton,
-    GranIcon
+    GranIcon,
   },
   props: {
     email: {
       type: String,
-      default: 'hogehoge@email.com'
-    }
+      default: 'hogehoge@email.com',
+    },
   },
   data: () => ({
-    xLarge: true
+    xLarge: true,
   }),
   methods: {
     click() {
       this.$emit('click')
-    }
-  }
+    },
+  },
 })
 </script>

@@ -1,4 +1,4 @@
-export default function({ $axios, store, redirect }) {
+export default function ({ $axios, store, redirect }) {
   $axios.onRequest((config: any) => {
     // API の ホスト名
     config.baseURL = process.env.apiURL

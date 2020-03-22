@@ -9,29 +9,29 @@ export default Vue.extend({
   props: {
     name: {
       type: String,
-      default: 'email'
+      default: 'email',
     },
     left: {
       type: Boolean,
-      default: false
+      default: false,
     },
     right: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dark: {
       type: Boolean,
-      default: false
+      default: false,
     },
     xLarge: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     iconName() {
       return 'mdi-' + this.name
-    }
-  }
+    },
+  },
 })
 </script>

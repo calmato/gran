@@ -26,19 +26,19 @@ import { ILoginForm, LoginFormValidate } from '~/types/form'
 export default Vue.extend({
   components: {
     GranTextField,
-    GranButton
+    GranButton,
   },
   data: () => ({
     loginForm: {
       email: '',
-      password: ''
+      password: '',
     } as ILoginForm,
-    loginFormValidate: LoginFormValidate
+    loginFormValidate: LoginFormValidate,
   }),
   methods: {
     click() {
       this.$emit('login', this.loginForm)
-    }
-  }
+    },
+  },
 })
 </script>

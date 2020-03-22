@@ -6,5 +6,5 @@ export default {
   state: AuthStore.state,
   getters: AuthStore.getters,
   mutations: AuthStore.mutations,
-  actions: AuthStore.actions
+  actions: AuthStore.actions,
 }

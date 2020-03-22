@@ -14,17 +14,17 @@ import { ISignUpForm } from '~/types/form'
 export default Vue.extend({
   components: {
     GranSignUpCard,
-    GranErrorAlert
+    GranErrorAlert,
   },
   props: {
     isError: {
       type: Boolean,
-      default: false
+      default: false,
     },
     message: {
       type: String,
-      default: 'APIエラー'
-    }
+      default: 'APIエラー',
+    },
   },
   methods: {
     signUp(signUpForm: ISignUpForm) {
@@ -32,7 +32,7 @@ export default Vue.extend({
     },
     close() {
       this.$emit('close')
-    }
-  }
+    },
+  },
 })
 </script>

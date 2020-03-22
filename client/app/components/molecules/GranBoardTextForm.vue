@@ -21,8 +21,8 @@ export default Vue.extend({
     GranFormGroup,
     GranSelect,
     GranTextField,
-    GranColorPicker
+    GranColorPicker,
   },
-  props: {}
+  props: {},
 })
 </script>

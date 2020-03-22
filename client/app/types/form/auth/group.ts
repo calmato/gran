@@ -13,19 +13,19 @@ interface IGroupFormValidate {
 export const GroupNewForm: IGroupForm = {
   name: {
     label: 'グループ名',
-    value: ''
+    value: '',
   },
   description: {
     label: 'グループの説明',
-    value: ''
-  }
+    value: '',
+  },
 }
 
 export const GroupNewFormValidate: IGroupFormValidate = {
   name: {
-    required: true
+    required: true,
   },
   description: {
-    required: true
-  }
+    required: true,
+  },
 }

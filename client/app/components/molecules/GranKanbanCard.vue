@@ -26,32 +26,32 @@ export default Vue.extend({
     GranCard,
     GranCardTitle,
     GranIcon,
-    GranButton
+    GranButton,
   },
   props: {
     name: {
       type: String,
-      default: 'ToDo'
+      default: 'ToDo',
     },
     color: {
       type: String,
-      default: 'green'
+      default: 'green',
     },
     length: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data: () => {
     return {
-      width: 310
+      width: 310,
     }
   },
   methods: {
     add(): void {
       this.$emit('add')
-    }
-  }
+    },
+  },
 })
 </script>
 

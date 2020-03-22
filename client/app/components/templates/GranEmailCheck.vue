@@ -8,18 +8,18 @@ import GranEmailCheckCard from '~/components/organisms/GranEmailCheckCard.vue'
 
 export default Vue.extend({
   components: {
-    GranEmailCheckCard
+    GranEmailCheckCard,
   },
   props: {
     email: {
       type: String,
-      default: 'hogehoge@email.com'
-    }
+      default: 'hogehoge@email.com',
+    },
   },
   methods: {
     click() {
       this.$emit('click')
-    }
-  }
+    },
+  },
 })
 </script>

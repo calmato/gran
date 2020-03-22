@@ -12,15 +12,15 @@ import GranTabItem from '~/components/atoms/GranTabItem.vue'
 export default Vue.extend({
   components: {
     GranTab,
-    GranTabItem
+    GranTabItem,
   },
   props: {
     groups: {
       type: Array,
       default: (): Array<string> => {
         return ['グループ', 'ボード']
-      }
-    }
-  }
+      },
+    },
+  },
 })
 </script>

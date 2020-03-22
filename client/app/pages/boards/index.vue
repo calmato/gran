@@ -10,7 +10,7 @@ export default Vue.extend({
   layout: 'home',
 
   components: {
-    GranBoard
-  }
+    GranBoard,
+  },
 })
 </script>

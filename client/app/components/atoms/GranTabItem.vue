@@ -12,8 +12,8 @@ export default Vue.extend({
   props: {
     name: {
       type: String,
-      default: 'default'
-    }
-  }
+      default: 'default',
+    },
+  },
 })
 </script>

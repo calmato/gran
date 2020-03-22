@@ -10,13 +10,13 @@ import GranGroupNewForm from '~/components/molecules/GranGroupNewForm.vue'
 
 export default Vue.extend({
   components: {
-    GranGroupNewForm
+    GranGroupNewForm,
   },
 
   methods: {
     apply(groupNewForm) {
       this.$emit('apply', groupNewForm)
-    }
-  }
+    },
+  },
 })
 </script>

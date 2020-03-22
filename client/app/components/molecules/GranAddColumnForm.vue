@@ -55,20 +55,20 @@ export default Vue.extend({
     GranTextField,
     GranColorPicker,
     GranIcon,
-    GranButton
+    GranButton,
   },
   data: () => {
     return {
       width: 310,
       isOpen: false,
       newBoardListForm: BoardListForm,
-      newBoardListFormValidate: BoardListFormValidate
+      newBoardListFormValidate: BoardListFormValidate,
     }
   },
   computed: {
     submitDisabled(): Boolean {
       return this.newBoardListForm.name.value.length === 0
-    }
+    },
   },
   methods: {
     open(): void {
@@ -88,8 +88,8 @@ export default Vue.extend({
     onKeydown(keyEvent: KeyboardEvent): void {
       if (keyEvent.keyCode === 13) this.doSubmit() // KeyCode: 13 => enter
       if (keyEvent.keyCode === 27) this.close() // KeyCode: 27 => esc
-    }
-  }
+    },
+  },
 })
 </script>
 
