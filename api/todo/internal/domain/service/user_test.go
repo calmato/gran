@@ -34,11 +34,11 @@ func TestUserService_Authentication(t *testing.T) {
 	}
 
 	// Defined mocks
-	brm := mock_repository.NewMockUserRepository(ctrl)
-	brm.EXPECT().Authentication(ctx).Return(u, nil)
+	urm := mock_repository.NewMockUserRepository(ctrl)
+	urm.EXPECT().Authentication(ctx).Return(u, nil)
 
 	// Start test
-	target := NewUserService(brm)
+	target := NewUserService(urm)
 
 	want := u
 
@@ -75,10 +75,10 @@ func TestUserService_IsContainInGroupIDs(t *testing.T) {
 	}
 
 	// Defined mocks
-	brm := mock_repository.NewMockUserRepository(ctrl)
+	urm := mock_repository.NewMockUserRepository(ctrl)
 
 	// Start test
-	target := NewUserService(brm)
+	target := NewUserService(urm)
 
 	got := target.IsContainInGroupIDs(ctx, groupID, u)
 	if !got {

@@ -9,15 +9,16 @@ import (
 	"github.com/16francs/gran/api/group/internal/domain"
 )
 
-var current = time.Now()
-
 func TestGroupDomainValidation_Group(t *testing.T) {
-	target := NewGroupDomainValidation()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-	want := []*domain.ValidationError{}
+	// Defined variable
+	current := time.Now()
 
+	// Defined variable
 	g := &domain.Group{
-		ID:          "JUA1ouY12ickxIupMVdVl3ieM7s2",
+		ID:          "group-id",
 		Name:        "テストグループ",
 		Description: "グループの説明",
 		UserIDs:     make([]string, 0),
@@ -25,11 +26,12 @@ func TestGroupDomainValidation_Group(t *testing.T) {
 		UpdatedAt:   current,
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	// Start test
+	target := NewGroupDomainValidation()
+
+	want := []*domain.ValidationError{}
 
 	got := target.Group(ctx, g)
-
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("want %#v, but %#v", want, got)
 	}
