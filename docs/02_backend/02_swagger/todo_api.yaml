@@ -12,26 +12,7 @@ servers:
     description: 検証環境
 
 paths:
-  /boards:
-    post:
-      summary: ボード作成
-      security:
-        - BearerAuth: []
-      requestBody:
-        $ref: '#/components/requestBodies/CreateBoard'
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/Unkown'
-
-  /{groupId}/boards:
+  /groups/{groupId}/boards:
     get:
       summary: ボード一覧
       security:
@@ -53,9 +34,27 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
-  /{groupId}/boards/{boardId}:
+    post:
+      summary: ボード作成
+      security:
+        - BearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateBoard'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/boards/{boardId}:
     get:
-      summary: (WIP)ボード詳細
+      summary: ボード詳細
       security:
         - BearerAuth: []
       parameters:
@@ -126,7 +125,7 @@ components:
               groupId:
                 type: string
                 description: グループID
-              closed:
+              isClosed:
                 type: boolean
                 description: ボードを非公開
               thumbnail:
@@ -196,7 +195,7 @@ components:
                     name:
                       type: string
                       description: ボード名
-                    closed:
+                    isClosed:
                       type: string
                       description: 非公開設定
                     ThumbnailUrl:
@@ -234,7 +233,7 @@ components:
               name:
                 type: string
                 description: ボード名
-              closed:
+              isClosed:
                 type: string
                 description: 非公開設定
               ThumbnailUrl:
