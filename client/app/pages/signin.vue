@@ -10,11 +10,11 @@ import { ILoginForm } from '~/types/form'
 
 export default Vue.extend({
   components: {
-    GranLogin
+    GranLogin,
   },
   layout: 'auth',
   data: () => ({
-    isError: false
+    isError: false,
   }),
   methods: {
     ...mapActions('auth', ['loginWithEmailAndPassword']),
@@ -29,7 +29,7 @@ export default Vue.extend({
     },
     close() {
       this.isError = false
-    }
-  }
+    },
+  },
 })
 </script>

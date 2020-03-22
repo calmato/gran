@@ -51,16 +51,16 @@ import GranHomeFooter from '~/components/templates/GranHomeFooter.vue'
 export default {
   components: {
     GranGroupTab,
-    GranHomeFooter
+    GranHomeFooter,
   },
   data: () => ({
-    drawer: null
+    drawer: null,
   }),
   computed: {
     isForm() {
       return this.$route.name === 'boards-new'
-    }
-  }
+    },
+  },
 }
 </script>
 

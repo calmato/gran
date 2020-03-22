@@ -21,20 +21,20 @@ export default Vue.extend({
     GranCard,
     GranCardText,
     GranLinkList,
-    GranSignUpForm
+    GranSignUpForm,
   },
   data: () => ({
     linkList: [
       {
         href: '/signin',
-        title: 'ログインへ'
-      }
-    ] as Array<ILink>
+        title: 'ログインへ',
+      },
+    ] as Array<ILink>,
   }),
   methods: {
     signUp(signUpForm: ISignUpForm) {
       this.$emit('signUp', signUpForm)
-    }
-  }
+    },
+  },
 })
 </script>

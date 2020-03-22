@@ -14,13 +14,13 @@ import { ILoginForm } from '~/types/form'
 export default Vue.extend({
   components: {
     GranLoginCard,
-    GranErrorAlert
+    GranErrorAlert,
   },
   props: {
     isError: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     login(loginForm: ILoginForm) {
@@ -28,7 +28,7 @@ export default Vue.extend({
     },
     close() {
       this.$emit('close')
-    }
-  }
+    },
+  },
 })
 </script>

@@ -11,7 +11,7 @@ export default Vue.extend({
   layout: 'header',
 
   components: {
-    GranGroupNew
+    GranGroupNew,
   },
 
   methods: {
@@ -27,7 +27,7 @@ export default Vue.extend({
         })
         .finally(() => this.$nuxt.$loading.finish())
     },
-    ...mapActions('group', ['create'])
-  }
+    ...mapActions('group', ['create']),
+  },
 })
 </script>

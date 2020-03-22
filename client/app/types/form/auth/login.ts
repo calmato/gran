@@ -11,9 +11,9 @@ export interface ILoginFormValidate {
 export const LoginFormValidate: ILoginFormValidate = {
   email: {
     required: true,
-    email: true
+    email: true,
   },
   password: {
-    required: true
-  }
+    required: true,
+  },
 }

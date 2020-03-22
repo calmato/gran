@@ -9,7 +9,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
   data: () => ({
-    loading: false as boolean
+    loading: false as boolean,
   }),
 
   methods: {
@@ -18,8 +18,8 @@ export default Vue.extend({
     },
     finish(): void {
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 

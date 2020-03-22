@@ -15,28 +15,28 @@ interface ISignUpFormValidate {
 export const SignUpForm: ISignUpForm = {
   email: {
     label: 'Email',
-    value: ''
+    value: '',
   },
   password: {
     label: 'Password',
-    value: ''
+    value: '',
   },
   passwordConfirmation: {
     label: 'Password Confirmation',
-    value: ''
-  }
+    value: '',
+  },
 }
 
 export const SignUpFormValidate: ISignUpFormValidate = {
   email: {
     required: true,
-    email: true
+    email: true,
   },
   password: {
-    required: true
+    required: true,
   },
   passwordConfirmation: {
     required: true,
-    confirmed: SignUpForm.password.label
-  }
+    confirmed: SignUpForm.password.label,
+  },
 }

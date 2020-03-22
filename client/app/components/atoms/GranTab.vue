@@ -16,20 +16,20 @@ export default Vue.extend({
   props: {
     centered: {
       type: Boolean,
-      default: false
+      default: false,
     },
     fixedTabs: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dark: {
       type: Boolean,
-      default: false
+      default: false,
     },
     backgroundColor: {
       type: String,
-      default: '#039be5'
-    }
-  }
+      default: '#039be5',
+    },
+  },
 })
 </script>

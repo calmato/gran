@@ -4,6 +4,6 @@ export default {
   namespaced: true,
 
   modules: {
-    auth: AuthStore
-  }
+    auth: AuthStore,
+  },
 }

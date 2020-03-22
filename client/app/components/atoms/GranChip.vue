@@ -11,12 +11,12 @@ export default Vue.extend({
   props: {
     color: {
       type: String,
-      default: 'primary'
+      default: 'primary',
     },
     xSmall: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 })
 </script>

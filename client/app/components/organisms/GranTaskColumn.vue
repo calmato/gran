@@ -20,17 +20,17 @@ export default Vue.extend({
   components: {
     draggable,
     GranTaskCard,
-    GranKanbanCard
+    GranKanbanCard,
   },
   props: {
     listIndex: {
       type: Number,
-      default: 0
+      default: 0,
     },
     value: {
       required: false,
       type: Array,
-      default: null
+      default: null,
     },
     column: {
       type: Object,
@@ -42,27 +42,27 @@ export default Vue.extend({
             {
               id: 1,
               name: 'UI設計',
-              labels: []
+              labels: [],
             },
             {
               id: 2,
               name: 'APIの実装',
-              labels: [{ name: 'client', color: 'primary' }]
-            }
-          ]
+              labels: [{ name: 'client', color: 'primary' }],
+            },
+          ],
         }
-      }
-    }
+      },
+    },
   },
   computed: {
     tasksLength(): number {
       return this.column.tasks.length
-    }
+    },
   },
   methods: {
     emitter(value) {
       this.$emit('input', this.listIndex, value)
-    }
-  }
+    },
+  },
 })
 </script>

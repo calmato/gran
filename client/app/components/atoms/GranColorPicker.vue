@@ -32,22 +32,22 @@ export default Vue.extend({
   props: {
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     label: {
       type: String,
-      default: '背景'
-    }
+      default: '背景',
+    },
   },
   data: () => {
     return {
-      menu: false
+      menu: false,
     }
   },
   methods: {
     emitter(value) {
       this.$emit('input', value)
-    }
-  }
+    },
+  },
 })
 </script>

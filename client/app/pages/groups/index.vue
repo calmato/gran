@@ -10,11 +10,11 @@ export default Vue.extend({
   layout: 'header',
 
   components: {
-    GranGroupList
+    GranGroupList,
   },
 
   async fetch({ store }) {
     await store.dispatch('group/groupAll').catch(() => {})
-  }
+  },
 })
 </script>

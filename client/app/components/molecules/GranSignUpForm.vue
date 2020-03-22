@@ -35,16 +35,16 @@ export default Vue.extend({
   components: {
     GranTextField,
     GranButton,
-    GranFormGroup
+    GranFormGroup,
   },
   data: () => ({
     signUpForm: SignUpForm,
-    signUpFormValidate: SignUpFormValidate
+    signUpFormValidate: SignUpFormValidate,
   }),
   methods: {
     click() {
       this.$emit('signUp', this.signUpForm)
-    }
-  }
+    },
+  },
 })
 </script>

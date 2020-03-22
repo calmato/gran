@@ -30,7 +30,7 @@ export default Vue.extend({
   components: {
     GranCard,
     GranChip,
-    GranCardTitle
+    GranCardTitle,
   },
   props: {
     task: {
@@ -41,26 +41,26 @@ export default Vue.extend({
           name: 'タスク',
           labels: [
             { name: 'client', color: 'primary' },
-            { name: 'api', color: 'yellow' }
-          ]
+            { name: 'api', color: 'yellow' },
+          ],
         }
-      }
-    }
+      },
+    },
   },
   data: () => {
     return {
-      width: 300
+      width: 300,
     }
   },
   computed: {
     hasLables(): boolean {
       return this.task.labels.length !== 0
-    }
+    },
   },
   methods: {
     click(): void {
       this.$emit('click')
-    }
-  }
+    },
+  },
 })
 </script>

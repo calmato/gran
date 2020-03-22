@@ -11,14 +11,14 @@ export default Vue.extend({
   props: {
     src: {
       type: String,
-      default: 'https://cdn.vuetifyjs.com/images/john.jpg'
-    }
+      default: 'https://cdn.vuetifyjs.com/images/john.jpg',
+    },
   },
   methods: {
     click() {
       this.$emit('click')
-    }
-  }
+    },
+  },
 })
 </script>
 

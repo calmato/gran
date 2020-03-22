@@ -28,17 +28,17 @@ export default Vue.extend({
     GranTextField,
     GranTextArea,
     GranMemberInvite,
-    GranButton
+    GranButton,
   },
 
   data: () => ({
     groupNewForm: GroupNewForm as IGroupForm,
-    groupNewFormValidate: GroupNewFormValidate
+    groupNewFormValidate: GroupNewFormValidate,
   }),
   methods: {
     doSubmit() {
       this.$emit('apply', this.groupNewForm)
-    }
-  }
+    },
+  },
 })
 </script>

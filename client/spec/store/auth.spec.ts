@@ -17,7 +17,7 @@ describe('store/auth', () => {
       uid: 'JUA1ouY12ickxIupMVdVl3ieM7s2',
       email: 'hoge@hoge.com',
       creationTime: '2020-01-01T00:00:00.000000Z',
-      lastSignInTime: '2020-01-01T00:00:00.000000Z'
+      lastSignInTime: '2020-01-01T00:00:00.000000Z',
     }
   })
 
@@ -44,7 +44,7 @@ describe('store/auth', () => {
       const userStore: IUserStore = {
         emailVerified: true,
         token: 'xL7QdFig7HOv7btzH8gAKuK81xI2',
-        user
+        user,
       }
 
       store.replaceState(userStore)

@@ -38,7 +38,7 @@
         <v-card-title>メンバー</v-card-title>
         <v-row>
           <gran-icon :x-large="xLarge" class="pl-4 pt-1" name="account-multiple-plus" />
-          <v-card-title class="pt-7 ">メンバーを招待</v-card-title>
+          <v-card-title class="pt-7">メンバーを招待</v-card-title>
         </v-row>
         <v-row justify="center">
           <v-flex xs12 sm8 md6>
@@ -80,17 +80,17 @@ import GranTextField from '~/components/atoms/GranTextField.vue'
 export default Vue.extend({
   components: {
     GranIcon,
-    GranTextField
+    GranTextField,
   },
   data: () => ({
     xLarge: true,
     dialog: false,
     emails: [{ value: '' }],
     groupName: '',
-    groupDescription: ''
+    groupDescription: '',
   }),
   computed: {
-    ...mapGetters('group', ['groups'])
+    ...mapGetters('group', ['groups']),
   },
   methods: {
     on(groupName, groupDescription) {
@@ -103,7 +103,7 @@ export default Vue.extend({
     },
     deleteForm(id) {
       this.emails.splice(id, 1)
-    }
-  }
+    },
+  },
 })
 </script>

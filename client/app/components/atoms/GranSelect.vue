@@ -9,12 +9,12 @@ export default Vue.extend({
   props: {
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     items: {
       type: Array,
-      default: () => ['16frances', 'gran']
-    }
-  }
+      default: () => ['16frances', 'gran'],
+    },
+  },
 })
 </script>
