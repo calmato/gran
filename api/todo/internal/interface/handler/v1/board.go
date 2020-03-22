@@ -120,6 +120,8 @@ func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
 }
 
 func (bh *apiV1BoardHandler) Create(ctx *gin.Context) {
+	groupID := ctx.Params.ByName("groupID")
+
 	req := &request.CreateBoard{}
 	if err := ctx.BindJSON(req); err != nil {
 		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
@@ -127,7 +129,7 @@ func (bh *apiV1BoardHandler) Create(ctx *gin.Context) {
 	}
 
 	c := middleware.GinContextToContext(ctx)
-	if err := bh.boardApplication.Create(c, req); err != nil {
+	if err := bh.boardApplication.Create(c, groupID, req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}

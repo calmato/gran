@@ -17,7 +17,7 @@ import (
 type BoardApplication interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
-	Create(ctx context.Context, req *request.CreateBoard) error
+	Create(ctx context.Context, groupID string, req *request.CreateBoard) error
 }
 
 type boardApplication struct {
@@ -75,10 +75,15 @@ func (ba *boardApplication) Show(ctx context.Context, groupID string, boardID st
 	return b, err
 }
 
-func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard) error {
+func (ba *boardApplication) Create(ctx context.Context, groupID string, req *request.CreateBoard) error {
 	u, err := ba.userService.Authentication(ctx)
 	if err != nil {
 		return err
+	}
+
+	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
+		err := xerrors.New("Unable to create Board in the Group")
+		return domain.Forbidden.New(err)
 	}
 
 	if ves := ba.boardRequestValidation.CreateBoard(req); len(ves) > 0 {
@@ -111,13 +116,6 @@ func (ba *boardApplication) Create(ctx context.Context, req *request.CreateBoard
 		ThumbnailURL:    thumbnailURL,
 		BackgroundColor: req.BackgroundColor,
 		Labels:          req.Labels,
-	}
-
-	groupID := req.GroupID
-
-	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
-		err := xerrors.New("Unable to create Board in the Group")
-		return domain.Forbidden.New(err)
 	}
 
 	if _, err := ba.boardService.Create(ctx, groupID, b); err != nil {
