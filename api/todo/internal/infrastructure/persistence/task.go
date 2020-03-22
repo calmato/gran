@@ -54,3 +54,13 @@ func (tp *taskPersistence) IndexByBoardListID(ctx context.Context, boardListID s
 
 	return ts, nil
 }
+
+func (tp *taskPersistence) Create(ctx context.Context, t *domain.Task) error {
+	taskCollection := GetTaskCollection()
+
+	if err := tp.firestore.Set(ctx, taskCollection, t.ID, t); err != nil {
+		return err
+	}
+
+	return nil
+}

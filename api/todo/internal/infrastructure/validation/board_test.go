@@ -9,13 +9,13 @@ import (
 	"github.com/16francs/gran/api/todo/internal/domain"
 )
 
-var current = time.Now()
-
 func TestBoardDomainValidation_Board(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// Defined variable
+	current := time.Now()
+
 	b := &domain.Board{
 		ID:              "board-id",
 		Name:            "テストグループ",
@@ -44,6 +44,8 @@ func TestBoardDomainValidation_BoardList(t *testing.T) {
 	defer cancel()
 
 	// Defined variables
+	current := time.Now()
+
 	bl := &domain.BoardList{
 		ID:        "boardlist-id",
 		Name:      "テストボードリスト",
