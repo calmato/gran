@@ -46,6 +46,11 @@ func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID s
 		return domain.Forbidden.New(err)
 	}
 
+	if ves := ta.taskRequestValidation.CreateTask(req); len(ves) > 0 {
+		err := xerrors.New("Failed to Application/RequestValidation")
+		return domain.InvalidRequestValidation.New(err, ves...)
+	}
+
 	// TODO: ボード、ボードリストが存在するかの検証
 
 	attachmentURLs := make([]string, len(req.Attachments))
