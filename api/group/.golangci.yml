@@ -41,9 +41,15 @@ linters:
   # - maligned
   # - prealloc
 
+linters-settings:
+  funlen:
+    lines: 100
+    statements: 50
+
 run:
   skip-dirs:
     - bin
+    - mock
 
 service:
   golangci-lint-version: 1.22.2

@@ -9,18 +9,19 @@ import (
 )
 
 func TestUserRequestValidation_CreateUser(t *testing.T) {
-	target := NewUserRequestValidation()
-
-	want := []*domain.ValidationError(nil)
-
+	// Defined variables
 	u := &request.CreateUser{
 		Email:                "hoge@hoge.com",
 		Password:             "12345678",
 		PasswordConfirmation: "12345678",
 	}
 
-	got := target.CreateUser(u)
+	// Start test
+	target := NewUserRequestValidation()
 
+	want := []*domain.ValidationError(nil)
+
+	got := target.CreateUser(u)
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("want %#v, but %#v", want, got)
 	}
