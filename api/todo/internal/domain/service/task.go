@@ -31,7 +31,7 @@ func NewTaskService(tdv validation.TaskDomainValidation, tr repository.TaskRepos
 }
 
 func (ts *taskService) Create(
-	ctx context.Context, boardID string, t *domain.Task
+	ctx context.Context, boardID string, t *domain.Task,
 ) (*domain.Task, error) {
 	if ves := ts.taskDomainValidation.Task(ctx, t); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
