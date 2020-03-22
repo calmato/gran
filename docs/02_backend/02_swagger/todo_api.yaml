@@ -126,7 +126,7 @@ paths:
 
   /groups/{groupId}/boards/{boardId}/lists:
     post:
-      summary: WIP) ボードリスト作成
+      summary: ボードリスト作成
       security:
         - BearerAuth: []
       parameters:
