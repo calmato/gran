@@ -38,7 +38,7 @@ func TestUserApplication_Create(t *testing.T) {
 	urvm.EXPECT().CreateUser(req).Return(ves)
 
 	usm := mock_service.NewMockUserService(ctrl)
-	usm.EXPECT().Create(ctx, u).Return(nil)
+	usm.EXPECT().Create(ctx, u).Return(u, nil)
 
 	target := NewUserApplication(urvm, usm)
 

@@ -50,11 +50,12 @@ func (mr *MockUserServiceMockRecorder) Authentication(ctx interface{}) *gomock.C
 }
 
 // Create mocks base method
-func (m *MockUserService) Create(ctx context.Context, u *domain.User) error {
+func (m *MockUserService) Create(ctx context.Context, u *domain.User) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, u)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(*domain.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Create indicates an expected call of Create

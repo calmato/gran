@@ -87,7 +87,7 @@ func TestUserService_Create(t *testing.T) {
 	// Start test
 	target := NewUserService(udvm, urm)
 
-	err := target.Create(ctx, u)
+	_, err := target.Create(ctx, u)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
