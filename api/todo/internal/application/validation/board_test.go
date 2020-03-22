@@ -9,10 +9,7 @@ import (
 )
 
 func TestBoardRequestValidation_CreateBoard(t *testing.T) {
-	target := NewBoardRequestValidation()
-
-	want := []*domain.ValidationError(nil)
-
+	// Defined variables
 	b := &request.CreateBoard{
 		Name:            "テストグループ",
 		IsClosed:        true,
@@ -21,8 +18,30 @@ func TestBoardRequestValidation_CreateBoard(t *testing.T) {
 		Labels:          make([]string, 0),
 	}
 
-	got := target.CreateBoard(b)
+	// Start test
+	target := NewBoardRequestValidation()
 
+	want := []*domain.ValidationError(nil)
+
+	got := target.CreateBoard(b)
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("want %#v, but %#v", want, got)
+	}
+}
+
+func TestBoardRequestValidation_CreateBoardList(t *testing.T) {
+	// Defined variables
+	bl := &request.CreateBoardList{
+		Name:  "テストボードグループ",
+		Color: "",
+	}
+
+	// Start test
+	target := NewBoardRequestValidation()
+
+	want := []*domain.ValidationError(nil)
+
+	got := target.CreateBoardList(bl)
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("want %#v, but %#v", want, got)
 	}

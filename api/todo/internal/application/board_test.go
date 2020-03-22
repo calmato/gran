@@ -165,3 +165,47 @@ func TestBoardApplication_Create(t *testing.T) {
 		t.Fatalf("error: %v", err)
 	}
 }
+
+func TestBoardApplication_CreateBoardList(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	// Defined variables
+	groupID := "board-createboardlist-group-id"
+	boardID := "board-createboardlist-board-id"
+	ves := make([]*domain.ValidationError, 0)
+
+	req := &request.CreateBoardList{
+		Name:  "テストボードリスト",
+		Color: "",
+	}
+
+	u := &domain.User{}
+
+	bl := &domain.BoardList{
+		Name:  "テストボードリスト",
+		Color: "",
+	}
+
+	// Defined mocks
+	brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
+	brvm.EXPECT().CreateBoardList(req).Return(ves)
+
+	bsm := mock_service.NewMockBoardService(ctrl)
+	bsm.EXPECT().CreateBoardList(ctx, groupID, boardID, bl).Return(bl, nil)
+
+	usm := mock_service.NewMockUserService(ctrl)
+	usm.EXPECT().Authentication(ctx).Return(u, nil)
+	usm.EXPECT().IsContainInGroupIDs(ctx, groupID, u).Return(true)
+
+	// Start test
+	target := NewBoardApplication(brvm, bsm, usm)
+
+	err := target.CreateBoardList(ctx, groupID, boardID, req)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+}

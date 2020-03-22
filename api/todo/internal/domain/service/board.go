@@ -96,7 +96,7 @@ func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Bo
 		return nil, domain.ErrorInDatastore.New(err)
 	}
 
-	return nil, nil
+	return b, nil
 }
 
 func (bs *boardService) UploadThumbnail(ctx context.Context, data []byte) (string, error) {
@@ -129,5 +129,5 @@ func (bs *boardService) CreateBoardList(
 		return nil, domain.ErrorInDatastore.New(err)
 	}
 
-	return nil, nil
+	return bl, nil
 }
