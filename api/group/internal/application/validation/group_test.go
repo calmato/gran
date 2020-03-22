@@ -9,34 +9,36 @@ import (
 )
 
 func TestGroupRequestValidation_CreateGroup(t *testing.T) {
-	target := NewGroupRequestValidation()
-
-	want := []*domain.ValidationError(nil)
-
+	// Defined variables
 	g := &request.CreateGroup{
 		Name:        "テストグループ",
 		Description: "説明",
 	}
 
-	got := target.CreateGroup(g)
+	// Start test
+	target := NewGroupRequestValidation()
 
+	want := []*domain.ValidationError(nil)
+
+	got := target.CreateGroup(g)
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("want %#v, but %#v", want, got)
 	}
 }
 
 func TestGroupRequestValidation_UpdateGroup(t *testing.T) {
-	target := NewGroupRequestValidation()
-
-	want := []*domain.ValidationError(nil)
-
+	// Defined variables
 	g := &request.UpdateGroup{
 		Name:        "テストグループ",
 		Description: "説明",
 	}
 
-	got := target.UpdateGroup(g)
+	// Start test
+	target := NewGroupRequestValidation()
 
+	want := []*domain.ValidationError(nil)
+
+	got := target.UpdateGroup(g)
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("want %#v, but %#v", want, got)
 	}
