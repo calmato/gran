@@ -40,6 +40,11 @@ spec:
               value: '8080'
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: '/secret/firebase-adminsdk.json'
+            - name: GCP_STORAGE_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: gcp-secret
+                  key: GCP_STORAGE_BUCKET_NAME
           volumeMounts:
             - mountPath: /secret
               name: firebase-secret-volume
