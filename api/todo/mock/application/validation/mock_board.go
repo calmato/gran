@@ -47,3 +47,17 @@ func (mr *MockBoardRequestValidationMockRecorder) CreateBoard(req interface{}) *
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBoard", reflect.TypeOf((*MockBoardRequestValidation)(nil).CreateBoard), req)
 }
+
+// CreateBoardList mocks base method
+func (m *MockBoardRequestValidation) CreateBoardList(req *request.CreateBoardList) []*domain.ValidationError {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateBoardList", req)
+	ret0, _ := ret[0].([]*domain.ValidationError)
+	return ret0
+}
+
+// CreateBoardList indicates an expected call of CreateBoardList
+func (mr *MockBoardRequestValidationMockRecorder) CreateBoardList(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBoardList", reflect.TypeOf((*MockBoardRequestValidation)(nil).CreateBoardList), req)
+}
