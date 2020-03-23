@@ -14,4 +14,5 @@ type BoardRepository interface {
 	Update(ctx context.Context, b *domain.Board) error
 	IndexBoardList(ctx context.Context, groupID string, boardID string) ([]*domain.BoardList, error)
 	CreateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) error
+	UpdateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) error
 }
