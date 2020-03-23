@@ -1,3 +1,5 @@
+CURRENT := $(shell date "+%Y%m%d-%H%M%S")
+
 .PHONY: get-external-ip
 get-external-ip:
 	kubectl get service envoy -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
@@ -17,6 +19,6 @@ generate-deployment:
 
 .PHONY: update-deployment
 update-deployment:
-	kubectl patch deploy group-api -p "{\"spec\": {\"template\": {\"metadata\": {\"labels\": {\"date\": \"$(date +'%s')\" }}}}}"
-	kubectl patch deploy todo-api -p "{\"spec\": {\"template\": {\"metadata\": {\"labels\": {\"date\": \"$(date +'%s')\" }}}}}"
-	kubectl patch deploy user-api -p "{\"spec\": {\"template\": {\"metadata\": {\"labels\": {\"date\": \"$(date +'%s')\" }}}}}"
+	kubectl patch deploy group-api -p "{\"spec\": {\"template\": {\"metadata\": {\"labels\": {\"date\": \"${CURRENT}\" }}}}}"
+	kubectl patch deploy todo-api -p "{\"spec\": {\"template\": {\"metadata\": {\"labels\": {\"date\": \"${CURRENT}\" }}}}}"
+	kubectl patch deploy user-api -p "{\"spec\": {\"template\": {\"metadata\": {\"labels\": {\"date\": \"${CURRENT}\" }}}}}"
