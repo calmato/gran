@@ -92,7 +92,7 @@ func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
 		UpdatedAt:       b.UpdatedAt,
 	}
 
-	blrs := make([]*response.ListInShowBoard, len(b.Lists))
+	blrs := make([]*response.ListInShowBoard, len(b.ListIDs))
 	for i, listID := range b.ListIDs {
 		bl := b.Lists[listID]
 
@@ -102,7 +102,7 @@ func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
 			Color: bl.Color,
 		}
 
-		trs := make([]*response.TaskInShowBoard, len(bl.Tasks))
+		trs := make([]*response.TaskInShowBoard, len(bl.TaskIDs))
 		for j, taskID := range bl.TaskIDs {
 			t := bl.Tasks[taskID]
 
