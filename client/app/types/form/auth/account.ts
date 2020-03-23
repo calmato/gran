@@ -16,33 +16,33 @@ interface IAccountFormValidate {
 export const AccountForm: IAccountForm = {
   name: {
     label: 'Name',
-    value: ''
+    value: '',
   },
   userName: {
     label: 'Username',
-    value: ''
+    value: '',
   },
   profile: {
     label: 'Bio',
-    value: ''
+    value: '',
   },
   email: {
     label: 'Email',
-    value: ''
+    value: '',
   },
   phone: {
     label: 'Phone',
-    value: ''
-  }
+    value: '',
+  },
 }
 
 export const AccountFormValidate: IAccountFormValidate = {
   name: {
     required: true,
-    max: '10'
+    max: '10',
   },
   userName: {
     required: true,
-    max: '10'
-  }
+    max: '10',
+  },
 }

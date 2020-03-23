@@ -48,18 +48,18 @@ export default Vue.extend({
     GranAvatar,
     GranTextField,
     GranTextArea,
-    GranButton
+    GranButton,
   },
 
   data: () => ({
     accountForm: AccountForm as IAccountForm,
-    accountFormValidate: AccountFormValidate
+    accountFormValidate: AccountFormValidate,
   }),
   methods: {
     done() {
       this.$emit('apply', this.accountForm)
-    }
-  }
+    },
+  },
 })
 </script>
 
