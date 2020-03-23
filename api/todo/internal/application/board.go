@@ -19,6 +19,7 @@ type BoardApplication interface {
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, req *request.CreateBoard) error
 	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) error
+	UpdateKanban(ctx context.Context, groupID string, boardID string, req *request.UpdateKanban) error
 }
 
 type boardApplication struct {
@@ -45,7 +46,7 @@ func (ba *boardApplication) Index(ctx context.Context, groupID string) ([]*domai
 	}
 
 	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
-		err := xerrors.New("Unable to create Board in the Group")
+		err := xerrors.New("Unable to IndexBoard function")
 		return nil, domain.Forbidden.New(err)
 	}
 
@@ -64,7 +65,7 @@ func (ba *boardApplication) Show(ctx context.Context, groupID string, boardID st
 	}
 
 	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
-		err := xerrors.New("Unable to create Board in the Group")
+		err := xerrors.New("Unable to ShowBoard function")
 		return nil, domain.Forbidden.New(err)
 	}
 
@@ -83,7 +84,7 @@ func (ba *boardApplication) Create(ctx context.Context, groupID string, req *req
 	}
 
 	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
-		err := xerrors.New("Unable to create Board in the Group")
+		err := xerrors.New("Unable to CreateBoard function")
 		return domain.Forbidden.New(err)
 	}
 
@@ -120,7 +121,7 @@ func (ba *boardApplication) Create(ctx context.Context, groupID string, req *req
 		GroupID:         groupID,
 	}
 
-	if _, err := ba.boardService.Create(ctx, groupID, b); err != nil {
+	if _, err := ba.boardService.Create(ctx, b); err != nil {
 		return err
 	}
 
@@ -136,7 +137,7 @@ func (ba *boardApplication) CreateBoardList(
 	}
 
 	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
-		err := xerrors.New("Unable to create Board in the Group")
+		err := xerrors.New("Unable to CreateBoardList function")
 		return domain.Forbidden.New(err)
 	}
 
@@ -155,6 +156,79 @@ func (ba *boardApplication) CreateBoardList(
 	}
 
 	if _, err := ba.boardService.CreateBoardList(ctx, groupID, boardID, bl); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// UpdateKanban - ボードリスト, タスク順序の編集
+func (ba *boardApplication) UpdateKanban(
+	ctx context.Context, groupID string, boardID string, req *request.UpdateKanban,
+) error {
+	// 認証
+	u, err := ba.userService.Authentication(ctx)
+	if err != nil {
+		return err
+	}
+
+	// 認可
+	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
+		err := xerrors.New("Unable to UpdateKanban function")
+		return domain.Forbidden.New(err)
+	}
+
+	// 存在性検証
+	b, err := ba.boardService.Show(ctx, groupID, boardID)
+	if err != nil {
+		return err
+	}
+
+	// バリデーション
+	if ves := ba.boardRequestValidation.UpdateKanban(req); len(ves) > 0 {
+		err := xerrors.New("Failed to Application/RequestValidation")
+		return domain.InvalidRequestValidation.New(err, ves...)
+	}
+
+	// ListとTaskの数が一致すれば、Datastoreの値と順序以外は一致すると考える
+	// List数の検証 -> 一致しなければ、400
+	if len(req.Lists) != len(b.ListIDs) {
+		err := xerrors.New("Not equal BoardLists length")
+		return domain.NotEqualRequestWithDatastore.New(err)
+	}
+
+	// Task数の検証 -> 一致しなければ、400
+	lenReqTasks := 0
+	for _, v := range req.Lists {
+		lenReqTasks += len(v.Tasks)
+	}
+
+	lenDBTasks := 0
+	for _, v := range b.Lists {
+		lenDBTasks += len(v.Tasks)
+	}
+
+	if lenReqTasks != lenDBTasks {
+		err := xerrors.New("Not equal Tasks length")
+		return domain.NotEqualRequestWithDatastore.New(err)
+	}
+
+	// Board.ListIDs, BoardList.TasksIDの更新
+	listIDs := make([]string, len(req.Lists))
+	for i, bl := range req.Lists {
+		listIDs[i] = bl.ID
+
+		taskIDs := make([]string, len(bl.Tasks))
+		for j, t := range bl.Tasks {
+			taskIDs[j] = t.ID
+		}
+
+		b.Lists[bl.ID].TaskIDs = taskIDs
+	}
+
+	b.ListIDs = listIDs
+
+	if err := ba.boardService.UpdateKanban(ctx, groupID, boardID, b); err != nil {
 		return err
 	}
 

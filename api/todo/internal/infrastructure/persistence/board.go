@@ -128,3 +128,15 @@ func (bp *boardPersistence) CreateBoardList(
 
 	return nil
 }
+
+func (bp *boardPersistence) UpdateBoardList(
+	ctx context.Context, groupID string, boardID string, bl *domain.BoardList,
+) error {
+	boardListCollection := GetBoardListCollection(groupID, boardID)
+
+	if err := bp.firestore.Set(ctx, boardListCollection, bl.ID, bl); err != nil {
+		return err
+	}
+
+	return nil
+}

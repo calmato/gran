@@ -33,6 +33,7 @@ func Router(reg *registry.Registry) *gin.Engine {
 			{
 				boards.POST("/lists", reg.V1Board.CreateBoardList)
 				boards.POST("/tasks", reg.V1Task.Create)
+				boards.PATCH("/kanban", reg.V1Board.UpdateKanban)
 			}
 		}
 	}

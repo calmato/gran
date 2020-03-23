@@ -19,6 +19,7 @@ type APIV1BoardHandler interface {
 	Show(ctx *gin.Context)
 	Create(ctx *gin.Context)
 	CreateBoardList(ctx *gin.Context)
+	UpdateKanban(ctx *gin.Context)
 }
 
 type apiV1BoardHandler struct {
@@ -155,6 +156,25 @@ func (bh *apiV1BoardHandler) CreateBoardList(ctx *gin.Context) {
 
 	c := middleware.GinContextToContext(ctx)
 	if err := bh.boardApplication.CreateBoardList(c, groupID, boardID, req); err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{})
+}
+
+func (bh *apiV1BoardHandler) UpdateKanban(ctx *gin.Context) {
+	groupID := ctx.Params.ByName("groupID")
+	boardID := ctx.Params.ByName("boardID")
+
+	req := &request.UpdateKanban{}
+	if err := ctx.BindJSON(req); err != nil {
+		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
+		return
+	}
+
+	c := middleware.GinContextToContext(ctx)
+	if err := bh.boardApplication.UpdateKanban(c, groupID, boardID, req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
