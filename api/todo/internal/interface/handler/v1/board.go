@@ -91,16 +91,20 @@ func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
 		UpdatedAt:       b.UpdatedAt,
 	}
 
-	lrs := make([]*response.ListInShowBoard, len(b.Lists))
-	for i, l := range b.Lists {
-		lr := &response.ListInShowBoard{
-			ID:    l.ID,
-			Name:  l.Name,
-			Color: l.Color,
+	blrs := make([]*response.ListInShowBoard, len(b.Lists))
+	for i, listID := range b.ListIDs {
+		bl := b.Lists[listID]
+
+		blr := &response.ListInShowBoard{
+			ID:    bl.ID,
+			Name:  bl.Name,
+			Color: bl.Color,
 		}
 
-		trs := make([]*response.TaskInShowBoard, len(l.Tasks))
-		for j, t := range l.Tasks {
+		trs := make([]*response.TaskInShowBoard, len(bl.Tasks))
+		for j, taskID := range bl.TaskIDs {
+			t := bl.Tasks[taskID]
+
 			tr := &response.TaskInShowBoard{
 				ID:              t.ID,
 				Name:            t.Name,
@@ -112,11 +116,11 @@ func (bh *apiV1BoardHandler) Show(ctx *gin.Context) {
 			trs[j] = tr
 		}
 
-		lr.Tasks = trs
-		lrs[i] = lr
+		blr.Tasks = trs
+		blrs[i] = blr
 	}
 
-	res.Lists = lrs
+	res.Lists = blrs
 
 	ctx.JSON(http.StatusOK, res)
 }

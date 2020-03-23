@@ -65,15 +65,20 @@ func (bs *boardService) Show(ctx context.Context, groupID string, boardID string
 		return nil, domain.ErrorInDatastore.New(err)
 	}
 
-	b.Lists = bls
-	for i, v := range b.Lists {
-		ts, err := bs.taskRepository.IndexByBoardListID(ctx, v.ID)
+	b.Lists = make(map[string]*domain.BoardList)
+	for _, bl := range bls {
+		b.Lists[bl.ID] = bl
+
+		ts, err := bs.taskRepository.IndexByBoardListID(ctx, bl.ID)
 		if err != nil {
 			err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 			return nil, domain.ErrorInDatastore.New(err)
 		}
 
-		b.Lists[i].Tasks = ts
+		bl.Tasks = make(map[string]*domain.Task)
+		for _, t := range ts {
+			bl.Tasks[t.ID] = t
+		}
 	}
 
 	return b, nil
