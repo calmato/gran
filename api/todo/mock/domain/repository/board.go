@@ -78,6 +78,20 @@ func (mr *MockBoardRepositoryMockRecorder) Create(ctx, b interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBoardRepository)(nil).Create), ctx, b)
 }
 
+// Update mocks base method
+func (m *MockBoardRepository) Update(ctx context.Context, b *domain.Board) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, b)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update
+func (mr *MockBoardRepositoryMockRecorder) Update(ctx, b interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockBoardRepository)(nil).Update), ctx, b)
+}
+
 // IndexBoardList mocks base method
 func (m *MockBoardRepository) IndexBoardList(ctx context.Context, groupID, boardID string) ([]*domain.BoardList, error) {
 	m.ctrl.T.Helper()
