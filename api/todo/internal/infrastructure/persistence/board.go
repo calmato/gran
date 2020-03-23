@@ -77,6 +77,16 @@ func (bp *boardPersistence) Create(ctx context.Context, b *domain.Board) error {
 	return nil
 }
 
+func (bp *boardPersistence) Update(ctx context.Context, b *domain.Board) error {
+	boardCollection := GetBoardCollection(b.GroupID)
+
+	if err := bp.firestore.Set(ctx, boardCollection, b.ID, b); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (bp *boardPersistence) IndexBoardList(
 	ctx context.Context, groupID string, boardID string,
 ) ([]*domain.BoardList, error) {
