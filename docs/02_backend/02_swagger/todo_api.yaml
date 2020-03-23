@@ -160,7 +160,7 @@ paths:
 
   /groups/{groupId}/boards/{boardId}/tasks:
     post:
-      summary: WIP) タスク作成
+      summary: タスク作成
       security:
         - BearerAuth: []
       parameters:
