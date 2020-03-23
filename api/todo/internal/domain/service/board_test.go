@@ -223,11 +223,17 @@ func TestBoardService_CreateBoardList(t *testing.T) {
 		Color: "",
 	}
 
+	b := &domain.Board{
+		ID: boardID,
+	}
+
 	// Defined mocks
 	bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
 	bdvm.EXPECT().BoardList(ctx, bl).Return(ves)
 
 	brm := mock_repository.NewMockBoardRepository(ctrl)
+	brm.EXPECT().Show(ctx, groupID, boardID).Return(b, nil)
+	brm.EXPECT().Update(ctx, b).Return(nil)
 	brm.EXPECT().CreateBoardList(ctx, groupID, boardID, bl).Return(nil)
 
 	trm := mock_repository.NewMockTaskRepository(ctrl)

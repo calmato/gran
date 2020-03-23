@@ -133,5 +133,18 @@ func (bs *boardService) CreateBoardList(
 		return nil, domain.ErrorInDatastore.New(err)
 	}
 
+	b, err := bs.boardRepository.Show(ctx, groupID, boardID)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	b.ListIDs = append(b.ListIDs, bl.ID)
+
+	if err := bs.boardRepository.Update(ctx, b); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
 	return bl, nil
 }
