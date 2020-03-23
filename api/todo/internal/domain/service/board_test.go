@@ -115,8 +115,12 @@ func TestBoardService_Show(t *testing.T) {
 	target := NewBoardService(bdvm, brm, trm, fum)
 
 	want := b
-	want.Lists = bls
-	want.Lists[0].Tasks = []*domain.Task{}
+	want.Lists = make(map[string]*domain.BoardList)
+
+	for _, bl := range bls {
+		bl.Tasks = make(map[string]*domain.Task)
+		want.Lists[bl.ID] = bl
+	}
 
 	got, err := target.Show(ctx, groupID, boardID)
 	if err != nil {
