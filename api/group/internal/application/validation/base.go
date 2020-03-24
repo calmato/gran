@@ -32,7 +32,7 @@ func NewRequestValidator() RequestValidator {
 func (rv *requestValidator) Run(i interface{}) []*domain.ValidationError {
 	err := rv.validate.Struct(i)
 	if err == nil {
-		return nil
+		return make([]*domain.ValidationError, 0)
 	}
 
 	errors := err.(validator.ValidationErrors)

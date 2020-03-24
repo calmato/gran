@@ -9,37 +9,57 @@ import (
 )
 
 func TestGroupRequestValidation_CreateGroup(t *testing.T) {
-	// Defined variables
-	g := &request.CreateGroup{
-		Name:        "テストグループ",
-		Description: "説明",
+	testCases := map[string]struct {
+		Request  *request.CreateGroup
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Request: &request.CreateGroup{
+				Name:        "テストグループ",
+				Description: "説明",
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	// Start test
-	target := NewGroupRequestValidation()
+	for result, testCase := range testCases {
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupRequestValidation()
 
-	want := []*domain.ValidationError(nil)
-
-	got := target.CreateGroup(g)
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.CreateGroup(testCase.Request)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
 
 func TestGroupRequestValidation_UpdateGroup(t *testing.T) {
-	// Defined variables
-	g := &request.UpdateGroup{
-		Name:        "テストグループ",
-		Description: "説明",
+	testCases := map[string]struct {
+		Request  *request.UpdateGroup
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Request: &request.UpdateGroup{
+				Name:        "テストグループ",
+				Description: "説明",
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	// Start test
-	target := NewGroupRequestValidation()
+	for result, testCase := range testCases {
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupRequestValidation()
 
-	want := []*domain.ValidationError(nil)
-
-	got := target.UpdateGroup(g)
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.UpdateGroup(testCase.Request)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }

@@ -65,11 +65,12 @@ func (mr *MockGroupServiceMockRecorder) Show(ctx, groupID interface{}) *gomock.C
 }
 
 // Create mocks base method
-func (m *MockGroupService) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
+func (m *MockGroupService) Create(ctx context.Context, u *domain.User, g *domain.Group) (*domain.Group, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, u, g)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(*domain.Group)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Create indicates an expected call of Create
