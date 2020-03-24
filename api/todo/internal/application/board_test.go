@@ -152,7 +152,7 @@ func TestBoardApplication_Create(t *testing.T) {
 	brvm.EXPECT().CreateBoard(req).Return(ves)
 
 	bsm := mock_service.NewMockBoardService(ctrl)
-	bsm.EXPECT().Create(ctx, groupID, b).Return(b, nil)
+	bsm.EXPECT().Create(ctx, b).Return(b, nil)
 
 	usm := mock_service.NewMockUserService(ctrl)
 	usm.EXPECT().Authentication(ctx).Return(u, nil)

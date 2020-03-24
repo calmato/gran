@@ -54,7 +54,7 @@ func TestTaskApplication_Create(t *testing.T) {
 	trvm.EXPECT().CreateTask(req).Return(ves)
 
 	tsm := mock_service.NewMockTaskService(ctrl)
-	tsm.EXPECT().Create(ctx, boardID, task).Return(task, nil)
+	tsm.EXPECT().Create(ctx, groupID, boardID, task).Return(task, nil)
 
 	usm := mock_service.NewMockUserService(ctrl)
 	usm.EXPECT().Authentication(ctx).Return(u, nil)

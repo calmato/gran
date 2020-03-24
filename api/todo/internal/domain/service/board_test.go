@@ -141,7 +141,6 @@ func TestBoardService_Create(t *testing.T) {
 
 	// Defined variables
 	ves := make([]*domain.ValidationError, 0)
-	groupID := "board-create-group-id"
 
 	b := &domain.Board{
 		Name:            "テストグループ",
@@ -165,7 +164,7 @@ func TestBoardService_Create(t *testing.T) {
 	// Start test
 	target := NewBoardService(bdvm, brm, trm, fum)
 
-	_, err := target.Create(ctx, groupID, b)
+	_, err := target.Create(ctx, b)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}
