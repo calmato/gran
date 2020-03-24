@@ -19,9 +19,11 @@ func V1TaskInjection(fa *authentication.Auth, fs *firestore.Firestore, _ *gcs.St
 	up := persistence.NewUserPersistence(fa, fs)
 	us := service.NewUserService(up)
 
+	bp := persistence.NewBoardPersistence(fs)
+
 	tp := persistence.NewTaskPersistence(fs)
 	tdv := dv.NewTaskDomainValidation()
-	ts := service.NewTaskService(tdv, tp)
+	ts := service.NewTaskService(tdv, tp, bp)
 	trv := rv.NewTaskRequestValidation()
 	ta := application.NewTaskApplication(trv, ts, us)
 	th := v1.NewAPIV1TaskHandler(ta)

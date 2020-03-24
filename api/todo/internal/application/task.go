@@ -81,7 +81,7 @@ func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID s
 		BoardListID:     req.BoardListID,
 	}
 
-	if _, err := ta.taskService.Create(ctx, boardID, t); err != nil {
+	if _, err := ta.taskService.Create(ctx, groupID, boardID, t); err != nil {
 		return err
 	}
 

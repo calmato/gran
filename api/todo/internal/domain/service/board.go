@@ -17,9 +17,10 @@ import (
 type BoardService interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
-	Create(ctx context.Context, groupID string, b *domain.Board) (*domain.Board, error)
+	Create(ctx context.Context, b *domain.Board) (*domain.Board, error)
 	UploadThumbnail(ctx context.Context, data []byte) (string, error)
 	CreateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) (*domain.BoardList, error)
+	UpdateKanban(ctx context.Context, groupID string, boardID string, b *domain.Board) error
 }
 
 type boardService struct {
@@ -84,7 +85,7 @@ func (bs *boardService) Show(ctx context.Context, groupID string, boardID string
 	return b, nil
 }
 
-func (bs *boardService) Create(ctx context.Context, groupID string, b *domain.Board) (*domain.Board, error) {
+func (bs *boardService) Create(ctx context.Context, b *domain.Board) (*domain.Board, error) {
 	if ves := bs.boardDomainValidation.Board(ctx, b); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
 		return nil, domain.InvalidDomainValidation.New(err, ves...)
@@ -147,4 +148,31 @@ func (bs *boardService) CreateBoardList(
 	}
 
 	return bl, nil
+}
+
+// UpdateKanban - ボードリスト, タスク順序の編集
+func (bs *boardService) UpdateKanban(ctx context.Context, groupID string, boardID string, b *domain.Board) error {
+	if ves := bs.boardDomainValidation.Board(ctx, b); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+		return domain.InvalidDomainValidation.New(err, ves...)
+	}
+
+	if err := bs.boardRepository.Update(ctx, b); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return domain.ErrorInDatastore.New(err)
+	}
+
+	for _, bl := range b.Lists {
+		if ves := bs.boardDomainValidation.BoardList(ctx, bl); len(ves) > 0 {
+			err := xerrors.New("Failed to Domain/DomainValidation")
+			return domain.InvalidDomainValidation.New(err, ves...)
+		}
+
+		if err := bs.boardRepository.UpdateBoardList(ctx, groupID, boardID, bl); err != nil {
+			err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+			return domain.ErrorInDatastore.New(err)
+		}
+	}
+
+	return nil
 }

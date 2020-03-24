@@ -32,6 +32,9 @@ func errorResponse(err error) *response.ErrorResponse {
 	case domain.UnableParseJSON:
 		res = response.BadRequest
 		logging("info", "Unable parse request body", err)
+	case domain.NotEqualRequestWithDatastore:
+		res = response.BadRequest
+		logging("info", "Not Equal Request with Datastore", err)
 	case domain.InvalidRequestValidation:
 		res = response.BadRequest
 		setValidationErrors(res, err)

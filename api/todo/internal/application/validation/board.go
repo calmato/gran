@@ -9,6 +9,7 @@ import (
 type BoardRequestValidation interface {
 	CreateBoard(req *request.CreateBoard) []*domain.ValidationError
 	CreateBoardList(req *request.CreateBoardList) []*domain.ValidationError
+	UpdateKanban(req *request.UpdateKanban) []*domain.ValidationError
 }
 
 type boardRequestValidation struct {
@@ -29,5 +30,9 @@ func (brv *boardRequestValidation) CreateBoard(req *request.CreateBoard) []*doma
 }
 
 func (brv *boardRequestValidation) CreateBoardList(req *request.CreateBoardList) []*domain.ValidationError {
+	return brv.validator.Run(req)
+}
+
+func (brv *boardRequestValidation) UpdateKanban(req *request.UpdateKanban) []*domain.ValidationError {
 	return brv.validator.Run(req)
 }

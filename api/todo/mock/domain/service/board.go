@@ -65,18 +65,18 @@ func (mr *MockBoardServiceMockRecorder) Show(ctx, groupID, boardID interface{}) 
 }
 
 // Create mocks base method
-func (m *MockBoardService) Create(ctx context.Context, groupID string, b *domain.Board) (*domain.Board, error) {
+func (m *MockBoardService) Create(ctx context.Context, b *domain.Board) (*domain.Board, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", ctx, groupID, b)
+	ret := m.ctrl.Call(m, "Create", ctx, b)
 	ret0, _ := ret[0].(*domain.Board)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create
-func (mr *MockBoardServiceMockRecorder) Create(ctx, groupID, b interface{}) *gomock.Call {
+func (mr *MockBoardServiceMockRecorder) Create(ctx, b interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBoardService)(nil).Create), ctx, groupID, b)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBoardService)(nil).Create), ctx, b)
 }
 
 // UploadThumbnail mocks base method
@@ -107,4 +107,18 @@ func (m *MockBoardService) CreateBoardList(ctx context.Context, groupID, boardID
 func (mr *MockBoardServiceMockRecorder) CreateBoardList(ctx, groupID, boardID, bl interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBoardList", reflect.TypeOf((*MockBoardService)(nil).CreateBoardList), ctx, groupID, boardID, bl)
+}
+
+// UpdateKanban mocks base method
+func (m *MockBoardService) UpdateKanban(ctx context.Context, groupID, boardID string, b *domain.Board) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateKanban", ctx, groupID, boardID, b)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateKanban indicates an expected call of UpdateKanban
+func (mr *MockBoardServiceMockRecorder) UpdateKanban(ctx, groupID, boardID, b interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateKanban", reflect.TypeOf((*MockBoardService)(nil).UpdateKanban), ctx, groupID, boardID, b)
 }

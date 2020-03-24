@@ -21,7 +21,9 @@ func TestTaskService_Create(t *testing.T) {
 	// Defined variables
 	ves := make([]*domain.ValidationError, 0)
 	current := time.Now()
+	groupID := "task-create-group-id"
 	boardID := "task-create-board-id"
+	boardListID := "task-create-boardlist-id"
 
 	task := &domain.Task{
 		Name:            "タスク",
@@ -29,7 +31,15 @@ func TestTaskService_Create(t *testing.T) {
 		Labels:          []string{},
 		AttachmentURLs:  []string{},
 		AssignedUserIDs: []string{},
+		BoardListID:     boardListID,
 		DeadlinedAt:     current,
+	}
+
+	bl := &domain.BoardList{
+		ID:      boardListID,
+		Name:    "ボードリスト",
+		Color:   "",
+		TaskIDs: []string{task.ID},
 	}
 
 	// Defined mocks
@@ -39,10 +49,14 @@ func TestTaskService_Create(t *testing.T) {
 	trm := mock_repository.NewMockTaskRepository(ctrl)
 	trm.EXPECT().Create(ctx, task).Return(nil)
 
-	// Start test
-	target := NewTaskService(tdvm, trm)
+	brm := mock_repository.NewMockBoardRepository(ctrl)
+	brm.EXPECT().ShowBoardList(ctx, groupID, boardID, boardListID).Return(bl, nil)
+	brm.EXPECT().UpdateBoardList(ctx, groupID, boardID, bl).Return(nil)
 
-	_, err := target.Create(ctx, boardID, task)
+	// Start test
+	target := NewTaskService(tdvm, trm, brm)
+
+	_, err := target.Create(ctx, groupID, boardID, task)
 	if err != nil {
 		t.Fatalf("error: %v", err)
 	}

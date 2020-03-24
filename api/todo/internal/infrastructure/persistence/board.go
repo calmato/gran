@@ -117,7 +117,39 @@ func (bp *boardPersistence) IndexBoardList(
 	return bls, nil
 }
 
+func (bp *boardPersistence) ShowBoardList(
+	ctx context.Context, groupID string, boardID string, boardListID string,
+) (*domain.BoardList, error) {
+	boardListCollection := GetBoardListCollection(groupID, boardID)
+
+	doc, err := bp.firestore.Get(ctx, boardListCollection, boardListID)
+	if err != nil {
+		return nil, err
+	}
+
+	bl := &domain.BoardList{}
+
+	err = doc.DataTo(bl)
+	if err != nil {
+		return nil, err
+	}
+
+	return bl, nil
+}
+
 func (bp *boardPersistence) CreateBoardList(
+	ctx context.Context, groupID string, boardID string, bl *domain.BoardList,
+) error {
+	boardListCollection := GetBoardListCollection(groupID, boardID)
+
+	if err := bp.firestore.Set(ctx, boardListCollection, bl.ID, bl); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (bp *boardPersistence) UpdateBoardList(
 	ctx context.Context, groupID string, boardID string, bl *domain.BoardList,
 ) error {
 	boardListCollection := GetBoardListCollection(groupID, boardID)
