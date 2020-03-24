@@ -13,298 +13,432 @@ import (
 )
 
 func TestGroupService_Index(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
 	current := time.Now()
-	groupID := "group-show-group-id"
-	userID := "group-show-user-id"
 
-	u := &domain.User{
-		ID:       userID,
-		GroupIDs: []string{groupID},
+	testCases := map[string]struct {
+		User     *domain.User
+		Expected []*domain.Group
+	}{
+		"ok": {
+			User: &domain.User{
+				ID:        "user-id",
+				Email:     "hoge@hoge.com",
+				GroupIDs:  []string{"group-id"},
+				CreatedAt: current,
+				UpdatedAt: current,
+			},
+			Expected: []*domain.Group{
+				&domain.Group{
+					ID:          "group-id",
+					Name:        "テストグループ",
+					Description: "グループの説明",
+					UserIDs:     []string{"user-id"},
+					BoardIDs:    make([]string, 0),
+					CreatedAt:   current,
+					UpdatedAt:   current,
+				},
+			},
+		},
 	}
 
-	g := &domain.Group{
-		ID:          groupID,
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     []string{userID},
-		CreatedAt:   current,
-		UpdatedAt:   current,
-	}
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	gs := []*domain.Group{g}
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	// Defined mocks
-	gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
+		// Defined mocks
+		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
 
-	grm := mock_repository.NewMockGroupRepository(ctrl)
-	grm.EXPECT().Index(ctx, u).Return(gs, nil)
+		grm := mock_repository.NewMockGroupRepository(ctrl)
+		grm.EXPECT().Index(ctx, testCase.User).Return(testCase.Expected, nil)
 
-	urm := mock_repository.NewMockUserRepository(ctrl)
+		urm := mock_repository.NewMockUserRepository(ctrl)
 
-	// Start test
-	target := NewGroupService(gdvm, grm, urm)
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupService(gdvm, grm, urm)
 
-	want := gs
+			got, err := target.Index(ctx, testCase.User)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
 
-	got, err := target.Index(ctx, u)
-	if err != nil {
-		t.Fatalf("error: %v", err)
-	}
-
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
 
 func TestGroupService_Show(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
 	current := time.Now()
-	groupID := "group-show-group-id"
 
-	g := &domain.Group{
-		ID:          groupID,
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+	testCases := map[string]struct {
+		GroupID  string
+		Expected *domain.Group
+	}{
+		"ok": {
+			GroupID: "group-id",
+			Expected: &domain.Group{
+				ID:          "group-id",
+				Name:        "テストグループ",
+				Description: "グループの説明",
+				UserIDs:     []string{"user-id"},
+				BoardIDs:    make([]string, 0),
+				CreatedAt:   current,
+				UpdatedAt:   current,
+			},
+		},
 	}
 
-	// Defined mocks
-	gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	grm := mock_repository.NewMockGroupRepository(ctrl)
-	grm.EXPECT().Show(ctx, groupID).Return(g, nil)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	urm := mock_repository.NewMockUserRepository(ctrl)
+		// Defined mocks
+		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
 
-	// Start test
-	target := NewGroupService(gdvm, grm, urm)
+		grm := mock_repository.NewMockGroupRepository(ctrl)
+		grm.EXPECT().Show(ctx, testCase.GroupID).Return(testCase.Expected, nil)
 
-	want := g
+		urm := mock_repository.NewMockUserRepository(ctrl)
 
-	got, err := target.Show(ctx, groupID)
-	if err != nil {
-		t.Fatalf("error: %v", err)
-	}
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupService(gdvm, grm, urm)
 
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got, err := target.Show(ctx, testCase.GroupID)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+			}
+
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
 
 func TestGroupService_Create(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	current := time.Now()
 
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
-	ves := make([]*domain.ValidationError, 0)
-
-	g := &domain.Group{
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
+	testCases := map[string]struct {
+		User  *domain.User
+		Group *domain.Group
+	}{
+		"ok": {
+			User: &domain.User{
+				ID:        "user-id",
+				Email:     "hoge@hoge.com",
+				GroupIDs:  []string{"group-id"},
+				CreatedAt: current,
+				UpdatedAt: current,
+			},
+			Group: &domain.Group{
+				ID:          "group-id",
+				Name:        "テストグループ",
+				Description: "グループの説明",
+				UserIDs:     []string{"user-id"},
+				BoardIDs:    make([]string, 0),
+				CreatedAt:   current,
+				UpdatedAt:   current,
+			},
+		},
 	}
 
-	u := &domain.User{}
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	// Defined mocks
-	gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
-	gdvm.EXPECT().Group(ctx, g).Return(ves)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	grm := mock_repository.NewMockGroupRepository(ctrl)
-	grm.EXPECT().Create(ctx, g).Return(nil)
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
 
-	urm := mock_repository.NewMockUserRepository(ctrl)
-	urm.EXPECT().Update(ctx, u).Return(nil)
+		// Defined mocks
+		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
+		gdvm.EXPECT().Group(ctx, testCase.Group).Return(ves)
 
-	// Start test
-	target := NewGroupService(gdvm, grm, urm)
+		grm := mock_repository.NewMockGroupRepository(ctrl)
+		grm.EXPECT().Create(ctx, testCase.Group).Return(nil)
 
-	err := target.Create(ctx, u, g)
-	if err != nil {
-		t.Fatalf("error: %v", err)
+		urm := mock_repository.NewMockUserRepository(ctrl)
+		urm.EXPECT().Update(ctx, testCase.User).Return(nil)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupService(gdvm, grm, urm)
+
+			got, err := target.Create(ctx, testCase.User, testCase.Group)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+
+			if !reflect.DeepEqual(got, testCase.Group) {
+				t.Fatalf("want %#v, but %#v", testCase.Group, got)
+				return
+			}
+		})
 	}
 }
 
 func TestGroupService_Update(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	current := time.Now()
 
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
-	ves := make([]*domain.ValidationError, 0)
-
-	g := &domain.Group{
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
+	testCases := map[string]struct {
+		Group *domain.Group
+	}{
+		"ok": {
+			Group: &domain.Group{
+				ID:          "group-id",
+				Name:        "テストグループ",
+				Description: "グループの説明",
+				UserIDs:     []string{"user-id"},
+				BoardIDs:    make([]string, 0),
+				CreatedAt:   current,
+				UpdatedAt:   current,
+			},
+		},
 	}
 
-	// Defined mocks
-	gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
-	gdvm.EXPECT().Group(ctx, g).Return(ves)
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	grm := mock_repository.NewMockGroupRepository(ctrl)
-	grm.EXPECT().Update(ctx, g).Return(nil)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	urm := mock_repository.NewMockUserRepository(ctrl)
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
 
-	// Start test
-	target := NewGroupService(gdvm, grm, urm)
+		// Defined mocks
+		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
+		gdvm.EXPECT().Group(ctx, testCase.Group).Return(ves)
 
-	err := target.Update(ctx, g)
-	if err != nil {
-		t.Fatalf("error: %v", err)
+		grm := mock_repository.NewMockGroupRepository(ctrl)
+		grm.EXPECT().Update(ctx, testCase.Group).Return(nil)
+
+		urm := mock_repository.NewMockUserRepository(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupService(gdvm, grm, urm)
+
+			err := target.Update(ctx, testCase.Group)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+		})
 	}
 }
 
 func TestGroupService_InviteUsers(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	current := time.Now()
 
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
-	ves := make([]*domain.ValidationError, 0)
-
-	g := &domain.Group{
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
+	testCases := map[string]struct {
+		Group *domain.Group
+	}{
+		"ok": {
+			Group: &domain.Group{
+				ID:          "group-id",
+				Name:        "テストグループ",
+				Description: "グループの説明",
+				UserIDs:     []string{"user-id"},
+				BoardIDs:    make([]string, 0),
+				CreatedAt:   current,
+				UpdatedAt:   current,
+			},
+		},
 	}
 
-	// Defined mocks
-	gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
-	gdvm.EXPECT().Group(ctx, g).Return(ves)
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	grm := mock_repository.NewMockGroupRepository(ctrl)
-	grm.EXPECT().Update(ctx, g).Return(nil)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	urm := mock_repository.NewMockUserRepository(ctrl)
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
 
-	// Start test
-	target := NewGroupService(gdvm, grm, urm)
+		// Defined mocks
+		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
+		gdvm.EXPECT().Group(ctx, testCase.Group).Return(ves)
 
-	err := target.InviteUsers(ctx, g)
-	if err != nil {
-		t.Fatalf("error: %v", err)
+		grm := mock_repository.NewMockGroupRepository(ctrl)
+		grm.EXPECT().Update(ctx, testCase.Group).Return(nil)
+
+		urm := mock_repository.NewMockUserRepository(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupService(gdvm, grm, urm)
+
+			err := target.InviteUsers(ctx, testCase.Group)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+		})
 	}
 }
 
 func TestGroupService_Join(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	current := time.Now()
 
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
-	ves := make([]*domain.ValidationError, 0)
-
-	g := &domain.Group{
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
+	testCases := map[string]struct {
+		Group *domain.Group
+	}{
+		"ok": {
+			Group: &domain.Group{
+				ID:          "group-id",
+				Name:        "テストグループ",
+				Description: "グループの説明",
+				UserIDs:     []string{"user-id"},
+				BoardIDs:    make([]string, 0),
+				CreatedAt:   current,
+				UpdatedAt:   current,
+			},
+		},
 	}
 
-	// Defined mocks
-	gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
-	gdvm.EXPECT().Group(ctx, g).Return(ves)
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	grm := mock_repository.NewMockGroupRepository(ctrl)
-	grm.EXPECT().Update(ctx, g).Return(nil)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	urm := mock_repository.NewMockUserRepository(ctrl)
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
 
-	// Start test
-	target := NewGroupService(gdvm, grm, urm)
+		// Defined mocks
+		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
+		gdvm.EXPECT().Group(ctx, testCase.Group).Return(ves)
 
-	err := target.Join(ctx, g)
-	if err != nil {
-		t.Fatalf("error: %v", err)
+		grm := mock_repository.NewMockGroupRepository(ctrl)
+		grm.EXPECT().Update(ctx, testCase.Group).Return(nil)
+
+		urm := mock_repository.NewMockUserRepository(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupService(gdvm, grm, urm)
+
+			err := target.Join(ctx, testCase.Group)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+		})
 	}
 }
 
 func TestGroupService_IsContainInUserIDs(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	current := time.Now()
 
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
-	userID := "group-iscontain-user-id"
-
-	g := &domain.Group{
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     []string{userID},
+	testCases := map[string]struct {
+		UserID string
+		Group  *domain.Group
+	}{
+		"ok": {
+			UserID: "user-id",
+			Group: &domain.Group{
+				ID:            "group-id",
+				Name:          "テストグループ",
+				Description:   "グループの説明",
+				UserIDs:       []string{"user-id"},
+				InvitedEmails: make([]string, 0),
+				BoardIDs:      make([]string, 0),
+				CreatedAt:     current,
+				UpdatedAt:     current,
+			},
+		},
 	}
 
-	// Defined mocks
-	gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	grm := mock_repository.NewMockGroupRepository(ctrl)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	urm := mock_repository.NewMockUserRepository(ctrl)
+		// Defined mocks
+		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
 
-	// Start test
-	target := NewGroupService(gdvm, grm, urm)
+		grm := mock_repository.NewMockGroupRepository(ctrl)
 
-	got := target.IsContainInUserIDs(ctx, userID, g)
-	if !got {
-		t.Fatalf("error: %v", got)
+		urm := mock_repository.NewMockUserRepository(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupService(gdvm, grm, urm)
+
+			got := target.IsContainInUserIDs(ctx, testCase.UserID, testCase.Group)
+			if !got {
+				t.Fatalf("error: %v", got)
+				return
+			}
+		})
 	}
 }
 
 func TestGroupService_IsContainInInvitedEmails(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	current := time.Now()
 
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
-	email := "hoge@hoge.com"
-
-	g := &domain.Group{
-		Name:          "テストグループ",
-		Description:   "グループの説明",
-		InvitedEmails: []string{email},
+	testCases := map[string]struct {
+		Email string
+		Group *domain.Group
+	}{
+		"ok": {
+			Email: "hoge@hoge.com",
+			Group: &domain.Group{
+				ID:            "group-id",
+				Name:          "テストグループ",
+				Description:   "グループの説明",
+				UserIDs:       make([]string, 0),
+				InvitedEmails: []string{"hoge@hoge.com"},
+				BoardIDs:      make([]string, 0),
+				CreatedAt:     current,
+				UpdatedAt:     current,
+			},
+		},
 	}
 
-	// Defined mocks
-	gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	grm := mock_repository.NewMockGroupRepository(ctrl)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	urm := mock_repository.NewMockUserRepository(ctrl)
+		// Defined mocks
+		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
 
-	// Start test
-	target := NewGroupService(gdvm, grm, urm)
+		grm := mock_repository.NewMockGroupRepository(ctrl)
 
-	got := target.IsContainInInvitedEmails(ctx, email, g)
-	if !got {
-		t.Fatalf("error: %v", got)
+		urm := mock_repository.NewMockUserRepository(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupService(gdvm, grm, urm)
+
+			got := target.IsContainInInvitedEmails(ctx, testCase.Email, testCase.Group)
+			if !got {
+				t.Fatalf("error: %v", got)
+				return
+			}
+		})
 	}
 }

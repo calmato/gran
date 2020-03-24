@@ -87,7 +87,7 @@ func (ga *groupApplication) Create(ctx context.Context, req *request.CreateGroup
 		Description: req.Description,
 	}
 
-	if err := ga.groupService.Create(ctx, u, g); err != nil {
+	if _, err := ga.groupService.Create(ctx, u, g); err != nil {
 		return err
 	}
 

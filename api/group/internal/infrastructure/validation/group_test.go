@@ -10,29 +10,39 @@ import (
 )
 
 func TestGroupDomainValidation_Group(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	// Defined variable
 	current := time.Now()
 
-	// Defined variable
-	g := &domain.Group{
-		ID:          "group-id",
-		Name:        "テストグループ",
-		Description: "グループの説明",
-		UserIDs:     make([]string, 0),
-		CreatedAt:   current,
-		UpdatedAt:   current,
+	testCases := map[string]struct {
+		Group    *domain.Group
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Group: &domain.Group{
+				ID:          "group-id",
+				Name:        "テストグループ",
+				Description: "グループの説明",
+				UserIDs:     make([]string, 0),
+				BoardIDs:    make([]string, 0),
+				CreatedAt:   current,
+				UpdatedAt:   current,
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	// Start test
-	target := NewGroupDomainValidation()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	want := []*domain.ValidationError{}
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewGroupDomainValidation()
 
-	got := target.Group(ctx, g)
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.Group(ctx, testCase.Group)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
