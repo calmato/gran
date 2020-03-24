@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"reflect"
 	"testing"
 	"time"
 
@@ -12,52 +13,70 @@ import (
 )
 
 func TestTaskService_Create(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
-	ves := make([]*domain.ValidationError, 0)
 	current := time.Now()
-	groupID := "task-create-group-id"
-	boardID := "task-create-board-id"
-	boardListID := "task-create-boardlist-id"
 
-	task := &domain.Task{
-		Name:            "タスク",
-		Description:     "説明",
-		Labels:          []string{},
-		AttachmentURLs:  []string{},
-		AssignedUserIDs: []string{},
-		BoardListID:     boardListID,
-		DeadlinedAt:     current,
+	testCases := map[string]struct {
+		GroupID string
+		BoardID string
+		Task    *domain.Task
+	}{
+		"ok": {
+			GroupID: "group-id",
+			BoardID: "board-id",
+			Task: &domain.Task{
+				Name:            "タスク",
+				Description:     "説明",
+				Labels:          []string{},
+				AttachmentURLs:  []string{},
+				AssignedUserIDs: []string{},
+				BoardListID:     "board-list-id",
+				DeadlinedAt:     current,
+			},
+		},
 	}
 
-	bl := &domain.BoardList{
-		ID:      boardListID,
-		Name:    "ボードリスト",
-		Color:   "",
-		TaskIDs: []string{task.ID},
-	}
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	// Defined mocks
-	tdvm := mock_validation.NewMockTaskDomainValidation(ctrl)
-	tdvm.EXPECT().Task(ctx, task).Return(ves)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	trm := mock_repository.NewMockTaskRepository(ctrl)
-	trm.EXPECT().Create(ctx, task).Return(nil)
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
 
-	brm := mock_repository.NewMockBoardRepository(ctrl)
-	brm.EXPECT().ShowBoardList(ctx, groupID, boardID, boardListID).Return(bl, nil)
-	brm.EXPECT().UpdateBoardList(ctx, groupID, boardID, bl).Return(nil)
+		bl := &domain.BoardList{
+			ID:      testCase.Task.BoardListID,
+			Name:    "ボードリスト",
+			Color:   "",
+			TaskIDs: []string{},
+		}
 
-	// Start test
-	target := NewTaskService(tdvm, trm, brm)
+		// Defined mocks
+		tdvm := mock_validation.NewMockTaskDomainValidation(ctrl)
+		tdvm.EXPECT().Task(ctx, testCase.Task).Return(ves)
 
-	_, err := target.Create(ctx, groupID, boardID, task)
-	if err != nil {
-		t.Fatalf("error: %v", err)
+		trm := mock_repository.NewMockTaskRepository(ctrl)
+		trm.EXPECT().Create(ctx, testCase.Task).Return(nil)
+
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+		brm.EXPECT().ShowBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.Task.BoardListID).Return(bl, nil)
+		brm.EXPECT().UpdateBoardList(ctx, testCase.GroupID, testCase.BoardID, bl).Return(nil)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewTaskService(tdvm, trm, brm)
+
+			got, err := target.Create(ctx, testCase.GroupID, testCase.BoardID, testCase.Task)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+
+			if !reflect.DeepEqual(got, testCase.Task) {
+				t.Fatalf("want %#v, but %#v", testCase.Task, got)
+				return
+			}
+		})
 	}
 }

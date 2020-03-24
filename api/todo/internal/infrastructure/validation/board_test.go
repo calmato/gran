@@ -10,57 +10,77 @@ import (
 )
 
 func TestBoardDomainValidation_Board(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	// Defined variable
 	current := time.Now()
 
-	b := &domain.Board{
-		ID:              "board-id",
-		Name:            "テストグループ",
-		IsClosed:        true,
-		ThumbnailURL:    "",
-		BackgroundColor: "",
-		Labels:          make([]string, 0),
-		GroupID:         "",
-		CreatedAt:       current,
-		UpdatedAt:       current,
+	testCases := map[string]struct {
+		Board    *domain.Board
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Board: &domain.Board{
+				ID:              "board-id",
+				Name:            "テストグループ",
+				IsClosed:        true,
+				ThumbnailURL:    "",
+				BackgroundColor: "",
+				Labels:          make([]string, 0),
+				GroupID:         "",
+				CreatedAt:       current,
+				UpdatedAt:       current,
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	// Start test
-	target := NewBoardDomainValidation()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	want := []*domain.ValidationError{}
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardDomainValidation()
 
-	got := target.Board(ctx, b)
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.Board(ctx, testCase.Board)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
 
 func TestBoardDomainValidation_BoardList(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	// Defined variables
 	current := time.Now()
 
-	bl := &domain.BoardList{
-		ID:        "boardlist-id",
-		Name:      "テストボードリスト",
-		BoardID:   "",
-		CreatedAt: current,
-		UpdatedAt: current,
+	testCases := map[string]struct {
+		BoardList *domain.BoardList
+		Expected  []*domain.ValidationError
+	}{
+		"ok": {
+			BoardList: &domain.BoardList{
+				ID:        "board-list-id",
+				Name:      "テストボードリスト",
+				BoardID:   "",
+				CreatedAt: current,
+				UpdatedAt: current,
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	// Start test
-	target := NewBoardDomainValidation()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	want := []*domain.ValidationError{}
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardDomainValidation()
 
-	got := target.BoardList(ctx, bl)
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.BoardList(ctx, testCase.BoardList)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
