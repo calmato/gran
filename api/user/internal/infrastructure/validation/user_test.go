@@ -13,37 +13,47 @@ import (
 )
 
 func TestUserDomainValidation_User(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
 	current := time.Now()
 
-	u := &domain.User{
-		ID:           "user-id",
-		Email:        "hoge@hoge.com",
-		Password:     "12345678",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
-		CreatedAt:    current,
-		UpdatedAt:    current,
+	testCases := map[string]struct {
+		User     *domain.User
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			User: &domain.User{
+				ID:           "user-id",
+				Email:        "hoge@hoge.com",
+				Password:     "12345678",
+				Name:         "",
+				ThumbnailURL: "",
+				GroupIDs:     make([]string, 0),
+				CreatedAt:    current,
+				UpdatedAt:    current,
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	// Defined mocks
-	urm := mock_repository.NewMockUserRepository(ctrl)
-	urm.EXPECT().GetUIDByEmail(ctx, u.Email).Return("", nil)
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	// Start test
-	target := NewUserDomainValidation(urm)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	want := []*domain.ValidationError{}
+		// Defined mocks
+		urm := mock_repository.NewMockUserRepository(ctrl)
+		urm.EXPECT().GetUIDByEmail(ctx, testCase.User.Email).Return("", nil)
 
-	got := target.User(ctx, u)
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewUserDomainValidation(urm)
+
+			got := target.User(ctx, testCase.User)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
