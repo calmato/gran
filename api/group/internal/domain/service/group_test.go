@@ -28,7 +28,7 @@ func TestGroupService_Index(t *testing.T) {
 				UpdatedAt: current,
 			},
 			Expected: []*domain.Group{
-				&domain.Group{
+				{
 					ID:          "group-id",
 					Name:        "テストグループ",
 					Description: "グループの説明",

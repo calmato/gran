@@ -22,7 +22,7 @@ func TestGroupApplication_Index(t *testing.T) {
 	}{
 		"ok": {
 			Expected: []*domain.Group{
-				&domain.Group{
+				{
 					ID:          "group-id",
 					Name:        "テストグループ",
 					Description: "グループの説明",
