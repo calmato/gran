@@ -91,7 +91,7 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
-  /groups/{groupID}/boards/{boardId}/kanban:
+  /groups/{groupId}/boards/{boardId}/kanban:
     patch:
       summary: カンバン編集
       security:
