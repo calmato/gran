@@ -10,35 +10,45 @@ import (
 )
 
 func TestTaskDomainValidation_Task(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	// Defined variable
 	current := time.Now()
 
-	task := &domain.Task{
-		ID:              "task-id",
-		Name:            "タスク",
-		Description:     "説明",
-		Labels:          []string{},
-		AttachmentURLs:  []string{},
-		BoardID:         "board-id",
-		BoardListID:     "board-list-id",
-		AssignedUserIDs: []string{},
-		CheckListIDs:    []string{},
-		CommentIDs:      []string{},
-		DeadlinedAt:     current,
-		CreatedAt:       current,
-		UpdatedAt:       current,
+	testCases := map[string]struct {
+		Task     *domain.Task
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Task: &domain.Task{
+				ID:              "task-id",
+				Name:            "タスク",
+				Description:     "説明",
+				Labels:          []string{},
+				AttachmentURLs:  []string{},
+				BoardID:         "board-id",
+				BoardListID:     "board-list-id",
+				AssignedUserIDs: []string{},
+				CheckListIDs:    []string{},
+				CommentIDs:      []string{},
+				DeadlinedAt:     current,
+				CreatedAt:       current,
+				UpdatedAt:       current,
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	// Start test
-	target := NewTaskDomainValidation()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	want := []*domain.ValidationError{}
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewTaskDomainValidation()
 
-	got := target.Task(ctx, task)
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.Task(ctx, testCase.Task)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }

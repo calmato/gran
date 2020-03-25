@@ -166,13 +166,11 @@ func (ba *boardApplication) CreateBoardList(
 func (ba *boardApplication) UpdateKanban(
 	ctx context.Context, groupID string, boardID string, req *request.UpdateKanban,
 ) error {
-	// 認証
 	u, err := ba.userService.Authentication(ctx)
 	if err != nil {
 		return err
 	}
 
-	// 認可
 	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
 		err := xerrors.New("Unable to UpdateKanban function")
 		return domain.Forbidden.New(err)

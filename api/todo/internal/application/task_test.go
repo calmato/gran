@@ -14,57 +14,71 @@ import (
 )
 
 func TestTaskApplication_Create(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// Defined variables
 	current := time.Now()
-	groupID := "task-create-group-id"
-	boardID := "task-create-board-id"
-	ves := make([]*domain.ValidationError, 0)
 
-	req := &request.CreateTask{
-		Name:            "タスク",
-		Description:     "説明",
-		BoardListID:     "task-create-boardlist-id",
-		Labels:          []string{},
-		Attachments:     []string{},
-		AssignedUserIDs: []string{},
-		DeadlinedAt:     current,
+	testCases := map[string]struct {
+		GroupID string
+		BoardID string
+		Request *request.CreateTask
+	}{
+		"ok": {
+			GroupID: "group-id",
+			BoardID: "board-id",
+			Request: &request.CreateTask{
+				Name:            "タスク",
+				Description:     "説明",
+				BoardListID:     "board-list-id",
+				Labels:          []string{},
+				Attachments:     []string{},
+				AssignedUserIDs: []string{},
+				DeadlinedAt:     current,
+			},
+		},
 	}
 
-	u := &domain.User{}
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	task := &domain.Task{
-		Name:            "タスク",
-		Description:     "説明",
-		Labels:          []string{},
-		AttachmentURLs:  []string{},
-		AssignedUserIDs: []string{},
-		DeadlinedAt:     current,
-		BoardID:         boardID,
-		BoardListID:     "task-create-boardlist-id",
-	}
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	// Defined mocks
-	trvm := mock_validation.NewMockTaskRequestValidation(ctrl)
-	trvm.EXPECT().CreateTask(req).Return(ves)
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
 
-	tsm := mock_service.NewMockTaskService(ctrl)
-	tsm.EXPECT().Create(ctx, groupID, boardID, task).Return(task, nil)
+		u := &domain.User{}
 
-	usm := mock_service.NewMockUserService(ctrl)
-	usm.EXPECT().Authentication(ctx).Return(u, nil)
-	usm.EXPECT().IsContainInGroupIDs(ctx, groupID, u).Return(true)
+		task := &domain.Task{
+			Name:            testCase.Request.Name,
+			Description:     testCase.Request.Description,
+			Labels:          testCase.Request.Labels,
+			AssignedUserIDs: testCase.Request.AssignedUserIDs,
+			DeadlinedAt:     testCase.Request.DeadlinedAt,
+			AttachmentURLs:  make([]string, 0),
+			BoardID:         testCase.BoardID,
+			BoardListID:     testCase.Request.BoardListID,
+		}
 
-	// Start test
-	target := NewTaskApplication(trvm, tsm, usm)
+		// Defined mocks
+		trvm := mock_validation.NewMockTaskRequestValidation(ctrl)
+		trvm.EXPECT().CreateTask(testCase.Request).Return(ves)
 
-	err := target.Create(ctx, groupID, boardID, req)
-	if err != nil {
-		t.Fatalf("error: %v", err)
+		tsm := mock_service.NewMockTaskService(ctrl)
+		tsm.EXPECT().Create(ctx, testCase.GroupID, testCase.BoardID, task).Return(task, nil)
+
+		usm := mock_service.NewMockUserService(ctrl)
+		usm.EXPECT().Authentication(ctx).Return(u, nil)
+		usm.EXPECT().IsContainInGroupIDs(ctx, testCase.GroupID, u).Return(true)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewTaskApplication(trvm, tsm, usm)
+
+			err := target.Create(ctx, testCase.GroupID, testCase.BoardID, testCase.Request)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+		})
 	}
 }

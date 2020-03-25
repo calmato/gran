@@ -9,23 +9,33 @@ import (
 )
 
 func TestTaskRequestValidation_CreateTask(t *testing.T) {
-	// Defined variables
-	task := &request.CreateTask{
-		Name:            "タスク",
-		Description:     "説明",
-		BoardListID:     "task-create-boardlist-id",
-		Labels:          []string{},
-		Attachments:     []string{},
-		AssignedUserIDs: []string{},
+	testCases := map[string]struct {
+		Request  *request.CreateTask
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Request: &request.CreateTask{
+				Name:            "タスク",
+				Description:     "説明",
+				BoardListID:     "task-create-boardlist-id",
+				Labels:          []string{},
+				Attachments:     []string{},
+				AssignedUserIDs: []string{},
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	// Start test
-	target := NewTaskRequestValidation()
+	for result, testCase := range testCases {
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewTaskRequestValidation()
 
-	want := []*domain.ValidationError(nil)
-
-	got := target.CreateTask(task)
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.CreateTask(testCase.Request)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
