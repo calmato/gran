@@ -43,7 +43,7 @@ linters:
 
 linters-settings:
   funlen:
-    lines: 100
+    lines: 120
     statements: 50
 
 run:

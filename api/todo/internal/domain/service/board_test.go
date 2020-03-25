@@ -349,7 +349,9 @@ func TestBoardService_UpdateKanban(t *testing.T) {
 
 		brm := mock_repository.NewMockBoardRepository(ctrl)
 		brm.EXPECT().Update(ctx, testCase.Board).Return(nil)
-		brm.EXPECT().UpdateBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.Board.Lists["board-list-id"]).Return(nil)
+		brm.EXPECT().UpdateBoardList(
+			ctx, testCase.GroupID, testCase.BoardID, testCase.Board.Lists["board-list-id"],
+		).Return(nil)
 
 		trm := mock_repository.NewMockTaskRepository(ctrl)
 
