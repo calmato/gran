@@ -19,6 +19,7 @@ type BoardApplication interface {
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, req *request.CreateBoard) error
 	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) error
+	UpdateBoardList(ctx context.Context, groupID string, boardID string, boardListID string, req *request.UpdateBoardList) error
 	UpdateKanban(ctx context.Context, groupID string, boardID string, req *request.UpdateKanban) error
 }
 
@@ -156,6 +157,39 @@ func (ba *boardApplication) CreateBoardList(
 	}
 
 	if _, err := ba.boardService.CreateBoardList(ctx, groupID, boardID, bl); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ba *boardApplication) UpdateBoardList(
+	ctx context.Context, groupID string, boardID string, boardListID string, req *request.UpdateBoardList,
+) error {
+	u, err := ba.userService.Authentication(ctx)
+	if err != nil {
+		return err
+	}
+
+	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
+		err := xerrors.New("Unable to ShowBoard function")
+		return domain.Forbidden.New(err)
+	}
+
+	bl, err := ba.boardService.ShowBoardList(ctx, groupID, boardID, boardListID)
+	if err != nil {
+		return err
+	}
+
+	if ves := ba.boardRequestValidation.UpdateBoardList(req); len(ves) > 0 {
+		err := xerrors.New("Failed to Application/RequestValidation")
+		return domain.InvalidRequestValidation.New(err, ves...)
+	}
+
+	bl.Name = req.Name
+	bl.Color = req.Color
+
+	if _, err := ba.boardService.UpdateBoardList(ctx, groupID, boardID, bl); err != nil {
 		return err
 	}
 
