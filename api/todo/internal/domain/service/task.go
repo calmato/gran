@@ -14,7 +14,7 @@ import (
 
 // TaskService - TaskServiceインターフェース
 type TaskService interface {
-	Create(ctx context.Context, groupID string, boardID string, t *domain.Task) (*domain.Task, error)
+	Create(ctx context.Context, groupID string, boardID string, boardListID string, t *domain.Task) (*domain.Task, error)
 }
 
 type taskService struct {
@@ -35,11 +35,17 @@ func NewTaskService(
 }
 
 func (ts *taskService) Create(
-	ctx context.Context, groupID string, boardID string, t *domain.Task,
+	ctx context.Context, groupID string, boardID string, boardListID string, t *domain.Task,
 ) (*domain.Task, error) {
 	if ves := ts.taskDomainValidation.Task(ctx, t); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
 		return nil, domain.InvalidDomainValidation.New(err, ves...)
+	}
+
+	bl, err := ts.boardRepository.ShowBoardList(ctx, groupID, boardID, boardListID)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
 	}
 
 	current := time.Now()
@@ -49,12 +55,6 @@ func (ts *taskService) Create(
 	t.UpdatedAt = current
 
 	if err := ts.taskRepository.Create(ctx, t); err != nil {
-		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
-		return nil, domain.ErrorInDatastore.New(err)
-	}
-
-	bl, err := ts.boardRepository.ShowBoardList(ctx, groupID, boardID, t.BoardListID)
-	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return nil, domain.ErrorInDatastore.New(err)
 	}
