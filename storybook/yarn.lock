@@ -3409,9 +3409,9 @@ ejs@^2.7.4:
   integrity sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA==
 
 electron-to-chromium@^1.3.247, electron-to-chromium@^1.3.380:
-  version "1.3.389"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.389.tgz#8ca33af1968144ce752a9b962dd48d911227aea1"
-  integrity sha512-jccXIOH9PWpTiJCoMOsbDg23eg+P0cvcgjXo0spkbkB0AjCkfZLADp/apnuNEjCfXACS8PPWChTwiDOXjFZdzw==
+  version "1.3.390"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.390.tgz#a49e67dea22e52ea8027c475dd5447b1c00b1d4e"
+  integrity sha512-4RvbM5x+002gKI8sltkqWEk5pptn0UnzekUx8RTThAMPDSb8jjpm6SwGiSnEve7f85biyZl8DMXaipaCxDjXag==
 
 element-resize-detector@^1.2.1:
   version "1.2.1"
