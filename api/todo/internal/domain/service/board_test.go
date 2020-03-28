@@ -128,7 +128,7 @@ func TestBoardService_Show(t *testing.T) {
 		brm.EXPECT().IndexBoardList(ctx, testCase.GroupID, testCase.BoardID).Return(bls, nil)
 
 		trm := mock_repository.NewMockTaskRepository(ctrl)
-		trm.EXPECT().IndexByBoardListID(ctx, bl.ID).Return(ts, nil)
+		trm.EXPECT().IndexByBoardID(ctx, testCase.BoardID).Return(ts, nil)
 
 		fum := mock_uploader.NewMockFileUploader(ctrl)
 

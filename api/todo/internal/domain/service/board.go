@@ -19,7 +19,9 @@ type BoardService interface {
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, b *domain.Board) (*domain.Board, error)
 	UploadThumbnail(ctx context.Context, data []byte) (string, error)
+	ShowBoardList(ctx context.Context, groupID string, boardID string, boardListID string) (*domain.BoardList, error)
 	CreateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) (*domain.BoardList, error)
+	UpdateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) (*domain.BoardList, error)
 	UpdateKanban(ctx context.Context, groupID string, boardID string, b *domain.Board) error
 }
 
@@ -70,16 +72,18 @@ func (bs *boardService) Show(ctx context.Context, groupID string, boardID string
 	for _, bl := range bls {
 		b.Lists[bl.ID] = bl
 
-		ts, err := bs.taskRepository.IndexByBoardListID(ctx, bl.ID)
+		ts, err := bs.taskRepository.IndexByBoardID(ctx, boardID)
 		if err != nil {
 			err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 			return nil, domain.ErrorInDatastore.New(err)
 		}
 
-		bl.Tasks = make(map[string]*domain.Task)
-		for _, t := range ts {
-			bl.Tasks[t.ID] = t
+		tasksMapInBoardList, err := getTasksMapInBoardList(bl.TaskIDs, ts)
+		if err != nil {
+			return nil, domain.Unknown.New(err)
 		}
+
+		bl.Tasks = tasksMapInBoardList
 	}
 
 	return b, nil
@@ -113,6 +117,18 @@ func (bs *boardService) UploadThumbnail(ctx context.Context, data []byte) (strin
 	}
 
 	return thumbnailURL, nil
+}
+
+func (bs *boardService) ShowBoardList(
+	ctx context.Context, groupID string, boardID string, boardListID string,
+) (*domain.BoardList, error) {
+	bl, err := bs.boardRepository.ShowBoardList(ctx, groupID, boardID, boardListID)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	return bl, nil
 }
 
 func (bs *boardService) CreateBoardList(
@@ -150,6 +166,26 @@ func (bs *boardService) CreateBoardList(
 	return bl, nil
 }
 
+func (bs *boardService) UpdateBoardList(
+	ctx context.Context, groupID string, boardID string, bl *domain.BoardList,
+) (*domain.BoardList, error) {
+	if ves := bs.boardDomainValidation.BoardList(ctx, bl); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+		return nil, domain.InvalidDomainValidation.New(err, ves...)
+	}
+
+	current := time.Now()
+
+	bl.UpdatedAt = current
+
+	if err := bs.boardRepository.UpdateBoardList(ctx, groupID, boardID, bl); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	return bl, nil
+}
+
 // UpdateKanban - ボードリスト, タスク順序の編集
 func (bs *boardService) UpdateKanban(ctx context.Context, groupID string, boardID string, b *domain.Board) error {
 	if ves := bs.boardDomainValidation.Board(ctx, b); len(ves) > 0 {
@@ -175,4 +211,23 @@ func (bs *boardService) UpdateKanban(ctx context.Context, groupID string, boardI
 	}
 
 	return nil
+}
+
+func getTasksMapInBoardList(taskIDs []string, tasks []*domain.Task) (map[string]*domain.Task, error) {
+	tasksMapInBoardList := make(map[string]*domain.Task, len(taskIDs))
+
+	for i, taskID := range taskIDs {
+		for _, t := range tasks {
+			if taskID == t.ID {
+				tasksMapInBoardList[taskID] = t
+				break
+			}
+
+			if i == (len(tasks) - 1) {
+				return nil, xerrors.Errorf("Not found task with id %w", taskID)
+			}
+		}
+	}
+
+	return tasksMapInBoardList, nil
 }

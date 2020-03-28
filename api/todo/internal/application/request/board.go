@@ -17,6 +17,12 @@ type CreateBoardList struct {
 	Color string `json:"color" label:"ボードリストの色"`
 }
 
+// UpdateBoardList - ボードリスト編集APIのリクエスト
+type UpdateBoardList struct {
+	Name  string `json:"name" label:"ボードリスト名" validate:"required,max=64"`
+	Color string `json:"color" label:"ボードリストの色"`
+}
+
 // TaskInUpdateKanban - カンバン編集用 タスクのリクエスト
 type TaskInUpdateKanban struct {
 	ID              string    `json:"id" validate:"required"`

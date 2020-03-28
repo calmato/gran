@@ -10,7 +10,7 @@ type Task struct {
 	Labels          []string  `firestore:"labels"`
 	AttachmentURLs  []string  `firestore:"attachment_urls"`
 	BoardID         string    `firestore:"board_id"`
-	BoardListID     string    `firestore:"board_list_id"`
+	BoardListID     string    `firestore:"-"`
 	AssignedUserIDs []string  `firestore:"assigned_user_ids"`
 	CheckListIDs    []string  `firestore:"checklist_ids"`
 	CommentIDs      []string  `firestore:"comment_ids"`

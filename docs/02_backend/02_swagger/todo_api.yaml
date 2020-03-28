@@ -91,40 +91,6 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
-  /groups/{groupId}/boards/{boardId}/kanban:
-    patch:
-      summary: カンバン編集
-      security:
-        - BearerAuth: []
-      parameters:
-        - in: path
-          name: groupId
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: グループID
-        - in: path
-          name: boardId
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: ボードID
-      requestBody:
-        $ref: '#/components/requestBodies/UpdateKanban'
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '500':
-          $ref: '#/components/responses/Unkown'
-
   /groups/{groupId}/boards/{boardId}/lists:
     post:
       summary: ボードリスト作成
@@ -159,6 +125,47 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
+  /groups/{groupId}/boards/{boardId}/lists/{listId}:
+    patch:
+      summary: ボードリスト編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+        - in: path
+          name: listId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードリストID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateBoardList'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
   /groups/{groupId}/boards/{boardId}/tasks:
     post:
       summary: タスク作成
@@ -181,6 +188,41 @@ paths:
           description: ボードID
       requestBody:
         $ref: '#/components/requestBodies/CreateTask'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+
+  /groups/{groupId}/boards/{boardId}/kanban:
+    patch:
+      summary: カンバン編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateKanban'
       responses:
         '200':
           description: OK
@@ -311,6 +353,23 @@ components:
 
     CreateBoardList:
       description: ボードリスト作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リスト名
+              color:
+                type: string
+                description: リストの色
+            required:
+              - name
+
+    UpdateBoardList:
+      description: ボードリスト編集フォーム
       required: true
       content:
         application/json:

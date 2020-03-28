@@ -34,19 +34,19 @@ func (m *MockTaskRepository) EXPECT() *MockTaskRepositoryMockRecorder {
 	return m.recorder
 }
 
-// IndexByBoardListID mocks base method
-func (m *MockTaskRepository) IndexByBoardListID(ctx context.Context, boardListID string) ([]*domain.Task, error) {
+// IndexByBoardID mocks base method
+func (m *MockTaskRepository) IndexByBoardID(ctx context.Context, boardID string) ([]*domain.Task, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IndexByBoardListID", ctx, boardListID)
+	ret := m.ctrl.Call(m, "IndexByBoardID", ctx, boardID)
 	ret0, _ := ret[0].([]*domain.Task)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// IndexByBoardListID indicates an expected call of IndexByBoardListID
-func (mr *MockTaskRepositoryMockRecorder) IndexByBoardListID(ctx, boardListID interface{}) *gomock.Call {
+// IndexByBoardID indicates an expected call of IndexByBoardID
+func (mr *MockTaskRepositoryMockRecorder) IndexByBoardID(ctx, boardID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IndexByBoardListID", reflect.TypeOf((*MockTaskRepository)(nil).IndexByBoardListID), ctx, boardListID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IndexByBoardID", reflect.TypeOf((*MockTaskRepository)(nil).IndexByBoardID), ctx, boardID)
 }
 
 // Create mocks base method
