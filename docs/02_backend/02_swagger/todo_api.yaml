@@ -126,7 +126,7 @@ paths:
           $ref: '#/components/responses/Unkown'
 
   /groups/{groupId}/boards/{boardId}/lists/{listId}:
-    post:
+    patch:
       summary: ボードリスト編集
       security:
         - BearerAuth: []
