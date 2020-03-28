@@ -94,6 +94,21 @@ func (mr *MockBoardServiceMockRecorder) UploadThumbnail(ctx, data interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadThumbnail", reflect.TypeOf((*MockBoardService)(nil).UploadThumbnail), ctx, data)
 }
 
+// ShowBoardList mocks base method
+func (m *MockBoardService) ShowBoardList(ctx context.Context, groupID, boardID, boardListID string) (*domain.BoardList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ShowBoardList", ctx, groupID, boardID, boardListID)
+	ret0, _ := ret[0].(*domain.BoardList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ShowBoardList indicates an expected call of ShowBoardList
+func (mr *MockBoardServiceMockRecorder) ShowBoardList(ctx, groupID, boardID, boardListID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ShowBoardList", reflect.TypeOf((*MockBoardService)(nil).ShowBoardList), ctx, groupID, boardID, boardListID)
+}
+
 // CreateBoardList mocks base method
 func (m *MockBoardService) CreateBoardList(ctx context.Context, groupID, boardID string, bl *domain.BoardList) (*domain.BoardList, error) {
 	m.ctrl.T.Helper()
@@ -107,6 +122,21 @@ func (m *MockBoardService) CreateBoardList(ctx context.Context, groupID, boardID
 func (mr *MockBoardServiceMockRecorder) CreateBoardList(ctx, groupID, boardID, bl interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBoardList", reflect.TypeOf((*MockBoardService)(nil).CreateBoardList), ctx, groupID, boardID, bl)
+}
+
+// UpdateBoardList mocks base method
+func (m *MockBoardService) UpdateBoardList(ctx context.Context, groupID, boardID string, bl *domain.BoardList) (*domain.BoardList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateBoardList", ctx, groupID, boardID, bl)
+	ret0, _ := ret[0].(*domain.BoardList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateBoardList indicates an expected call of UpdateBoardList
+func (mr *MockBoardServiceMockRecorder) UpdateBoardList(ctx, groupID, boardID, bl interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateBoardList", reflect.TypeOf((*MockBoardService)(nil).UpdateBoardList), ctx, groupID, boardID, bl)
 }
 
 // UpdateKanban mocks base method
