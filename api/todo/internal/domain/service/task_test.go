@@ -16,20 +16,21 @@ func TestTaskService_Create(t *testing.T) {
 	current := time.Now()
 
 	testCases := map[string]struct {
-		GroupID string
-		BoardID string
-		Task    *domain.Task
+		GroupID     string
+		BoardID     string
+		BoardListID string
+		Task        *domain.Task
 	}{
 		"ok": {
-			GroupID: "group-id",
-			BoardID: "board-id",
+			GroupID:     "group-id",
+			BoardID:     "board-id",
+			BoardListID: "board-list-id",
 			Task: &domain.Task{
 				Name:            "タスク",
 				Description:     "説明",
 				Labels:          []string{},
 				AttachmentURLs:  []string{},
 				AssignedUserIDs: []string{},
-				BoardListID:     "board-list-id",
 				DeadlinedAt:     current,
 			},
 		},
@@ -46,7 +47,7 @@ func TestTaskService_Create(t *testing.T) {
 		ves := make([]*domain.ValidationError, 0)
 
 		bl := &domain.BoardList{
-			ID:      testCase.Task.BoardListID,
+			ID:      testCase.BoardListID,
 			Name:    "ボードリスト",
 			Color:   "",
 			TaskIDs: []string{},
@@ -60,14 +61,14 @@ func TestTaskService_Create(t *testing.T) {
 		trm.EXPECT().Create(ctx, testCase.Task).Return(nil)
 
 		brm := mock_repository.NewMockBoardRepository(ctrl)
-		brm.EXPECT().ShowBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.Task.BoardListID).Return(bl, nil)
+		brm.EXPECT().ShowBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardListID).Return(bl, nil)
 		brm.EXPECT().UpdateBoardList(ctx, testCase.GroupID, testCase.BoardID, bl).Return(nil)
 
 		// Start test
 		t.Run(result, func(t *testing.T) {
 			target := NewTaskService(tdvm, trm, brm)
 
-			got, err := target.Create(ctx, testCase.GroupID, testCase.BoardID, testCase.Task)
+			got, err := target.Create(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardListID, testCase.Task)
 			if err != nil {
 				t.Fatalf("error: %v", err)
 				return

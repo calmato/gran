@@ -56,7 +56,6 @@ func TestTaskApplication_Create(t *testing.T) {
 			DeadlinedAt:     testCase.Request.DeadlinedAt,
 			AttachmentURLs:  make([]string, 0),
 			BoardID:         testCase.BoardID,
-			BoardListID:     testCase.Request.BoardListID,
 		}
 
 		// Defined mocks
@@ -64,7 +63,7 @@ func TestTaskApplication_Create(t *testing.T) {
 		trvm.EXPECT().CreateTask(testCase.Request).Return(ves)
 
 		tsm := mock_service.NewMockTaskService(ctrl)
-		tsm.EXPECT().Create(ctx, testCase.GroupID, testCase.BoardID, task).Return(task, nil)
+		tsm.EXPECT().Create(ctx, testCase.GroupID, testCase.BoardID, testCase.Request.BoardListID, task).Return(task, nil)
 
 		usm := mock_service.NewMockUserService(ctrl)
 		usm.EXPECT().Authentication(ctx).Return(u, nil)
