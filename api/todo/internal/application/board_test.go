@@ -249,6 +249,7 @@ func TestBoardApplication_CreateBoardList(t *testing.T) {
 		brvm.EXPECT().CreateBoardList(testCase.Request).Return(ves)
 
 		bsm := mock_service.NewMockBoardService(ctrl)
+		bsm.EXPECT().Exists(ctx, testCase.GroupID, testCase.BoardID).Return(true)
 		bsm.EXPECT().CreateBoardList(ctx, testCase.GroupID, testCase.BoardID, bl).Return(bl, nil)
 
 		usm := mock_service.NewMockUserService(ctrl)

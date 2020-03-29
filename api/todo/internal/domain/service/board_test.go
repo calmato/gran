@@ -249,6 +249,115 @@ func TestBoardService_UploadThumbnail(t *testing.T) {
 	}
 }
 
+func TestBoardService_Exists(t *testing.T) {
+	current := time.Now()
+
+	testCases := map[string]struct {
+		GroupID  string
+		BoardID  string
+		Expected bool
+	}{
+		"ok": {
+			GroupID:  "group-id",
+			BoardID:  "board-id",
+			Expected: true,
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined variables
+		b := &domain.Board{
+			ID:        testCase.BoardID,
+			Name:      "テストボードリスト",
+			CreatedAt: current,
+			UpdatedAt: current,
+		}
+
+		// Defined mocks
+		bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+		brm.EXPECT().Show(ctx, testCase.GroupID, testCase.BoardID).Return(b, nil)
+
+		trm := mock_repository.NewMockTaskRepository(ctrl)
+
+		fum := mock_uploader.NewMockFileUploader(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardService(bdvm, brm, trm, fum)
+
+			got := target.Exists(ctx, testCase.GroupID, testCase.BoardID)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
+	}
+}
+
+func TestBoardService_ShowBoardList(t *testing.T) {
+	testCases := map[string]struct {
+		GroupID     string
+		BoardID     string
+		BoardListID string
+		Expected    *domain.BoardList
+	}{
+		"ok": {
+			GroupID:     "group-id",
+			BoardID:     "board-id",
+			BoardListID: "board-list-id",
+			Expected: &domain.BoardList{
+				ID:    "board-list-id",
+				Name:  "テストボードリスト",
+				Color: "",
+			},
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined mocks
+		bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+		brm.EXPECT().ShowBoardList(
+			ctx, testCase.GroupID, testCase.BoardID, testCase.BoardListID,
+		).Return(testCase.Expected, nil)
+
+		trm := mock_repository.NewMockTaskRepository(ctrl)
+
+		fum := mock_uploader.NewMockFileUploader(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardService(bdvm, brm, trm, fum)
+
+			got, err := target.ShowBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardListID)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
+	}
+}
+
 func TestBoardService_CreateBoardList(t *testing.T) {
 	testCases := map[string]struct {
 		GroupID   string
@@ -359,6 +468,59 @@ func TestBoardService_UpdateBoardList(t *testing.T) {
 
 			if !reflect.DeepEqual(got, testCase.BoardList) {
 				t.Fatalf("want %#v, but %#v", testCase.BoardList, got)
+				return
+			}
+		})
+	}
+}
+
+func TestBoardService_ExistsBoardList(t *testing.T) {
+	testCases := map[string]struct {
+		GroupID     string
+		BoardID     string
+		BoardListID string
+		Expected    bool
+	}{
+		"ok": {
+			GroupID:     "group-id",
+			BoardID:     "board-id",
+			BoardListID: "board-list-id",
+			Expected:    true,
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined variables
+		bl := &domain.BoardList{
+			ID:    testCase.BoardListID,
+			Name:  "テストボードリスト",
+			Color: "",
+		}
+
+		// Defined mocks
+		bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+		brm.EXPECT().ShowBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardListID).Return(bl, nil)
+
+		trm := mock_repository.NewMockTaskRepository(ctrl)
+
+		fum := mock_uploader.NewMockFileUploader(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardService(bdvm, brm, trm, fum)
+
+			got := target.ExistsBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardListID)
+
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
 				return
 			}
 		})

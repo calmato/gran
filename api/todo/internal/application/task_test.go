@@ -65,13 +65,16 @@ func TestTaskApplication_Create(t *testing.T) {
 		tsm := mock_service.NewMockTaskService(ctrl)
 		tsm.EXPECT().Create(ctx, testCase.GroupID, testCase.BoardID, testCase.Request.BoardListID, task).Return(task, nil)
 
+		bsm := mock_service.NewMockBoardService(ctrl)
+		bsm.EXPECT().ExistsBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.Request.BoardListID).Return(true)
+
 		usm := mock_service.NewMockUserService(ctrl)
 		usm.EXPECT().Authentication(ctx).Return(u, nil)
 		usm.EXPECT().IsContainInGroupIDs(ctx, testCase.GroupID, u).Return(true)
 
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewTaskApplication(trvm, tsm, usm)
+			target := NewTaskApplication(trvm, tsm, bsm, usm)
 
 			err := target.Create(ctx, testCase.GroupID, testCase.BoardID, testCase.Request)
 			if err != nil {

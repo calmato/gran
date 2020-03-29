@@ -19,9 +19,11 @@ type BoardService interface {
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, b *domain.Board) (*domain.Board, error)
 	UploadThumbnail(ctx context.Context, data []byte) (string, error)
+	Exists(ctx context.Context, groupID string, boardID string) bool
 	ShowBoardList(ctx context.Context, groupID string, boardID string, boardListID string) (*domain.BoardList, error)
 	CreateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) (*domain.BoardList, error)
 	UpdateBoardList(ctx context.Context, groupID string, boardID string, bl *domain.BoardList) (*domain.BoardList, error)
+	ExistsBoardList(ctx context.Context, groupID string, boardID string, boardListID string) bool
 	UpdateKanban(ctx context.Context, groupID string, boardID string, b *domain.Board) error
 }
 
@@ -119,6 +121,11 @@ func (bs *boardService) UploadThumbnail(ctx context.Context, data []byte) (strin
 	return thumbnailURL, nil
 }
 
+func (bs *boardService) Exists(ctx context.Context, groupID string, boardID string) bool {
+	_, err := bs.boardRepository.Show(ctx, groupID, boardID)
+	return err == nil
+}
+
 func (bs *boardService) ShowBoardList(
 	ctx context.Context, groupID string, boardID string, boardListID string,
 ) (*domain.BoardList, error) {
@@ -184,6 +191,11 @@ func (bs *boardService) UpdateBoardList(
 	}
 
 	return bl, nil
+}
+
+func (bs *boardService) ExistsBoardList(ctx context.Context, groupID string, boardID string, boardListID string) bool {
+	_, err := bs.boardRepository.ShowBoardList(ctx, groupID, boardID, boardListID)
+	return err == nil
 }
 
 // UpdateKanban - ボードリスト, タスク順序の編集

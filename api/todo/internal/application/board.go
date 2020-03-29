@@ -144,7 +144,10 @@ func (ba *boardApplication) CreateBoardList(
 		return domain.Forbidden.New(err)
 	}
 
-	// TODO: ボードが存在するかの検証
+	if !ba.boardService.Exists(ctx, groupID, boardID) {
+		err := xerrors.New("Unable to CreateBoardList function")
+		return domain.Forbidden.New(err)
+	}
 
 	if ves := ba.boardRequestValidation.CreateBoardList(req); len(ves) > 0 {
 		err := xerrors.New("Failed to Application/RequestValidation")

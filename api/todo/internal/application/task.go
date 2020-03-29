@@ -21,16 +21,18 @@ type TaskApplication interface {
 type taskApplication struct {
 	taskRequestValidation validation.TaskRequestValidation
 	taskService           service.TaskService
+	boardService          service.BoardService
 	userService           service.UserService
 }
 
 // NewTaskApplication - TaskApplicationの生成
 func NewTaskApplication(
-	trv validation.TaskRequestValidation, ts service.TaskService, us service.UserService,
+	trv validation.TaskRequestValidation, ts service.TaskService, bs service.BoardService, us service.UserService,
 ) TaskApplication {
 	return &taskApplication{
 		taskRequestValidation: trv,
 		taskService:           ts,
+		boardService:          bs,
 		userService:           us,
 	}
 }
@@ -51,7 +53,10 @@ func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID s
 		return domain.InvalidRequestValidation.New(err, ves...)
 	}
 
-	// TODO: ボード、ボードリストが存在するかの検証
+	if !ta.boardService.ExistsBoardList(ctx, groupID, boardID, req.BoardListID) {
+		err := xerrors.New("Unable to create Board in the Group")
+		return domain.Forbidden.New(err)
+	}
 
 	attachmentURLs := make([]string, len(req.Attachments))
 

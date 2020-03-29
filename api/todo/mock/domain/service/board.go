@@ -94,6 +94,20 @@ func (mr *MockBoardServiceMockRecorder) UploadThumbnail(ctx, data interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadThumbnail", reflect.TypeOf((*MockBoardService)(nil).UploadThumbnail), ctx, data)
 }
 
+// Exists mocks base method
+func (m *MockBoardService) Exists(ctx context.Context, groupID, boardID string) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Exists", ctx, groupID, boardID)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Exists indicates an expected call of Exists
+func (mr *MockBoardServiceMockRecorder) Exists(ctx, groupID, boardID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Exists", reflect.TypeOf((*MockBoardService)(nil).Exists), ctx, groupID, boardID)
+}
+
 // ShowBoardList mocks base method
 func (m *MockBoardService) ShowBoardList(ctx context.Context, groupID, boardID, boardListID string) (*domain.BoardList, error) {
 	m.ctrl.T.Helper()
@@ -137,6 +151,20 @@ func (m *MockBoardService) UpdateBoardList(ctx context.Context, groupID, boardID
 func (mr *MockBoardServiceMockRecorder) UpdateBoardList(ctx, groupID, boardID, bl interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateBoardList", reflect.TypeOf((*MockBoardService)(nil).UpdateBoardList), ctx, groupID, boardID, bl)
+}
+
+// ExistsBoardList mocks base method
+func (m *MockBoardService) ExistsBoardList(ctx context.Context, groupID, boardID, boardListID string) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ExistsBoardList", ctx, groupID, boardID, boardListID)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// ExistsBoardList indicates an expected call of ExistsBoardList
+func (mr *MockBoardServiceMockRecorder) ExistsBoardList(ctx, groupID, boardID, boardListID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExistsBoardList", reflect.TypeOf((*MockBoardService)(nil).ExistsBoardList), ctx, groupID, boardID, boardListID)
 }
 
 // UpdateKanban mocks base method
