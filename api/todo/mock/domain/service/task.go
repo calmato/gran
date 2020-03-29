@@ -35,16 +35,16 @@ func (m *MockTaskService) EXPECT() *MockTaskServiceMockRecorder {
 }
 
 // Create mocks base method
-func (m *MockTaskService) Create(ctx context.Context, groupID, boardID string, t *domain.Task) (*domain.Task, error) {
+func (m *MockTaskService) Create(ctx context.Context, groupID, boardID, boardListID string, t *domain.Task) (*domain.Task, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", ctx, groupID, boardID, t)
+	ret := m.ctrl.Call(m, "Create", ctx, groupID, boardID, boardListID, t)
 	ret0, _ := ret[0].(*domain.Task)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create
-func (mr *MockTaskServiceMockRecorder) Create(ctx, groupID, boardID, t interface{}) *gomock.Call {
+func (mr *MockTaskServiceMockRecorder) Create(ctx, groupID, boardID, boardListID, t interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockTaskService)(nil).Create), ctx, groupID, boardID, t)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockTaskService)(nil).Create), ctx, groupID, boardID, boardListID, t)
 }

@@ -203,7 +203,6 @@ func TestGroupService_Update(t *testing.T) {
 				ID:          "group-id",
 				Name:        "テストグループ",
 				Description: "グループの説明",
-				UserIDs:     []string{"user-id"},
 				BoardIDs:    make([]string, 0),
 				CreatedAt:   current,
 				UpdatedAt:   current,
@@ -251,13 +250,13 @@ func TestGroupService_InviteUsers(t *testing.T) {
 	}{
 		"ok": {
 			Group: &domain.Group{
-				ID:          "group-id",
-				Name:        "テストグループ",
-				Description: "グループの説明",
-				UserIDs:     []string{"user-id"},
-				BoardIDs:    make([]string, 0),
-				CreatedAt:   current,
-				UpdatedAt:   current,
+				ID:            "group-id",
+				Name:          "テストグループ",
+				Description:   "グループの説明",
+				InvitedEmails: []string{"user01@hoge.com"},
+				BoardIDs:      make([]string, 0),
+				CreatedAt:     current,
+				UpdatedAt:     current,
 			},
 		},
 	}
@@ -302,13 +301,14 @@ func TestGroupService_Join(t *testing.T) {
 	}{
 		"ok": {
 			Group: &domain.Group{
-				ID:          "group-id",
-				Name:        "テストグループ",
-				Description: "グループの説明",
-				UserIDs:     []string{"user-id"},
-				BoardIDs:    make([]string, 0),
-				CreatedAt:   current,
-				UpdatedAt:   current,
+				ID:            "group-id",
+				Name:          "テストグループ",
+				Description:   "グループの説明",
+				UserIDs:       []string{"user-id"},
+				InvitedEmails: []string{},
+				BoardIDs:      make([]string, 0),
+				CreatedAt:     current,
+				UpdatedAt:     current,
 			},
 		},
 	}
