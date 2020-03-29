@@ -68,6 +68,34 @@ func TestBoardRequestValidation_CreateBoardList(t *testing.T) {
 	}
 }
 
+func TestBoardRequestValidation_UpdateBoardList(t *testing.T) {
+	testCases := map[string]struct {
+		Request  *request.UpdateBoardList
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Request: &request.UpdateBoardList{
+				Name:  "テストボードグループ",
+				Color: "",
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
+	}
+
+	for result, testCase := range testCases {
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardRequestValidation()
+
+			got := target.UpdateBoardList(testCase.Request)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
+	}
+}
+
 func TestBoardRequestValidation_UpdateKanban(t *testing.T) {
 	current := time.Now()
 

@@ -268,6 +268,71 @@ func TestBoardApplication_CreateBoardList(t *testing.T) {
 	}
 }
 
+func TestBoardApplication_UpdateBoardList(t *testing.T) {
+	testCases := map[string]struct {
+		GroupID     string
+		BoardID     string
+		BoardListID string
+		Request     *request.UpdateBoardList
+	}{
+		"ok": {
+			GroupID:     "group-id",
+			BoardID:     "board-id",
+			BoardListID: "board-list-id",
+			Request: &request.UpdateBoardList{
+				Name:  "テストボードリスト",
+				Color: "",
+			},
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
+
+		u := &domain.User{
+			GroupIDs: []string{testCase.GroupID},
+		}
+
+		bl := &domain.BoardList{
+			ID:      testCase.BoardListID,
+			Name:    testCase.Request.Name,
+			Color:   testCase.Request.Color,
+			BoardID: testCase.BoardID,
+			TaskIDs: make([]string, 0),
+		}
+
+		// Defined mocks
+		brvm := mock_validation.NewMockBoardRequestValidation(ctrl)
+		brvm.EXPECT().UpdateBoardList(testCase.Request).Return(ves)
+
+		bsm := mock_service.NewMockBoardService(ctrl)
+		bsm.EXPECT().ShowBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardListID).Return(bl, nil)
+		bsm.EXPECT().UpdateBoardList(ctx, testCase.GroupID, testCase.BoardID, bl).Return(bl, nil)
+
+		usm := mock_service.NewMockUserService(ctrl)
+		usm.EXPECT().Authentication(ctx).Return(u, nil)
+		usm.EXPECT().IsContainInGroupIDs(ctx, testCase.GroupID, u).Return(true)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardApplication(brvm, bsm, usm)
+
+			err := target.UpdateBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardListID, testCase.Request)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+		})
+	}
+}
+
 func TestBoardApplication_UpdateKanban(t *testing.T) {
 	current := time.Now()
 

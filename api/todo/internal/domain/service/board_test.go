@@ -310,6 +310,61 @@ func TestBoardService_CreateBoardList(t *testing.T) {
 	}
 }
 
+func TestBoardService_UpdateBoardList(t *testing.T) {
+	testCases := map[string]struct {
+		GroupID   string
+		BoardID   string
+		BoardList *domain.BoardList
+	}{
+		"ok": {
+			GroupID: "group-id",
+			BoardID: "board-id",
+			BoardList: &domain.BoardList{
+				Name:  "テストボードリスト",
+				Color: "",
+			},
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
+
+		// Defined mocks
+		bdvm := mock_validation.NewMockBoardDomainValidation(ctrl)
+		bdvm.EXPECT().BoardList(ctx, testCase.BoardList).Return(ves)
+
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+		brm.EXPECT().UpdateBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardList).Return(nil)
+
+		trm := mock_repository.NewMockTaskRepository(ctrl)
+
+		fum := mock_uploader.NewMockFileUploader(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardService(bdvm, brm, trm, fum)
+
+			got, err := target.UpdateBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.BoardList)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+
+			if !reflect.DeepEqual(got, testCase.BoardList) {
+				t.Fatalf("want %#v, but %#v", testCase.BoardList, got)
+				return
+			}
+		})
+	}
+}
+
 func TestBoardService_UpdateKanban(t *testing.T) {
 	testCases := map[string]struct {
 		GroupID string
