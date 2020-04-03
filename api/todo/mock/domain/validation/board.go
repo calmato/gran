@@ -47,3 +47,17 @@ func (mr *MockBoardDomainValidationMockRecorder) Board(ctx, b interface{}) *gomo
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Board", reflect.TypeOf((*MockBoardDomainValidation)(nil).Board), ctx, b)
 }
+
+// BoardList mocks base method
+func (m *MockBoardDomainValidation) BoardList(ctx context.Context, bl *domain.BoardList) []*domain.ValidationError {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BoardList", ctx, bl)
+	ret0, _ := ret[0].([]*domain.ValidationError)
+	return ret0
+}
+
+// BoardList indicates an expected call of BoardList
+func (mr *MockBoardDomainValidationMockRecorder) BoardList(ctx, bl interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BoardList", reflect.TypeOf((*MockBoardDomainValidation)(nil).BoardList), ctx, bl)
+}

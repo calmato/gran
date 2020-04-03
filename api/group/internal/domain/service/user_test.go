@@ -6,55 +6,56 @@ import (
 	"testing"
 	"time"
 
+	"github.com/golang/mock/gomock"
+
 	"github.com/16francs/gran/api/group/internal/domain"
+	mock_repository "github.com/16francs/gran/api/group/mock/domain/repository"
 )
 
-var userCurrent = time.Now()
-
-type userRepositoryMock struct{}
-
-func (urm *userRepositoryMock) Authentication(ctx context.Context) (*domain.User, error) {
-	u := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
-		CreatedAt:    userCurrent,
-		UpdatedAt:    userCurrent,
-	}
-
-	return u, nil
-}
-
-func (urm *userRepositoryMock) Update(ctx context.Context, u *domain.User) error {
-	return nil
-}
-
 func TestUserService_Authentication(t *testing.T) {
-	target := NewUserService(&userRepositoryMock{})
+	current := time.Now()
 
-	want := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
-		CreatedAt:    userCurrent,
-		UpdatedAt:    userCurrent,
+	testCases := map[string]struct {
+		Expected *domain.User
+	}{
+		"ok": {
+			Expected: &domain.User{
+				ID:           "user-id",
+				Email:        "hoge@hoge.com",
+				Password:     "12345678",
+				Name:         "",
+				ThumbnailURL: "",
+				GroupIDs:     make([]string, 0),
+				CreatedAt:    current,
+				UpdatedAt:    current,
+			},
+		},
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	got, err := target.Authentication(ctx)
-	if err != nil {
-		t.Fatalf("error: %v", err)
-	}
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+		// Defined mocks
+		urm := mock_repository.NewMockUserRepository(ctrl)
+		urm.EXPECT().Authentication(ctx).Return(testCase.Expected, nil)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewUserService(urm)
+
+			got, err := target.Authentication(ctx)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+			}
+
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }

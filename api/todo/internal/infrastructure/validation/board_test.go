@@ -9,31 +9,78 @@ import (
 	"github.com/16francs/gran/api/todo/internal/domain"
 )
 
-var current = time.Now()
-
 func TestBoardDomainValidation_Board(t *testing.T) {
-	target := NewBoardDomainValidation()
+	current := time.Now()
 
-	want := []*domain.ValidationError{}
-
-	b := &domain.Board{
-		ID:              "board-id",
-		Name:            "テストグループ",
-		IsClosed:        true,
-		ThumbnailURL:    "",
-		BackgroundColor: "",
-		Labels:          make([]string, 0),
-		GroupID:         "",
-		CreatedAt:       current,
-		UpdatedAt:       current,
+	testCases := map[string]struct {
+		Board    *domain.Board
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Board: &domain.Board{
+				ID:              "board-id",
+				Name:            "テストグループ",
+				IsClosed:        true,
+				ThumbnailURL:    "",
+				BackgroundColor: "",
+				Labels:          make([]string, 0),
+				GroupID:         "",
+				CreatedAt:       current,
+				UpdatedAt:       current,
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	got := target.Board(ctx, b)
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardDomainValidation()
 
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.Board(ctx, testCase.Board)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
+	}
+}
+
+func TestBoardDomainValidation_BoardList(t *testing.T) {
+	current := time.Now()
+
+	testCases := map[string]struct {
+		BoardList *domain.BoardList
+		Expected  []*domain.ValidationError
+	}{
+		"ok": {
+			BoardList: &domain.BoardList{
+				ID:        "board-list-id",
+				Name:      "テストボードリスト",
+				BoardID:   "",
+				CreatedAt: current,
+				UpdatedAt: current,
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewBoardDomainValidation()
+
+			got := target.BoardList(ctx, testCase.BoardList)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }

@@ -12,11 +12,41 @@ servers:
     description: 検証環境
 
 paths:
-  /boards:
+  /groups/{groupId}/boards:
+    get:
+      summary: ボード一覧
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+      responses:
+        '200':
+          $ref: '#/components/responses/Boards'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
     post:
       summary: ボード作成
       security:
         - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
       requestBody:
         $ref: '#/components/requestBodies/CreateBoard'
       responses:
@@ -31,9 +61,9 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
-  /{groupId}/boards:
+  /groups/{groupId}/boards/{boardId}:
     get:
-      summary: ボード一覧
+      summary: ボード詳細
       security:
         - BearerAuth: []
       parameters:
@@ -41,11 +71,19 @@ paths:
           name: groupId
           schema:
             type: string
+            format: uuid
           required: true
           description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
       responses:
         '200':
-          $ref: '#/components/responses/Boards'
+          $ref: '#/components/responses/Board'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -53,9 +91,9 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
-  /{groupId}/boards/{boardId}:
-    get:
-      summary: (WIP)ボード詳細
+  /groups/{groupId}/boards/{boardId}/lists:
+    post:
+      summary: ボードリスト作成
       security:
         - BearerAuth: []
       parameters:
@@ -63,17 +101,133 @@ paths:
           name: groupId
           schema:
             type: string
+            format: uuid
           required: true
           description: グループID
         - in: path
           name: boardId
           schema:
             type: string
+            format: uuid
           required: true
           description: ボードID
+      requestBody:
+        $ref: '#/components/requestBodies/CreateBoardList'
       responses:
         '200':
-          $ref: '#/components/responses/Board'
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/boards/{boardId}/lists/{listId}:
+    patch:
+      summary: ボードリスト編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+        - in: path
+          name: listId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードリストID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateBoardList'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/boards/{boardId}/tasks:
+    post:
+      summary: タスク作成
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTask'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+
+  /groups/{groupId}/boards/{boardId}/kanban:
+    patch:
+      summary: カンバン編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateKanban'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -123,15 +277,12 @@ components:
               name:
                 type: string
                 description: ボード名
-              groupId:
-                type: string
-                description: グループID
-              closed:
+              isClosed:
                 type: boolean
                 description: ボードを非公開
               thumbnail:
                 type: string
-                format: base64
+                format: byte
                 description: サムネイル
               backgroundColor:
                 type: string
@@ -144,6 +295,138 @@ components:
             required:
               - name
               - groupId
+
+    UpdateKanban:
+      description: カンバン編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              lists:
+                type: array
+                description: ボードリスト一覧
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: リストID
+                    name:
+                      type: string
+                      description: リスト名
+                    color:
+                      type: string
+                      description: カラー
+                    tasks:
+                      type: array
+                      description: タスク一覧
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                            description: タスクID
+                          name:
+                            type: string
+                            description: タスク名
+                          description:
+                            type: string
+                            description: 説明
+                          labels:
+                            type: array
+                            description: ラベル一覧
+                            items:
+                              type: string
+                          deadlinedAt:
+                            type: string
+                            format: date-time
+                            description: 期限
+                          assignedUserIds:
+                            type: array
+                            description: アサインユーザID一覧
+                            items:
+                              type: string
+
+    CreateBoardList:
+      description: ボードリスト作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リスト名
+              color:
+                type: string
+                description: リストの色
+            required:
+              - name
+
+    UpdateBoardList:
+      description: ボードリスト編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リスト名
+              color:
+                type: string
+                description: リストの色
+            required:
+              - name
+
+    CreateTask:
+      description: タスク作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リスト名
+              description:
+                type: string
+                description: 説明
+              listId:
+                type: string
+                format: uuid
+                description: ボードリストID
+              labels:
+                type: array
+                description: ラベル一覧
+                items:
+                  type: string
+              attachments:
+                type: array
+                description: 添付ファイル一覧
+                items:
+                  type: string
+                  format: byte
+              assignedUserIDs:
+                type: array
+                description: 参加ユーザー一覧
+                items:
+                  type: string
+                  format: uuid
+              deadlinedAt:
+                type: string
+                format: date-time
+                description: 期限
+            required:
+              - name
+              - boardListId
 
   responses:
     BadRequest:
@@ -188,16 +471,18 @@ components:
                 items:
                   properties:
                     id:
-                      type: integer
+                      type: string
+                      format: uuid
                       description: ボードID
                     groupId:
-                      type: integer
+                      type: string
+                      format: uuid
                       description: グループID
                     name:
                       type: string
                       description: ボード名
-                    closed:
-                      type: string
+                    isClosed:
+                      type: boolean
                       description: 非公開設定
                     ThumbnailUrl:
                       type: string
@@ -226,19 +511,22 @@ components:
           schema:
             properties:
               id:
-                type: integer
+                type: string
+                format: uuid
                 description: ボードID
               groupId:
-                type: integer
+                type: string
+                format: uuid
                 description: グループID
               name:
                 type: string
                 description: ボード名
-              closed:
-                type: string
+              isClosed:
+                type: boolean
                 description: 非公開設定
               ThumbnailUrl:
                 type: string
+                format: uri
                 description: サムネイルURL
               BackgroundColor:
                 type: string
@@ -256,6 +544,7 @@ components:
                   properties:
                     id:
                       type: string
+                      format: uuid
                       description: リストID
                     name:
                       type: string
@@ -271,6 +560,7 @@ components:
                         properties:
                           id:
                             type: string
+                            format: uuid
                             description: タスクID
                           name:
                             type: string
@@ -292,6 +582,7 @@ components:
                             description: アサインユーザID一覧
                             items:
                               type: string
+                              format: uuid
               createdAt:
                 type: string
                 format: date-time

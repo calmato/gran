@@ -9,19 +9,30 @@ import (
 )
 
 func TestUserRequestValidation_CreateUser(t *testing.T) {
-	target := NewUserRequestValidation()
-
-	want := []*domain.ValidationError(nil)
-
-	u := &request.CreateUser{
-		Email:                "hoge@hoge.com",
-		Password:             "12345678",
-		PasswordConfirmation: "12345678",
+	testCases := map[string]struct {
+		Request  *request.CreateUser
+		Expected []*domain.ValidationError
+	}{
+		"ok": {
+			Request: &request.CreateUser{
+				Email:                "hoge@hoge.com",
+				Password:             "12345678",
+				PasswordConfirmation: "12345678",
+			},
+			Expected: make([]*domain.ValidationError, 0),
+		},
 	}
 
-	got := target.CreateUser(u)
+	for result, testCase := range testCases {
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewUserRequestValidation()
 
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+			got := target.CreateUser(testCase.Request)
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }

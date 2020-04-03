@@ -6,92 +6,109 @@ import (
 	"testing"
 	"time"
 
+	"github.com/golang/mock/gomock"
+
 	"github.com/16francs/gran/api/user/internal/domain"
+	mock_repository "github.com/16francs/gran/api/user/mock/domain/repository"
+	mock_validation "github.com/16francs/gran/api/user/mock/domain/validation"
 )
 
-var current = time.Now()
-
-type userDomainValidationMock struct{}
-
-func (udvm *userDomainValidationMock) User(ctx context.Context, u *domain.User) []*domain.ValidationError {
-	return nil
-}
-
-type userRepositoryMock struct{}
-
-func (urm *userRepositoryMock) Authentication(ctx context.Context) (*domain.User, error) {
-	u := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
-		CreatedAt:    current,
-		UpdatedAt:    current,
-	}
-
-	return u, nil
-}
-
-func (urm *userRepositoryMock) Create(ctx context.Context, u *domain.User) error {
-	return nil
-}
-
-func (urm *userRepositoryMock) Update(ctx context.Context, u *domain.User) error {
-	return nil
-}
-
-func (urm *userRepositoryMock) GetUIDByEmail(ctx context.Context, email string) (string, error) {
-	return "", nil
-}
-
 func TestUserService_Authentication(t *testing.T) {
-	target := NewUserService(&userDomainValidationMock{}, &userRepositoryMock{})
+	current := time.Now()
 
-	want := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
-		CreatedAt:    current,
-		UpdatedAt:    current,
+	testCases := map[string]struct {
+		Expected *domain.User
+	}{
+		"ok": {
+			Expected: &domain.User{
+				ID:           "user-id",
+				Email:        "hoge@hoge.com",
+				Password:     "12345678",
+				Name:         "",
+				ThumbnailURL: "",
+				GroupIDs:     make([]string, 0),
+				CreatedAt:    current,
+				UpdatedAt:    current,
+			},
+		},
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	got, err := target.Authentication(ctx)
-	if err != nil {
-		t.Fatalf("error: %v", err)
-	}
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
 
-	if !reflect.DeepEqual(got, want) {
-		t.Fatalf("want %#v, but %#v", want, got)
+		// Defined mocks
+		udvm := mock_validation.NewMockUserDomainValidation(ctrl)
+
+		urm := mock_repository.NewMockUserRepository(ctrl)
+		urm.EXPECT().Authentication(ctx).Return(testCase.Expected, nil)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewUserService(udvm, urm)
+
+			got, err := target.Authentication(ctx)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+			}
+
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
 	}
 }
 
 func TestUserService_Create(t *testing.T) {
-	target := NewUserService(&userDomainValidationMock{}, &userRepositoryMock{})
-
-	u := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
-		CreatedAt:    current,
-		UpdatedAt:    current,
+	testCases := map[string]struct {
+		User *domain.User
+	}{
+		"ok": {
+			User: &domain.User{
+				Email:        "hoge@hoge.com",
+				Password:     "12345678",
+				Name:         "",
+				ThumbnailURL: "",
+				GroupIDs:     make([]string, 0),
+			},
+		},
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	err := target.Create(ctx, u)
-	if err != nil {
-		t.Fatalf("error: %v", err)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
+
+		// Defined mocks
+		udvm := mock_validation.NewMockUserDomainValidation(ctrl)
+		udvm.EXPECT().User(ctx, testCase.User).Return(ves)
+
+		urm := mock_repository.NewMockUserRepository(ctrl)
+		urm.EXPECT().Create(ctx, testCase.User).Return(nil)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewUserService(udvm, urm)
+
+			got, err := target.Create(ctx, testCase.User)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+
+			if !reflect.DeepEqual(got, testCase.User) {
+				t.Fatalf("want %#v, but %#v", testCase.User, got)
+				return
+			}
+		})
 	}
 }

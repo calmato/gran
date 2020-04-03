@@ -16,7 +16,7 @@ import (
 type GroupService interface {
 	Index(ctx context.Context, u *domain.User) ([]*domain.Group, error)
 	Show(ctx context.Context, groupID string) (*domain.Group, error)
-	Create(ctx context.Context, u *domain.User, g *domain.Group) error
+	Create(ctx context.Context, u *domain.User, g *domain.Group) (*domain.Group, error)
 	Update(ctx context.Context, g *domain.Group) error
 	InviteUsers(ctx context.Context, g *domain.Group) error
 	Join(ctx context.Context, g *domain.Group) error
@@ -61,10 +61,10 @@ func (gs *groupService) Show(ctx context.Context, groupID string) (*domain.Group
 	return g, nil
 }
 
-func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Group) error {
+func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Group) (*domain.Group, error) {
 	if ves := gs.groupDomainValidation.Group(ctx, g); len(ves) > 0 {
 		err := xerrors.New("Failed to Domain/DomainValidation")
-		return domain.InvalidDomainValidation.New(err, ves...)
+		return nil, domain.InvalidDomainValidation.New(err, ves...)
 	}
 
 	current := time.Now()
@@ -75,7 +75,7 @@ func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Gr
 
 	if err := gs.groupRepository.Create(ctx, g); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
-		return domain.ErrorInDatastore.New(err)
+		return nil, domain.ErrorInDatastore.New(err)
 	}
 
 	u.GroupIDs = append(u.GroupIDs, g.ID)
@@ -83,10 +83,10 @@ func (gs *groupService) Create(ctx context.Context, u *domain.User, g *domain.Gr
 
 	if err := gs.userRepository.Update(ctx, u); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
-		return domain.ErrorInDatastore.New(err)
+		return nil, domain.ErrorInDatastore.New(err)
 	}
 
-	return nil
+	return g, nil
 }
 
 func (gs *groupService) Update(ctx context.Context, g *domain.Group) error {

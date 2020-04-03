@@ -21,14 +21,14 @@ func NewTaskPersistence(fs *firestore.Firestore) repository.TaskRepository {
 	}
 }
 
-func (tp *taskPersistence) IndexByBoardListID(ctx context.Context, boardListID string) ([]*domain.Task, error) {
+func (tp *taskPersistence) IndexByBoardID(ctx context.Context, boardID string) ([]*domain.Task, error) {
 	ts := make([]*domain.Task, 0)
 	taskCollection := GetTaskCollection()
 
 	q := &firestore.Query{
-		Field:    "board_list_id", // TODO: Taskエンティティのタグから取得
+		Field:    "board_id", // TODO: Taskエンティティのタグから取得
 		Operator: "==",
-		Value:    boardListID,
+		Value:    boardID,
 	}
 
 	iter := tp.firestore.GetByQuery(ctx, taskCollection, q)
@@ -53,4 +53,14 @@ func (tp *taskPersistence) IndexByBoardListID(ctx context.Context, boardListID s
 	}
 
 	return ts, nil
+}
+
+func (tp *taskPersistence) Create(ctx context.Context, t *domain.Task) error {
+	taskCollection := GetTaskCollection()
+
+	if err := tp.firestore.Set(ctx, taskCollection, t.ID, t); err != nil {
+		return err
+	}
+
+	return nil
 }

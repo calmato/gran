@@ -12,16 +12,19 @@ import (
 type Registry struct {
 	Health  handler.APIHealthHandler
 	V1Board v1.APIV1BoardHandler
+	V1Task  v1.APIV1TaskHandler
 }
 
 // NewRegistry - internalディレクトリのファイルを読み込み
 func NewRegistry(fa *authentication.Auth, fs *firestore.Firestore, cs *storage.Storage) *Registry {
 	health := healthInjection()
 	v1Board := V1BoardInjection(fa, fs, cs)
+	v1Task := V1TaskInjection(fa, fs, cs)
 
 	return &Registry{
 		Health:  health,
 		V1Board: v1Board,
+		V1Task:  v1Task,
 	}
 }
 

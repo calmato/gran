@@ -41,9 +41,19 @@ linters:
   # - maligned
   # - prealloc
 
+linters-settings:
+  funlen:
+    lines: 100
+    statements: 50
+
 run:
   skip-dirs:
     - bin
+    - mock
+
+issues:
+  exclude:
+    - Using the variable on range scope .* in function literal
 
 service:
   golangci-lint-version: 1.22.2

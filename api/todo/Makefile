@@ -4,6 +4,8 @@ PACKAGES := $(shell go list ./... | grep -v mock)
 .PHONY: setup
 setup:
 	wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v${GOLANGCI_VERSION}
+	go get github.com/golang/mock/gomock
+	go install github.com/golang/mock/mockgen
 
 .PHONY: run
 run:
@@ -27,4 +29,8 @@ lint:
 
 .PHONY: test
 test:
-	go test -v -cover ./...
+	go test -v -cover ./internal/...
+
+.PHONY: build-mocks
+build-mocks:
+	./bin/build-mocks.sh

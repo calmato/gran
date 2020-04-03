@@ -5,7 +5,7 @@
 * 言語等
   * 言語: Go
   * フレームワーク: gin
-  * ライブラリ: firebase, colog, validator, xerrors
+  * ライブラリ: firebase, colog, validator, xerrors, gomock
 
 * アーキテクチャ
   * オニオンアーキテクチャ
@@ -44,6 +44,18 @@
 * 文字列の長さ等のApplication,Domainどちらのバリデーションにも含められるもの
   * 原則、Domain/Valiadtion にのみ記載する形とする
 
+### テスト作成手順
+
+1. コンテナに接続
+  > $ docker-compose -f docker-compose.api.yml run --rm todo_api /bin/sh
+2. Mock作成用ライブラリのインストール
+  > $ go get github.com/golang/mock/mockgen@latest
+3. Mockの作成
+  > $ mockgen \  
+  >     -source internal/[対象ディレクトリ]/[対象ファイル].go \  
+  >     -destination mock/[対象ディレクトリ]/mock_[対象ファイル].go
+4. テストの作成
+
 ## その他
 
 ### マイクロサービス化の粒度
@@ -77,3 +89,9 @@ sample_service
 │       └── firestore
 └── registry
 ```
+
+### 参考
+
+* [gomock](https://github.com/golang/mock)
+* [gomock(Qiita)](https://qiita.com/ogady/items/34aae1b2af3080e0fec4)
+* [gomock(Qiita)](https://qiita.com/gold-kou/items/81562f9142323b364a60)

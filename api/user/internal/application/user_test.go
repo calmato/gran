@@ -3,55 +3,59 @@ package application
 import (
 	"context"
 	"testing"
-	"time"
+
+	"github.com/golang/mock/gomock"
 
 	"github.com/16francs/gran/api/user/internal/application/request"
 	"github.com/16francs/gran/api/user/internal/domain"
+	mock_validation "github.com/16francs/gran/api/user/mock/application/validation"
+	mock_service "github.com/16francs/gran/api/user/mock/domain/service"
 )
 
-var current = time.Now()
-
-type userRequestValidationMock struct{}
-
-func (urvm *userRequestValidationMock) CreateUser(req *request.CreateUser) []*domain.ValidationError {
-	return nil
-}
-
-type userServiceMock struct{}
-
-func (usm *userServiceMock) Authentication(ctx context.Context) (*domain.User, error) {
-	u := &domain.User{
-		ID:           "JUA1ouY12ickxIupMVdVl3ieM7s2",
-		Email:        "hoge@hoge.com",
-		Password:     "12345678",
-		Name:         "テストユーザ",
-		ThumbnailURL: "",
-		GroupIDs:     make([]string, 0),
-		CreatedAt:    current,
-		UpdatedAt:    current,
-	}
-
-	return u, nil
-}
-
-func (usm *userServiceMock) Create(ctx context.Context, u *domain.User) error {
-	return nil
-}
-
 func TestUserApplication_Create(t *testing.T) {
-	target := NewUserApplication(&userRequestValidationMock{}, &userServiceMock{})
-
-	u := &request.CreateUser{
-		Email:                "hoge@hoge.com",
-		Password:             "12345678",
-		PasswordConfirmation: "12345678",
+	testCases := map[string]struct {
+		Request *request.CreateUser
+	}{
+		"ok": {
+			Request: &request.CreateUser{
+				Email:                "hoge@hoge.com",
+				Password:             "12345678",
+				PasswordConfirmation: "12345678",
+			},
+		},
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 
-	err := target.Create(ctx, u)
-	if err != nil {
-		t.Fatalf("error: %v", err)
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
+
+		u := &domain.User{
+			Email:    testCase.Request.Email,
+			Password: testCase.Request.Password,
+		}
+
+		// Defined mocks
+		urvm := mock_validation.NewMockUserRequestValidation(ctrl)
+		urvm.EXPECT().CreateUser(testCase.Request).Return(ves)
+
+		usm := mock_service.NewMockUserService(ctrl)
+		usm.EXPECT().Create(ctx, u).Return(u, nil)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewUserApplication(urvm, usm)
+
+			err := target.Create(ctx, testCase.Request)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+		})
 	}
 }

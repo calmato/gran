@@ -23,10 +23,21 @@ func Router(reg *registry.Registry) *gin.Engine {
 	// api v1 routes
 	apiV1 := r.Group("/v1/todos")
 	{
-		apiV1.POST("/boards", reg.V1Board.Create)
+		groups := apiV1.Group("/groups/:groupID")
+		{
+			groups.GET("/boards", reg.V1Board.Index)
+			groups.GET("/boards/:boardID", reg.V1Board.Show)
+			groups.POST("/boards", reg.V1Board.Create)
 
-		apiV1.GET(":groupID/boards", reg.V1Board.Index)
-		apiV1.GET(":groupID/boards/:boardID", reg.V1Board.Show)
+			boards := groups.Group("/boards/:boardID")
+			{
+				boards.POST("/lists", reg.V1Board.CreateBoardList)
+				boards.PATCH("/lists/:boardListID", reg.V1Board.UpdateBoardList)
+
+				boards.POST("/tasks", reg.V1Task.Create)
+				boards.PATCH("/kanban", reg.V1Board.UpdateKanban)
+			}
+		}
 	}
 
 	return r

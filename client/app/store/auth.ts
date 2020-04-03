@@ -80,7 +80,7 @@ export const actions = {
   signUp({ _ }, form: ISignUpForm): Promise<void> {
     return new Promise((resolve: () => void, reject: (reason: Error) => void) => {
       this.$axios
-        .post('/v1/users', {
+        .post('/v1/users/', {
           email: form.email.value,
           password: form.password.value,
           passwordConfirmation: form.passwordConfirmation.value

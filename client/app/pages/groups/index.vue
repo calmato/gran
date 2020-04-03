@@ -7,7 +7,7 @@ import Vue from 'vue'
 import GranGroupList from '~/components/organisms/GranGroupList.vue'
 
 export default Vue.extend({
-  layout: 'header',
+  layout: 'home',
 
   components: {
     GranGroupList

@@ -26,8 +26,8 @@ func V1BoardInjection(fa *authentication.Auth, fs *firestore.Firestore, cs *gcs.
 	bdv := dv.NewBoardDomainValidation()
 	bs := service.NewBoardService(bdv, bp, tp, fu)
 	brv := rv.NewBoardRequestValidation()
-	bu := application.NewBoardApplication(brv, bs, us)
-	bh := v1.NewAPIV1BoardHandler(bu)
+	ba := application.NewBoardApplication(brv, bs, us)
+	bh := v1.NewAPIV1BoardHandler(ba)
 
 	return bh
 }
