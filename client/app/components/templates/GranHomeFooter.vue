@@ -20,7 +20,7 @@ import GranIcon from '~/components/atoms/GranIcon.vue'
 export default Vue.extend({
   components: {
     GranButton,
-    GranIcon
+    GranIcon,
   },
   data() {
     return {
@@ -28,35 +28,35 @@ export default Vue.extend({
         {
           name: 'Home',
           link: '/',
-          icon: 'home'
+          icon: 'home',
         },
         {
           name: 'Board',
           link: '/boards',
-          icon: 'view-dashboard'
+          icon: 'view-dashboard',
         },
         {
           name: 'Calendar',
           link: '/',
-          icon: 'calendar'
+          icon: 'calendar',
         },
         {
           name: 'Notification',
           link: '/',
-          icon: 'information-outline'
+          icon: 'information-outline',
         },
         {
           name: 'Account',
           link: '/',
-          icon: 'account'
-        }
-      ]
+          icon: 'account',
+        },
+      ],
     }
   },
   methods: {
     click(link: string): void {
       this.$router.push(link)
-    }
-  }
+    },
+  },
 })
 </script>

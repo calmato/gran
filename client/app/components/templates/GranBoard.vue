@@ -8,7 +8,7 @@ import GranBoardSearch from '~/components/molecules/GranBoardSearch.vue'
 
 export default Vue.extend({
   components: {
-    GranBoardSearch
-  }
+    GranBoardSearch,
+  },
 })
 </script>

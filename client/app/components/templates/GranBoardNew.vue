@@ -13,7 +13,7 @@ import GranBoardTextForm from '~/components/molecules/GranBoardTextForm.vue'
 export default Vue.extend({
   components: {
     GranThumbnailForm,
-    GranBoardTextForm
-  }
+    GranBoardTextForm,
+  },
 })
 </script>

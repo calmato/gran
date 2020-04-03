@@ -21,12 +21,12 @@ export default Vue.extend({
     GranCard,
     GranCardText,
     GranAvatar,
-    GranButton
+    GranButton,
   },
   methods: {
     click() {
       this.$emit('click')
-    }
-  }
+    },
+  },
 })
 </script>

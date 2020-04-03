@@ -19,11 +19,11 @@ describe('pages/signup', () => {
     wrapper = mount(SignUp, {
       store,
       mocks: {
-        $router: router
+        $router: router,
       },
       stubs: {
-        NuxtLink: RouterLinkStub
-      }
+        NuxtLink: RouterLinkStub,
+      },
     })
   })
 
@@ -63,7 +63,7 @@ describe('pages/signup', () => {
 
             expect(router.push).toBeCalledWith({
               name: 'email-check',
-              params: { email: '' }
+              params: { email: '' },
             })
           })
         })

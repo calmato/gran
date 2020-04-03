@@ -22,16 +22,16 @@ import GranIcon from '~/components/atoms/GranIcon.vue'
 
 export default Vue.extend({
   components: {
-    GranIcon
+    GranIcon,
   },
   computed: {
-    ...mapGetters('boards', ['board'])
+    ...mapGetters('boards', ['board']),
   },
   methods: {
     back(): void {
       this.$router.go(-1)
-    }
-  }
+    },
+  },
 })
 </script>
 

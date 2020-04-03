@@ -9,7 +9,7 @@ import GranEmailCheck from '~/components/templates/GranEmailCheck.vue'
 export default Vue.extend({
   layout: 'auth',
   components: {
-    GranEmailCheck
+    GranEmailCheck,
   },
   asyncData({ route }) {
     return { email: route.params.email }
@@ -20,7 +20,7 @@ export default Vue.extend({
   methods: {
     click() {
       this.$router.push('/signin')
-    }
-  }
+    },
+  },
 })
 </script>

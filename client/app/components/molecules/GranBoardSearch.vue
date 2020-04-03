@@ -26,10 +26,10 @@ import GranIcon from '~/components/atoms/GranIcon.vue'
 
 export default Vue.extend({
   components: {
-    GranIcon
+    GranIcon,
   },
   data: () => ({
-    xLarge: true
-  })
+    xLarge: true,
+  }),
 })
 </script>

@@ -51,21 +51,21 @@ export default Vue.extend({
     GranCardText,
     GranIcon,
     GranButton,
-    GranTextField
+    GranTextField,
   },
   props: {
     name: {
       type: String,
-      default: 'ToDo'
+      default: 'ToDo',
     },
     color: {
       type: String,
-      default: 'green'
+      default: 'green',
     },
     length: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data: () => {
     return {
@@ -73,13 +73,13 @@ export default Vue.extend({
       isOpen: false,
       newTaskForm: TaskForm,
       value: '',
-      newTaskFormValidate: TaskFormValidate
+      newTaskFormValidate: TaskFormValidate,
     }
   },
   computed: {
     submitDisabled(): Boolean {
       return this.value.length === 0
-    }
+    },
   },
   methods: {
     open(): void {
@@ -99,8 +99,8 @@ export default Vue.extend({
     onKeydown(keyEvent: KeyboardEvent): void {
       if (keyEvent.keyCode === 13) this.doSubmit() // KeyCode: 13 => enter
       if (keyEvent.keyCode === 27) this.close() // KeyCode: 27 => esc
-    }
-  }
+    },
+  },
 })
 </script>
 

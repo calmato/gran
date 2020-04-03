@@ -40,11 +40,11 @@ import GranTextField from '~/components/atoms/GranTextField.vue'
 export default Vue.extend({
   components: {
     GranIcon,
-    GranTextField
+    GranTextField,
   },
   data: () => ({
     xLarge: true,
-    emails: [{ value: '' }]
+    emails: [{ value: '' }],
   }),
   methods: {
     addForm() {
@@ -52,7 +52,7 @@ export default Vue.extend({
     },
     deleteForm(id) {
       this.emails.splice(id, 1)
-    }
-  }
+    },
+  },
 })
 </script>

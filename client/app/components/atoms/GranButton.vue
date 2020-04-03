@@ -20,37 +20,37 @@ export default Vue.extend({
   props: {
     color: {
       type: String,
-      default: 'primary'
+      default: 'primary',
     },
     block: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dark: {
       type: Boolean,
-      default: false
+      default: false,
     },
     outlined: {
       type: Boolean,
-      default: false
+      default: false,
     },
     icon: {
       type: Boolean,
-      default: false
+      default: false,
     },
     text: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     click() {
       this.$emit('click')
-    }
-  }
+    },
+  },
 })
 </script>

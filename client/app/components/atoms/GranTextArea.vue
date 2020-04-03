@@ -20,32 +20,32 @@ export default Vue.extend({
   props: {
     appendIcon: {
       type: String,
-      default: ''
+      default: '',
     },
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     name: {
       type: String,
-      default: ''
+      default: '',
     },
     prependIcon: {
       type: String,
-      default: ''
+      default: '',
     },
     rules: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     type: {
       type: String,
-      default: 'text'
+      default: 'text',
     },
     value: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
 
   computed: {
@@ -55,7 +55,7 @@ export default Vue.extend({
       },
       set(value: String) {
         this.$emit('input', value)
-      }
+      },
     },
     prependIconName() {
       if (this.prependIcon === '') {
@@ -70,7 +70,7 @@ export default Vue.extend({
       }
 
       return 'mdi-' + this.appendIcon
-    }
-  }
+    },
+  },
 })
 </script>

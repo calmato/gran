@@ -13,13 +13,13 @@ import GranTaskCard from '~/components/molecules/GranTaskCard.vue'
 export default Vue.extend({
   layout: 'home',
   components: {
-    GranTaskCard
+    GranTaskCard,
   },
   data: () => ({}),
   methods: {
     click(): void {
       this.$router.push('/boards/1')
-    }
-  }
+    },
+  },
 })
 </script>

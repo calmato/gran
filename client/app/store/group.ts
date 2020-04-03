@@ -1,15 +1,15 @@
 export const state = () => ({
-  groups: []
+  groups: [],
 })
 
 export const getters = {
-  groups: (state) => state.groups
+  groups: (state) => state.groups,
 }
 
 export const mutations = {
   setGroups(state, groups) {
     state.groups = groups
-  }
+  },
 }
 
 export const actions = {
@@ -32,5 +32,5 @@ export const actions = {
         })
         .catch((err: any) => reject(err))
     })
-  }
+  },
 }

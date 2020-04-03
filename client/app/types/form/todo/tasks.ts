@@ -11,12 +11,12 @@ export interface ITaskFormValidate {
 export const TaskForm: ITaskForm = {
   name: {
     label: 'New Task Name',
-    value: ''
-  }
+    value: '',
+  },
 }
 
 export const TaskFormValidate: ITaskFormValidate = {
   name: {
-    required: true
-  }
+    required: true,
+  },
 }

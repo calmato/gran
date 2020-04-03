@@ -1,3 +1,3 @@
 export const post = {
-  '/v1/users': {}
+  '/v1/users': {},
 }

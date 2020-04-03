@@ -12,16 +12,16 @@ export interface IBoardListFormValidate {
 export const BoardListForm: IBoardListForm = {
   name: {
     label: 'Name',
-    value: ''
+    value: '',
   },
   color: {
     label: 'Color',
-    value: ''
-  }
+    value: '',
+  },
 }
 
 export const BoardListFormValidate: IBoardListFormValidate = {
   name: {
-    required: true
-  }
+    required: true,
+  },
 }

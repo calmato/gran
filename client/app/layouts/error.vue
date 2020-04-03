@@ -22,7 +22,7 @@ export default Vue.extend({
   methods: {
     handleClick() {
       this.$router.push('/')
-    }
-  }
+    },
+  },
 })
 </script>

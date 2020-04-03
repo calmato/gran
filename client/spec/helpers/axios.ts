@@ -29,5 +29,5 @@ export default {
   delete: (key: any): Promise<{ data: any }> =>
     isSafetyMode
       ? Promise.resolve({ data: response['delete'][key] })
-      : Promise.reject(Error('some error'))
+      : Promise.reject(Error('some error')),
 }

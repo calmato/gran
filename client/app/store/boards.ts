@@ -1,9 +1,9 @@
 export const state = () => ({
-  board: {}
+  board: {},
 })
 
 export const getters = {
-  board: (state) => state.board
+  board: (state) => state.board,
 }
 
 export const mutations = {
@@ -43,19 +43,19 @@ export const mutations = {
               labels: [
                 { name: 'Client', color: '#2196F3' },
                 { name: 'API', color: '#F44336' },
-                { name: 'Infra', color: '#FFEB3B' }
+                { name: 'Infra', color: '#FFEB3B' },
               ],
               assignedUserIds: null,
-              deadlinedAt: '0001-01-01T00:00:00Z'
+              deadlinedAt: '0001-01-01T00:00:00Z',
             },
             {
               id: '67bv2GQawTYMY2Toatao',
               name: 'UI設計',
               labels: [],
               assignedUserIds: null,
-              deadlinedAt: '0001-01-01T00:00:00Z'
-            }
-          ]
+              deadlinedAt: '0001-01-01T00:00:00Z',
+            },
+          ],
         },
         {
           id: '1ai5jtQZIBtQKrNCT3Bf',
@@ -67,22 +67,22 @@ export const mutations = {
               name: 'Figma',
               labels: [],
               assignedUserIds: null,
-              deadlinedAt: '0001-01-01T00:00:00Z'
+              deadlinedAt: '0001-01-01T00:00:00Z',
             },
             {
               id: '61bv2GQawTYMY2Toatao',
               name: '本番環境',
               labels: [],
               assignedUserIds: null,
-              deadlinedAt: '0001-01-01T00:00:00Z'
-            }
-          ]
-        }
+              deadlinedAt: '0001-01-01T00:00:00Z',
+            },
+          ],
+        },
       ],
       createdAt: '2020-02-03T12:08:30.540047Z',
-      updatedAt: '2020-02-03T12:08:30.540047Z'
+      updatedAt: '2020-02-03T12:08:30.540047Z',
     }
-  }
+  },
 }
 
 export const actions = {
@@ -94,7 +94,7 @@ export const actions = {
       id: Date.now(),
       name: formData.name.value,
       color: formData.color.value,
-      tasks: []
+      tasks: [],
     }
     commit('addColumn', newColumn)
   },
@@ -104,9 +104,9 @@ export const actions = {
       task: {
         id: Date.now(),
         name: formData.value,
-        labels: []
-      }
+        labels: [],
+      },
     }
     commit('addTask', newTask)
-  }
+  },
 }

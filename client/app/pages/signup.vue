@@ -12,11 +12,11 @@ import { ISignUpForm } from '~/types/form'
 export default Vue.extend({
   layout: 'auth',
   components: {
-    GranSignUp
+    GranSignUp,
   },
   data: () => ({
     isError: false,
-    message: ''
+    message: '',
   }),
   methods: {
     ...mapActions('auth', ['signUp']),
@@ -25,7 +25,7 @@ export default Vue.extend({
         .then(() => {
           this.$router.push({
             name: 'email-check',
-            params: { email: signUpForm.email.value }
+            params: { email: signUpForm.email.value },
           })
         })
         .catch((error) => {
@@ -35,7 +35,7 @@ export default Vue.extend({
     },
     close() {
       this.isError = false
-    }
-  }
+    },
+  },
 })
 </script>

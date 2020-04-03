@@ -26,7 +26,7 @@ export default Vue.extend({
     GranCardText,
     GranLoginForm,
     GranSocialButton,
-    GranLinkList
+    GranLinkList,
   },
   methods: {
     login(loginForm: ILoginForm) {
@@ -34,7 +34,7 @@ export default Vue.extend({
     },
     loginWithGoogle() {
       this.$emit('loginWithGoogle')
-    }
-  }
+    },
+  },
 })
 </script>

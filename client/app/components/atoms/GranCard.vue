@@ -18,29 +18,29 @@ export default Vue.extend({
   props: {
     color: {
       type: String,
-      default: 'white'
+      default: 'white',
     },
     flat: {
       type: Boolean,
-      default: false
+      default: false,
     },
     width: {
       type: Number,
-      default: undefined
+      default: undefined,
     },
     minWidth: {
       type: Number,
-      default: undefined
+      default: undefined,
     },
     maxWidth: {
       type: Number,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   methods: {
     click(): void {
       this.$emit('click')
-    }
-  }
+    },
+  },
 })
 </script>

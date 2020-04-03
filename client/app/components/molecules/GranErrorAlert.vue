@@ -21,22 +21,22 @@ export default Vue.extend({
   components: {
     GranFlash,
     GranButton,
-    GranIcon
+    GranIcon,
   },
   props: {
     isError: {
       type: Boolean,
-      default: false
+      default: false,
     },
     message: {
       type: String,
-      default: '認証エラー'
-    }
+      default: '認証エラー',
+    },
   },
   methods: {
     close() {
       this.$emit('close')
-    }
-  }
+    },
+  },
 })
 </script>

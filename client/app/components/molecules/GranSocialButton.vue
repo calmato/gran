@@ -13,19 +13,19 @@ import GranButton from '~/components/atoms/GranButton.vue'
 export default Vue.extend({
   components: {
     GranIcon,
-    GranButton
+    GranButton,
   },
   props: {
     name: {
       type: String,
-      default: 'google'
-    }
+      default: 'google',
+    },
   },
   methods: {
     click() {
       this.$emit('click')
-    }
-  }
+    },
+  },
 })
 </script>
 

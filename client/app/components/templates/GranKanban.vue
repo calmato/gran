@@ -26,7 +26,7 @@ export default Vue.extend({
   components: {
     draggable,
     GranAddColumnForm,
-    GranTaskColumn
+    GranTaskColumn,
   },
   computed: {
     ...mapGetters('boards', ['board']),
@@ -36,16 +36,16 @@ export default Vue.extend({
       },
       set(value: any) {
         this.$store.commit('boards/updateBoardLists', value)
-      }
-    }
+      },
+    },
   },
   methods: {
     ...mapActions('boards', ['addNewColumn', 'addNewTask']),
     getComponentData(): Object {
       return {
         props: {
-          col: true
-        }
+          col: true,
+        },
       }
     },
     updateTasks(listIndex, tasks): void {
@@ -56,7 +56,7 @@ export default Vue.extend({
     },
     addTask(index, value): void {
       this.addNewTask({ index, value })
-    }
-  }
+    },
+  },
 })
 </script>

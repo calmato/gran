@@ -80,17 +80,17 @@ import GranTextField from '~/components/atoms/GranTextField.vue'
 export default Vue.extend({
   components: {
     GranIcon,
-    GranTextField
+    GranTextField,
   },
   data: () => ({
     xLarge: true,
     dialog: false,
     emails: [{ value: '' }],
     groupName: '',
-    groupDescription: ''
+    groupDescription: '',
   }),
   computed: {
-    ...mapGetters('group', ['groups'])
+    ...mapGetters('group', ['groups']),
   },
   methods: {
     on(groupName, groupDescription) {
@@ -103,7 +103,7 @@ export default Vue.extend({
     },
     deleteForm(id) {
       this.emails.splice(id, 1)
-    }
-  }
+    },
+  },
 })
 </script>

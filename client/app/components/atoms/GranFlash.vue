@@ -26,51 +26,51 @@ export default Vue.extend({
       validator(val) {
         return ['success', 'info', 'warning', 'error'].includes(val)
       },
-      default: undefined
+      default: undefined,
     },
     border: {
       type: String,
       validator(val) {
         return ['top', 'right', 'bottom', 'left'].includes(val)
       },
-      default: undefined
+      default: undefined,
     },
     coloredBorder: {
       type: Boolean,
-      default: false
+      default: false,
     },
     color: {
       type: String,
-      default: ''
+      default: '',
     },
     icon: {
       type: String,
-      default: ''
+      default: '',
     },
     dense: {
       type: Boolean,
-      default: false
+      default: false,
     },
     text: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dark: {
       type: Boolean,
-      default: false
+      default: false,
     },
     outlined: {
       type: Boolean,
-      default: false
+      default: false,
     },
     prominent: {
       type: Boolean,
-      default: false
+      default: false,
     },
     transition: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   computed: {
     iconName(): string | undefined {
@@ -79,7 +79,7 @@ export default Vue.extend({
       } else {
         return 'mdi-' + this.icon
       }
-    }
-  }
+    },
+  },
 })
 </script>
