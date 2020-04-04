@@ -7,6 +7,7 @@ import (
 
 	"github.com/16francs/gran/api/user/internal/application"
 	"github.com/16francs/gran/api/user/internal/application/request"
+	"github.com/16francs/gran/api/user/internal/application/response"
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/interface/handler"
 	"github.com/16francs/gran/api/user/middleware"
@@ -15,6 +16,7 @@ import (
 // APIV1UserHandler - Userハンドラのインターフェース
 type APIV1UserHandler interface {
 	Create(ctx *gin.Context)
+	ShowProfile(ctx *gin.Context)
 	UpdateProfile(ctx *gin.Context)
 }
 
@@ -42,6 +44,31 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{})
+}
+
+func (uh *apiV1UserHandler) ShowProfile(ctx *gin.Context) {
+	c := middleware.GinContextToContext(ctx)
+
+	u, err := uh.userApplication.ShowProfile(c)
+	if err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+
+	res := &response.ShowProfile{
+		ID:           u.ID,
+		Name:         u.Name,
+		DisplayName:  u.DisplayName,
+		Email:        u.Email,
+		PhoneNumber:  u.PhoneNumber,
+		ThumbnailURL: u.ThumbnailURL,
+		Biography:    u.Biography,
+		GroupIDs:     u.GroupIDs,
+		CreatedAt:    u.CreatedAt,
+		UpdatedAt:    u.UpdatedAt,
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (uh *apiV1UserHandler) UpdateProfile(ctx *gin.Context) {

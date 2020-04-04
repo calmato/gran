@@ -28,6 +28,20 @@ paths:
           $ref: '#/components/responses/Unkown'
 
   /profile:
+    get:
+      summary: プロフィール取得
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Profile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
     patch:
       summary: プロフィール編集
       security:
@@ -164,3 +178,46 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+
+    Profile:
+      description: プロフィールレスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                description: ユーザID
+              name:
+                type: string
+                description: 氏名
+              displayName:
+                type: string
+                description: 表示名
+              email:
+                type: string
+                format: email
+                description: Eメール
+              phoneNumber:
+                type: string
+                description: 電話番号
+              thumbnailUrl:
+                type: string
+                format: byte
+                description: サムネイル
+              biography:
+                type: string
+                description: 自己紹介
+              groupIds:
+                type: array
+                description: 参加グループID一覧
+                items:
+                  type: string
+              createdAt:
+                type: string
+                format: date-time
+                description: ユーザ作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: ユーザ更新日時
