@@ -7,6 +7,7 @@
       :list-index="index"
       :column="column"
       @input="updateTasks"
+      @addTask="addTask"
     />
     <gran-add-column-form slot="footer" @addColumn="addColumn" />
   </draggable>
@@ -39,7 +40,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapActions('boards', ['addNewColumn']),
+    ...mapActions('boards', ['addNewColumn', 'addNewTask']),
     getComponentData(): Object {
       return {
         props: {
@@ -52,6 +53,9 @@ export default Vue.extend({
     },
     addColumn(formData: IBoardListForm): void {
       this.addNewColumn(formData)
+    },
+    addTask(index, value): void {
+      this.addNewTask({ index, value })
     },
   },
 })
