@@ -15,6 +15,7 @@ import (
 type UserService interface {
 	Authentication(ctx context.Context) (*domain.User, error)
 	Create(ctx context.Context, u *domain.User) (*domain.User, error)
+	Update(ctx context.Context, u *domain.User) (*domain.User, error)
 }
 
 type userService struct {
@@ -57,6 +58,28 @@ func (us *userService) Create(ctx context.Context, u *domain.User) (*domain.User
 	u.UpdatedAt = current
 
 	if err := us.userRepository.Create(ctx, u); err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	return u, nil
+}
+
+func (us *userService) Update(ctx context.Context, u *domain.User) (*domain.User, error) {
+	if ves := us.userDomainValidation.User(ctx, u); len(ves) > 0 {
+		err := xerrors.New("Failed to Domain/DomainValidation")
+
+		if isContainCustomUniqueError(ves) {
+			return nil, domain.AlreadyExists.New(err, ves...)
+		}
+
+		return nil, domain.Unknown.New(err, ves...)
+	}
+	current := time.Now()
+
+	u.UpdatedAt = current
+
+	if err := us.userRepository.Update(ctx, u); err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
 		return nil, domain.ErrorInDatastore.New(err)
 	}
