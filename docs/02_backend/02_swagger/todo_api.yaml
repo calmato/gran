@@ -166,6 +166,29 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
+  /tasks/{taskId}:
+    get:
+      summary: タスク詳細
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: タスクID
+      responses:
+        '200':
+          $ref: '#/components/responses/ShowTask'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
   /groups/{groupId}/boards/{boardId}/tasks:
     post:
       summary: タスク作成
@@ -589,3 +612,67 @@ components:
                 type: string
                 format: date-time
                 description: グループ更新日時
+
+    ShowTask:
+      description: タスク詳細レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: タスクID
+              name:
+                type: string
+                description: タスク名
+              description:
+                type: string
+                description: 説明
+              labels:
+                type: array
+                description: ラベル一覧
+                items:
+                  type: string
+              attachmentUrls:
+                type: array
+                description: 添付ファイルURL一覧
+                items:
+                  type: string
+              groupID:
+                type: string
+                format: uuid
+                description: グループID
+              boardID:
+                type: string
+                format: uuid
+                description: ボードID
+              assignedUserIds:
+                type: array
+                description: アサインユーザID一覧
+                items:
+                  type: string
+              checklistIds:
+                type: array
+                description: チェックリストID一覧
+                items:
+                  type: string
+                  format: uuid
+              commentIds:
+                type: array
+                description: コメントID一覧
+                items:
+                  type: string
+                  format: uuid
+              deadlinedAt:
+                type: string
+                format: date-time
+                description: 期限
+              createdAt:
+                type: string
+                format: date-time
+                description: タスク作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: タスク更新日時
