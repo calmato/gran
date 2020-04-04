@@ -82,7 +82,6 @@ func emailVerified(ctx context.Context, a *Auth, uid string, email string) bool 
 	// uid == "" -> 新規ユーザー
 	if uid == "" {
 		return false
-
 	}
 
 	// uid != "" -> 既存ユーザー
