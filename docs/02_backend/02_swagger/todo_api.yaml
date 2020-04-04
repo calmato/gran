@@ -419,7 +419,6 @@ components:
                 description: 参加ユーザー一覧
                 items:
                   type: string
-                  format: uuid
               deadlinedAt:
                 type: string
                 format: date-time
@@ -582,7 +581,6 @@ components:
                             description: アサインユーザID一覧
                             items:
                               type: string
-                              format: uuid
               createdAt:
                 type: string
                 format: date-time
