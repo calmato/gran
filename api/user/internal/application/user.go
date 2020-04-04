@@ -16,6 +16,7 @@ import (
 // UserApplication - UserApplicationインターフェース
 type UserApplication interface {
 	Create(ctx context.Context, req *request.CreateUser) error
+	ShowProfile(ctx context.Context) (*domain.User, error)
 	UpdateProfile(ctx context.Context, req *request.UpdateProfile) error
 }
 
@@ -48,6 +49,15 @@ func (ua *userApplication) Create(ctx context.Context, req *request.CreateUser) 
 	}
 
 	return nil
+}
+
+func (ua *userApplication) ShowProfile(ctx context.Context) (*domain.User, error) {
+	u, err := ua.userService.Authentication(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return u, nil
 }
 
 func (ua *userApplication) UpdateProfile(ctx context.Context, req *request.UpdateProfile) error {
