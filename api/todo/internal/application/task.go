@@ -15,6 +15,7 @@ import (
 
 // TaskApplication - TaskApplicationインターフェース
 type TaskApplication interface {
+	Show(ctx context.Context, taskID string) (*domain.Task, error)
 	Create(ctx context.Context, groupID string, boardID string, req *request.CreateTask) error
 }
 
@@ -35,6 +36,25 @@ func NewTaskApplication(
 		boardService:          bs,
 		userService:           us,
 	}
+}
+
+func (ta *taskApplication) Show(ctx context.Context, taskID string) (*domain.Task, error) {
+	u, err := ta.userService.Authentication(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	t, err := ta.taskService.Show(ctx, taskID)
+	if err != nil {
+		return nil, domain.NotFound.New(err)
+	}
+
+	if !ta.userService.IsContainInGroupIDs(ctx, t.GroupID, u) {
+		err := xerrors.New("Unable to create Board in the Group")
+		return nil, domain.Forbidden.New(err)
+	}
+
+	return t, nil
 }
 
 func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID string, req *request.CreateTask) error {
@@ -82,6 +102,7 @@ func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID s
 		AssignedUserIDs: req.AssignedUserIDs,
 		DeadlinedAt:     req.DeadlinedAt,
 		AttachmentURLs:  attachmentURLs,
+		GroupID:         groupID,
 		BoardID:         boardID,
 	}
 

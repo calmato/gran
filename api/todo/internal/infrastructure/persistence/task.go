@@ -55,6 +55,24 @@ func (tp *taskPersistence) IndexByBoardID(ctx context.Context, boardID string) (
 	return ts, nil
 }
 
+func (tp *taskPersistence) Show(ctx context.Context, taskID string) (*domain.Task, error) {
+	taskCollection := GetTaskCollection()
+
+	doc, err := tp.firestore.Get(ctx, taskCollection, taskID)
+	if err != nil {
+		return nil, err
+	}
+
+	t := &domain.Task{}
+
+	err = doc.DataTo(t)
+	if err != nil {
+		return nil, err
+	}
+
+	return t, nil
+}
+
 func (tp *taskPersistence) Create(ctx context.Context, t *domain.Task) error {
 	taskCollection := GetTaskCollection()
 
