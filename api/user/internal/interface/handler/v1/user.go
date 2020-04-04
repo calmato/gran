@@ -13,6 +13,7 @@ import (
 // APIV1UserHandler - Userハンドラのインターフェース
 type APIV1UserHandler interface {
 	Create(ctx *gin.Context)
+	UpdateProfile(ctx *gin.Context)
 }
 
 type apiV1UserHandler struct {
@@ -34,6 +35,21 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 	}
 
 	if err := uh.userApplication.Create(ctx, req); err != nil {
+		handler.ErrorHandling(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{})
+}
+
+func (uh *apiV1UserHandler) UpdateProfile(ctx *gin.Context) {
+	req := &request.UpdateProfile{}
+	if err := ctx.BindJSON(req); err != nil {
+		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
+		return
+	}
+
+	if err := uh.userApplication.UpdateProfile(ctx, req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
