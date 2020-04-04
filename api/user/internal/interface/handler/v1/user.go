@@ -3,11 +3,13 @@ package v1
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/16francs/gran/api/user/internal/application"
 	"github.com/16francs/gran/api/user/internal/application/request"
 	"github.com/16francs/gran/api/user/internal/domain"
 	"github.com/16francs/gran/api/user/internal/interface/handler"
-	"github.com/gin-gonic/gin"
+	"github.com/16francs/gran/api/user/middleware"
 )
 
 // APIV1UserHandler - Userハンドラのインターフェース
@@ -43,13 +45,15 @@ func (uh *apiV1UserHandler) Create(ctx *gin.Context) {
 }
 
 func (uh *apiV1UserHandler) UpdateProfile(ctx *gin.Context) {
+	c := middleware.GinContextToContext(ctx)
+
 	req := &request.UpdateProfile{}
 	if err := ctx.BindJSON(req); err != nil {
 		handler.ErrorHandling(ctx, domain.UnableParseJSON.New(err))
 		return
 	}
 
-	if err := uh.userApplication.UpdateProfile(ctx, req); err != nil {
+	if err := uh.userApplication.UpdateProfile(c, req); err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}

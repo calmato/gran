@@ -13,7 +13,7 @@ type UpdateProfile struct {
 	Name        string `json:"name" label:"氏名" validate:"required,max=32"`
 	DisplayName string `json:"displayName" label:"表示名" validate:"required,max=32"`
 	Email       string `json:"email" label:"メールアドレス" validate:"required,email,max=256"`
-	PhoneNumber string `json:"phoneNumber" label:"電話番号" validate:"max=12"`
+	PhoneNumber string `json:"phoneNumber" label:"電話番号" validate:"max=13"`
 	Thumbnail   string `json:"thumbnail" label:"サムネイル"`
 	Biography   string `json:"biography" label:"自己紹介" validate:"max=256"`
 }

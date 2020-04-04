@@ -27,6 +27,25 @@ paths:
         '500':
           $ref: '#/components/responses/Unkown'
 
+  /profile:
+    patch:
+      summary: プロフィール編集
+      security:
+        - BearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateProfile'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -80,6 +99,39 @@ components:
               - email
               - password
               - passwordConfirmation
+
+    UpdateProfile:
+      description: プロフィール編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: 氏名
+              displayName:
+                type: string
+                description: 表示名
+              email:
+                type: string
+                format: email
+                description: Eメール
+              phoneNumber:
+                type: string
+                description: 電話番号
+              thumbnail:
+                type: string
+                format: byte
+                description: サムネイル
+              biography:
+                type: string
+                description: 自己紹介
+            required:
+              - name
+              - displayName
+              - email
 
   responses:
     BadRequest:
