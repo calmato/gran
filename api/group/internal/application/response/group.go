@@ -6,11 +6,11 @@ import "time"
 type Group struct {
 	ID            string    `json:"id"`
 	Name          string    `json:"name"`
-	UserIDs       []string  `json:"user_ids,omitempty"`
+	UserIDs       []string  `json:"userIds,omitempty"`
 	InvitedEmails []string  `json:"invitedEmails,omitempty"`
 	Description   string    `json:"description"`
-	CreatedAt     time.Time `firestore:"created_at"`
-	UpdatedAt     time.Time `firestore:"updated_at"`
+	CreatedAt     time.Time `firestore:"createdAt"`
+	UpdatedAt     time.Time `firestore:"updatedAt"`
 }
 
 // Groups - グループ一覧のレスポンス
