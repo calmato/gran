@@ -47,6 +47,9 @@ func errorResponse(err error) *response.ErrorResponse {
 	case domain.ErrorInDatastore:
 		res = response.InternalServerError
 		logging("warning", "Error in datastore", err)
+	case domain.ErrorInStorage:
+		res = response.InternalServerError
+		logging("warning", "Error in storage", err)
 	default:
 		res = response.InternalServerError
 		logging("error", "Internal server error", err)

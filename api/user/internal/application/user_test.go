@@ -59,3 +59,58 @@ func TestUserApplication_Create(t *testing.T) {
 		})
 	}
 }
+
+func TestUserApplication_UpdateProfile(t *testing.T) {
+	testCases := map[string]struct {
+		Request *request.UpdateProfile
+	}{
+		"ok": {
+			Request: &request.UpdateProfile{
+				Name:        "テストユーザー",
+				DisplayName: "ユーザー",
+				Email:       "hoge@hoge.com",
+				PhoneNumber: "",
+				Thumbnail:   "",
+				Biography:   "",
+			},
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined variables
+		ves := make([]*domain.ValidationError, 0)
+
+		u := &domain.User{
+			Name:        testCase.Request.Name,
+			DisplayName: testCase.Request.DisplayName,
+			Email:       testCase.Request.Email,
+			PhoneNumber: testCase.Request.PhoneNumber,
+			Biography:   testCase.Request.Biography,
+		}
+
+		// Defined mocks
+		urvm := mock_validation.NewMockUserRequestValidation(ctrl)
+		urvm.EXPECT().UpdateProfile(testCase.Request).Return(ves)
+
+		usm := mock_service.NewMockUserService(ctrl)
+		usm.EXPECT().Authentication(ctx).Return(u, nil)
+		usm.EXPECT().Update(ctx, u).Return(u, nil)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewUserApplication(urvm, usm)
+
+			err := target.UpdateProfile(ctx, testCase.Request)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+		})
+	}
+}

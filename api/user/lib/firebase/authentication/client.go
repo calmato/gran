@@ -46,7 +46,7 @@ func (a *Auth) GetUIDByEmail(ctx context.Context, email string) (string, error) 
 func (a *Auth) CreateUser(ctx context.Context, email string, password string) (string, error) {
 	params := (&auth.UserToCreate{}).
 		Email(email).
-		EmailVerified(emailVerified(email)).
+		EmailVerified(emailVerified(ctx, a, "", email)).
 		Password(password).
 		Disabled(false)
 
@@ -59,12 +59,12 @@ func (a *Auth) CreateUser(ctx context.Context, email string, password string) (s
 }
 
 // UpdateUser - 既存のユーザーのデータを変更
-func (a *Auth) UpdateUser(ctx context.Context, uid string, email string, password string, disable bool) error {
+func (a *Auth) UpdateUser(ctx context.Context, uid string, email string, password string, disabled bool) error {
 	params := (&auth.UserToUpdate{}).
 		Email(email).
-		EmailVerified(emailVerified(email)).
+		EmailVerified(emailVerified(ctx, a, uid, email)).
 		Password(password).
-		Disabled(disable)
+		Disabled(disabled)
 
 	if _, err := a.Client.UpdateUser(ctx, uid, params); err != nil {
 		return err
@@ -78,6 +78,17 @@ func (a *Auth) DeleteUser(ctx context.Context, uid string) error {
 	return a.Client.DeleteUser(ctx, uid)
 }
 
-func emailVerified(email string) bool {
-	return email == ""
+func emailVerified(ctx context.Context, a *Auth, uid string, email string) bool {
+	// uid == "" -> 新規ユーザー
+	if uid == "" {
+		return false
+	}
+
+	// uid != "" -> 既存ユーザー
+	u, err := a.Client.GetUserByEmail(ctx, uid)
+	if err != nil {
+		return false // TODO: エラー処理
+	}
+
+	return email == u.Email
 }
