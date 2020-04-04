@@ -2,7 +2,9 @@ package application
 
 import (
 	"context"
+	"reflect"
 	"testing"
+	"time"
 
 	"github.com/golang/mock/gomock"
 
@@ -55,6 +57,56 @@ func TestUserApplication_Create(t *testing.T) {
 			if err != nil {
 				t.Fatalf("error: %v", err)
 				return
+			}
+		})
+	}
+}
+
+func TestUserApplication_ShowProfile(t *testing.T) {
+	current := time.Now()
+
+	testCases := map[string]struct {
+		Expected *domain.User
+	}{
+		"ok": {
+			Expected: &domain.User{
+				ID:          "user-id",
+				Name:        "テストユーザー",
+				DisplayName: "テスト",
+				Email:       "hoge@hoge.com",
+				PhoneNumber: "",
+				Biography:   "",
+				CreatedAt:   current,
+				UpdatedAt:   current,
+			},
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined mocks
+		urvm := mock_validation.NewMockUserRequestValidation(ctrl)
+
+		usm := mock_service.NewMockUserService(ctrl)
+		usm.EXPECT().Authentication(ctx).Return(testCase.Expected, nil)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewUserApplication(urvm, usm)
+
+			got, err := target.ShowProfile(ctx)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
 			}
 		})
 	}
