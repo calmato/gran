@@ -23,7 +23,7 @@ type ErrorResponse struct {
 // ステータスコードを付与したエラーレスポンス
 var (
 	BadRequest = &ErrorResponse{
-		StatusCode: http.StatusBadRequest, // 404
+		StatusCode: http.StatusBadRequest, // 400
 		Message:    "不正なパラメータが入力されています。",
 	}
 
@@ -36,6 +36,12 @@ var (
 	Forbidden = &ErrorResponse{
 		StatusCode:       http.StatusForbidden, // 403
 		Message:          "その操作を実行する権限がありません。",
+		ValidationErrors: nil,
+	}
+
+	NotFound = &ErrorResponse{
+		StatusCode:       http.StatusNotFound, // 404
+		Message:          "指定の情報が見つかりません。",
 		ValidationErrors: nil,
 	}
 

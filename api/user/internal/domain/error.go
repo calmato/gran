@@ -10,6 +10,8 @@ const (
 	Unauthorized
 	// Forbidden - 権限エラー
 	Forbidden
+	// NotFound - 取得エラー
+	NotFound
 	// InvalidDomainValidation - ドメインのバリデーションエラー
 	InvalidDomainValidation
 	// InvalidRequestValidation - リクエストのバリデーションエラー
@@ -22,6 +24,8 @@ const (
 	ErrorInStorage
 	// AlreadyExists - ユニークチェックでのエラー
 	AlreadyExists
+	// NotEqualRequestWithDatastore - リクエスト値がデータストアの値と一致しない
+	NotEqualRequestWithDatastore
 )
 
 // ShowError - エラー内容を返すインターフェース

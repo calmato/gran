@@ -39,6 +39,12 @@ var (
 		ValidationErrors: nil,
 	}
 
+	NotFound = &ErrorResponse{
+		StatusCode:       http.StatusNotFound, // 404
+		Message:          "指定の情報が見つかりません。",
+		ValidationErrors: nil,
+	}
+
 	AlreadyExists = &ErrorResponse{
 		StatusCode: http.StatusConflict, // 409
 		Message:    "不正なパラメータが入力されています。",
