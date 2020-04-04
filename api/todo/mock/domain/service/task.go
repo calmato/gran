@@ -34,6 +34,21 @@ func (m *MockTaskService) EXPECT() *MockTaskServiceMockRecorder {
 	return m.recorder
 }
 
+// Show mocks base method
+func (m *MockTaskService) Show(ctx context.Context, taskID string) (*domain.Task, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Show", ctx, taskID)
+	ret0, _ := ret[0].(*domain.Task)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Show indicates an expected call of Show
+func (mr *MockTaskServiceMockRecorder) Show(ctx, taskID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Show", reflect.TypeOf((*MockTaskService)(nil).Show), ctx, taskID)
+}
+
 // Create mocks base method
 func (m *MockTaskService) Create(ctx context.Context, groupID, boardID, boardListID string, t *domain.Task) (*domain.Task, error) {
 	m.ctrl.T.Helper()

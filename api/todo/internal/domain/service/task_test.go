@@ -12,6 +12,63 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
+func TestTaskService_Show(t *testing.T) {
+	current := time.Now()
+
+	testCases := map[string]struct {
+		TaskID   string
+		Expected *domain.Task
+	}{
+		"ok": {
+			TaskID: "task-id",
+			Expected: &domain.Task{
+				ID:              "task-id",
+				Name:            "タスク",
+				Description:     "説明",
+				BoardListID:     "board-list-id",
+				Labels:          []string{},
+				AttachmentURLs:  []string{},
+				AssignedUserIDs: []string{},
+				DeadlinedAt:     current,
+				GroupID:         "group-id",
+				BoardID:         "board-id",
+			},
+		},
+	}
+
+	for result, testCase := range testCases {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+
+		// Defined mocks
+		tdvm := mock_validation.NewMockTaskDomainValidation(ctrl)
+
+		trm := mock_repository.NewMockTaskRepository(ctrl)
+		trm.EXPECT().Show(ctx, testCase.TaskID).Return(testCase.Expected, nil)
+
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+
+		// Start test
+		t.Run(result, func(t *testing.T) {
+			target := NewTaskService(tdvm, trm, brm)
+
+			got, err := target.Show(ctx, testCase.TaskID)
+			if err != nil {
+				t.Fatalf("error: %v", err)
+				return
+			}
+
+			if !reflect.DeepEqual(got, testCase.Expected) {
+				t.Fatalf("want %#v, but %#v", testCase.Expected, got)
+				return
+			}
+		})
+	}
+}
+
 func TestTaskService_Create(t *testing.T) {
 	current := time.Now()
 
