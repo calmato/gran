@@ -49,6 +49,21 @@ func (mr *MockTaskRepositoryMockRecorder) IndexByBoardID(ctx, boardID interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IndexByBoardID", reflect.TypeOf((*MockTaskRepository)(nil).IndexByBoardID), ctx, boardID)
 }
 
+// Show mocks base method
+func (m *MockTaskRepository) Show(ctx context.Context, taskID string) (*domain.Task, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Show", ctx, taskID)
+	ret0, _ := ret[0].(*domain.Task)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Show indicates an expected call of Show
+func (mr *MockTaskRepositoryMockRecorder) Show(ctx, taskID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Show", reflect.TypeOf((*MockTaskRepository)(nil).Show), ctx, taskID)
+}
+
 // Create mocks base method
 func (m *MockTaskRepository) Create(ctx context.Context, t *domain.Task) error {
 	m.ctrl.T.Helper()

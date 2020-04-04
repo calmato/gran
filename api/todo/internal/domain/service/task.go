@@ -14,6 +14,7 @@ import (
 
 // TaskService - TaskServiceインターフェース
 type TaskService interface {
+	Show(ctx context.Context, taskID string) (*domain.Task, error)
 	Create(ctx context.Context, groupID string, boardID string, boardListID string, t *domain.Task) (*domain.Task, error)
 }
 
@@ -32,6 +33,16 @@ func NewTaskService(
 		taskRepository:       tr,
 		boardRepository:      br,
 	}
+}
+
+func (ts *taskService) Show(ctx context.Context, taskID string) (*domain.Task, error) {
+	t, err := ts.taskRepository.Show(ctx, taskID)
+	if err != nil {
+		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+		return nil, domain.ErrorInDatastore.New(err)
+	}
+
+	return t, nil
 }
 
 func (ts *taskService) Create(
