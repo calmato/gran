@@ -28,15 +28,22 @@
 ### .envファイルの作成
 
 * 以下を参考に `.env` ファイルを編集
-  * `FIREBASE_xxxx` はFirebaseプロジェクトにログインし確認
-  * `./../../secret/xxx-firebase-adminsdk-xxx.json` は正しいファイル名に置き換え
+  * `FIREBASE_API_KEY=xxxxxx` : Firebaseのコンソールより確認
+  * `FIREBASE_PROJECT_ID=xxxxxx` : Firebaseのコンソールより確認
+  * `FIREBASE_MESSAGING_SENDER_ID=xxxxxx` : Firebaseのコンソールより確認
+  * `GOOGLE_APPLICATION_CREDENTIALS=./../../secret/xxx-firebase-adminsdk-xxx.json` : Firebaseのコンソールより確認
+  * `GCP_STORAGE_BUCKET_NAME=xxxxxx.appspot.com` : GCPのコンソールより確認
+  * `TERRAFORM_CREDENTIALS=/secret/xxxxxx-xxxxxx.json` : GCPのコンソールより確認
 
 ```env
 CLIENT_PATH=./../client
+API_URL=http://localhost:8080
 FIREBASE_API_KEY=xxxxxx
 FIREBASE_PROJECT_ID=xxxxxx
 FIREBASE_MESSAGING_SENDER_ID=xxxxxx
 GOOGLE_APPLICATION_CREDENTIALS=./../../secret/xxx-firebase-adminsdk-xxx.json
+GCP_STORAGE_BUCKET_NAME=xxxxxx.appspot.com
+TERRAFORM_CREDENTIALS=/secret/xxxxxx-xxxxxx.json
 ```
 
 ### コンテナの起動
