@@ -50,10 +50,14 @@ run:
   skip-dirs:
     - bin
     - mock
-    
+
 issues:
   exclude:
     - Using the variable on range scope .* in function literal
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - dupl
 
 service:
   golangci-lint-version: 1.22.2

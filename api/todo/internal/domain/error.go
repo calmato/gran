@@ -10,6 +10,8 @@ const (
 	Unauthorized
 	// Forbidden - 権限エラー
 	Forbidden
+	// NotFound - 取得エラー
+	NotFound
 	// InvalidDomainValidation - ドメインのバリデーションエラー
 	InvalidDomainValidation
 	// InvalidRequestValidation - リクエストのバリデーションエラー

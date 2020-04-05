@@ -63,6 +63,20 @@ func (mr *MockUserRepositoryMockRecorder) Create(ctx, u interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserRepository)(nil).Create), ctx, u)
 }
 
+// Update mocks base method
+func (m *MockUserRepository) Update(ctx context.Context, u *domain.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, u)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update
+func (mr *MockUserRepositoryMockRecorder) Update(ctx, u interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserRepository)(nil).Update), ctx, u)
+}
+
 // GetUIDByEmail mocks base method
 func (m *MockUserRepository) GetUIDByEmail(ctx context.Context, email string) (string, error) {
 	m.ctrl.T.Helper()

@@ -38,6 +38,8 @@ func Router(reg *registry.Registry) *gin.Engine {
 				boards.PATCH("/kanban", reg.V1Board.UpdateKanban)
 			}
 		}
+
+		apiV1.GET("/tasks/:taskID", reg.V1Task.Show)
 	}
 
 	return r

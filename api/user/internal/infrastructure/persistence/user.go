@@ -68,6 +68,27 @@ func (up *userPersistence) Create(ctx context.Context, u *domain.User) error {
 	return nil
 }
 
+func (up *userPersistence) Update(ctx context.Context, u *domain.User) error {
+	// 既存情報取得
+	email, err := getEmail(ctx, up.firestore, u.ID)
+	if err != nil {
+		return err
+	}
+
+	// Email, Passwordに更新があった場合、Authenticationも更新
+	if u.Email != email || u.Password != "" {
+		if err = up.auth.UpdateUser(ctx, u.ID, u.Email, u.Password, false); err != nil {
+			return err
+		}
+	}
+
+	if err = up.firestore.Set(ctx, UserCollection, u.ID, u); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (up *userPersistence) GetUIDByEmail(ctx context.Context, email string) (string, error) {
 	uid, err := up.auth.GetUIDByEmail(ctx, email)
 	if err != nil {
@@ -90,4 +111,20 @@ func getToken(ctx context.Context) (string, error) {
 
 	t := strings.Replace(a, "Bearer ", "", 1)
 	return t, nil
+}
+
+func getEmail(ctx context.Context, fs *firestore.Firestore, id string) (string, error) {
+	doc, err := fs.Get(ctx, UserCollection, id)
+	if err != nil {
+		return "", err
+	}
+
+	u := &domain.User{}
+
+	err = doc.DataTo(u)
+	if err != nil {
+		return "", err
+	}
+
+	return u.Email, nil
 }
