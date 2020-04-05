@@ -5,6 +5,7 @@
       prepend-icon="email"
       label="Email"
       :rules="loginFormValidate.email"
+      @keydown="onKeydown"
     />
     <gran-text-field
       v-model="loginForm.password"
@@ -12,8 +13,9 @@
       label="Password"
       type="password"
       :rules="loginFormValidate.password"
+      @keydown="onKeydown"
     />
-    <gran-button color="light-blue darken-1" block dark @click="click">ログイン</gran-button>
+    <gran-button color="light-blue darken-1" block dark @click="doSubmit">ログイン</gran-button>
   </form>
 </template>
 
@@ -35,9 +37,19 @@ export default Vue.extend({
     } as ILoginForm,
     loginFormValidate: LoginFormValidate,
   }),
+  computed: {
+    submitDisabled(): Boolean {
+      return this.loginForm.email.length === 0 || this.loginForm.password.length === 0
+    },
+  },
   methods: {
-    click() {
-      this.$emit('login', this.loginForm)
+    doSubmit(): void {
+      if (!this.submitDisabled) {
+        this.$emit('login', this.loginForm)
+      }
+    },
+    onKeydown(keyEvent: KeyboardEvent): void {
+      if (keyEvent.keyCode === 13) this.doSubmit() // KeyCode: 13 => enter
     },
   },
 })
