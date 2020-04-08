@@ -27,9 +27,16 @@ jobs:
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
 
-      - name: Install
+      - name: Install libraries
         working-directory: ./client
         run: npm install
+
+      - name: Install reviewdog and some tools
+        working-directory: ./client
+        run: |
+          wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh \
+          | sh -s -- -b /usr/local/bin/ v0.9.17
+          apt install -y jq
 
       - name: Reviewdog
         working-directory: ./client
