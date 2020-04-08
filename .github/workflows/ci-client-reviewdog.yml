@@ -36,7 +36,6 @@ jobs:
         run: |
           wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh \
           | sh -s -- -b . v0.9.17
-          apt install -y jq
 
       - name: Reviewdog
         working-directory: ./client
