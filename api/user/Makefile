@@ -1,5 +1,6 @@
 GOLANGCI_VERSION := 1.22.2
 REVEWDOG_VERSION := 0.9.17
+PACKAGES := $(shell go list ./... | grep -v mock)
 
 .PHONY: setup
 setup:
@@ -22,7 +23,7 @@ fmt:
 
 .PHONY: vet
 vet:
-	go vet ./...
+	go vet ./... $(PACKAGES)
 
 .PHONY: lint
 lint:

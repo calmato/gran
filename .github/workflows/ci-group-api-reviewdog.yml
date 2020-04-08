@@ -1,8 +1,8 @@
-name: User API(Golang) Reviewdog
+name: Group API(Golang) Reviewdog
 on:
   pull_request:
     paths:
-      - 'api/user/**'
+      - 'api/group/**'
 
 jobs:
   reviewdog:
@@ -28,15 +28,15 @@ jobs:
 
       - name: Download modules
         if: steps.cache.outputs.cache-hit != 'true'
-        working-directory: ./api/user
+        working-directory: ./api/group
         run: go mod download
 
       - name: Setup
-        working-directory: ./api/user
+        working-directory: ./api/group
         run: make setup
 
       - name: Reviewdog
-        working-directory: ./api/user
+        working-directory: ./api/group
         run:  make review REVIEWDOG_ARG="-reporter='github-pr-review'"
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
