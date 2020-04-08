@@ -35,7 +35,7 @@ jobs:
         working-directory: ./client
         run: |
           wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh \
-          | sh -s -- -b /usr/local/bin/ v0.9.17
+          | sh -s -- -b . v0.9.17
           apt install -y jq
 
       - name: Reviewdog
@@ -43,7 +43,7 @@ jobs:
         run: |
           npm run lint -f="json" . \
           | jq -r '.[] | {filePath: .filePath, messages: .messages[]} | "\(.filePath):\(.messages.line):\(.messages.column):\(.messages.message) [\(.messages.ruleId)](https://eslint.org/docs/rules/\(.messages.ruleId))"' \
-          | reviewdog -efm="%f:%l:%c:%m" -name=eslint -reporter='github-pr-review'
+          | ./reviewdog -efm="%f:%l:%c:%m" -name=eslint -reporter='github-pr-review'
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
