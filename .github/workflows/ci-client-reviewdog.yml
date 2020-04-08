@@ -1,0 +1,21 @@
+name: Client(Nuxt.js) Reviewdog
+on:
+  pull_request:
+    paths:
+      - 'client/**'
+
+jobs:
+  reviewdog:
+    name: Reviewdog
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Reviewdog
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          eslint_flags: './client/**/*.{js,ts,vue}'
