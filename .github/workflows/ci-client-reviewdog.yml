@@ -40,7 +40,7 @@ jobs:
       - name: Reviewdog
         working-directory: ./client
         run: |
-          npm run lint -f="json" . \
+          $(npm bin)/eslint -f='json' --ext .js,.ts.vue --ignore-path .gitignore . \
           | jq -r '.[] | {filePath: .filePath, messages: .messages[]} | "\(.filePath):\(.messages.line):\(.messages.column):\(.messages.message) [\(.messages.ruleId)](https://eslint.org/docs/rules/\(.messages.ruleId))"' \
           | ./reviewdog -efm="%f:%l:%c:%m" -name=eslint -reporter='github-pr-review'
         env:
