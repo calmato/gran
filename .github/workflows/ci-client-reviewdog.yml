@@ -13,9 +13,30 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v1
 
-      - name: Reviewdog
-        uses: reviewdog/action-eslint@v1
+      - name: Setup Node.js 12
+        uses: actions/setup-node@v1
         with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          eslint_flags: './client/**/*.{js,ts,vue}'
+          node-version: 1
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+
+      - name: Install
+        working-directory: ./client
+        run: npm install
+
+      - name: Reviewdog
+        working-directory: ./client
+        run: |
+          npm run lint -f="json" . \
+          | jq -r '.[] | {filePath: .filePath, messages: .messages[]} | "\(.filePath):\(.messages.line):\(.messages.column):\(.messages.message) [\(.messages.ruleId)](https://eslint.org/docs/rules/\(.messages.ruleId))"' \
+          | reviewdog -efm="%f:%l:%c:%m" -name=eslint -reporter='github-pr-review'
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
