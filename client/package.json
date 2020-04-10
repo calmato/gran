@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^0.4.2",
+    "@nuxt/typescript-runtime": "^0.4.4",
     "@nuxtjs/axios": "^5.9.7",
     "firebase": "^7.14.0",
     "js-cookie": "^2.2.1",
