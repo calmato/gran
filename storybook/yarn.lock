@@ -6839,9 +6839,9 @@ react-fast-compare@^3.0.1:
   integrity sha512-C5vP0J644ofZGd54P8++O7AvrqMEbrGf8Ue0eAUJLJyw168dAX2aiYyX/zcY/eSNwO0IDjsKUaLE6n83D+TnEg==
 
 react-focus-lock@^2.1.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.3.0.tgz#b941bd4c99c2b44af86e6379b64aaf6b2d31cad6"
-  integrity sha512-57RtbLLNE9D5UbI8+S+KxCdSz9me/f8EgX0Bz52iL70OYBsaMpCePrdvICzM5OtfMJ4Fip99NPUfNRhFwzS3Lw==
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.3.1.tgz#9d5d85899773609c7eefa4fc54fff6a0f5f2fc47"
+  integrity sha512-j15cWLPzH0gOmRrUg01C09Peu8qbcdVqr6Bjyfxj80cNZmH+idk/bNBYEDSmkAtwkXI+xEYWSmHYqtaQhZ8iUQ==
   dependencies:
     "@babel/runtime" "^7.0.0"
     focus-lock "^0.6.7"
