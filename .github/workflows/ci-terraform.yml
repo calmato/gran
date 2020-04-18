@@ -11,9 +11,9 @@ env:
   tf_actions_comment: true
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJET_ID }}
-  TERRAFORM_CREDENTIALS: ${{ secrets.TERRAFORM_CREDENTIALS }}
-  TERRAFORM_BACKEND_ORGANIZATION: ${{ secrets.TERRAFORM_BACKEND_ORGANIZATION }}
-  TERRAFORM_BACKEND_BUCKET: ${{ secrets.TERRAFORM_BUCKET }}
+  GOOGLE_CREDENTIALS: ${{ secrets.TERRAFORM_CREDENTIALS }}
+  TERRAFORM_BACKEND: ${{ secrets.TERRAFORM_BACKEND }}
+  TERRAFORM_BUCKET: ${{ secrets.TERRAFORM_BUCKET }}
 
 jobs:
   terraform:
@@ -40,8 +40,8 @@ jobs:
           tf_actions_comment: ${ env.tf_action_comment }
           tf_actions_subcommand: 'init'
           args:
-            -backend-config="organization="${{ env.TERRAFORM_BACKEND_ORGANIZATION }}"
-            -backend-config="bucket=${{ env.TERRAFORM_BACKEND_BUCKET }}"
+            -backend="="${{ env.TERRAFORM_BACKEND }}"
+            -backend-config="bucket=${{ env.TERRAFORM_BUCKET }}"
             -backend-config="prefix=terraform/staging"
 
       - name: Terraform Validate
@@ -60,5 +60,4 @@ jobs:
           tf_actions_comment: ${ env.tf_action_comment }
           tf_actions_subcommand: 'plan'
         env:
-          GOOGLE_CREDENTIALS: ${{ env.TERRAFORM_CREDENTIALS }}
           TF_VAR_project_id: ${{ env.GCP_PROJECT_ID }}
