@@ -60,5 +60,6 @@ jobs:
           tf_actions_comment: ${ env.tf_action_comment }
           tf_actions_subcommand: 'plan'
         env:
-          GOOGLE_CREDENTIALS: ${{ env.TERRAFORM_CREDENTIALS }}
+          GOOGLE_CLOUD_KEYFILE_JSON: ${{ env.TERRAFORM_CREDENTIALS }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ env.TERRAFORM_CREDENTIALS }}
           TF_VAR_project_id: ${{ env.GCP_PROJECT_ID }}
