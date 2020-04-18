@@ -10,8 +10,10 @@ env:
   tf_working_dir: 'terraform/env/stg'
   tf_actions_comment: true
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TERRAROFM_CREDENTIALS: ${{ secrets.TERRAFORM_CREDENTIALS }}
-  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJET_ID }}
+  TERRAFORM_CREDENTIALS: ${{ secrets.TERRAFORM_CREDENTIALS }}
+  TERRAFORM_BACKEND_ORGANIZATION: ${{ secrets.TERRAFORM_BACKEND_ORGANIZATION }}
+  TERRAFORM_BACKEND_BUCKET: ${{ secrets.TERRAFORM_BUCKET }}
 
 jobs:
   terraform:
@@ -37,6 +39,10 @@ jobs:
           tf_actions_working_dir: ${{ env.tf_working_dir }}
           tf_actions_comment: ${ env.tf_action_comment }
           tf_actions_subcommand: 'init'
+          args:
+            -backend-config="organization="${{ env.TERRAFORM_BACKEND_ORGANIZATION }}"
+            -backend-config="bucket=${{ env.TERRAFORM_BACKEND_BUCKET }}"
+            -backend-config="prefix=terraform/staging"
 
       - name: Terraform Validate
         uses: hashicorp/terraform-github-actions@master
@@ -54,6 +60,5 @@ jobs:
           tf_actions_comment: ${ env.tf_action_comment }
           tf_actions_subcommand: 'plan'
         env:
-          GOOGLE_CLOUD_KEYFILE_JSON: ${{ env.TERRAFORM_CREDENTIALS }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ env.TERRAFORM_CREDENTIALS }}
+          GOOGLE_CREDENTIALS: ${{ env.TERRAFORM_CREDENTIALS }}
           TF_VAR_project_id: ${{ env.GCP_PROJECT_ID }}
