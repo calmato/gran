@@ -12,7 +12,6 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJET_ID }}
   GOOGLE_CREDENTIALS: ${{ secrets.TERRAFORM_CREDENTIALS }}
-  TERRAFORM_BACKEND: ${{ secrets.TERRAFORM_BACKEND }}
   TERRAFORM_BUCKET: ${{ secrets.TERRAFORM_BUCKET }}
 
 jobs:
@@ -32,6 +31,11 @@ jobs:
           tf_actions_comment: ${ env.tf_action_comment }
           tf_actions_subcommand: 'fmt'
 
+      - name: Create backend.tf
+        working-directory: ${{ env.tf_working_dir }}
+        run:
+          cp backend.tf.ci backend.tf
+
       - name: Terraform Init
         uses: hashicorp/terraform-github-actions@master
         with:
@@ -40,7 +44,6 @@ jobs:
           tf_actions_comment: ${ env.tf_action_comment }
           tf_actions_subcommand: 'init'
           args:
-            -backend="="${{ env.TERRAFORM_BACKEND }}"
             -backend-config="bucket=${{ env.TERRAFORM_BUCKET }}"
             -backend-config="prefix=terraform/staging"
 
