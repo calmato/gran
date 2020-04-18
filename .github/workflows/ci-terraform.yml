@@ -1,9 +1,10 @@
 name: Terraform(stg) Test
 on:
   pull_request:
-    paths:
-      - 'terraform/env/stg/**'
-      - 'terraform/modules/**'
+  # pull_request:
+  #   paths:
+  #     - 'terraform/env/stg/**'
+  #     - 'terraform/modules/**'
 
 env:
   tf_version: 'latest'
