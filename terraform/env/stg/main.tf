@@ -21,7 +21,7 @@ module "this" {
   #################################################
   gke_node_configs = [
     {
-      name  = "gran-node"
+      name         = "gran-node"
       count        = 1
       preemptible  = false
       machine_type = "f1-micro"
@@ -29,7 +29,7 @@ module "this" {
       disk_size_gb = 10
     },
     {
-      name  = "gran-preemptible-node"
+      name         = "gran-preemptible-node"
       count        = 2
       preemptible  = true
       machine_type = "g1-small"
