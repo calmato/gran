@@ -1155,6 +1155,17 @@
     jest-util "^25.3.0"
     slash "^3.0.0"
 
+"@jest/console@^25.4.0":
+  version "25.4.0"
+  resolved "https://registry.yarnpkg.com/@jest/console/-/console-25.4.0.tgz#e2760b532701137801ba824dcff6bc822c961bac"
+  integrity sha512-CfE0erx4hdJ6t7RzAcE1wLG6ZzsHSmybvIBQDoCkDM1QaSeWL9wJMzID/2BbHHa7ll9SsbbK43HjbERbBaFX2A==
+  dependencies:
+    "@jest/types" "^25.4.0"
+    chalk "^3.0.0"
+    jest-message-util "^25.4.0"
+    jest-util "^25.4.0"
+    slash "^3.0.0"
+
 "@jest/core@^25.3.0":
   version "25.3.0"
   resolved "https://registry.yarnpkg.com/@jest/core/-/core-25.3.0.tgz#80f97a7a8b59dde741a24f30871cc26d0197d426"
@@ -1249,13 +1260,13 @@
     graceful-fs "^4.2.3"
     source-map "^0.6.0"
 
-"@jest/test-result@^25.3.0":
-  version "25.3.0"
-  resolved "https://registry.yarnpkg.com/@jest/test-result/-/test-result-25.3.0.tgz#137fab5e5c6fed36e5d40735d1eb029325e3bf06"
-  integrity sha512-mqrGuiiPXl1ap09Mydg4O782F3ouDQfsKqtQzIjitpwv3t1cHDwCto21jThw6WRRE+dKcWQvLG70GpyLJICfGw==
+"@jest/test-result@^25.3.0", "@jest/test-result@^25.4.0":
+  version "25.4.0"
+  resolved "https://registry.yarnpkg.com/@jest/test-result/-/test-result-25.4.0.tgz#6f2ec2c8da9981ef013ad8651c1c6f0cb20c6324"
+  integrity sha512-8BAKPaMCHlL941eyfqhWbmp3MebtzywlxzV+qtngQ3FH+RBqnoSAhNEPj4MG7d2NVUrMOVfrwuzGpVIK+QnMAA==
   dependencies:
-    "@jest/console" "^25.3.0"
-    "@jest/types" "^25.3.0"
+    "@jest/console" "^25.4.0"
+    "@jest/types" "^25.4.0"
     "@types/istanbul-lib-coverage" "^2.0.0"
     collect-v8-coverage "^1.0.0"
 
@@ -6811,7 +6822,7 @@ jest-matcher-utils@^25.3.0:
     jest-get-type "^25.2.6"
     pretty-format "^25.3.0"
 
-jest-message-util@^25.3.0:
+jest-message-util@^25.3.0, jest-message-util@^25.4.0:
   version "25.4.0"
   resolved "https://registry.yarnpkg.com/jest-message-util/-/jest-message-util-25.4.0.tgz#2899e8bc43f5317acf8dfdfe89ea237d354fcdab"
   integrity sha512-LYY9hRcVGgMeMwmdfh9tTjeux1OjZHMusq/E5f3tJN+dAoVVkJtq5ZUEPIcB7bpxDUt2zjUsrwg0EGgPQ+OhXQ==
@@ -6966,15 +6977,15 @@ jest-validate@^25.3.0:
     pretty-format "^25.4.0"
 
 jest-watcher@^25.3.0:
-  version "25.3.0"
-  resolved "https://registry.yarnpkg.com/jest-watcher/-/jest-watcher-25.3.0.tgz#fd03fd5ca52f02bd3161ab177466bf1bfdd34e5c"
-  integrity sha512-dtFkfidFCS9Ucv8azOg2hkiY3sgJEHeTLtGFHS+jfBEE7eRtrO6+2r1BokyDkaG2FOD7485r/SgpC1MFAENfeA==
+  version "25.4.0"
+  resolved "https://registry.yarnpkg.com/jest-watcher/-/jest-watcher-25.4.0.tgz#63ec0cd5c83bb9c9d1ac95be7558dd61c995ff05"
+  integrity sha512-36IUfOSRELsKLB7k25j/wutx0aVuHFN6wO94gPNjQtQqFPa2rkOymmx9rM5EzbF3XBZZ2oqD9xbRVoYa2w86gw==
   dependencies:
-    "@jest/test-result" "^25.3.0"
-    "@jest/types" "^25.3.0"
+    "@jest/test-result" "^25.4.0"
+    "@jest/types" "^25.4.0"
     ansi-escapes "^4.2.1"
     chalk "^3.0.0"
-    jest-util "^25.3.0"
+    jest-util "^25.4.0"
     string-length "^3.1.0"
 
 jest-worker@^25.1.0, jest-worker@^25.2.6:
