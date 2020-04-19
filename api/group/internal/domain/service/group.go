@@ -28,27 +28,45 @@ type groupService struct {
 	groupDomainValidation validation.GroupDomainValidation
 	groupRepository       repository.GroupRepository
 	userRepository        repository.UserRepository
+	boardRepository       repository.BoardRepository
 }
 
 // NewGroupService - GroupServiceの生成
 func NewGroupService(
-	gdv validation.GroupDomainValidation, gr repository.GroupRepository, ur repository.UserRepository,
+	gdv validation.GroupDomainValidation, gr repository.GroupRepository,
+	ur repository.UserRepository, br repository.BoardRepository,
 ) GroupService {
 	return &groupService{
 		groupDomainValidation: gdv,
 		groupRepository:       gr,
 		userRepository:        ur,
+		boardRepository:       br,
 	}
 }
 
 func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Group, error) {
-	g, err := gs.groupRepository.Index(ctx, u)
+	groups, err := gs.groupRepository.Index(ctx, u)
 	if err != nil {
 		err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
-		return nil, domain.Unauthorized.New(err)
+		return nil, domain.ErrorInDatastore.New(err)
 	}
 
-	return g, nil
+	for _, g := range groups {
+		bs, err := gs.boardRepository.Index(ctx, g.ID)
+		if err != nil {
+			err = xerrors.Errorf("Failed to Domain/Repository: %w", err)
+			return nil, domain.ErrorInDatastore.New(err)
+		}
+
+		boardIDs := make([]string, len(bs))
+		for i, b := range bs {
+			boardIDs[i] = b.ID
+		}
+
+		g.BoardIDs = boardIDs
+	}
+
+	return groups, nil
 }
 
 func (gs *groupService) Show(ctx context.Context, groupID string) (*domain.Group, error) {

@@ -7,6 +7,8 @@ const (
 	UserCollection = "users"
 	// GroupCollection - GroupCollection名
 	GroupCollection = "groups"
+	// BoardCollection - BoardCollection名
+	BoardCollection = "boards"
 )
 
 func GetUserReference(userID string) string {
@@ -20,4 +22,8 @@ func GetGroupID(groupRef string) string {
 
 func GetGroupReference(groupID string) string {
 	return strings.Join([]string{GroupCollection, groupID}, "/")
+}
+
+func GetBoardCollection(groupID string) string {
+	return strings.Join([]string{GroupCollection, groupID, BoardCollection}, "/")
 }
