@@ -21,7 +21,7 @@
         <gran-text-area v-model="accountForm.profile.value" :label="accountForm.profile.label" />
       </v-flex>
     </v-row>
-    <h2>Private Informatio</h2>
+    <h2>Private Information</h2>
     <v-row justify="center">
       <v-flex xs12 sm8 md6>
         <gran-text-field v-model="accountForm.email.value" :label="accountForm.email.label" />
