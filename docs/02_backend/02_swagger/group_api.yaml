@@ -306,7 +306,13 @@ components:
                     description:
                       type: string
                       description: グループ説明
-                    userIDs:
+                    boardIds:
+                      type: array
+                      description: ボードID一覧
+                      items:
+                        type: string
+                    invitedEmails:
+                    userIds:
                       type: array
                       description: ユーザーID一覧
                       items:
