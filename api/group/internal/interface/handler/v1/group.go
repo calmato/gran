@@ -48,9 +48,9 @@ func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
 			ID:            v.ID,
 			Name:          v.Name,
 			Description:   v.Description,
-			BoardIDs:      v.BoardIDs,
-			UserIDs:       v.UserIDs,
-			InvitedEmails: v.InvitedEmails,
+			BoardIDs:      append([]string{}, v.BoardIDs...),
+			UserIDs:       append([]string{}, v.UserIDs...),
+			InvitedEmails: append([]string{}, v.InvitedEmails...),
 			CreatedAt:     v.CreatedAt,
 			UpdatedAt:     v.UpdatedAt,
 		}

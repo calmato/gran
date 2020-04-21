@@ -311,7 +311,6 @@ components:
                       description: ボードID一覧
                       items:
                         type: string
-                    invitedEmails:
                     userIds:
                       type: array
                       description: ユーザーID一覧
