@@ -32,8 +32,8 @@ func TestGroupService_Index(t *testing.T) {
 					ID:          "group-id",
 					Name:        "テストグループ",
 					Description: "グループの説明",
+					BoardIDs:    []string{"board-id"},
 					UserIDs:     []string{"user-id"},
-					BoardIDs:    make([]string, 0),
 					CreatedAt:   current,
 					UpdatedAt:   current,
 				},
@@ -48,6 +48,13 @@ func TestGroupService_Index(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 
+		// Defined variables
+		b := &domain.Board{
+			ID: testCase.Expected[0].BoardIDs[0],
+		}
+
+		bs := []*domain.Board{b}
+
 		// Defined mocks
 		gdvm := mock_validation.NewMockGroupDomainValidation(ctrl)
 
@@ -56,9 +63,12 @@ func TestGroupService_Index(t *testing.T) {
 
 		urm := mock_repository.NewMockUserRepository(ctrl)
 
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+		brm.EXPECT().Index(ctx, testCase.User.GroupIDs[0]).Return(bs, nil)
+
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewGroupService(gdvm, grm, urm)
+			target := NewGroupService(gdvm, grm, urm, brm)
 
 			got, err := target.Index(ctx, testCase.User)
 			if err != nil {
@@ -110,9 +120,11 @@ func TestGroupService_Show(t *testing.T) {
 
 		urm := mock_repository.NewMockUserRepository(ctrl)
 
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewGroupService(gdvm, grm, urm)
+			target := NewGroupService(gdvm, grm, urm, brm)
 
 			got, err := target.Show(ctx, testCase.GroupID)
 			if err != nil {
@@ -174,9 +186,11 @@ func TestGroupService_Create(t *testing.T) {
 		urm := mock_repository.NewMockUserRepository(ctrl)
 		urm.EXPECT().Update(ctx, testCase.User).Return(nil)
 
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewGroupService(gdvm, grm, urm)
+			target := NewGroupService(gdvm, grm, urm, brm)
 
 			got, err := target.Create(ctx, testCase.User, testCase.Group)
 			if err != nil {
@@ -229,9 +243,11 @@ func TestGroupService_Update(t *testing.T) {
 
 		urm := mock_repository.NewMockUserRepository(ctrl)
 
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewGroupService(gdvm, grm, urm)
+			target := NewGroupService(gdvm, grm, urm, brm)
 
 			err := target.Update(ctx, testCase.Group)
 			if err != nil {
@@ -280,9 +296,11 @@ func TestGroupService_InviteUsers(t *testing.T) {
 
 		urm := mock_repository.NewMockUserRepository(ctrl)
 
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewGroupService(gdvm, grm, urm)
+			target := NewGroupService(gdvm, grm, urm, brm)
 
 			err := target.InviteUsers(ctx, testCase.Group)
 			if err != nil {
@@ -332,9 +350,11 @@ func TestGroupService_Join(t *testing.T) {
 
 		urm := mock_repository.NewMockUserRepository(ctrl)
 
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewGroupService(gdvm, grm, urm)
+			target := NewGroupService(gdvm, grm, urm, brm)
 
 			err := target.Join(ctx, testCase.Group)
 			if err != nil {
@@ -381,9 +401,11 @@ func TestGroupService_IsContainInUserIDs(t *testing.T) {
 
 		urm := mock_repository.NewMockUserRepository(ctrl)
 
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewGroupService(gdvm, grm, urm)
+			target := NewGroupService(gdvm, grm, urm, brm)
 
 			got := target.IsContainInUserIDs(ctx, testCase.UserID, testCase.Group)
 			if !got {
@@ -430,9 +452,11 @@ func TestGroupService_IsContainInInvitedEmails(t *testing.T) {
 
 		urm := mock_repository.NewMockUserRepository(ctrl)
 
+		brm := mock_repository.NewMockBoardRepository(ctrl)
+
 		// Start test
 		t.Run(result, func(t *testing.T) {
-			target := NewGroupService(gdvm, grm, urm)
+			target := NewGroupService(gdvm, grm, urm, brm)
 
 			got := target.IsContainInInvitedEmails(ctx, testCase.Email, testCase.Group)
 			if !got {

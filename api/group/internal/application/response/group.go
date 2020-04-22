@@ -6,8 +6,9 @@ import "time"
 type Group struct {
 	ID            string    `json:"id"`
 	Name          string    `json:"name"`
-	UserIDs       []string  `json:"userIds,omitempty"`
-	InvitedEmails []string  `json:"invitedEmails,omitempty"`
+	UserIDs       []string  `json:"userIds"`
+	BoardIDs      []string  `json:"boardIds"`
+	InvitedEmails []string  `json:"invitedEmails"`
 	Description   string    `json:"description"`
 	CreatedAt     time.Time `firestore:"createdAt"`
 	UpdatedAt     time.Time `firestore:"updatedAt"`
