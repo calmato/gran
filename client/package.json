@@ -23,7 +23,7 @@
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.4.5",
     "@nuxtjs/axios": "^5.10.1",
-    "firebase": "^7.14.1",
+    "firebase": "^7.14.2",
     "js-cookie": "^2.2.1",
     "nuxt": "^2.12.2",
     "vee-validate": "^3.3.0",
