@@ -23,7 +23,7 @@ func NewTaskPersistence(fs *firestore.Firestore) repository.TaskRepository {
 
 func (tp *taskPersistence) IndexByBoardID(ctx context.Context, boardID string) ([]*domain.Task, error) {
 	ts := make([]*domain.Task, 0)
-	taskCollection := GetTaskCollection()
+	taskCollection := getTaskCollection()
 
 	q := &firestore.Query{
 		Field:    "board_id", // TODO: Taskエンティティのタグから取得
@@ -56,7 +56,7 @@ func (tp *taskPersistence) IndexByBoardID(ctx context.Context, boardID string) (
 }
 
 func (tp *taskPersistence) Show(ctx context.Context, taskID string) (*domain.Task, error) {
-	taskCollection := GetTaskCollection()
+	taskCollection := getTaskCollection()
 
 	doc, err := tp.firestore.Get(ctx, taskCollection, taskID)
 	if err != nil {
@@ -74,7 +74,7 @@ func (tp *taskPersistence) Show(ctx context.Context, taskID string) (*domain.Tas
 }
 
 func (tp *taskPersistence) Create(ctx context.Context, t *domain.Task) error {
-	taskCollection := GetTaskCollection()
+	taskCollection := getTaskCollection()
 
 	if err := tp.firestore.Set(ctx, taskCollection, t.ID, t); err != nil {
 		return err
