@@ -63,7 +63,6 @@ func (a *Auth) UpdateUser(ctx context.Context, uid string, email string, passwor
 	params := (&auth.UserToUpdate{}).
 		Email(email).
 		EmailVerified(emailVerified(ctx, a, uid, email)).
-		Password(password).
 		Disabled(disabled)
 
 	if _, err := a.Client.UpdateUser(ctx, uid, params); err != nil {
