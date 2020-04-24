@@ -12,6 +12,132 @@ servers:
     description: 検証環境
 
 paths:
+  /groups:
+    get:
+      summary: グループ一覧取得
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Groups'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+    post:
+      summary: グループ作成
+      security:
+        - BearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateGroup'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}:
+    get:
+      summary: グループ詳細取得
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      responses:
+        '200':
+          $ref: '#/components/responses/Group'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+    patch:
+      summary: グループ編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroup'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/invite:
+    post:
+      summary: グループ招待
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/InviteUsers'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/join:
+    post:
+      summary: グループ参加
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
   /groups/{groupId}/boards:
     get:
       summary: ボード一覧
@@ -289,6 +415,55 @@ components:
                 type: string
 
   requestBodies:
+    CreateGroup:
+      description: グループ作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: 説明
+            required:
+              - name
+
+    UpdateGroup:
+      description: グループ編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: 説明
+            required:
+              - name
+
+    InviteUsers:
+      description: グループ招待フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              emails:
+                type: array
+                description: 招待メールアドレス一覧
+                items:
+                  type: string
+                  format: date-time
+
     CreateBoard:
       description: ボード作成フォーム
       required: true
@@ -481,6 +656,87 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+
+    Groups:
+      description: グループ一覧レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              groups:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: グループID
+                    name:
+                      type: string
+                      description: グループ名
+                    description:
+                      type: string
+                      description: グループ説明
+                    boardIds:
+                      type: array
+                      description: ボードID一覧
+                      items:
+                        type: string
+                    userIds:
+                      type: array
+                      description: ユーザーID一覧
+                      items:
+                        type: string
+                    invitedEmails:
+                      type: array
+                      description: 招待中メールアドレス一覧
+                      items:
+                        type: string
+                        format: email
+                    createdAt:
+                      type: string
+                      format: date-time
+                      description: グループ作成日時
+                    updatedAt:
+                      type: string
+                      format: date-time
+                      description: グループ更新日時
+
+    Group:
+      description: グループ詳細レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: グループID
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: グループ説明
+              userIDs:
+                type: array
+                description: ユーザーID一覧
+                items:
+                  type: string
+              invitedEmails:
+                type: array
+                description: 招待中メールアドレス一覧
+                items:
+                  type: string
+                  format: email
+              createdAt:
+                type: string
+                format: date-time
+                description: グループ作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: グループ更新日時
 
     Boards:
       description: ボード一覧レスポンス
