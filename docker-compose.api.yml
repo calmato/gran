@@ -23,19 +23,6 @@ services:
       - GCP_STORAGE_BUCKET_NAME=${GCP_STORAGE_BUCKET_NAME}
     command: realize start
 
-  group_api:
-    container_name: gran_group_api
-    build: ./container/api/group
-    working_dir: /go/src/github.com/16francs/gran/api/group
-    volumes:
-      - ./api/group:/go/src/github.com/16francs/gran/api/group:cached
-      - ./secret:/secret:cached
-    environment:
-      - PORT=8080
-      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
-      - GCP_STORAGE_BUCKET_NAME=${GCP_STORAGE_BUCKET_NAME}
-    command: realize start
-
   todo_api:
     container_name: gran_todo_api
     build: ./container/api/todo
