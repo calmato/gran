@@ -43,8 +43,8 @@ func Router(reg *registry.Registry) *gin.Engine {
 
 			boards := groups.Group("/boards/:boardID")
 			{
-				groups.POST("/boards/:boardID/lists", reg.V1Board.CreateBoardList)
-				groups.PATCH("/boards/:boardID/lists/:listID", reg.V1Board.UpdateBoardList)
+				boards.POST("/lists", reg.V1Board.CreateBoardList)
+				boards.PATCH("/lists/:boardListID", reg.V1Board.UpdateBoardList)
 			}
 		}
 	}
