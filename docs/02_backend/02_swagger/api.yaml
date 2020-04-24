@@ -1,0 +1,1082 @@
+openapi: '3.0.0'
+
+info:
+  title: gran
+  description: Gran App API設計
+  version: 0.2.0
+
+servers:
+  - url: http://localhost:8080/v1
+    description: 開発環境
+  - url: https://api.16francs.work/v1
+    description: 検証環境
+
+paths:
+  /users:
+    post:
+      summary: ユーザ登録
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUser'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /users/profile:
+    get:
+      summary: プロフィール取得
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Profile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+    patch:
+      summary: プロフィール編集
+      security:
+        - BearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateProfile'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups:
+    get:
+      summary: グループ一覧取得
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/Groups'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+    post:
+      summary: グループ作成
+      security:
+        - BearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateGroup'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}:
+    get:
+      summary: グループ詳細取得
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      responses:
+        '200':
+          $ref: '#/components/responses/Group'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+    patch:
+      summary: グループ編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateGroup'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/invite:
+    post:
+      summary: グループ招待
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/InviteUsers'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/join:
+    post:
+      summary: グループ参加
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+          required: true
+          description: グループID
+      responses:
+        '200':
+          description: OK
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/boards:
+    get:
+      summary: ボード一覧
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+      responses:
+        '200':
+          $ref: '#/components/responses/Boards'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+    post:
+      summary: ボード作成
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+      requestBody:
+        $ref: '#/components/requestBodies/CreateBoard'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/boards/{boardId}:
+    get:
+      summary: ボード詳細
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+      responses:
+        '200':
+          $ref: '#/components/responses/Board'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/boards/{boardId}/lists:
+    post:
+      summary: ボードリスト作成
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+      requestBody:
+        $ref: '#/components/requestBodies/CreateBoardList'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/boards/{boardId}/lists/{listId}:
+    patch:
+      summary: ボードリスト編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+        - in: path
+          name: listId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードリストID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateBoardList'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /groups/{groupId}/boards/{boardId}/tasks:
+    post:
+      summary: タスク作成
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTask'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+
+  /groups/{groupId}/boards/{boardId}/kanban:
+    patch:
+      summary: カンバン編集
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: グループID
+        - in: path
+          name: boardId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ボードID
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateKanban'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+  /tasks/{taskId}:
+    get:
+      summary: タスク詳細
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: タスクID
+      responses:
+        '200':
+          $ref: '#/components/responses/Task'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Unkown'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Error:
+      title: エラーレスポンス
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTPステータスコード
+        code:
+          type: integer
+          description: エラー管理用ステータスコード
+        message:
+          type: string
+          description: エラーメッセージ
+        errors:
+          type: array
+          description: エラー詳細
+          items:
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+
+  requestBodies:
+    CreateUser:
+      description: ユーザ登録フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+                description: Eメール
+              password:
+                type: string
+                description: パスワード
+              passwordConfirmation:
+                type: string
+                description: パスワード(確認用)
+            required:
+              - email
+              - password
+              - passwordConfirmation
+
+    UpdateProfile:
+      description: プロフィール編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: 氏名
+              displayName:
+                type: string
+                description: 表示名
+              email:
+                type: string
+                format: email
+                description: Eメール
+              phoneNumber:
+                type: string
+                description: 電話番号
+              thumbnail:
+                type: string
+                format: byte
+                description: サムネイル
+              biography:
+                type: string
+                description: 自己紹介
+            required:
+              - name
+              - displayName
+              - email
+
+    CreateGroup:
+      description: グループ作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: 説明
+            required:
+              - name
+
+    UpdateGroup:
+      description: グループ編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: 説明
+            required:
+              - name
+
+    InviteUsers:
+      description: グループ招待フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              emails:
+                type: array
+                description: 招待メールアドレス一覧
+                items:
+                  type: string
+                  format: date-time
+
+    CreateBoard:
+      description: ボード作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: ボード名
+              isClosed:
+                type: boolean
+                description: ボードを非公開
+              thumbnail:
+                type: string
+                format: byte
+                description: サムネイル
+              backgroundColor:
+                type: string
+                description: 背景色
+              labels:
+                type: array
+                description: タグ
+                items:
+                  type: string
+            required:
+              - name
+              - groupId
+
+    CreateBoardList:
+      description: ボードリスト作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リスト名
+              color:
+                type: string
+                description: リストの色
+            required:
+              - name
+
+    UpdateBoardList:
+      description: ボードリスト編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リスト名
+              color:
+                type: string
+                description: リストの色
+            required:
+              - name
+
+    UpdateKanban:
+      description: カンバン編集フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              lists:
+                type: array
+                description: ボードリスト一覧
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: リストID
+                    name:
+                      type: string
+                      description: リスト名
+                    color:
+                      type: string
+                      description: カラー
+                    tasks:
+                      type: array
+                      description: タスク一覧
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                            description: タスクID
+                          name:
+                            type: string
+                            description: タスク名
+                          description:
+                            type: string
+                            description: 説明
+                          labels:
+                            type: array
+                            description: ラベル一覧
+                            items:
+                              type: string
+                          deadlinedAt:
+                            type: string
+                            format: date-time
+                            description: 期限
+                          assignedUserIds:
+                            type: array
+                            description: アサインユーザID一覧
+                            items:
+                              type: string
+
+    CreateTask:
+      description: タスク作成フォーム
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: リスト名
+              description:
+                type: string
+                description: 説明
+              listId:
+                type: string
+                format: uuid
+                description: ボードリストID
+              labels:
+                type: array
+                description: ラベル一覧
+                items:
+                  type: string
+              attachments:
+                type: array
+                description: 添付ファイル一覧
+                items:
+                  type: string
+                  format: byte
+              assignedUserIDs:
+                type: array
+                description: 参加ユーザー一覧
+                items:
+                  type: string
+              deadlinedAt:
+                type: string
+                format: date-time
+                description: 期限
+            required:
+              - name
+              - boardListId
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unkown:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Profile:
+      description: プロフィールレスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                description: ユーザID
+              name:
+                type: string
+                description: 氏名
+              displayName:
+                type: string
+                description: 表示名
+              email:
+                type: string
+                format: email
+                description: Eメール
+              phoneNumber:
+                type: string
+                description: 電話番号
+              thumbnailUrl:
+                type: string
+                format: byte
+                description: サムネイル
+              biography:
+                type: string
+                description: 自己紹介
+              groupIds:
+                type: array
+                description: 参加グループID一覧
+                items:
+                  type: string
+                  format: uuid
+              createdAt:
+                type: string
+                format: date-time
+                description: ユーザ作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: ユーザ更新日時
+
+    Groups:
+      description: グループ一覧レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              groups:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: グループID
+                    name:
+                      type: string
+                      description: グループ名
+                    description:
+                      type: string
+                      description: グループ説明
+                    boardIds:
+                      type: array
+                      description: ボードID一覧
+                      items:
+                        type: string
+                    userIds:
+                      type: array
+                      description: ユーザーID一覧
+                      items:
+                        type: string
+                    invitedEmails:
+                      type: array
+                      description: 招待中メールアドレス一覧
+                      items:
+                        type: string
+                        format: email
+                    createdAt:
+                      type: string
+                      format: date-time
+                      description: グループ作成日時
+                    updatedAt:
+                      type: string
+                      format: date-time
+                      description: グループ更新日時
+
+    Group:
+      description: グループ詳細レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: グループID
+              name:
+                type: string
+                description: グループ名
+              description:
+                type: string
+                description: グループ説明
+              userIDs:
+                type: array
+                description: ユーザーID一覧
+                items:
+                  type: string
+              invitedEmails:
+                type: array
+                description: 招待中メールアドレス一覧
+                items:
+                  type: string
+                  format: email
+              createdAt:
+                type: string
+                format: date-time
+                description: グループ作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: グループ更新日時
+
+    Boards:
+      description: ボード一覧レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              boards:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: ボードID
+                    groupId:
+                      type: string
+                      format: uuid
+                      description: グループID
+                    name:
+                      type: string
+                      description: ボード名
+                    isClosed:
+                      type: boolean
+                      description: 非公開設定
+                    ThumbnailUrl:
+                      type: string
+                      description: サムネイルURL
+                    BackgroundColor:
+                      type: string
+                      description: 背景色
+                    labels:
+                      type: array
+                      description: ラベル一覧
+                      items:
+                        type: string
+                    createdAt:
+                      type: string
+                      format: date-time
+                      description: グループ作成日時
+                    updatedAt:
+                      type: string
+                      format: date-time
+                      description: グループ更新日時
+
+    Board:
+      description: ボード詳細レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: ボードID
+              groupId:
+                type: string
+                format: uuid
+                description: グループID
+              name:
+                type: string
+                description: ボード名
+              isClosed:
+                type: boolean
+                description: 非公開設定
+              ThumbnailUrl:
+                type: string
+                format: uri
+                description: サムネイルURL
+              BackgroundColor:
+                type: string
+                description: 背景色
+              labels:
+                type: array
+                description: ラベル一覧
+                items:
+                  type: string
+              lists:
+                type: array
+                description: ボードリスト一覧
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: リストID
+                    name:
+                      type: string
+                      description: リスト名
+                    color:
+                      type: string
+                      description: カラー
+                    tasks:
+                      type: array
+                      description: タスク一覧
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                            description: タスクID
+                          name:
+                            type: string
+                            description: タスク名
+                          description:
+                            type: string
+                            description: 説明
+                          labels:
+                            type: array
+                            description: ラベル一覧
+                            items:
+                              type: string
+                          deadlinedAt:
+                            type: string
+                            format: date-time
+                            description: 期限
+                          assignedUserIds:
+                            type: array
+                            description: アサインユーザID一覧
+                            items:
+                              type: string
+              createdAt:
+                type: string
+                format: date-time
+                description: グループ作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: グループ更新日時
+
+    Task:
+      description: タスク詳細レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: タスクID
+              name:
+                type: string
+                description: タスク名
+              description:
+                type: string
+                description: 説明
+              labels:
+                type: array
+                description: ラベル一覧
+                items:
+                  type: string
+              attachmentUrls:
+                type: array
+                description: 添付ファイルURL一覧
+                items:
+                  type: string
+              groupID:
+                type: string
+                format: uuid
+                description: グループID
+              boardID:
+                type: string
+                format: uuid
+                description: ボードID
+              assignedUserIds:
+                type: array
+                description: アサインユーザID一覧
+                items:
+                  type: string
+              checklistIds:
+                type: array
+                description: チェックリストID一覧
+                items:
+                  type: string
+                  format: uuid
+              commentIds:
+                type: array
+                description: コメントID一覧
+                items:
+                  type: string
+                  format: uuid
+              deadlinedAt:
+                type: string
+                format: date-time
+                description: 期限
+              createdAt:
+                type: string
+                format: date-time
+                description: タスク作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: タスク更新日時

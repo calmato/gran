@@ -121,31 +121,6 @@ storybook-build:
 	cd ${STORYBOOK_DIR}; yarn build-storybook
 
 ##################################################
-# Local Commands - API (Group Service)
-##################################################
-.PHONY: group-api-setup
-group-api-setup:
-	cp ${GROUP_API_DIR}/.envrc.sample ${GROUP_API_DIR}/.envrc
-	cd ${GROUP_API_DIR}; make setup
-
-.PHONY: group-api-start
-group-api-start:
-	cd ${GROUP_API_DIR}; make run
-
-.PHONY: group-api-lint
-group-api-lint:
-	cd ${GROUP_API_DIR}; make fmt
-	cd ${GROUP_API_DIR}; make lint
-
-.PHONY: group-api-test
-group-api-test:
-	cd ${GROUP_API_DIR}; make test
-
-.PHONY: group-api-build
-group-api-build:
-	cd ${GROUP_API_DIR}; make build
-
-##################################################
 # Local Commands - API (ToDo Service)
 ##################################################
 .PHONY: todo-api-setup

@@ -1,2 +1,0 @@
-export PORT=8080
-export GOOGLE_APPLICATION_CREDENTIALS=./../../secret/xxx-firebase-adminsdk-xxx.json

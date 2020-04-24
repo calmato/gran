@@ -15,18 +15,22 @@ const (
 	TaskCollection = "tasks"
 )
 
-func GetGroupReference(groupID string) string {
-	return strings.Join([]string{GroupCollection, groupID}, "/")
+func getUserCollection() string {
+	return UserCollection
 }
 
-func GetBoardCollection(groupID string) string {
+func getGroupCollection() string {
+	return GroupCollection
+}
+
+func getBoardCollection(groupID string) string {
 	return strings.Join([]string{GroupCollection, groupID, BoardCollection}, "/")
 }
 
-func GetBoardListCollection(groupID string, boardID string) string {
+func getBoardListCollection(groupID string, boardID string) string {
 	return strings.Join([]string{GroupCollection, groupID, BoardCollection, boardID, BoardListCollection}, "/")
 }
 
-func GetTaskCollection() string {
+func getTaskCollection() string {
 	return TaskCollection
 }
