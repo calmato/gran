@@ -36,7 +36,7 @@
     "react-dom": "^16.13.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.1",
-    "style-loader": "^1.2.0",
+    "style-loader": "^1.2.1",
     "ts-loader": "^7.0.1",
     "typescript": "^3.8.3",
     "vue": "^2.6.11",
