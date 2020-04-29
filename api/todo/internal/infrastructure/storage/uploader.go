@@ -3,8 +3,8 @@ package storage
 import (
 	"context"
 
-	"github.com/16francs/gran/api/todo/internal/domain/uploader"
-	gcs "github.com/16francs/gran/api/todo/lib/firebase/storage"
+	"github.com/calmato/gran/api/todo/internal/domain/uploader"
+	gcs "github.com/calmato/gran/api/todo/lib/firebase/storage"
 )
 
 type fileUploader struct {

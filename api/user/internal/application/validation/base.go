@@ -7,8 +7,8 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	"github.com/16francs/gran/api/user/internal/domain"
-	"github.com/16francs/gran/api/user/internal/domain/validation"
+	"github.com/calmato/gran/api/user/internal/domain"
+	"github.com/calmato/gran/api/user/internal/domain/validation"
 )
 
 const (

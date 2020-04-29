@@ -11,10 +11,10 @@ package persistence
 import (
 	"context"
 
-	"github.com/16francs/gran/api/sample/internal/domain"
-	"github.com/16francs/gran/api/sample/internal/domain/repository"
-	"github.com/16francs/gran/api/sample/lib/firebase/authentication"
-	"github.com/16francs/gran/api/sample/lib/firebase/firestore"
+	"github.com/calmato/gran/api/sample/internal/domain"
+	"github.com/calmato/gran/api/sample/internal/domain/repository"
+	"github.com/calmato/gran/api/sample/lib/firebase/authentication"
+	"github.com/calmato/gran/api/sample/lib/firebase/firestore"
 )
 
 type samplePersistence struct {

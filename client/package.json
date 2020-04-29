@@ -2,7 +2,7 @@
   "name": "gran",
   "version": "1.0.0",
   "description": "ToDo App",
-  "author": "16francs",
+  "author": "calmato",
   "private": true,
   "scripts": {
     "dev": "nuxt-ts",

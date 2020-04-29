@@ -11,7 +11,7 @@ package repository
 import (
 	"context"
 
-	"github.com/16francs/gran/api/sample/internal/domain"
+	"github.com/calmato/gran/api/sample/internal/domain"
 )
 
 // SampleRepository - SampleRepositoryインターフェース

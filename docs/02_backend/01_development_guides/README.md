@@ -29,7 +29,7 @@
 
 ### 実装詳細
 
-* [ディレクトリ関連図](https://github.com/16francs/gran/tree/master/doc/02_backend/01_development_rules/directory.md)
+* [ディレクトリ関連図](https://github.com/calmato/gran/tree/master/doc/02_backend/01_development_rules/directory.md)
 
 ### Application/Validation と Domain/Validation について
 
@@ -60,7 +60,7 @@
 
 ### マイクロサービス化の粒度
 
-* [User Service](https://github.com/16francs/gran/tree/master/doc/02_backend/03_user_api)
+* [User Service](https://github.com/calmato/gran/tree/master/doc/02_backend/03_user_api)
 
 ### ディレクトリ構成
 

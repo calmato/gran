@@ -8,8 +8,8 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/16francs/gran/api/user/internal/domain"
-	mock_repository "github.com/16francs/gran/api/user/mock/domain/repository"
+	"github.com/calmato/gran/api/user/internal/domain"
+	mock_repository "github.com/calmato/gran/api/user/mock/domain/repository"
 )
 
 func TestUserDomainValidation_User(t *testing.T) {

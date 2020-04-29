@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	mock_repository "github.com/16francs/gran/api/todo/mock/domain/repository"
-	mock_validation "github.com/16francs/gran/api/todo/mock/domain/validation"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	mock_repository "github.com/calmato/gran/api/todo/mock/domain/repository"
+	mock_validation "github.com/calmato/gran/api/todo/mock/domain/validation"
 	"github.com/golang/mock/gomock"
 )
 

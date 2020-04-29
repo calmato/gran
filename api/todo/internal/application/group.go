@@ -5,10 +5,10 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/todo/internal/application/request"
-	"github.com/16francs/gran/api/todo/internal/application/validation"
-	"github.com/16francs/gran/api/todo/internal/domain"
-	"github.com/16francs/gran/api/todo/internal/domain/service"
+	"github.com/calmato/gran/api/todo/internal/application/request"
+	"github.com/calmato/gran/api/todo/internal/application/validation"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain/service"
 )
 
 // GroupApplication - GroupApplicationインターフェース

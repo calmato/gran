@@ -9,14 +9,14 @@ Dependency Injection(DI)の実装。
 package registry
 
 import (
-	"github.com/16francs/gran/api/sample/internal/application"
-	rv "github.com/16francs/gran/api/sample/internal/application/validation"
-	"github.com/16francs/gran/api/sample/internal/domain/service"
-	"github.com/16francs/gran/api/sample/internal/infrastructure/persistence"
-	dv "github.com/16francs/gran/api/sample/internal/infrastructure/validation"
-	v1 "github.com/16francs/gran/api/sample/internal/interface/handler/v1"
-	"github.com/16francs/gran/api/sample/lib/firebase/authentication"
-	"github.com/16francs/gran/api/sample/lib/firebase/firestore"
+	"github.com/calmato/gran/api/sample/internal/application"
+	rv "github.com/calmato/gran/api/sample/internal/application/validation"
+	"github.com/calmato/gran/api/sample/internal/domain/service"
+	"github.com/calmato/gran/api/sample/internal/infrastructure/persistence"
+	dv "github.com/calmato/gran/api/sample/internal/infrastructure/validation"
+	v1 "github.com/calmato/gran/api/sample/internal/interface/handler/v1"
+	"github.com/calmato/gran/api/sample/lib/firebase/authentication"
+	"github.com/calmato/gran/api/sample/lib/firebase/firestore"
 )
 
 // Registry - DIコンテナ

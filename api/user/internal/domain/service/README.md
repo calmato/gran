@@ -12,10 +12,10 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/sample/internal/domain/repository"
+	"github.com/calmato/gran/api/sample/internal/domain/repository"
 
-	"github.com/16francs/gran/api/sample/internal/domain"
-	"github.com/16francs/gran/api/sample/internal/domain/validation"
+	"github.com/calmato/gran/api/sample/internal/domain"
+	"github.com/calmato/gran/api/sample/internal/domain/validation"
 )
 
 // SampleService - SampleServiceインターフェース

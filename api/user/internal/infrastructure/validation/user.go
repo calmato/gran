@@ -5,9 +5,9 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/user/internal/domain"
-	"github.com/16francs/gran/api/user/internal/domain/repository"
-	dv "github.com/16francs/gran/api/user/internal/domain/validation"
+	"github.com/calmato/gran/api/user/internal/domain"
+	"github.com/calmato/gran/api/user/internal/domain/repository"
+	dv "github.com/calmato/gran/api/user/internal/domain/validation"
 )
 
 type userDomainValidation struct {

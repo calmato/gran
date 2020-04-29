@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain"
 )
 
 func TestBoardDomainValidation_Board(t *testing.T) {

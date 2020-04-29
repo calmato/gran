@@ -1,4 +1,4 @@
-module github.com/16francs/gran/api/user
+module github.com/calmato/gran/api/user
 
 go 1.13
 

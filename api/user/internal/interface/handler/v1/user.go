@@ -5,12 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/16francs/gran/api/user/internal/application"
-	"github.com/16francs/gran/api/user/internal/application/request"
-	"github.com/16francs/gran/api/user/internal/application/response"
-	"github.com/16francs/gran/api/user/internal/domain"
-	"github.com/16francs/gran/api/user/internal/interface/handler"
-	"github.com/16francs/gran/api/user/middleware"
+	"github.com/calmato/gran/api/user/internal/application"
+	"github.com/calmato/gran/api/user/internal/application/request"
+	"github.com/calmato/gran/api/user/internal/application/response"
+	"github.com/calmato/gran/api/user/internal/domain"
+	"github.com/calmato/gran/api/user/internal/interface/handler"
+	"github.com/calmato/gran/api/user/middleware"
 )
 
 // APIV1UserHandler - Userハンドラのインターフェース

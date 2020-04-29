@@ -3,8 +3,8 @@ package config
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/16francs/gran/api/todo/middleware"
-	"github.com/16francs/gran/api/todo/registry"
+	"github.com/calmato/gran/api/todo/middleware"
+	"github.com/calmato/gran/api/todo/registry"
 )
 
 // Router - ルーティングの定義

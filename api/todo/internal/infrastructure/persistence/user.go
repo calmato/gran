@@ -6,11 +6,11 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	"github.com/16francs/gran/api/todo/internal/domain/repository"
-	"github.com/16francs/gran/api/todo/lib/firebase/authentication"
-	"github.com/16francs/gran/api/todo/lib/firebase/firestore"
-	"github.com/16francs/gran/api/todo/middleware"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain/repository"
+	"github.com/calmato/gran/api/todo/lib/firebase/authentication"
+	"github.com/calmato/gran/api/todo/lib/firebase/firestore"
+	"github.com/calmato/gran/api/todo/middleware"
 )
 
 type userPersistence struct {

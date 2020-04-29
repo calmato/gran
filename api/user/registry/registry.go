@@ -1,11 +1,11 @@
 package registry
 
 import (
-	"github.com/16francs/gran/api/user/internal/interface/handler"
-	v1 "github.com/16francs/gran/api/user/internal/interface/handler/v1"
-	"github.com/16francs/gran/api/user/lib/firebase/authentication"
-	"github.com/16francs/gran/api/user/lib/firebase/firestore"
-	"github.com/16francs/gran/api/user/lib/firebase/storage"
+	"github.com/calmato/gran/api/user/internal/interface/handler"
+	v1 "github.com/calmato/gran/api/user/internal/interface/handler/v1"
+	"github.com/calmato/gran/api/user/lib/firebase/authentication"
+	"github.com/calmato/gran/api/user/lib/firebase/firestore"
+	"github.com/calmato/gran/api/user/lib/firebase/storage"
 )
 
 // Registry - DIコンテナ

@@ -6,7 +6,7 @@ package mock_repository
 
 import (
 	context "context"
-	domain "github.com/16francs/gran/api/user/internal/domain"
+	domain "github.com/calmato/gran/api/user/internal/domain"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
 )

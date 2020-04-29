@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	"github.com/16francs/gran/api/todo/internal/domain/validation"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain/validation"
 )
 
 // RequestValidator - リクエストバリデーションインターフェース

@@ -1,8 +1,8 @@
 package validation
 
 import (
-	"github.com/16francs/gran/api/todo/internal/application/request"
-	"github.com/16francs/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/application/request"
+	"github.com/calmato/gran/api/todo/internal/domain"
 )
 
 // BoardRequestValidation - ユーザー関連のバリデーション

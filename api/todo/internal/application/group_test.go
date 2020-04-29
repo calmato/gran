@@ -8,10 +8,10 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/16francs/gran/api/todo/internal/application/request"
-	"github.com/16francs/gran/api/todo/internal/domain"
-	mock_validation "github.com/16francs/gran/api/todo/mock/application/validation"
-	mock_service "github.com/16francs/gran/api/todo/mock/domain/service"
+	"github.com/calmato/gran/api/todo/internal/application/request"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	mock_validation "github.com/calmato/gran/api/todo/mock/application/validation"
+	mock_service "github.com/calmato/gran/api/todo/mock/domain/service"
 )
 
 func TestGroupApplication_Index(t *testing.T) {

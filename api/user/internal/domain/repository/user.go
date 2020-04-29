@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/16francs/gran/api/user/internal/domain"
+	"github.com/calmato/gran/api/user/internal/domain"
 )
 
 // UserRepository - UserRepositoryインターフェース
