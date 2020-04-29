@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/16francs/gran/api/todo/internal/application/request"
-	"github.com/16francs/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/application/request"
+	"github.com/calmato/gran/api/todo/internal/domain"
 )
 
 func TestBoardRequestValidation_CreateBoard(t *testing.T) {

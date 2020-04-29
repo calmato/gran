@@ -11,9 +11,9 @@ package v1
 import (
 	"net/http"
 
-	"github.com/16francs/gran/api/sample/internal/application"
-	"github.com/16francs/gran/api/sample/internal/application/request"
-	"github.com/16francs/gran/api/sample/internal/interface/handler"
+	"github.com/calmato/gran/api/sample/internal/application"
+	"github.com/calmato/gran/api/sample/internal/application/request"
+	"github.com/calmato/gran/api/sample/internal/interface/handler"
 	"github.com/gin-gonic/gin"
 )
 

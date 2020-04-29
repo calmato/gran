@@ -1,4 +1,4 @@
-module github.com/16francs/gran/api/todo
+module github.com/calmato/gran/api/todo
 
 go 1.13
 

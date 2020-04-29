@@ -5,9 +5,9 @@ import (
 
 	"google.golang.org/api/iterator"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	"github.com/16francs/gran/api/todo/internal/domain/repository"
-	"github.com/16francs/gran/api/todo/lib/firebase/firestore"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain/repository"
+	"github.com/calmato/gran/api/todo/lib/firebase/firestore"
 )
 
 type taskPersistence struct {

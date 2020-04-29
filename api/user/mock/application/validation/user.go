@@ -5,8 +5,8 @@
 package mock_validation
 
 import (
-	request "github.com/16francs/gran/api/user/internal/application/request"
-	domain "github.com/16francs/gran/api/user/internal/domain"
+	request "github.com/calmato/gran/api/user/internal/application/request"
+	domain "github.com/calmato/gran/api/user/internal/domain"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
 )

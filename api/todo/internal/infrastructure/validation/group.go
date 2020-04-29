@@ -5,8 +5,8 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	dv "github.com/16francs/gran/api/todo/internal/domain/validation"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	dv "github.com/calmato/gran/api/todo/internal/domain/validation"
 )
 
 type groupDomainValidation struct{}

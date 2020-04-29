@@ -4,7 +4,7 @@ FROM golang:1.13.5-alpine as builder
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 
-WORKDIR /go/src/github.com/16francs/gran/api/todo
+WORKDIR /go/src/github.com/calmato/gran/api/todo
 
 RUN apk add --no-cache \
       git \
@@ -19,7 +19,7 @@ FROM alpine
 RUN apk add --no-cache \
       ca-certificates
 
-COPY --from=builder /go/src/github.com/16francs/gran/api/todo/app ./app
+COPY --from=builder /go/src/github.com/calmato/gran/api/todo/app ./app
 
 EXPOSE 8080
 CMD ["./app"]

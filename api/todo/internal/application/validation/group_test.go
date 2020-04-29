@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/16francs/gran/api/todo/internal/application/request"
-	"github.com/16francs/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/application/request"
+	"github.com/calmato/gran/api/todo/internal/domain"
 )
 
 func TestGroupRequestValidation_CreateGroup(t *testing.T) {

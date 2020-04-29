@@ -8,8 +8,8 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	mock_repository "github.com/16francs/gran/api/todo/mock/domain/repository"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	mock_repository "github.com/calmato/gran/api/todo/mock/domain/repository"
 )
 
 func TestUserService_Authentication(t *testing.T) {

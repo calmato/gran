@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/16francs/gran/api/user/internal/application/request"
-	"github.com/16francs/gran/api/user/internal/domain"
+	"github.com/calmato/gran/api/user/internal/application/request"
+	"github.com/calmato/gran/api/user/internal/domain"
 )
 
 func TestUserRequestValidation_CreateUser(t *testing.T) {

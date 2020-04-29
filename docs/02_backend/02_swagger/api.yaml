@@ -8,7 +8,7 @@ info:
 servers:
   - url: http://localhost:8080/v1
     description: 開発環境
-  - url: https://api.16francs.work/v1
+  - url: https://api.calmato.work/v1
     description: 検証環境
 
 paths:

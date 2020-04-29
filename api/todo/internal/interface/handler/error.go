@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/16francs/gran/api/todo/internal/application/response"
-	"github.com/16francs/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/application/response"
+	"github.com/calmato/gran/api/todo/internal/domain"
 )
 
 // ErrorHandling - エラーレスポンスを返す

@@ -3,7 +3,7 @@ package response
 import (
 	"net/http"
 
-	"github.com/16francs/gran/api/user/internal/domain"
+	"github.com/calmato/gran/api/user/internal/domain"
 )
 
 // ValidationError - バリデーションエラーのレスポンス

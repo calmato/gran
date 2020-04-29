@@ -1,15 +1,15 @@
 package registry
 
 import (
-	"github.com/16francs/gran/api/todo/internal/application"
-	rv "github.com/16francs/gran/api/todo/internal/application/validation"
-	"github.com/16francs/gran/api/todo/internal/domain/service"
-	"github.com/16francs/gran/api/todo/internal/infrastructure/persistence"
-	dv "github.com/16francs/gran/api/todo/internal/infrastructure/validation"
-	v1 "github.com/16francs/gran/api/todo/internal/interface/handler/v1"
-	"github.com/16francs/gran/api/todo/lib/firebase/authentication"
-	"github.com/16francs/gran/api/todo/lib/firebase/firestore"
-	"github.com/16francs/gran/api/todo/lib/firebase/storage"
+	"github.com/calmato/gran/api/todo/internal/application"
+	rv "github.com/calmato/gran/api/todo/internal/application/validation"
+	"github.com/calmato/gran/api/todo/internal/domain/service"
+	"github.com/calmato/gran/api/todo/internal/infrastructure/persistence"
+	dv "github.com/calmato/gran/api/todo/internal/infrastructure/validation"
+	v1 "github.com/calmato/gran/api/todo/internal/interface/handler/v1"
+	"github.com/calmato/gran/api/todo/lib/firebase/authentication"
+	"github.com/calmato/gran/api/todo/lib/firebase/firestore"
+	"github.com/calmato/gran/api/todo/lib/firebase/storage"
 )
 
 // V1GroupInjection - v1 Group関連の依存関係を記載

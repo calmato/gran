@@ -5,12 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/16francs/gran/api/todo/internal/application"
-	"github.com/16francs/gran/api/todo/internal/application/request"
-	"github.com/16francs/gran/api/todo/internal/application/response"
-	"github.com/16francs/gran/api/todo/internal/domain"
-	"github.com/16francs/gran/api/todo/internal/interface/handler"
-	"github.com/16francs/gran/api/todo/middleware"
+	"github.com/calmato/gran/api/todo/internal/application"
+	"github.com/calmato/gran/api/todo/internal/application/request"
+	"github.com/calmato/gran/api/todo/internal/application/response"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/interface/handler"
+	"github.com/calmato/gran/api/todo/middleware"
 )
 
 // APIV1BoardHandler - Boardハンドラのインターフェース

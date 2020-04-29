@@ -3,7 +3,7 @@ package validation
 import (
 	"context"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain"
 )
 
 // BoardDomainValidation - BoardDomainValidationインターフェース

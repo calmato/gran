@@ -4,12 +4,12 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/16francs/gran/api/todo/config"
-	"github.com/16francs/gran/api/todo/lib/firebase"
-	"github.com/16francs/gran/api/todo/lib/firebase/authentication"
-	"github.com/16francs/gran/api/todo/lib/firebase/firestore"
-	"github.com/16francs/gran/api/todo/lib/firebase/storage"
-	"github.com/16francs/gran/api/todo/registry"
+	"github.com/calmato/gran/api/todo/config"
+	"github.com/calmato/gran/api/todo/lib/firebase"
+	"github.com/calmato/gran/api/todo/lib/firebase/authentication"
+	"github.com/calmato/gran/api/todo/lib/firebase/firestore"
+	"github.com/calmato/gran/api/todo/lib/firebase/storage"
+	"github.com/calmato/gran/api/todo/registry"
 	"google.golang.org/api/option"
 )
 
