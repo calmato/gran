@@ -30,22 +30,9 @@ services:
   user_api:
     container_name: gran_user_api
     build: ./container/api/user
-    working_dir: /go/src/github.com/16francs/gran/api/user
+    working_dir: /go/src/github.com/calmato/gran/api/user
     volumes:
-      - ./api/user:/go/src/github.com/16francs/gran/api/user:cached
-      - ./secret:/secret:cached
-    environment:
-      - PORT=8080
-      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
-      - GCP_STORAGE_BUCKET_NAME=${GCP_STORAGE_BUCKET_NAME}
-    command: realize start
-
-  group_api:
-    container_name: gran_group_api
-    build: ./container/api/group
-    working_dir: /go/src/github.com/16francs/gran/api/group
-    volumes:
-      - ./api/group:/go/src/github.com/16francs/gran/api/group:cached
+      - ./api/user:/go/src/github.com/calmato/gran/api/user:cached
       - ./secret:/secret:cached
     environment:
       - PORT=8080
@@ -56,9 +43,9 @@ services:
   todo_api:
     container_name: gran_todo_api
     build: ./container/api/todo
-    working_dir: /go/src/github.com/16francs/gran/api/todo
+    working_dir: /go/src/github.com/calmato/gran/api/todo
     volumes:
-      - ./api/todo:/go/src/github.com/16francs/gran/api/todo:cached
+      - ./api/todo:/go/src/github.com/calmato/gran/api/todo:cached
       - ./secret:/secret:cached
     environment:
       - PORT=8080

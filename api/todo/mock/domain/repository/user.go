@@ -6,7 +6,7 @@ package mock_repository
 
 import (
 	context "context"
-	domain "github.com/16francs/gran/api/todo/internal/domain"
+	domain "github.com/calmato/gran/api/todo/internal/domain"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
 )
@@ -47,4 +47,18 @@ func (m *MockUserRepository) Authentication(ctx context.Context) (*domain.User, 
 func (mr *MockUserRepositoryMockRecorder) Authentication(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Authentication", reflect.TypeOf((*MockUserRepository)(nil).Authentication), ctx)
+}
+
+// Update mocks base method
+func (m *MockUserRepository) Update(ctx context.Context, u *domain.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, u)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update
+func (mr *MockUserRepositoryMockRecorder) Update(ctx, u interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserRepository)(nil).Update), ctx, u)
 }

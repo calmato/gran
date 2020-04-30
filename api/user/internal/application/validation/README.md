@@ -8,7 +8,7 @@ Request値のバリデーションを行う。
 ```go
 package validation
 
-import "github.com/16francs/gran/api/sample/internal/application/request"
+import "github.com/calmato/gran/api/sample/internal/application/request"
 
 // SampleRequestValidation - ユーザー関連のバリデーション
 type SampleRequestValidation interface {

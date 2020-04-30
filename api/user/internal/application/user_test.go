@@ -8,10 +8,10 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"github.com/16francs/gran/api/user/internal/application/request"
-	"github.com/16francs/gran/api/user/internal/domain"
-	mock_validation "github.com/16francs/gran/api/user/mock/application/validation"
-	mock_service "github.com/16francs/gran/api/user/mock/domain/service"
+	"github.com/calmato/gran/api/user/internal/application/request"
+	"github.com/calmato/gran/api/user/internal/domain"
+	mock_validation "github.com/calmato/gran/api/user/mock/application/validation"
+	mock_service "github.com/calmato/gran/api/user/mock/domain/service"
 )
 
 func TestUserApplication_Create(t *testing.T) {

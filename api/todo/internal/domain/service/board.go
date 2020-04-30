@@ -7,10 +7,10 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	"github.com/16francs/gran/api/todo/internal/domain/repository"
-	"github.com/16francs/gran/api/todo/internal/domain/uploader"
-	"github.com/16francs/gran/api/todo/internal/domain/validation"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain/repository"
+	"github.com/calmato/gran/api/todo/internal/domain/uploader"
+	"github.com/calmato/gran/api/todo/internal/domain/validation"
 )
 
 // BoardService - BoardServiceインターフェース

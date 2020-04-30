@@ -13,9 +13,9 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/sample/internal/domain"
-	"github.com/16francs/gran/api/sample/internal/domain/repository"
-	dv "github.com/16francs/gran/api/sample/internal/domain/validation"
+	"github.com/calmato/gran/api/sample/internal/domain"
+	"github.com/calmato/gran/api/sample/internal/domain/repository"
+	dv "github.com/calmato/gran/api/sample/internal/domain/validation"
 )
 
 type sampleDomainValidation struct {

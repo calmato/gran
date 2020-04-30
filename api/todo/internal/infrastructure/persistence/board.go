@@ -5,9 +5,9 @@ import (
 
 	"google.golang.org/api/iterator"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	"github.com/16francs/gran/api/todo/internal/domain/repository"
-	"github.com/16francs/gran/api/todo/lib/firebase/firestore"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain/repository"
+	"github.com/calmato/gran/api/todo/lib/firebase/firestore"
 )
 
 type boardPersistence struct {
@@ -23,7 +23,7 @@ func NewBoardPersistence(fs *firestore.Firestore) repository.BoardRepository {
 
 func (bp *boardPersistence) Index(ctx context.Context, groupID string) ([]*domain.Board, error) {
 	bs := make([]*domain.Board, 0)
-	boardCollection := GetBoardCollection(groupID)
+	boardCollection := getBoardCollection(groupID)
 
 	iter := bp.firestore.GetAll(ctx, boardCollection)
 	for {
@@ -50,7 +50,7 @@ func (bp *boardPersistence) Index(ctx context.Context, groupID string) ([]*domai
 }
 
 func (bp *boardPersistence) Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error) {
-	boardCollection := GetBoardCollection(groupID)
+	boardCollection := getBoardCollection(groupID)
 
 	doc, err := bp.firestore.Get(ctx, boardCollection, boardID)
 	if err != nil {
@@ -68,7 +68,7 @@ func (bp *boardPersistence) Show(ctx context.Context, groupID string, boardID st
 }
 
 func (bp *boardPersistence) Create(ctx context.Context, b *domain.Board) error {
-	boardCollection := GetBoardCollection(b.GroupID)
+	boardCollection := getBoardCollection(b.GroupID)
 
 	if err := bp.firestore.Set(ctx, boardCollection, b.ID, b); err != nil {
 		return err
@@ -78,7 +78,7 @@ func (bp *boardPersistence) Create(ctx context.Context, b *domain.Board) error {
 }
 
 func (bp *boardPersistence) Update(ctx context.Context, b *domain.Board) error {
-	boardCollection := GetBoardCollection(b.GroupID)
+	boardCollection := getBoardCollection(b.GroupID)
 
 	if err := bp.firestore.Set(ctx, boardCollection, b.ID, b); err != nil {
 		return err
@@ -91,7 +91,7 @@ func (bp *boardPersistence) IndexBoardList(
 	ctx context.Context, groupID string, boardID string,
 ) ([]*domain.BoardList, error) {
 	bls := make([]*domain.BoardList, 0)
-	boardListCollection := GetBoardListCollection(groupID, boardID)
+	boardListCollection := getBoardListCollection(groupID, boardID)
 
 	iter := bp.firestore.GetAll(ctx, boardListCollection)
 	for {
@@ -120,7 +120,7 @@ func (bp *boardPersistence) IndexBoardList(
 func (bp *boardPersistence) ShowBoardList(
 	ctx context.Context, groupID string, boardID string, boardListID string,
 ) (*domain.BoardList, error) {
-	boardListCollection := GetBoardListCollection(groupID, boardID)
+	boardListCollection := getBoardListCollection(groupID, boardID)
 
 	doc, err := bp.firestore.Get(ctx, boardListCollection, boardListID)
 	if err != nil {
@@ -140,7 +140,7 @@ func (bp *boardPersistence) ShowBoardList(
 func (bp *boardPersistence) CreateBoardList(
 	ctx context.Context, groupID string, boardID string, bl *domain.BoardList,
 ) error {
-	boardListCollection := GetBoardListCollection(groupID, boardID)
+	boardListCollection := getBoardListCollection(groupID, boardID)
 
 	if err := bp.firestore.Set(ctx, boardListCollection, bl.ID, bl); err != nil {
 		return err
@@ -152,7 +152,7 @@ func (bp *boardPersistence) CreateBoardList(
 func (bp *boardPersistence) UpdateBoardList(
 	ctx context.Context, groupID string, boardID string, bl *domain.BoardList,
 ) error {
-	boardListCollection := GetBoardListCollection(groupID, boardID)
+	boardListCollection := getBoardListCollection(groupID, boardID)
 
 	if err := bp.firestore.Set(ctx, boardListCollection, bl.ID, bl); err != nil {
 		return err

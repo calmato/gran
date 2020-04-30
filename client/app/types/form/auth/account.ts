@@ -39,10 +39,10 @@ export const AccountForm: IAccountForm = {
 export const AccountFormValidate: IAccountFormValidate = {
   name: {
     required: true,
-    max: '20',
+    max: '32',
   },
   userName: {
     required: true,
-    max: '20',
+    max: '32',
   },
 }

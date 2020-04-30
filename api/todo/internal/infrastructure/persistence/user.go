@@ -6,11 +6,11 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/16francs/gran/api/todo/internal/domain"
-	"github.com/16francs/gran/api/todo/internal/domain/repository"
-	"github.com/16francs/gran/api/todo/lib/firebase/authentication"
-	"github.com/16francs/gran/api/todo/lib/firebase/firestore"
-	"github.com/16francs/gran/api/todo/middleware"
+	"github.com/calmato/gran/api/todo/internal/domain"
+	"github.com/calmato/gran/api/todo/internal/domain/repository"
+	"github.com/calmato/gran/api/todo/lib/firebase/authentication"
+	"github.com/calmato/gran/api/todo/lib/firebase/firestore"
+	"github.com/calmato/gran/api/todo/middleware"
 )
 
 type userPersistence struct {
@@ -51,6 +51,16 @@ func (up *userPersistence) Authentication(ctx context.Context) (*domain.User, er
 	}
 
 	return u, nil
+}
+
+func (up *userPersistence) Update(ctx context.Context, u *domain.User) error {
+	userCollection := getUserCollection()
+
+	if err := up.firestore.Set(ctx, userCollection, u.ID, u); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func getToken(ctx context.Context) (string, error) {

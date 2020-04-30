@@ -11,7 +11,7 @@ with Diagram("Gran - API System - Design", show=False):
 
 	with Cluster("Google Cloud Platform"):
 		with Cluster("Google Kubernetes Engine"):
-			net = Ingress("16francs.work")
+			net = Ingress("calmato.work")
 			pods = [
 				Pod("user service"),
 				Pod("group service"),

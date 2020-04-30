@@ -2,7 +2,7 @@
   "name": "storybook",
   "version": "1.0.0",
   "description": "UI Design for Gran App",
-  "author": "16francs",
+  "author": "calmato",
   "private": true,
   "scripts": {
     "storybook": "start-storybook --ci -p 6006",

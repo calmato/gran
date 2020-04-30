@@ -51,6 +51,7 @@ data:
                               runtime_key: cors.www.shadow_enabled
 
                           routes:
+                            # User Service
                             - match:
                                 prefix: "/v1/users"
                               route:
@@ -59,20 +60,21 @@ data:
                                 prefix: "/v1/users/"
                               route:
                                 cluster: user_service
+                            # ToDo Service
                             - match:
                                 prefix: "/v1/groups"
                               route:
-                                cluster: group_service
+                                cluster: todo_service
                             - match:
                                 prefix: "/v1/groups/"
                               route:
-                                cluster: group_service
+                                cluster: todo_service
                             - match:
-                                prefix: "/v1/todos"
+                                prefix: "/v1/tasks"
                               route:
                                 cluster: todo_service
                             - match:
-                                prefix: "/v1/todos/"
+                                prefix: "/v1/tasks/"
                               route:
                                 cluster: todo_service
 
@@ -108,25 +110,6 @@ data:
           hosts:
             - socket_address:
                 address: user-api
-                port_value: 8080
-          health_checks:
-            - timeout: 1s
-              interval: 20s
-              interval_jitter: 1s
-              unhealthy_threshold: 3
-              healthy_threshold: 3
-              http_health_check:
-                path: "/health"
-
-        - name: group_service
-          type: LOGICAL_DNS
-          dns_lookup_family: V4_ONLY
-          lb_policy: ROUND_ROBIN
-          connect_timeout: 15s
-          per_connection_buffer_limit_bytes: 32768 # 32KiB
-          hosts:
-            - socket_address:
-                address: group-api
                 port_value: 8080
           health_checks:
             - timeout: 1s
