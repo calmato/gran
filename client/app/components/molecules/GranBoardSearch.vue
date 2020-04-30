@@ -3,7 +3,6 @@
     <v-card class="mx-auto" max-width="max">
       <v-sheet class="pa-4 lighten-2">
         <v-text-field
-          v-model="search"
           label="Search for a board"
           flat
           background-color="white"
