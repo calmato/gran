@@ -6,10 +6,14 @@
       :name="name"
       :type="type"
       :prepend-icon="prependIconName"
+      :prepend-inner-icon="prependInnerIconName"
       :append-icon="appendIconName"
       :error-messages="errors"
       :success="valid"
       :autofocus="autofocus"
+      :solo="solo"
+      :flat="flat"
+      :clearable="clearable"
       @keydown="keydown"
     />
   </validation-provider>
@@ -36,6 +40,10 @@ export default Vue.extend({
       type: String,
       default: '',
     },
+    prependInnerIcon: {
+      type: String,
+      default: '',
+    },
     rules: {
       type: Object,
       default: () => {},
@@ -49,6 +57,18 @@ export default Vue.extend({
       default: '',
     },
     autofocus: {
+      type: Boolean,
+      default: false,
+    },
+    solo: {
+      type: Boolean,
+      default: false,
+    },
+    flat: {
+      type: Boolean,
+      default: false,
+    },
+    clearable: {
       type: Boolean,
       default: false,
     },
@@ -76,6 +96,13 @@ export default Vue.extend({
       }
 
       return 'mdi-' + this.appendIcon
+    },
+    prependInnerIconName() {
+      if (this.prependInnerIcon === '') {
+        return ''
+      }
+
+      return 'mdi-' + this.prependInnerIcon
     },
   },
   methods: {
