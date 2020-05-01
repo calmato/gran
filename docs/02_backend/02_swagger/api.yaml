@@ -825,11 +825,19 @@ components:
                     description:
                       type: string
                       description: グループ説明
-                    boardIds:
+                    boards:
                       type: array
-                      description: ボードID一覧
+                      description: ボード一覧
                       items:
-                        type: string
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                            description: ボードID
+                          name:
+                            type: string
+                            description: ボード名
                     userIds:
                       type: array
                       description: ユーザーID一覧
