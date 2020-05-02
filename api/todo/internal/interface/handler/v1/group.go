@@ -43,23 +43,34 @@ func (gh *apiV1GroupHandler) Index(ctx *gin.Context) {
 		return
 	}
 
-	grs := make([]*response.Group, len(gs))
-	for i, v := range gs {
-		gr := &response.Group{
-			ID:            v.ID,
-			Name:          v.Name,
-			Description:   v.Description,
-			BoardIDs:      append([]string{}, v.BoardIDs...),
-			UserIDs:       append([]string{}, v.UserIDs...),
-			InvitedEmails: append([]string{}, v.InvitedEmails...),
-			CreatedAt:     v.CreatedAt,
-			UpdatedAt:     v.UpdatedAt,
+	grs := make([]*response.GroupInIndexGroup, len(gs))
+	for i, g := range gs {
+		n := 0
+		bs := make([]*response.BoardsInIndexGroup, len(g.Boards))
+		for _, b := range g.Boards {
+			bs[n] = &response.BoardsInIndexGroup{
+				ID:   b.ID,
+				Name: b.Name,
+			}
+
+			n++
+		}
+
+		gr := &response.GroupInIndexGroup{
+			ID:            g.ID,
+			Name:          g.Name,
+			Description:   g.Description,
+			Boards:        bs,
+			UserIDs:       append([]string{}, g.UserIDs...),
+			InvitedEmails: append([]string{}, g.InvitedEmails...),
+			CreatedAt:     g.CreatedAt,
+			UpdatedAt:     g.UpdatedAt,
 		}
 
 		grs[i] = gr
 	}
 
-	res := &response.Groups{
+	res := &response.IndexGroups{
 		Groups: grs,
 	}
 

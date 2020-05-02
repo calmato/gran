@@ -34,6 +34,7 @@ func TestGroupService_Index(t *testing.T) {
 					Name:        "テストグループ",
 					Description: "グループの説明",
 					BoardIDs:    []string{"board-id"},
+					Boards:      map[string]*domain.Board{"board-id": {ID: "board-id"}},
 					UserIDs:     []string{"user-id"},
 					CreatedAt:   current,
 					UpdatedAt:   current,

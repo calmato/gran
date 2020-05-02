@@ -59,11 +59,14 @@ func (gs *groupService) Index(ctx context.Context, u *domain.User) ([]*domain.Gr
 		}
 
 		boardIDs := make([]string, len(bs))
+		boards := make(map[string]*domain.Board)
 		for i, b := range bs {
 			boardIDs[i] = b.ID
+			boards[b.ID] = b
 		}
 
 		g.BoardIDs = boardIDs
+		g.Boards = boards
 	}
 
 	return groups, nil
