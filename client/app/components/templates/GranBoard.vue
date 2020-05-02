@@ -1,8 +1,14 @@
 <template>
   <div>
     <gran-board-search />
-    <gran-boards-list @click="transitionBoardPage" @handleAddButton="transitionNewBoardPage" />
-    <gran-boards-list name="グループ" @click="transitionBoardPage" />
+    <div v-for="group in groups" :key="group.id">
+      <gran-boards-list
+        :name="group.name"
+        :boards="group.boards"
+        @handleListItemClick="transitionBoardPage"
+        @handleAddButton="transitionNewBoardPage"
+      />
+    </div>
   </div>
 </template>
 
