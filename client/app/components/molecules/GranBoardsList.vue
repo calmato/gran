@@ -68,7 +68,7 @@ export default Vue.extend({
   },
   methods: {
     handleListItemClick(boardId: string): void {
-      this.$emit('click', boardId)
+      this.$emit('handleListItemClick', boardId)
     },
     handleAddButton(groupId: string): void {
       this.$emit('handleAddButton', groupId)
