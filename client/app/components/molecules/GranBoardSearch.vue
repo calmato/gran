@@ -1,6 +1,13 @@
 <template>
   <div>
-    <v-text-field label="Search for a board" prepend-inner-icon="mdi-magnify" solo flat clearable />
+    <v-text-field
+      label="Search for a board"
+      prepend-inner-icon="mdi-magnify"
+      hide-details
+      solo
+      flat
+      clearable
+    />
   </div>
 </template>
 
