@@ -2650,9 +2650,9 @@ can-use-dom@^0.1.0:
   integrity sha1-IsxKNKCrxDlQ9CxkEQJKP2NmtFo=
 
 caniuse-lite@^1.0.30000989, caniuse-lite@^1.0.30001038, caniuse-lite@^1.0.30001039:
-  version "1.0.30001049"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001049.tgz#97d560015d2bdd7102b82ec807ec28d8aa7bd73e"
-  integrity sha512-VBcWTkexrbyurOakYo1E7tmzB39jFLB1Tav7e9JQGIz5MCfv0FBj8qZz8XRJgJzo+xn5YGeOYb8Vt6JxR2xXQg==
+  version "1.0.30001050"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001050.tgz#11218af4b6b85dc1089536f31e10e3181e849e71"
+  integrity sha512-OvGZqalCwmapci76ISq5q4kuAskb1ebqF3FEQBv1LE1kWht0pojlDDqzFlmk5jgYkuZN7MNZ1n+ULwe/7MaDNQ==
 
 case-sensitive-paths-webpack-plugin@^2.2.0:
   version "2.3.0"
