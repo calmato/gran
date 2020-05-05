@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	cloud.google.com/go/firestore v1.2.0
-	cloud.google.com/go/storage v1.6.0
+	cloud.google.com/go/storage v1.7.0
 	firebase.google.com/go v3.12.1+incompatible
 	github.com/comail/colog v0.0.0-20160416085026-fba8e7b1f46c
 	github.com/gin-gonic/gin v1.6.3
