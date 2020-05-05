@@ -12,5 +12,9 @@ export default Vue.extend({
   components: {
     GranBoard,
   },
+
+  async fetch({ store }) {
+    await store.dispatch('group/groupAll').catch((_error) => {})
+  },
 })
 </script>
