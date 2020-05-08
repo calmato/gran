@@ -6740,9 +6740,9 @@ react-error-overlay@^6.0.3:
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
 
 react-fast-compare@^3.0.1:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.1.0.tgz#0f2d65cc65ea386980e70bc7bacd4a6ea4089294"
-  integrity sha512-FKh5v1C/NOJSEFmg0v1V1B72ysVI+b+/n80D3lRejD8SKGTwVrYygupeR2YKvfTjrVmkC2GGqWXBasUnUjupkw==
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.1.1.tgz#0becf31e3812fa70dc231e259f40d892d4767900"
+  integrity sha512-SCsAORWK59BvauR2L1BTdjQbJcSGJJz03U0awektk2hshLKrITDDFTlgGCqIZpTDlPC/NFlZee6xTMzXPVLiHw==
 
 react-focus-lock@^2.1.0:
   version "2.3.1"
