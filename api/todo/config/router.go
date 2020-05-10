@@ -39,12 +39,12 @@ func Router(reg *registry.Registry) *gin.Engine {
 			groups.POST("/boards", reg.V1Board.Create)
 			groups.PATCH("/boards/:boardID/kanban", reg.V1Board.UpdateKanban)
 
-			groups.POST("/tasks", reg.V1Task.Create)
-
 			boards := groups.Group("/boards/:boardID")
 			{
 				boards.POST("/lists", reg.V1Board.CreateBoardList)
 				boards.PATCH("/lists/:boardListID", reg.V1Board.UpdateBoardList)
+
+				boards.POST("/tasks", reg.V1Task.Create)
 			}
 		}
 	}
