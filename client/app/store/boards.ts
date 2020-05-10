@@ -89,24 +89,66 @@ export const actions = {
   init({ commit }) {
     commit('initBoard')
   },
-  addNewColumn({ commit }, formData) {
+
+  getBoardById({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .get(`/v1/groups/${payload.groupId}/boards/${payload.boardId}`)
+        .then((res: any) => {
+          commit('setBoard', res.data)
+          resolve()
+        })
+        .catch((err: any) => reject(err))
+    })
+  },
+
+  // ボードのColumnを追加
+  addNewColumn({ commit, state }, formData): Promise<void> {
     const newColumn = {
       id: Date.now(),
       name: formData.name.value,
       color: formData.color.value,
       tasks: [],
     }
-    commit('addColumn', newColumn)
+
+    const groupId: string = state.board.groupId
+    const boardId: string = state.board.id
+
+    return this.$axios
+      .post(`/v1/groups/${groupId}/boards/${boardId}/lists`, newColumn)
+      .then((_res) => {
+        // todo: レスポンスで作成したIDを受け取ってそれを使ってstateの書き換えをしたい
+        commit('addColumn', newColumn)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
-  addNewTask({ commit }, formData) {
+
+  // ColumnにTaskを追加
+  addNewTask({ commit, state }, formData) {
+    const groupId: string = state.board.groupId
+    const boardId: string = state.board.id
+    const listId: string = state.board.lists[formData.index].id
+
     const newTask = {
       index: formData.index,
       task: {
         id: Date.now(),
         name: formData.value,
+        listId,
         labels: [],
       },
     }
-    commit('addTask', newTask)
+
+    this.$axios
+      .post(`/v1/groups/${groupId}/boards/${boardId}/tasks`, newTask.task)
+      .then((_res) => {
+        // todo: レスポンスで作成したIDを受け取ってそれを使ってstateの書き換えをしたい
+        commit('addTask', newTask)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
 }
