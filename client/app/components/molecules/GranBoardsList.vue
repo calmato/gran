@@ -48,7 +48,7 @@ export default Vue.extend({
     },
     groupId: {
       type: String,
-      default: 'baord-id',
+      default: 'group-id',
     },
     boards: {
       type: Array,
@@ -68,7 +68,7 @@ export default Vue.extend({
   },
   methods: {
     handleListItemClick(boardId: string): void {
-      this.$emit('handleListItemClick', boardId)
+      this.$emit('handleListItemClick', this.groupId, boardId)
     },
     handleAddButton(groupId: string): void {
       this.$emit('handleAddButton', groupId)
