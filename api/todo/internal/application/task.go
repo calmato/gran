@@ -16,7 +16,7 @@ import (
 // TaskApplication - TaskApplicationインターフェース
 type TaskApplication interface {
 	Show(ctx context.Context, taskID string) (*domain.Task, error)
-	Create(ctx context.Context, groupID string, boardID string, req *request.CreateTask) error
+	Create(ctx context.Context, groupID string, boardID string, req *request.CreateTask) (*domain.Task, error)
 }
 
 type taskApplication struct {
@@ -57,25 +57,27 @@ func (ta *taskApplication) Show(ctx context.Context, taskID string) (*domain.Tas
 	return t, nil
 }
 
-func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID string, req *request.CreateTask) error {
+func (ta *taskApplication) Create(
+	ctx context.Context, groupID string, boardID string, req *request.CreateTask,
+) (*domain.Task, error) {
 	u, err := ta.userService.Authentication(ctx)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if !ta.userService.IsContainInGroupIDs(ctx, groupID, u) {
 		err := xerrors.New("Unable to create Board in the Group")
-		return domain.Forbidden.New(err)
+		return nil, domain.Forbidden.New(err)
 	}
 
 	if ves := ta.taskRequestValidation.CreateTask(req); len(ves) > 0 {
 		err := xerrors.New("Failed to Application/RequestValidation")
-		return domain.InvalidRequestValidation.New(err, ves...)
+		return nil, domain.InvalidRequestValidation.New(err, ves...)
 	}
 
 	if !ta.boardService.ExistsBoardList(ctx, groupID, boardID, req.BoardListID) {
 		err := xerrors.New("Unable to create Board in the Group")
-		return domain.Forbidden.New(err)
+		return nil, domain.Forbidden.New(err)
 	}
 
 	attachmentURLs := make([]string, len(req.Attachments))
@@ -88,7 +90,7 @@ func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID s
 		data, err := base64.StdEncoding.DecodeString(b64data)
 		if err != nil {
 			err = xerrors.Errorf("Failed to Application: %w", err)
-			return domain.Unknown.New(err)
+			return nil, domain.Unknown.New(err)
 		}
 
 		// TODO: ファイルの保存先URL取得
@@ -106,9 +108,10 @@ func (ta *taskApplication) Create(ctx context.Context, groupID string, boardID s
 		BoardID:         boardID,
 	}
 
-	if _, err := ta.taskService.Create(ctx, groupID, boardID, req.BoardListID, t); err != nil {
-		return err
+	task, err := ta.taskService.Create(ctx, groupID, boardID, req.BoardListID, t)
+	if err != nil {
+		return nil, err
 	}
 
-	return nil
+	return task, nil
 }
