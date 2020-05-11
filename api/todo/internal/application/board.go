@@ -18,7 +18,9 @@ type BoardApplication interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, req *request.CreateBoard) error
-	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) (*domain.BoardList, error)
+	CreateBoardList(
+		ctx context.Context, groupID string, boardID string, req *request.CreateBoardList
+	) (*domain.BoardList, error)
 	UpdateBoardList(
 		ctx context.Context, groupID string, boardID string, boardListID string, req *request.UpdateBoardList,
 	) error
