@@ -11,8 +11,11 @@ export default Vue.extend({
   components: {
     GranKanban,
   },
-  fetch({ store }) {
-    store.dispatch('boards/init')
+  async fetch({ store, route }) {
+    await store.dispatch('boards/getBoardById', {
+      groupId: route.query.groupId,
+      boardId: route.params.id,
+    })
   },
   data: () => ({
     lists: [

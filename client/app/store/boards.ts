@@ -4,6 +4,7 @@ export const state = () => ({
 
 export const getters = {
   board: (state) => state.board,
+  lists: (state) => state.board.lists,
 }
 
 export const mutations = {
@@ -22,91 +23,84 @@ export const mutations = {
   addTask(state, payload) {
     state.board.lists[payload.index].tasks.push(payload.task)
   },
-  initBoard(state) {
-    state.board = {
-      id: '36de3d32-4d67-4959-9056-23b6763299db',
-      name: 'test board with vuex',
-      closed: false,
-      thumbnailUrl: '',
-      backgroundColor: '#E6EE9C',
-      labels: null,
-      groupId: 'be02c252-d1c3-4e53-9f38-6bdef8e03e3f',
-      lists: [
-        {
-          id: '0ai5jtQZIBtQKrNCT3Bf',
-          name: 'To Do',
-          color: '#009688',
-          tasks: [
-            {
-              id: '65bv2GQawTYMY2Toatao',
-              name: 'テストタスク',
-              labels: [
-                { name: 'Client', color: '#2196F3' },
-                { name: 'API', color: '#F44336' },
-                { name: 'Infra', color: '#FFEB3B' },
-              ],
-              assignedUserIds: null,
-              deadlinedAt: '0001-01-01T00:00:00Z',
-            },
-            {
-              id: '67bv2GQawTYMY2Toatao',
-              name: 'UI設計',
-              labels: [],
-              assignedUserIds: null,
-              deadlinedAt: '0001-01-01T00:00:00Z',
-            },
-          ],
-        },
-        {
-          id: '1ai5jtQZIBtQKrNCT3Bf',
-          name: 'In Prgress',
-          color: '#D81B60',
-          tasks: [
-            {
-              id: '63bv2GQawTYMY2Toatao',
-              name: 'Figma',
-              labels: [],
-              assignedUserIds: null,
-              deadlinedAt: '0001-01-01T00:00:00Z',
-            },
-            {
-              id: '61bv2GQawTYMY2Toatao',
-              name: '本番環境',
-              labels: [],
-              assignedUserIds: null,
-              deadlinedAt: '0001-01-01T00:00:00Z',
-            },
-          ],
-        },
-      ],
-      createdAt: '2020-02-03T12:08:30.540047Z',
-      updatedAt: '2020-02-03T12:08:30.540047Z',
-    }
-  },
 }
 
 export const actions = {
-  init({ commit }) {
-    commit('initBoard')
+  getBoardById({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .get(`/v1/groups/${payload.groupId}/boards/${payload.boardId}`)
+        .then((res: any) => {
+          commit('setBoard', res.data)
+          resolve()
+        })
+        .catch((err: any) => reject(err))
+    })
   },
-  addNewColumn({ commit }, formData) {
+
+  // ボードのColumnを追加
+  addNewColumn({ commit, state }, formData): Promise<void> {
     const newColumn = {
-      id: Date.now(),
       name: formData.name.value,
       color: formData.color.value,
-      tasks: [],
     }
-    commit('addColumn', newColumn)
+
+    const groupId: string = state.board.groupId
+    const boardId: string = state.board.id
+
+    return this.$axios
+      .post(`/v1/groups/${groupId}/boards/${boardId}/lists`, newColumn)
+      .then((res) => {
+        console.log(res.data)
+        commit('addColumn', {
+          ...newColumn,
+          id: res.data.id,
+          tasks: [],
+        })
+      })
+      .catch((err) => {
+        return Promise.reject(err)
+      })
   },
-  addNewTask({ commit }, formData) {
+
+  // ColumnにTaskを追加
+  addNewTask({ commit, state }, formData): Promise<void> {
+    const groupId: string = state.board.groupId
+    const boardId: string = state.board.id
+    const listId: string = state.board.lists[formData.index].id
+
     const newTask = {
       index: formData.index,
       task: {
-        id: Date.now(),
         name: formData.value,
+        listId,
         labels: [],
       },
     }
-    commit('addTask', newTask)
+
+    return this.$axios
+      .post(`/v1/groups/${groupId}/boards/${boardId}/tasks`, newTask.task)
+      .then((res) => {
+        commit('addTask', {
+          index: formData.index,
+          task: res.data,
+        })
+      })
+      .catch((err) => {
+        return Promise.reject(err)
+      })
+  },
+
+  // kanban更新の関数
+  updateKanban({ _commit, state }): Promise<void> {
+    const groupId: string = state.board.groupId
+    const boardId: string = state.board.id
+
+    return this.$axios
+      .patch(`/v1/groups/${groupId}/boards/${boardId}/kanban`, { lists: getters.lists(state) })
+      .then((_res) => {})
+      .catch((err) => {
+        return Promise.reject(err)
+      })
   },
 }

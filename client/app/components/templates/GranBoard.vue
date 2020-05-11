@@ -4,6 +4,7 @@
     <div v-for="group in groups" :key="group.id">
       <gran-boards-list
         :name="group.name"
+        :group-id="group.id"
         :boards="group.boards"
         @handleListItemClick="transitionBoardPage"
         @handleAddButton="transitionNewBoardPage"
@@ -27,8 +28,8 @@ export default Vue.extend({
     ...mapGetters('group', ['groups']),
   },
   methods: {
-    transitionBoardPage(boardId: string): void {
-      this.$router.push(`/boards/${boardId}`)
+    transitionBoardPage(groupId: string, boardId: string): void {
+      this.$router.push({ path: `/boards/${boardId}`, query: { groupId } })
     },
     transitionNewBoardPage(_groupId: string): void {
       // todo: groupIDは新規作成の時に使えそうなのでコード上は書いておく

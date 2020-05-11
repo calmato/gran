@@ -1,9 +1,9 @@
 <template>
-  <draggable v-model="lists" :component-data="getComponentData()" tag="v-layout">
+  <draggable v-model="columns" :component-data="getComponentData()" tag="v-layout">
     <gran-task-column
       v-for="(column, index) in board.lists"
       :key="column.id"
-      :value="lists[index].tasks"
+      :value="columns[index].tasks"
       :list-index="index"
       :column="column"
       @input="updateTasks"
@@ -29,8 +29,8 @@ export default Vue.extend({
     GranTaskColumn,
   },
   computed: {
-    ...mapGetters('boards', ['board']),
-    lists: {
+    ...mapGetters('boards', ['board', 'lists']),
+    columns: {
       get() {
         return this.board.lists
       },
@@ -39,8 +39,16 @@ export default Vue.extend({
       },
     },
   },
+  watch: {
+    lists: {
+      handler(_val, _old) {
+        this.updateKanban()
+      },
+      deep: true,
+    },
+  },
   methods: {
-    ...mapActions('boards', ['addNewColumn', 'addNewTask']),
+    ...mapActions('boards', ['addNewColumn', 'addNewTask', 'updateKanban']),
     getComponentData(): Object {
       return {
         props: {
