@@ -4,6 +4,7 @@ export const state = () => ({
 
 export const getters = {
   board: (state) => state.board,
+  lists: (state) => state.board.lists,
 }
 
 export const mutations = {
@@ -51,7 +52,6 @@ export const actions = {
       .post(`/v1/groups/${groupId}/boards/${boardId}/lists`, newColumn)
       .then((res) => {
         console.log(res.data)
-        // todo: レスポンスで作成したIDを受け取ってそれを使ってstateの書き換えをしたい
         commit('addColumn', {
           ...newColumn,
           id: res.data.id,
@@ -59,12 +59,12 @@ export const actions = {
         })
       })
       .catch((err) => {
-        console.log(err)
+        return Promise.reject(err)
       })
   },
 
   // ColumnにTaskを追加
-  addNewTask({ commit, state }, formData) {
+  addNewTask({ commit, state }, formData): Promise<void> {
     const groupId: string = state.board.groupId
     const boardId: string = state.board.id
     const listId: string = state.board.lists[formData.index].id
@@ -72,22 +72,35 @@ export const actions = {
     const newTask = {
       index: formData.index,
       task: {
-        id: Date.now(),
         name: formData.value,
         listId,
         labels: [],
       },
     }
 
-    this.$axios
+    return this.$axios
       .post(`/v1/groups/${groupId}/boards/${boardId}/tasks`, newTask.task)
       .then((res) => {
-        console.log(res)
-        // todo: レスポンスで作成したIDを受け取ってそれを使ってstateの書き換えをしたい
-        commit('addTask', { index: formData.index, task: res.data })
+        commit('addTask', {
+          index: formData.index,
+          task: res.data,
+        })
       })
       .catch((err) => {
-        console.log(err)
+        return Promise.reject(err)
+      })
+  },
+
+  // kanban更新の関数
+  updateKanban({ _commit, state }): Promise<void> {
+    const groupId: string = state.board.groupId
+    const boardId: string = state.board.id
+
+    return this.$axios
+      .patch(`/v1/groups/${groupId}/boards/${boardId}/kanban`, { lists: getters.lists(state) })
+      .then((_res) => {})
+      .catch((err) => {
+        return Promise.reject(err)
       })
   },
 }
