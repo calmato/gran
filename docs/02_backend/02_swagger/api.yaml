@@ -289,7 +289,7 @@ paths:
         $ref: '#/components/requestBodies/CreateBoardList'
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/CreateBoardList'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -364,7 +364,7 @@ paths:
         $ref: '#/components/requestBodies/CreateTask'
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/CreateTask'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1025,6 +1025,35 @@ components:
                 format: date-time
                 description: グループ更新日時
 
+    CreateBoardList:
+      description: ボードリスト作成レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: ボードリストID
+              name:
+                type: string
+                description: ボードリスト名
+              color:
+                type: string
+                description: 色
+              boardID:
+                type: string
+                format: uuid
+                description: ボードID
+              createdAt:
+                type: string
+                format: date-time
+                description: 作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: 更新日時
+
     Task:
       description: タスク詳細レスポンス
       content:
@@ -1076,6 +1105,58 @@ components:
                 items:
                   type: string
                   format: uuid
+              deadlinedAt:
+                type: string
+                format: date-time
+                description: 期限
+              createdAt:
+                type: string
+                format: date-time
+                description: タスク作成日時
+              updatedAt:
+                type: string
+                format: date-time
+                description: タスク更新日時
+
+    CreateTask:
+      description: タスク詳細レスポンス
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: タスクID
+              name:
+                type: string
+                description: タスク名
+              description:
+                type: string
+                description: 説明
+              labels:
+                type: array
+                description: ラベル一覧
+                items:
+                  type: string
+              attachmentUrls:
+                type: array
+                description: 添付ファイルURL一覧
+                items:
+                  type: string
+              groupID:
+                type: string
+                format: uuid
+                description: グループID
+              boardID:
+                type: string
+                format: uuid
+                description: ボードID
+              assignedUserIds:
+                type: array
+                description: アサインユーザID一覧
+                items:
+                  type: string
               deadlinedAt:
                 type: string
                 format: date-time
