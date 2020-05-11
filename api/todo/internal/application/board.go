@@ -18,7 +18,7 @@ type BoardApplication interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, req *request.CreateBoard) error
-	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) error
+	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) (*domain.CreateBoardList, error)
 	UpdateBoardList(
 		ctx context.Context, groupID string, boardID string, boardListID string, req *request.UpdateBoardList,
 	) error
@@ -133,10 +133,10 @@ func (ba *boardApplication) Create(ctx context.Context, groupID string, req *req
 
 func (ba *boardApplication) CreateBoardList(
 	ctx context.Context, groupID string, boardID string, req *request.CreateBoardList,
-) error {
+) (*domain.BoardList, error) {
 	u, err := ba.userService.Authentication(ctx)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
@@ -161,11 +161,12 @@ func (ba *boardApplication) CreateBoardList(
 		TaskIDs: []string{},
 	}
 
-	if _, err := ba.boardService.CreateBoardList(ctx, groupID, boardID, bl); err != nil {
-		return err
+	boardList, err := ba.boardService.CreateBoardList(ctx, groupID, boardID, bl)
+	if err != nil {
+		return nil, err
 	}
 
-	return nil
+	return boardList, nil
 }
 
 func (ba *boardApplication) UpdateBoardList(

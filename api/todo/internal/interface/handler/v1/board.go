@@ -156,12 +156,25 @@ func (bh *apiV1BoardHandler) CreateBoardList(ctx *gin.Context) {
 	}
 
 	c := middleware.GinContextToContext(ctx)
-	if err := bh.boardApplication.CreateBoardList(c, groupID, boardID, req); err != nil {
+	bl, err := bh.boardApplication.CreateBoardList(c, groupID, boardID, req)
+	if err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{})
+	res := &response.CreateBoardList{
+		ID:              bl.ID,
+		Name:            bl.Name,
+		IsClosed:        bl.IsClosed,
+		ThumbnailURL:    bl.ThumbnailURL,
+		BackgroundColor: bl.BackgroundColor,
+		Labels:          bl.Labels,
+		GroupID:         bl.GroupID,
+		CreatedAt:       bl.CreatedAt,
+		UpdatedAt:       bl.UpdatedAt,
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (bh *apiV1BoardHandler) UpdateBoardList(ctx *gin.Context) {

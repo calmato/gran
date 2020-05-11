@@ -260,7 +260,7 @@ func TestBoardApplication_CreateBoardList(t *testing.T) {
 		t.Run(result, func(t *testing.T) {
 			target := NewBoardApplication(brvm, bsm, usm)
 
-			err := target.CreateBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.Request)
+			_, err := target.CreateBoardList(ctx, testCase.GroupID, testCase.BoardID, testCase.Request)
 			if err != nil {
 				t.Fatalf("error: %v", err)
 				return
