@@ -105,10 +105,8 @@ export const actions = {
   // ボードのColumnを追加
   addNewColumn({ commit, state }, formData): Promise<void> {
     const newColumn = {
-      id: Date.now(),
       name: formData.name.value,
       color: formData.color.value,
-      tasks: [],
     }
 
     const groupId: string = state.board.groupId
@@ -116,9 +114,14 @@ export const actions = {
 
     return this.$axios
       .post(`/v1/groups/${groupId}/boards/${boardId}/lists`, newColumn)
-      .then((_res) => {
+      .then((res) => {
+        console.log(res.data)
         // todo: レスポンスで作成したIDを受け取ってそれを使ってstateの書き換えをしたい
-        commit('addColumn', newColumn)
+        commit('addColumn', {
+          ...newColumn,
+          id: res.data.id,
+          tasks: [],
+        })
       })
       .catch((err) => {
         console.log(err)
@@ -143,9 +146,10 @@ export const actions = {
 
     this.$axios
       .post(`/v1/groups/${groupId}/boards/${boardId}/tasks`, newTask.task)
-      .then((_res) => {
+      .then((res) => {
+        console.log(res)
         // todo: レスポンスで作成したIDを受け取ってそれを使ってstateの書き換えをしたい
-        commit('addTask', newTask)
+        commit('addTask', { index: formData.index, task: res.data })
       })
       .catch((err) => {
         console.log(err)
