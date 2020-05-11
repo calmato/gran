@@ -18,7 +18,9 @@ type BoardApplication interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, req *request.CreateBoard) error
-	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) error
+	CreateBoardList(
+		ctx context.Context, groupID string, boardID string, req *request.CreateBoardList,
+	) (*domain.BoardList, error)
 	UpdateBoardList(
 		ctx context.Context, groupID string, boardID string, boardListID string, req *request.UpdateBoardList,
 	) error
@@ -133,25 +135,25 @@ func (ba *boardApplication) Create(ctx context.Context, groupID string, req *req
 
 func (ba *boardApplication) CreateBoardList(
 	ctx context.Context, groupID string, boardID string, req *request.CreateBoardList,
-) error {
+) (*domain.BoardList, error) {
 	u, err := ba.userService.Authentication(ctx)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
 		err := xerrors.New("Unable to CreateBoardList function")
-		return domain.Forbidden.New(err)
+		return nil, domain.Forbidden.New(err)
 	}
 
 	if !ba.boardService.Exists(ctx, groupID, boardID) {
 		err := xerrors.New("Unable to CreateBoardList function")
-		return domain.Forbidden.New(err)
+		return nil, domain.Forbidden.New(err)
 	}
 
 	if ves := ba.boardRequestValidation.CreateBoardList(req); len(ves) > 0 {
 		err := xerrors.New("Failed to Application/RequestValidation")
-		return domain.InvalidRequestValidation.New(err, ves...)
+		return nil, domain.InvalidRequestValidation.New(err, ves...)
 	}
 
 	bl := &domain.BoardList{
@@ -161,11 +163,12 @@ func (ba *boardApplication) CreateBoardList(
 		TaskIDs: []string{},
 	}
 
-	if _, err := ba.boardService.CreateBoardList(ctx, groupID, boardID, bl); err != nil {
-		return err
+	boardList, err := ba.boardService.CreateBoardList(ctx, groupID, boardID, bl)
+	if err != nil {
+		return nil, err
 	}
 
-	return nil
+	return boardList, nil
 }
 
 func (ba *boardApplication) UpdateBoardList(

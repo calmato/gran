@@ -71,10 +71,25 @@ func (th *apiV1TaskHandler) Create(ctx *gin.Context) {
 	}
 
 	c := middleware.GinContextToContext(ctx)
-	if err := th.taskApplication.Create(c, groupID, boardID, req); err != nil {
+	t, err := th.taskApplication.Create(c, groupID, boardID, req)
+	if err != nil {
 		handler.ErrorHandling(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{})
+	res := &response.CreateTask{
+		ID:              t.ID,
+		Name:            t.Name,
+		Description:     t.Description,
+		Labels:          append([]string{}, t.Labels...),
+		AttachmentURLs:  append([]string{}, t.AttachmentURLs...),
+		GroupID:         t.GroupID,
+		BoardID:         t.BoardID,
+		AssignedUserIDs: append([]string{}, t.AttachmentURLs...),
+		DeadlinedAt:     t.DeadlinedAt,
+		CreatedAt:       t.CreatedAt,
+		UpdatedAt:       t.UpdatedAt,
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }

@@ -50,3 +50,13 @@ type ShowBoard struct {
 	CreatedAt       time.Time          `json:"createdAt"`
 	UpdatedAt       time.Time          `json:"updatedAt"`
 }
+
+// CreateBoardList - ボードリスト登録のレスポンス
+type CreateBoardList struct {
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Color     string    `json:"color"`
+	BoardID   string    `json:"boardId"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}

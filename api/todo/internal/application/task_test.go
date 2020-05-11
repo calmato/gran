@@ -143,7 +143,7 @@ func TestTaskApplication_Create(t *testing.T) {
 		t.Run(result, func(t *testing.T) {
 			target := NewTaskApplication(trvm, tsm, bsm, usm)
 
-			err := target.Create(ctx, testCase.GroupID, testCase.BoardID, testCase.Request)
+			_, err := target.Create(ctx, testCase.GroupID, testCase.BoardID, testCase.Request)
 			if err != nil {
 				t.Fatalf("error: %v", err)
 				return
