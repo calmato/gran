@@ -18,7 +18,7 @@ type BoardApplication interface {
 	Index(ctx context.Context, groupID string) ([]*domain.Board, error)
 	Show(ctx context.Context, groupID string, boardID string) (*domain.Board, error)
 	Create(ctx context.Context, groupID string, req *request.CreateBoard) error
-	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) (*domain.CreateBoardList, error)
+	CreateBoardList(ctx context.Context, groupID string, boardID string, req *request.CreateBoardList) (*domain.BoardList, error)
 	UpdateBoardList(
 		ctx context.Context, groupID string, boardID string, boardListID string, req *request.UpdateBoardList,
 	) error
@@ -141,17 +141,17 @@ func (ba *boardApplication) CreateBoardList(
 
 	if !ba.userService.IsContainInGroupIDs(ctx, groupID, u) {
 		err := xerrors.New("Unable to CreateBoardList function")
-		return domain.Forbidden.New(err)
+		return nil, domain.Forbidden.New(err)
 	}
 
 	if !ba.boardService.Exists(ctx, groupID, boardID) {
 		err := xerrors.New("Unable to CreateBoardList function")
-		return domain.Forbidden.New(err)
+		return nil, domain.Forbidden.New(err)
 	}
 
 	if ves := ba.boardRequestValidation.CreateBoardList(req); len(ves) > 0 {
 		err := xerrors.New("Failed to Application/RequestValidation")
-		return domain.InvalidRequestValidation.New(err, ves...)
+		return nil, domain.InvalidRequestValidation.New(err, ves...)
 	}
 
 	bl := &domain.BoardList{

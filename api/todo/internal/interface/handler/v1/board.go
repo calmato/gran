@@ -163,15 +163,12 @@ func (bh *apiV1BoardHandler) CreateBoardList(ctx *gin.Context) {
 	}
 
 	res := &response.CreateBoardList{
-		ID:              bl.ID,
-		Name:            bl.Name,
-		IsClosed:        bl.IsClosed,
-		ThumbnailURL:    bl.ThumbnailURL,
-		BackgroundColor: bl.BackgroundColor,
-		Labels:          bl.Labels,
-		GroupID:         bl.GroupID,
-		CreatedAt:       bl.CreatedAt,
-		UpdatedAt:       bl.UpdatedAt,
+		ID:        bl.ID,
+		Name:      bl.Name,
+		Color:     bl.Color,
+		BoardID:   bl.BoardID,
+		CreatedAt: bl.CreatedAt,
+		UpdatedAt: bl.UpdatedAt,
 	}
 
 	ctx.JSON(http.StatusOK, res)
