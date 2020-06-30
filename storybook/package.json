@@ -11,7 +11,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.10.3",
+    "@babel/core": "^7.10.4",
     "@nuxtjs/vuetify": "^1.11.2",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-knobs": "^5.3.19",
