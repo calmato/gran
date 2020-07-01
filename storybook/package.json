@@ -42,7 +42,7 @@
     "vue": "^2.6.11",
     "vue-loader": "^15.9.3",
     "vue-template-compiler": "^2.6.11",
-    "vuetify": "^2.3.2",
+    "vuetify": "^2.3.3",
     "webpack": "^4.43.0"
   }
 }
