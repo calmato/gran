@@ -8,7 +8,7 @@ require (
 	firebase.google.com/go v3.12.1+incompatible
 	github.com/comail/colog v0.0.0-20160416085026-fba8e7b1f46c
 	github.com/gin-gonic/gin v1.7.2
-	github.com/go-playground/validator/v10 v10.6.1
+	github.com/go-playground/validator/v10 v10.7.0
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.2.0
 	github.com/kelseyhightower/envconfig v1.4.0
